@@ -9,11 +9,76 @@
 /* Begin PBXBuildFile section */
 		0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */; };
 		0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DC73009BFAE001B34AA /* ContentView.swift */; };
-		0CE50DCA3009BFAF001B34AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE50DC93009BFAF001B34AA /* Assets.xcassets */; };
 		0CE50DCD3009BFAF001B34AA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE50DCC3009BFAF001B34AA /* Preview Assets.xcassets */; };
 		0CE50DD73009BFB0001B34AA /* EnayaProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DD63009BFB0001B34AA /* EnayaProviderTests.swift */; };
 		0CE50DE13009BFB0001B34AA /* EnayaProviderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DE03009BFB0001B34AA /* EnayaProviderUITests.swift */; };
 		0CE50DE33009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DE23009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift */; };
+		C6C3BE67300A7CA300C5FC25 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE46300A7CA300C5FC25 /* Colors.swift */; };
+		C6C3BE68300A7CA300C5FC25 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE49300A7CA300C5FC25 /* Radius.swift */; };
+		C6C3BE69300A7CA300C5FC25 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE4A300A7CA300C5FC25 /* Shadow.swift */; };
+		C6C3BE6A300A7CA300C5FC25 /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE62300A7CA300C5FC25 /* ApiClient.swift */; };
+		C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE44300A7CA300C5FC25 /* AppImages.swift */; };
+		C6C3BE6C300A7CA300C5FC25 /* IconSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE47300A7CA300C5FC25 /* IconSize.swift */; };
+		C6C3BE6D300A7CA300C5FC25 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE5F300A7CA300C5FC25 /* DIContainer.swift */; };
+		C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE64300A7CA300C5FC25 /* UtilityFile.swift */; };
+		C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE4B300A7CA300C5FC25 /* Spacing.swift */; };
+		C6C3BE70300A7CA300C5FC25 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE4C300A7CA300C5FC25 /* Typography.swift */; };
+		C6C3BE71300A7CA300C5FC25 /* Motion.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE48300A7CA300C5FC25 /* Motion.swift */; };
+		C6C3BE72300A7CA300C5FC25 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE54300A7CA300C5FC25 /* Poppins-Bold.ttf */; };
+		C6C3BE73300A7CA300C5FC25 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE55300A7CA300C5FC25 /* Poppins-Light.ttf */; };
+		C6C3BE74300A7CA300C5FC25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE5B300A7CA300C5FC25 /* Assets.xcassets */; };
+		C6C3BE75300A7CA300C5FC25 /* Cairo-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE4F300A7CA300C5FC25 /* Cairo-Light.ttf */; };
+		C6C3BE76300A7CA300C5FC25 /* Cairo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE51300A7CA300C5FC25 /* Cairo-Regular.ttf */; };
+		C6C3BE77300A7CA300C5FC25 /* Cairo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE50300A7CA300C5FC25 /* Cairo-Medium.ttf */; };
+		C6C3BE78300A7CA300C5FC25 /* Cairo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE52300A7CA300C5FC25 /* Cairo-SemiBold.ttf */; };
+		C6C3BE79300A7CA300C5FC25 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE56300A7CA300C5FC25 /* Poppins-Medium.ttf */; };
+		C6C3BE7A300A7CA300C5FC25 /* Cairo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE4E300A7CA300C5FC25 /* Cairo-Bold.ttf */; };
+		C6C3BE7B300A7CA300C5FC25 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE57300A7CA300C5FC25 /* Poppins-Regular.ttf */; };
+		C6C3BE7C300A7CA300C5FC25 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE5C300A7CA300C5FC25 /* Colors.xcassets */; };
+		C6C3BE7D300A7CA300C5FC25 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE58300A7CA300C5FC25 /* Poppins-SemiBold.ttf */; };
+		C6C3BE85300A7EBD00C5FC25 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE80300A7EBD00C5FC25 /* AppState.swift */; };
+		C6C3BE86300A7EBD00C5FC25 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE83300A7EBD00C5FC25 /* AuthRouter.swift */; };
+		C6C3BE87300A7EBD00C5FC25 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE81300A7EBD00C5FC25 /* AuthCoordinator.swift */; };
+		C6C3BE88300A7EBD00C5FC25 /* AuthRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE82300A7EBD00C5FC25 /* AuthRoute.swift */; };
+		C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */; };
+		C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9D300A7EEE00C5FC25 /* AuthHeaderView.swift */; };
+		C6C3BEC3300A7EEE00C5FC25 /* mapperfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE8D300A7EEE00C5FC25 /* mapperfile.swift */; };
+		C6C3BEC4300A7EEE00C5FC25 /* CustomInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA0300A7EEE00C5FC25 /* CustomInputView.swift */; };
+		C6C3BEC5300A7EEE00C5FC25 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAE300A7EEE00C5FC25 /* PersonalInfoView.swift */; };
+		C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA2300A7EEE00C5FC25 /* GenderSelectionView.swift */; };
+		C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA1300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift */; };
+		C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE96300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift */; };
+		C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */; };
+		C6C3BECA300A7EEE00C5FC25 /* AuthRemoteDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE89300A7EEE00C5FC25 /* AuthRemoteDataSource.swift */; };
+		C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA5300A7EEE00C5FC25 /* OTPResendSectionView.swift */; };
+		C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9E300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift */; };
+		C6C3BECD300A7EEE00C5FC25 /* ActionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9C300A7EEE00C5FC25 /* ActionCard.swift */; };
+		C6C3BECE300A7EEE00C5FC25 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB4300A7EEE00C5FC25 /* AuthViewModel.swift */; };
+		C6C3BECF300A7EEE00C5FC25 /* OTPDigitInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA4300A7EEE00C5FC25 /* OTPDigitInputField.swift */; };
+		C6C3BED0300A7EEE00C5FC25 /* VerifyOTPUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE99300A7EEE00C5FC25 /* VerifyOTPUseCase.swift */; };
+		C6C3BED1300A7EEE00C5FC25 /* SecurityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAA300A7EEE00C5FC25 /* SecurityIndicator.swift */; };
+		C6C3BED2300A7EEE00C5FC25 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB1300A7EEE00C5FC25 /* WelcomeView.swift */; };
+		C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE8F300A7EEE00C5FC25 /* AuthRepositoryImpl.swift */; };
+		C6C3BED4300A7EEE00C5FC25 /* OTPVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */; };
+		C6C3BED5300A7EEE00C5FC25 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA8300A7EEE00C5FC25 /* PhoneNumberField.swift */; };
+		C6C3BED6300A7EEE00C5FC25 /* PersonalInfoFormCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA7300A7EEE00C5FC25 /* PersonalInfoFormCard.swift */; };
+		C6C3BED7300A7EEE00C5FC25 /* OTPVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAD300A7EEE00C5FC25 /* OTPVerificationView.swift */; };
+		C6C3BED8300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB0300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift */; };
+		C6C3BED9300A7EEE00C5FC25 /* OTPVerificationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA6300A7EEE00C5FC25 /* OTPVerificationCardView.swift */; };
+		C6C3BEDA300A7EEE00C5FC25 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE92300A7EEE00C5FC25 /* AuthError.swift */; };
+		C6C3BEDB300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB8300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift */; };
+		C6C3BEDC300A7EEE00C5FC25 /* AuthDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE8B300A7EEE00C5FC25 /* AuthDto.swift */; };
+		C6C3BEDD300A7EEE00C5FC25 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEBE300A7EEE00C5FC25 /* PrimaryButton.swift */; };
+		C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE94300A7EEE00C5FC25 /* OTPVerificationEntity.swift */; };
+		C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA3300A7EEE00C5FC25 /* loginButton.swift */; };
+		C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA9300A7EEE00C5FC25 /* SecurityCard.swift */; };
+		C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAF300A7EEE00C5FC25 /* PhoneNumberView.swift */; };
+		C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9F300A7EEE00C5FC25 /* CustomDatePickerView.swift */; };
+		C6C3BEE3300A7EEE00C5FC25 /* BasicUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE93300A7EEE00C5FC25 /* BasicUserInfo.swift */; };
+		C6C3BEE4300A7EEE00C5FC25 /* PersonalInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB6300A7EEE00C5FC25 /* PersonalInfoViewModel.swift */; };
+		C6C3BEE5300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE98300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift */; };
+		C6C3BEE6300A7EEE00C5FC25 /* PhoneNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */; };
+		C6C3BEE7300A7EEE00C5FC25 /* SkipForNowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAB300A7EEE00C5FC25 /* SkipForNowButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,13 +102,79 @@
 		0CE50DC23009BFAE001B34AA /* EnayaProvider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnayaProvider.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderApp.swift; sourceTree = "<group>"; };
 		0CE50DC73009BFAE001B34AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		0CE50DC93009BFAF001B34AA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CE50DCC3009BFAF001B34AA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0CE50DD23009BFB0001B34AA /* EnayaProviderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnayaProviderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE50DD63009BFB0001B34AA /* EnayaProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderTests.swift; sourceTree = "<group>"; };
 		0CE50DDC3009BFB0001B34AA /* EnayaProviderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnayaProviderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE50DE03009BFB0001B34AA /* EnayaProviderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderUITests.swift; sourceTree = "<group>"; };
 		0CE50DE23009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C6C3BE44300A7CA300C5FC25 /* AppImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImages.swift; sourceTree = "<group>"; };
+		C6C3BE46300A7CA300C5FC25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		C6C3BE47300A7CA300C5FC25 /* IconSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSize.swift; sourceTree = "<group>"; };
+		C6C3BE48300A7CA300C5FC25 /* Motion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Motion.swift; sourceTree = "<group>"; };
+		C6C3BE49300A7CA300C5FC25 /* Radius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radius.swift; sourceTree = "<group>"; };
+		C6C3BE4A300A7CA300C5FC25 /* Shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shadow.swift; sourceTree = "<group>"; };
+		C6C3BE4B300A7CA300C5FC25 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		C6C3BE4C300A7CA300C5FC25 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		C6C3BE4E300A7CA300C5FC25 /* Cairo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cairo-Bold.ttf"; sourceTree = "<group>"; };
+		C6C3BE4F300A7CA300C5FC25 /* Cairo-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cairo-Light.ttf"; sourceTree = "<group>"; };
+		C6C3BE50300A7CA300C5FC25 /* Cairo-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cairo-Medium.ttf"; sourceTree = "<group>"; };
+		C6C3BE51300A7CA300C5FC25 /* Cairo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cairo-Regular.ttf"; sourceTree = "<group>"; };
+		C6C3BE52300A7CA300C5FC25 /* Cairo-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cairo-SemiBold.ttf"; sourceTree = "<group>"; };
+		C6C3BE54300A7CA300C5FC25 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
+		C6C3BE55300A7CA300C5FC25 /* Poppins-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Light.ttf"; sourceTree = "<group>"; };
+		C6C3BE56300A7CA300C5FC25 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Medium.ttf"; sourceTree = "<group>"; };
+		C6C3BE57300A7CA300C5FC25 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
+		C6C3BE58300A7CA300C5FC25 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
+		C6C3BE5B300A7CA300C5FC25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C6C3BE5C300A7CA300C5FC25 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		C6C3BE5F300A7CA300C5FC25 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		C6C3BE62300A7CA300C5FC25 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		C6C3BE64300A7CA300C5FC25 /* UtilityFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFile.swift; sourceTree = "<group>"; };
+		C6C3BE7E300A7D9B00C5FC25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C6C3BE80300A7EBD00C5FC25 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		C6C3BE81300A7EBD00C5FC25 /* AuthCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
+		C6C3BE82300A7EBD00C5FC25 /* AuthRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRoute.swift; sourceTree = "<group>"; };
+		C6C3BE83300A7EBD00C5FC25 /* AuthRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRouter.swift; sourceTree = "<group>"; };
+		C6C3BE89300A7EEE00C5FC25 /* AuthRemoteDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRemoteDataSource.swift; sourceTree = "<group>"; };
+		C6C3BE8B300A7EEE00C5FC25 /* AuthDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDto.swift; sourceTree = "<group>"; };
+		C6C3BE8D300A7EEE00C5FC25 /* mapperfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapperfile.swift; sourceTree = "<group>"; };
+		C6C3BE8F300A7EEE00C5FC25 /* AuthRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryImpl.swift; sourceTree = "<group>"; };
+		C6C3BE92300A7EEE00C5FC25 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
+		C6C3BE93300A7EEE00C5FC25 /* BasicUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicUserInfo.swift; sourceTree = "<group>"; };
+		C6C3BE94300A7EEE00C5FC25 /* OTPVerificationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationEntity.swift; sourceTree = "<group>"; };
+		C6C3BE96300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryProtocol.swift; sourceTree = "<group>"; };
+		C6C3BE98300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePersonalInfoUseCase.swift; sourceTree = "<group>"; };
+		C6C3BE99300A7EEE00C5FC25 /* VerifyOTPUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyOTPUseCase.swift; sourceTree = "<group>"; };
+		C6C3BE9C300A7EEE00C5FC25 /* ActionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCard.swift; sourceTree = "<group>"; };
+		C6C3BE9D300A7EEE00C5FC25 /* AuthHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHeaderView.swift; sourceTree = "<group>"; };
+		C6C3BE9E300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteHealthProfileButton.swift; sourceTree = "<group>"; };
+		C6C3BE9F300A7EEE00C5FC25 /* CustomDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDatePickerView.swift; sourceTree = "<group>"; };
+		C6C3BEA0300A7EEE00C5FC25 /* CustomInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputView.swift; sourceTree = "<group>"; };
+		C6C3BEA1300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionNoticeBanner.swift; sourceTree = "<group>"; };
+		C6C3BEA2300A7EEE00C5FC25 /* GenderSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderSelectionView.swift; sourceTree = "<group>"; };
+		C6C3BEA3300A7EEE00C5FC25 /* loginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginButton.swift; sourceTree = "<group>"; };
+		C6C3BEA4300A7EEE00C5FC25 /* OTPDigitInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPDigitInputField.swift; sourceTree = "<group>"; };
+		C6C3BEA5300A7EEE00C5FC25 /* OTPResendSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPResendSectionView.swift; sourceTree = "<group>"; };
+		C6C3BEA6300A7EEE00C5FC25 /* OTPVerificationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationCardView.swift; sourceTree = "<group>"; };
+		C6C3BEA7300A7EEE00C5FC25 /* PersonalInfoFormCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoFormCard.swift; sourceTree = "<group>"; };
+		C6C3BEA8300A7EEE00C5FC25 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
+		C6C3BEA9300A7EEE00C5FC25 /* SecurityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCard.swift; sourceTree = "<group>"; };
+		C6C3BEAA300A7EEE00C5FC25 /* SecurityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityIndicator.swift; sourceTree = "<group>"; };
+		C6C3BEAB300A7EEE00C5FC25 /* SkipForNowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipForNowButton.swift; sourceTree = "<group>"; };
+		C6C3BEAD300A7EEE00C5FC25 /* OTPVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationView.swift; sourceTree = "<group>"; };
+		C6C3BEAE300A7EEE00C5FC25 /* PersonalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
+		C6C3BEAF300A7EEE00C5FC25 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
+		C6C3BEB0300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupDecisionView.swift; sourceTree = "<group>"; };
+		C6C3BEB1300A7EEE00C5FC25 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		C6C3BEB4300A7EEE00C5FC25 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewModel.swift; sourceTree = "<group>"; };
+		C6C3BEB6300A7EEE00C5FC25 /* PersonalInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewModel.swift; sourceTree = "<group>"; };
+		C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
+		C6C3BEB8300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupDecisionViewModel.swift; sourceTree = "<group>"; };
+		C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBanner.swift; sourceTree = "<group>"; };
+		C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppHeader.swift; sourceTree = "<group>"; };
+		C6C3BEBE300A7EEE00C5FC25 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,9 +225,10 @@
 		0CE50DC43009BFAE001B34AA /* EnayaProvider */ = {
 			isa = PBXGroup;
 			children = (
-				0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */,
-				0CE50DC73009BFAE001B34AA /* ContentView.swift */,
-				0CE50DC93009BFAF001B34AA /* Assets.xcassets */,
+				C6C3BE7E300A7D9B00C5FC25 /* Info.plist */,
+				C6C3BE66300A7CA300C5FC25 /* Core */,
+				C6C3BE7F300A7EA000C5FC25 /* App */,
+				C6C3BEC0300A7EEE00C5FC25 /* Features */,
 				0CE50DCB3009BFAF001B34AA /* Preview Content */,
 			);
 			path = EnayaProvider;
@@ -125,6 +257,319 @@
 				0CE50DE23009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift */,
 			);
 			path = EnayaProviderUITests;
+			sourceTree = "<group>";
+		};
+		C6C3BE45300A7CA300C5FC25 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE44300A7CA300C5FC25 /* AppImages.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C6C3BE4D300A7CA300C5FC25 /* Foundations */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE46300A7CA300C5FC25 /* Colors.swift */,
+				C6C3BE47300A7CA300C5FC25 /* IconSize.swift */,
+				C6C3BE48300A7CA300C5FC25 /* Motion.swift */,
+				C6C3BE49300A7CA300C5FC25 /* Radius.swift */,
+				C6C3BE4A300A7CA300C5FC25 /* Shadow.swift */,
+				C6C3BE4B300A7CA300C5FC25 /* Spacing.swift */,
+				C6C3BE4C300A7CA300C5FC25 /* Typography.swift */,
+			);
+			path = Foundations;
+			sourceTree = "<group>";
+		};
+		C6C3BE53300A7CA300C5FC25 /* Cairo */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE4E300A7CA300C5FC25 /* Cairo-Bold.ttf */,
+				C6C3BE4F300A7CA300C5FC25 /* Cairo-Light.ttf */,
+				C6C3BE50300A7CA300C5FC25 /* Cairo-Medium.ttf */,
+				C6C3BE51300A7CA300C5FC25 /* Cairo-Regular.ttf */,
+				C6C3BE52300A7CA300C5FC25 /* Cairo-SemiBold.ttf */,
+			);
+			path = Cairo;
+			sourceTree = "<group>";
+		};
+		C6C3BE59300A7CA300C5FC25 /* Poppins */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE54300A7CA300C5FC25 /* Poppins-Bold.ttf */,
+				C6C3BE55300A7CA300C5FC25 /* Poppins-Light.ttf */,
+				C6C3BE56300A7CA300C5FC25 /* Poppins-Medium.ttf */,
+				C6C3BE57300A7CA300C5FC25 /* Poppins-Regular.ttf */,
+				C6C3BE58300A7CA300C5FC25 /* Poppins-SemiBold.ttf */,
+			);
+			path = Poppins;
+			sourceTree = "<group>";
+		};
+		C6C3BE5A300A7CA300C5FC25 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE53300A7CA300C5FC25 /* Cairo */,
+				C6C3BE59300A7CA300C5FC25 /* Poppins */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		C6C3BE5D300A7CA300C5FC25 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE5A300A7CA300C5FC25 /* Fonts */,
+				C6C3BE5B300A7CA300C5FC25 /* Assets.xcassets */,
+				C6C3BE5C300A7CA300C5FC25 /* Colors.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C6C3BE5E300A7CA300C5FC25 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE45300A7CA300C5FC25 /* Extensions */,
+				C6C3BE4D300A7CA300C5FC25 /* Foundations */,
+				C6C3BE5D300A7CA300C5FC25 /* Resources */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		C6C3BE60300A7CA300C5FC25 /* DI */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE5F300A7CA300C5FC25 /* DIContainer.swift */,
+			);
+			path = DI;
+			sourceTree = "<group>";
+		};
+		C6C3BE61300A7CA300C5FC25 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C6C3BE63300A7CA300C5FC25 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE62300A7CA300C5FC25 /* ApiClient.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		C6C3BE65300A7CA300C5FC25 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE64300A7CA300C5FC25 /* UtilityFile.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C6C3BE66300A7CA300C5FC25 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE5E300A7CA300C5FC25 /* DesignSystem */,
+				C6C3BE60300A7CA300C5FC25 /* DI */,
+				C6C3BE61300A7CA300C5FC25 /* Extensions */,
+				C6C3BE63300A7CA300C5FC25 /* Network */,
+				C6C3BE65300A7CA300C5FC25 /* Utilities */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		C6C3BE7F300A7EA000C5FC25 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE80300A7EBD00C5FC25 /* AppState.swift */,
+				C6C3BE84300A7EBD00C5FC25 /* AuthCoordinator */,
+				0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */,
+				0CE50DC73009BFAE001B34AA /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C6C3BE84300A7EBD00C5FC25 /* AuthCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE81300A7EBD00C5FC25 /* AuthCoordinator.swift */,
+				C6C3BE82300A7EBD00C5FC25 /* AuthRoute.swift */,
+				C6C3BE83300A7EBD00C5FC25 /* AuthRouter.swift */,
+			);
+			path = AuthCoordinator;
+			sourceTree = "<group>";
+		};
+		C6C3BE8A300A7EEE00C5FC25 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE89300A7EEE00C5FC25 /* AuthRemoteDataSource.swift */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		C6C3BE8C300A7EEE00C5FC25 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE8B300A7EEE00C5FC25 /* AuthDto.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		C6C3BE8E300A7EEE00C5FC25 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE8D300A7EEE00C5FC25 /* mapperfile.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		C6C3BE90300A7EEE00C5FC25 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE8F300A7EEE00C5FC25 /* AuthRepositoryImpl.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		C6C3BE91300A7EEE00C5FC25 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE8A300A7EEE00C5FC25 /* DataSources */,
+				C6C3BE8C300A7EEE00C5FC25 /* DTOs */,
+				C6C3BE8E300A7EEE00C5FC25 /* Mappers */,
+				C6C3BE90300A7EEE00C5FC25 /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		C6C3BE95300A7EEE00C5FC25 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE92300A7EEE00C5FC25 /* AuthError.swift */,
+				C6C3BE93300A7EEE00C5FC25 /* BasicUserInfo.swift */,
+				C6C3BE94300A7EEE00C5FC25 /* OTPVerificationEntity.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		C6C3BE97300A7EEE00C5FC25 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE96300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		C6C3BE9A300A7EEE00C5FC25 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE98300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift */,
+				C6C3BE99300A7EEE00C5FC25 /* VerifyOTPUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		C6C3BE9B300A7EEE00C5FC25 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE95300A7EEE00C5FC25 /* Entities */,
+				C6C3BE97300A7EEE00C5FC25 /* Repositories */,
+				C6C3BE9A300A7EEE00C5FC25 /* UseCases */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		C6C3BEAC300A7EEE00C5FC25 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE9C300A7EEE00C5FC25 /* ActionCard.swift */,
+				C6C3BE9D300A7EEE00C5FC25 /* AuthHeaderView.swift */,
+				C6C3BE9E300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift */,
+				C6C3BE9F300A7EEE00C5FC25 /* CustomDatePickerView.swift */,
+				C6C3BEA0300A7EEE00C5FC25 /* CustomInputView.swift */,
+				C6C3BEA1300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift */,
+				C6C3BEA2300A7EEE00C5FC25 /* GenderSelectionView.swift */,
+				C6C3BEA3300A7EEE00C5FC25 /* loginButton.swift */,
+				C6C3BEA4300A7EEE00C5FC25 /* OTPDigitInputField.swift */,
+				C6C3BEA5300A7EEE00C5FC25 /* OTPResendSectionView.swift */,
+				C6C3BEA6300A7EEE00C5FC25 /* OTPVerificationCardView.swift */,
+				C6C3BEA7300A7EEE00C5FC25 /* PersonalInfoFormCard.swift */,
+				C6C3BEA8300A7EEE00C5FC25 /* PhoneNumberField.swift */,
+				C6C3BEA9300A7EEE00C5FC25 /* SecurityCard.swift */,
+				C6C3BEAA300A7EEE00C5FC25 /* SecurityIndicator.swift */,
+				C6C3BEAB300A7EEE00C5FC25 /* SkipForNowButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C6C3BEB2300A7EEE00C5FC25 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BEAD300A7EEE00C5FC25 /* OTPVerificationView.swift */,
+				C6C3BEAE300A7EEE00C5FC25 /* PersonalInfoView.swift */,
+				C6C3BEAF300A7EEE00C5FC25 /* PhoneNumberView.swift */,
+				C6C3BEB0300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift */,
+				C6C3BEB1300A7EEE00C5FC25 /* WelcomeView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		C6C3BEB3300A7EEE00C5FC25 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BEAC300A7EEE00C5FC25 /* Components */,
+				C6C3BEB2300A7EEE00C5FC25 /* Screens */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		C6C3BEB9300A7EEE00C5FC25 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BEB4300A7EEE00C5FC25 /* AuthViewModel.swift */,
+				C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */,
+				C6C3BEB6300A7EEE00C5FC25 /* PersonalInfoViewModel.swift */,
+				C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */,
+				C6C3BEB8300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C6C3BEBA300A7EEE00C5FC25 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BEB3300A7EEE00C5FC25 /* View */,
+				C6C3BEB9300A7EEE00C5FC25 /* ViewModel */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		C6C3BEBB300A7EEE00C5FC25 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BE91300A7EEE00C5FC25 /* Data */,
+				C6C3BE9B300A7EEE00C5FC25 /* Domain */,
+				C6C3BEBA300A7EEE00C5FC25 /* Presentation */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		C6C3BEBF300A7EEE00C5FC25 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */,
+				C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */,
+				C6C3BEBE300A7EEE00C5FC25 /* PrimaryButton.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		C6C3BEC0300A7EEE00C5FC25 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				C6C3BEBB300A7EEE00C5FC25 /* Auth */,
+				C6C3BEBF300A7EEE00C5FC25 /* Shared */,
+			);
+			path = Features;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,7 +680,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CE50DCD3009BFAF001B34AA /* Preview Assets.xcassets in Resources */,
-				0CE50DCA3009BFAF001B34AA /* Assets.xcassets in Resources */,
+				C6C3BE72300A7CA300C5FC25 /* Poppins-Bold.ttf in Resources */,
+				C6C3BE73300A7CA300C5FC25 /* Poppins-Light.ttf in Resources */,
+				C6C3BE74300A7CA300C5FC25 /* Assets.xcassets in Resources */,
+				C6C3BE75300A7CA300C5FC25 /* Cairo-Light.ttf in Resources */,
+				C6C3BE76300A7CA300C5FC25 /* Cairo-Regular.ttf in Resources */,
+				C6C3BE77300A7CA300C5FC25 /* Cairo-Medium.ttf in Resources */,
+				C6C3BE78300A7CA300C5FC25 /* Cairo-SemiBold.ttf in Resources */,
+				C6C3BE79300A7CA300C5FC25 /* Poppins-Medium.ttf in Resources */,
+				C6C3BE7A300A7CA300C5FC25 /* Cairo-Bold.ttf in Resources */,
+				C6C3BE7B300A7CA300C5FC25 /* Poppins-Regular.ttf in Resources */,
+				C6C3BE7C300A7CA300C5FC25 /* Colors.xcassets in Resources */,
+				C6C3BE7D300A7CA300C5FC25 /* Poppins-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +716,60 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6C3BE67300A7CA300C5FC25 /* Colors.swift in Sources */,
+				C6C3BE68300A7CA300C5FC25 /* Radius.swift in Sources */,
+				C6C3BE69300A7CA300C5FC25 /* Shadow.swift in Sources */,
+				C6C3BE6A300A7CA300C5FC25 /* ApiClient.swift in Sources */,
+				C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */,
+				C6C3BE6C300A7CA300C5FC25 /* IconSize.swift in Sources */,
+				C6C3BE85300A7EBD00C5FC25 /* AppState.swift in Sources */,
+				C6C3BE86300A7EBD00C5FC25 /* AuthRouter.swift in Sources */,
+				C6C3BE87300A7EBD00C5FC25 /* AuthCoordinator.swift in Sources */,
+				C6C3BE88300A7EBD00C5FC25 /* AuthRoute.swift in Sources */,
+				C6C3BE6D300A7CA300C5FC25 /* DIContainer.swift in Sources */,
+				C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */,
+				C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */,
+				C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */,
+				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
+				C6C3BEC3300A7EEE00C5FC25 /* mapperfile.swift in Sources */,
+				C6C3BEC4300A7EEE00C5FC25 /* CustomInputView.swift in Sources */,
+				C6C3BEC5300A7EEE00C5FC25 /* PersonalInfoView.swift in Sources */,
+				C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */,
+				C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */,
+				C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */,
+				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
+				C6C3BECA300A7EEE00C5FC25 /* AuthRemoteDataSource.swift in Sources */,
+				C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */,
+				C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */,
+				C6C3BECD300A7EEE00C5FC25 /* ActionCard.swift in Sources */,
+				C6C3BECE300A7EEE00C5FC25 /* AuthViewModel.swift in Sources */,
+				C6C3BECF300A7EEE00C5FC25 /* OTPDigitInputField.swift in Sources */,
+				C6C3BED0300A7EEE00C5FC25 /* VerifyOTPUseCase.swift in Sources */,
+				C6C3BED1300A7EEE00C5FC25 /* SecurityIndicator.swift in Sources */,
+				C6C3BED2300A7EEE00C5FC25 /* WelcomeView.swift in Sources */,
+				C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */,
+				C6C3BED4300A7EEE00C5FC25 /* OTPVerificationViewModel.swift in Sources */,
+				C6C3BED5300A7EEE00C5FC25 /* PhoneNumberField.swift in Sources */,
+				C6C3BED6300A7EEE00C5FC25 /* PersonalInfoFormCard.swift in Sources */,
+				C6C3BED7300A7EEE00C5FC25 /* OTPVerificationView.swift in Sources */,
+				C6C3BED8300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift in Sources */,
+				C6C3BED9300A7EEE00C5FC25 /* OTPVerificationCardView.swift in Sources */,
+				C6C3BEDA300A7EEE00C5FC25 /* AuthError.swift in Sources */,
+				C6C3BEDB300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift in Sources */,
+				C6C3BEDC300A7EEE00C5FC25 /* AuthDto.swift in Sources */,
+				C6C3BEDD300A7EEE00C5FC25 /* PrimaryButton.swift in Sources */,
+				C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */,
+				C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */,
+				C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */,
+				C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */,
+				C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */,
+				C6C3BEE3300A7EEE00C5FC25 /* BasicUserInfo.swift in Sources */,
+				C6C3BEE4300A7EEE00C5FC25 /* PersonalInfoViewModel.swift in Sources */,
+				C6C3BEE5300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift in Sources */,
+				C6C3BEE6300A7EEE00C5FC25 /* PhoneNumberViewModel.swift in Sources */,
+				C6C3BEE7300A7EEE00C5FC25 /* SkipForNowButton.swift in Sources */,
+				C6C3BE70300A7CA300C5FC25 /* Typography.swift in Sources */,
+				C6C3BE71300A7CA300C5FC25 /* Motion.swift in Sources */,
 				0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */,
 				0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */,
 			);
@@ -302,7 +812,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -365,7 +875,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -427,6 +937,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"EnayaProvider/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EnayaProvider/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -455,6 +966,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"EnayaProvider/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EnayaProvider/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
