@@ -8,8 +8,6 @@
 import Foundation
 
 protocol AuthRepositoryProtocol{
-    func savePersonalInfo(
-        basicInfo: BasicUserInfo
-        ) async throws
+  
     func verifyOTP(phoneNumber: String, otp: String) async throws -> OTPVerificationEntity
 }

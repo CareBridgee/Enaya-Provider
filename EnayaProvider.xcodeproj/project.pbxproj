@@ -13,6 +13,43 @@
 		0CE50DD73009BFB0001B34AA /* EnayaProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DD63009BFB0001B34AA /* EnayaProviderTests.swift */; };
 		0CE50DE13009BFB0001B34AA /* EnayaProviderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DE03009BFB0001B34AA /* EnayaProviderUITests.swift */; };
 		0CE50DE33009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DE23009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift */; };
+		B3544D02300EA1F3007EDB87 /* PersonalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D01300EA1F3007EDB87 /* PersonalInfo.swift */; };
+		B3544D04300EA20C007EDB87 /* ProfessionalInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D03300EA20C007EDB87 /* ProfessionalInfo.swift */; };
+		B3544D06300EA229007EDB87 /* ProvidedServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D05300EA229007EDB87 /* ProvidedServices.swift */; };
+		B3544D09300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D08300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift */; };
+		B3544D0C300EA30B007EDB87 /* ProfileSetupHeaderBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D0B300EA30B007EDB87 /* ProfileSetupHeaderBar.swift */; };
+		B3544D0E300EA325007EDB87 /* ProfileContinueFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D0D300EA325007EDB87 /* ProfileContinueFooter.swift */; };
+		B3544D10300EA32E007EDB87 /* SelectionField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D0F300EA32E007EDB87 /* SelectionField.swift */; };
+		B3544D12300EA336007EDB87 /* DateOfBirthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D11300EA336007EDB87 /* DateOfBirthField.swift */; };
+		B3544D14300EA33F007EDB87 /* DocumentUploadCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D13300EA33F007EDB87 /* DocumentUploadCard.swift */; };
+		B3544D16300EA349007EDB87 /* ServiceSelectionGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D15300EA349007EDB87 /* ServiceSelectionGrid.swift */; };
+		B3544D18300EA35A007EDB87 /* ReviewSectionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D17300EA35A007EDB87 /* ReviewSectionCard.swift */; };
+		B3544D1A300EA367007EDB87 /* PersonalInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D19300EA367007EDB87 /* PersonalInfoViewModel.swift */; };
+		B3544D1C300EA371007EDB87 /* ProfessionalInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D1B300EA371007EDB87 /* ProfessionalInfoViewModel.swift */; };
+		B3544D1E300EA379007EDB87 /* ProvidedServicesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D1D300EA379007EDB87 /* ProvidedServicesViewModel.swift */; };
+		B3544D20300EA383007EDB87 /* ReviewApplicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D1F300EA383007EDB87 /* ReviewApplicationViewModel.swift */; };
+		B3544D22300EA38F007EDB87 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D21300EA38F007EDB87 /* PersonalInfoView.swift */; };
+		B3544D24300EA39A007EDB87 /* ProfessionalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D23300EA39A007EDB87 /* ProfessionalInfoView.swift */; };
+		B3544D26300EA3A2007EDB87 /* ProvidedServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D25300EA3A2007EDB87 /* ProvidedServicesView.swift */; };
+		B3544D28300EA3AA007EDB87 /* ReviewApplicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D27300EA3AA007EDB87 /* ReviewApplicationView.swift */; };
+		B3CAF25C300E8D7B006A9F5F /* CarelyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF25B300E8D7B006A9F5F /* CarelyButtonStyle.swift */; };
+		B3CAF25E300E8DEA006A9F5F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3CAF25D300E8DEA006A9F5F /* Colors.xcassets */; };
+		B3CAF268300E8EB2006A9F5F /* SecondaryChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF266300E8EB2006A9F5F /* SecondaryChip.swift */; };
+		B3CAF269300E8EB2006A9F5F /* StepProgressHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF267300E8EB2006A9F5F /* StepProgressHeader.swift */; };
+		B3CAF26A300E8EB2006A9F5F /* CarelyTextFieldSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF260300E8EB2006A9F5F /* CarelyTextFieldSize.swift */; };
+		B3CAF26B300E8EB2006A9F5F /* CustomTextAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF261300E8EB2006A9F5F /* CustomTextAreaView.swift */; };
+		B3CAF26C300E8EB2006A9F5F /* CarelyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF25F300E8EB2006A9F5F /* CarelyTextField.swift */; };
+		B3CAF26D300E8EB2006A9F5F /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF265300E8EB2006A9F5F /* SecondaryButton.swift */; };
+		B3CAF26E300E8EB2006A9F5F /* PrimaryChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF264300E8EB2006A9F5F /* PrimaryChip.swift */; };
+		B3CAF26F300E8EB2006A9F5F /* InfoBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF262300E8EB2006A9F5F /* InfoBannerView.swift */; };
+		B3CAF270300E8EB2006A9F5F /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF263300E8EB2006A9F5F /* PrimaryButton.swift */; };
+		B3CAF29A300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF271300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift */; };
+		B3CAF2A8300E9469006A9F5F /* ProfileSetupCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF296300E9469006A9F5F /* ProfileSetupCoordinatorView.swift */; };
+		B3CAF2AF300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF27E300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift */; };
+		B3CAF2B3300E9469006A9F5F /* ProfileSetupStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF297300E9469006A9F5F /* ProfileSetupStep.swift */; };
+		B3CAF2B6300E9469006A9F5F /* ProfileSetupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF295300E9469006A9F5F /* ProfileSetupCoordinator.swift */; };
+		B3CAF2B9300E964C006A9F5F /* ProfileSetupData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF2B8300E964C006A9F5F /* ProfileSetupData.swift */; };
+		B3CAF2BB300E9F38006A9F5F /* ApplicationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF2BA300E9F38006A9F5F /* ApplicationStatus.swift */; };
 		C6C3BE67300A7CA300C5FC25 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE46300A7CA300C5FC25 /* Colors.swift */; };
 		C6C3BE68300A7CA300C5FC25 /* Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE49300A7CA300C5FC25 /* Radius.swift */; };
 		C6C3BE69300A7CA300C5FC25 /* Shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE4A300A7CA300C5FC25 /* Shadow.swift */; };
@@ -34,7 +71,6 @@
 		C6C3BE79300A7CA300C5FC25 /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE56300A7CA300C5FC25 /* Poppins-Medium.ttf */; };
 		C6C3BE7A300A7CA300C5FC25 /* Cairo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE4E300A7CA300C5FC25 /* Cairo-Bold.ttf */; };
 		C6C3BE7B300A7CA300C5FC25 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE57300A7CA300C5FC25 /* Poppins-Regular.ttf */; };
-		C6C3BE7C300A7CA300C5FC25 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE5C300A7CA300C5FC25 /* Colors.xcassets */; };
 		C6C3BE7D300A7CA300C5FC25 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6C3BE58300A7CA300C5FC25 /* Poppins-SemiBold.ttf */; };
 		C6C3BE85300A7EBD00C5FC25 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE80300A7EBD00C5FC25 /* AppState.swift */; };
 		C6C3BE86300A7EBD00C5FC25 /* AuthRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE83300A7EBD00C5FC25 /* AuthRouter.swift */; };
@@ -44,7 +80,6 @@
 		C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9D300A7EEE00C5FC25 /* AuthHeaderView.swift */; };
 		C6C3BEC3300A7EEE00C5FC25 /* mapperfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE8D300A7EEE00C5FC25 /* mapperfile.swift */; };
 		C6C3BEC4300A7EEE00C5FC25 /* CustomInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA0300A7EEE00C5FC25 /* CustomInputView.swift */; };
-		C6C3BEC5300A7EEE00C5FC25 /* PersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAE300A7EEE00C5FC25 /* PersonalInfoView.swift */; };
 		C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA2300A7EEE00C5FC25 /* GenderSelectionView.swift */; };
 		C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA1300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift */; };
 		C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE96300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift */; };
@@ -61,22 +96,15 @@
 		C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE8F300A7EEE00C5FC25 /* AuthRepositoryImpl.swift */; };
 		C6C3BED4300A7EEE00C5FC25 /* OTPVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */; };
 		C6C3BED5300A7EEE00C5FC25 /* PhoneNumberField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA8300A7EEE00C5FC25 /* PhoneNumberField.swift */; };
-		C6C3BED6300A7EEE00C5FC25 /* PersonalInfoFormCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA7300A7EEE00C5FC25 /* PersonalInfoFormCard.swift */; };
 		C6C3BED7300A7EEE00C5FC25 /* OTPVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAD300A7EEE00C5FC25 /* OTPVerificationView.swift */; };
-		C6C3BED8300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB0300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift */; };
 		C6C3BED9300A7EEE00C5FC25 /* OTPVerificationCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA6300A7EEE00C5FC25 /* OTPVerificationCardView.swift */; };
 		C6C3BEDA300A7EEE00C5FC25 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE92300A7EEE00C5FC25 /* AuthError.swift */; };
-		C6C3BEDB300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB8300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift */; };
 		C6C3BEDC300A7EEE00C5FC25 /* AuthDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE8B300A7EEE00C5FC25 /* AuthDto.swift */; };
-		C6C3BEDD300A7EEE00C5FC25 /* PrimaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEBE300A7EEE00C5FC25 /* PrimaryButton.swift */; };
 		C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE94300A7EEE00C5FC25 /* OTPVerificationEntity.swift */; };
 		C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA3300A7EEE00C5FC25 /* loginButton.swift */; };
 		C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA9300A7EEE00C5FC25 /* SecurityCard.swift */; };
 		C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAF300A7EEE00C5FC25 /* PhoneNumberView.swift */; };
 		C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9F300A7EEE00C5FC25 /* CustomDatePickerView.swift */; };
-		C6C3BEE3300A7EEE00C5FC25 /* BasicUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE93300A7EEE00C5FC25 /* BasicUserInfo.swift */; };
-		C6C3BEE4300A7EEE00C5FC25 /* PersonalInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB6300A7EEE00C5FC25 /* PersonalInfoViewModel.swift */; };
-		C6C3BEE5300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE98300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift */; };
 		C6C3BEE6300A7EEE00C5FC25 /* PhoneNumberViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */; };
 		C6C3BEE7300A7EEE00C5FC25 /* SkipForNowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEAB300A7EEE00C5FC25 /* SkipForNowButton.swift */; };
 /* End PBXBuildFile section */
@@ -108,6 +136,43 @@
 		0CE50DDC3009BFB0001B34AA /* EnayaProviderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EnayaProviderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE50DE03009BFB0001B34AA /* EnayaProviderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderUITests.swift; sourceTree = "<group>"; };
 		0CE50DE23009BFB0001B34AA /* EnayaProviderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B3544D01300EA1F3007EDB87 /* PersonalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfo.swift; sourceTree = "<group>"; };
+		B3544D03300EA20C007EDB87 /* ProfessionalInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionalInfo.swift; sourceTree = "<group>"; };
+		B3544D05300EA229007EDB87 /* ProvidedServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedServices.swift; sourceTree = "<group>"; };
+		B3544D08300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitProfileApplicationUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B3544D0B300EA30B007EDB87 /* ProfileSetupHeaderBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupHeaderBar.swift; sourceTree = "<group>"; };
+		B3544D0D300EA325007EDB87 /* ProfileContinueFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileContinueFooter.swift; sourceTree = "<group>"; };
+		B3544D0F300EA32E007EDB87 /* SelectionField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionField.swift; sourceTree = "<group>"; };
+		B3544D11300EA336007EDB87 /* DateOfBirthField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateOfBirthField.swift; sourceTree = "<group>"; };
+		B3544D13300EA33F007EDB87 /* DocumentUploadCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentUploadCard.swift; sourceTree = "<group>"; };
+		B3544D15300EA349007EDB87 /* ServiceSelectionGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSelectionGrid.swift; sourceTree = "<group>"; };
+		B3544D17300EA35A007EDB87 /* ReviewSectionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSectionCard.swift; sourceTree = "<group>"; };
+		B3544D19300EA367007EDB87 /* PersonalInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewModel.swift; sourceTree = "<group>"; };
+		B3544D1B300EA371007EDB87 /* ProfessionalInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionalInfoViewModel.swift; sourceTree = "<group>"; };
+		B3544D1D300EA379007EDB87 /* ProvidedServicesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedServicesViewModel.swift; sourceTree = "<group>"; };
+		B3544D1F300EA383007EDB87 /* ReviewApplicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApplicationViewModel.swift; sourceTree = "<group>"; };
+		B3544D21300EA38F007EDB87 /* PersonalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
+		B3544D23300EA39A007EDB87 /* ProfessionalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionalInfoView.swift; sourceTree = "<group>"; };
+		B3544D25300EA3A2007EDB87 /* ProvidedServicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedServicesView.swift; sourceTree = "<group>"; };
+		B3544D27300EA3AA007EDB87 /* ReviewApplicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApplicationView.swift; sourceTree = "<group>"; };
+		B3CAF25B300E8D7B006A9F5F /* CarelyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarelyButtonStyle.swift; sourceTree = "<group>"; };
+		B3CAF25D300E8DEA006A9F5F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		B3CAF25F300E8EB2006A9F5F /* CarelyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarelyTextField.swift; sourceTree = "<group>"; };
+		B3CAF260300E8EB2006A9F5F /* CarelyTextFieldSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarelyTextFieldSize.swift; sourceTree = "<group>"; };
+		B3CAF261300E8EB2006A9F5F /* CustomTextAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextAreaView.swift; sourceTree = "<group>"; };
+		B3CAF262300E8EB2006A9F5F /* InfoBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoBannerView.swift; sourceTree = "<group>"; };
+		B3CAF263300E8EB2006A9F5F /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
+		B3CAF264300E8EB2006A9F5F /* PrimaryChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryChip.swift; sourceTree = "<group>"; };
+		B3CAF265300E8EB2006A9F5F /* SecondaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryButton.swift; sourceTree = "<group>"; };
+		B3CAF266300E8EB2006A9F5F /* SecondaryChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryChip.swift; sourceTree = "<group>"; };
+		B3CAF267300E8EB2006A9F5F /* StepProgressHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepProgressHeader.swift; sourceTree = "<group>"; };
+		B3CAF271300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupRepositoryImpl.swift; sourceTree = "<group>"; };
+		B3CAF27E300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupRepositoryProtocol.swift; sourceTree = "<group>"; };
+		B3CAF295300E9469006A9F5F /* ProfileSetupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupCoordinator.swift; sourceTree = "<group>"; };
+		B3CAF296300E9469006A9F5F /* ProfileSetupCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupCoordinatorView.swift; sourceTree = "<group>"; };
+		B3CAF297300E9469006A9F5F /* ProfileSetupStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupStep.swift; sourceTree = "<group>"; };
+		B3CAF2B8300E964C006A9F5F /* ProfileSetupData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupData.swift; sourceTree = "<group>"; };
+		B3CAF2BA300E9F38006A9F5F /* ApplicationStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStatus.swift; sourceTree = "<group>"; };
 		C6C3BE44300A7CA300C5FC25 /* AppImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImages.swift; sourceTree = "<group>"; };
 		C6C3BE46300A7CA300C5FC25 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C6C3BE47300A7CA300C5FC25 /* IconSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSize.swift; sourceTree = "<group>"; };
@@ -127,7 +192,6 @@
 		C6C3BE57300A7CA300C5FC25 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
 		C6C3BE58300A7CA300C5FC25 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		C6C3BE5B300A7CA300C5FC25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C6C3BE5C300A7CA300C5FC25 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		C6C3BE5F300A7CA300C5FC25 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		C6C3BE62300A7CA300C5FC25 /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		C6C3BE64300A7CA300C5FC25 /* UtilityFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityFile.swift; sourceTree = "<group>"; };
@@ -141,10 +205,8 @@
 		C6C3BE8D300A7EEE00C5FC25 /* mapperfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapperfile.swift; sourceTree = "<group>"; };
 		C6C3BE8F300A7EEE00C5FC25 /* AuthRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryImpl.swift; sourceTree = "<group>"; };
 		C6C3BE92300A7EEE00C5FC25 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
-		C6C3BE93300A7EEE00C5FC25 /* BasicUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicUserInfo.swift; sourceTree = "<group>"; };
 		C6C3BE94300A7EEE00C5FC25 /* OTPVerificationEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationEntity.swift; sourceTree = "<group>"; };
 		C6C3BE96300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryProtocol.swift; sourceTree = "<group>"; };
-		C6C3BE98300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePersonalInfoUseCase.swift; sourceTree = "<group>"; };
 		C6C3BE99300A7EEE00C5FC25 /* VerifyOTPUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerifyOTPUseCase.swift; sourceTree = "<group>"; };
 		C6C3BE9C300A7EEE00C5FC25 /* ActionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionCard.swift; sourceTree = "<group>"; };
 		C6C3BE9D300A7EEE00C5FC25 /* AuthHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHeaderView.swift; sourceTree = "<group>"; };
@@ -157,24 +219,18 @@
 		C6C3BEA4300A7EEE00C5FC25 /* OTPDigitInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPDigitInputField.swift; sourceTree = "<group>"; };
 		C6C3BEA5300A7EEE00C5FC25 /* OTPResendSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPResendSectionView.swift; sourceTree = "<group>"; };
 		C6C3BEA6300A7EEE00C5FC25 /* OTPVerificationCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationCardView.swift; sourceTree = "<group>"; };
-		C6C3BEA7300A7EEE00C5FC25 /* PersonalInfoFormCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoFormCard.swift; sourceTree = "<group>"; };
 		C6C3BEA8300A7EEE00C5FC25 /* PhoneNumberField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberField.swift; sourceTree = "<group>"; };
 		C6C3BEA9300A7EEE00C5FC25 /* SecurityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityCard.swift; sourceTree = "<group>"; };
 		C6C3BEAA300A7EEE00C5FC25 /* SecurityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityIndicator.swift; sourceTree = "<group>"; };
 		C6C3BEAB300A7EEE00C5FC25 /* SkipForNowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkipForNowButton.swift; sourceTree = "<group>"; };
 		C6C3BEAD300A7EEE00C5FC25 /* OTPVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationView.swift; sourceTree = "<group>"; };
-		C6C3BEAE300A7EEE00C5FC25 /* PersonalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoView.swift; sourceTree = "<group>"; };
 		C6C3BEAF300A7EEE00C5FC25 /* PhoneNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberView.swift; sourceTree = "<group>"; };
-		C6C3BEB0300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupDecisionView.swift; sourceTree = "<group>"; };
 		C6C3BEB1300A7EEE00C5FC25 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		C6C3BEB4300A7EEE00C5FC25 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewModel.swift; sourceTree = "<group>"; };
-		C6C3BEB6300A7EEE00C5FC25 /* PersonalInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewModel.swift; sourceTree = "<group>"; };
 		C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
-		C6C3BEB8300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupDecisionViewModel.swift; sourceTree = "<group>"; };
 		C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBanner.swift; sourceTree = "<group>"; };
 		C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppHeader.swift; sourceTree = "<group>"; };
-		C6C3BEBE300A7EEE00C5FC25 /* PrimaryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +315,181 @@
 			path = EnayaProviderUITests;
 			sourceTree = "<group>";
 		};
+		B3544D07300EA296007EDB87 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D08300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		B3544D0A300EA2F4007EDB87 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D17300EA35A007EDB87 /* ReviewSectionCard.swift */,
+				B3544D15300EA349007EDB87 /* ServiceSelectionGrid.swift */,
+				B3544D13300EA33F007EDB87 /* DocumentUploadCard.swift */,
+				B3544D11300EA336007EDB87 /* DateOfBirthField.swift */,
+				B3544D0F300EA32E007EDB87 /* SelectionField.swift */,
+				B3544D0D300EA325007EDB87 /* ProfileContinueFooter.swift */,
+				B3544D0B300EA30B007EDB87 /* ProfileSetupHeaderBar.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B3544D29300EA543007EDB87 /* ApplicationStatus */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D2C300EA594007EDB87 /* Presentation */,
+				B3544D2B300EA582007EDB87 /* Domain */,
+				B3544D2A300EA56C007EDB87 /* Data */,
+			);
+			path = ApplicationStatus;
+			sourceTree = "<group>";
+		};
+		B3544D2A300EA56C007EDB87 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D2E300EA5D5007EDB87 /* ViewModel */,
+				B3544D2D300EA5CD007EDB87 /* View */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		B3544D2B300EA582007EDB87 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B3544D2C300EA594007EDB87 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		B3544D2D300EA5CD007EDB87 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B3544D2E300EA5D5007EDB87 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B3CAF272300E9469006A9F5F /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B3CAF271300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B3CAF273300E9469006A9F5F /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B3CAF272300E9469006A9F5F /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		B3CAF27D300E9469006A9F5F /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D05300EA229007EDB87 /* ProvidedServices.swift */,
+				B3544D03300EA20C007EDB87 /* ProfessionalInfo.swift */,
+				B3544D01300EA1F3007EDB87 /* PersonalInfo.swift */,
+				B3CAF2B8300E964C006A9F5F /* ProfileSetupData.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		B3CAF27F300E9469006A9F5F /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B3CAF27E300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B3CAF280300E9469006A9F5F /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D07300EA296007EDB87 /* UseCases */,
+				B3CAF27D300E9469006A9F5F /* Entities */,
+				B3CAF27F300E9469006A9F5F /* Repositories */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B3CAF289300E9469006A9F5F /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D27300EA3AA007EDB87 /* ReviewApplicationView.swift */,
+				B3544D25300EA3A2007EDB87 /* ProvidedServicesView.swift */,
+				B3544D23300EA39A007EDB87 /* ProfessionalInfoView.swift */,
+				B3544D21300EA38F007EDB87 /* PersonalInfoView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		B3CAF28A300E9469006A9F5F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D0A300EA2F4007EDB87 /* Components */,
+				B3CAF289300E9469006A9F5F /* Screens */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B3CAF293300E9469006A9F5F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D1F300EA383007EDB87 /* ReviewApplicationViewModel.swift */,
+				B3544D1D300EA379007EDB87 /* ProvidedServicesViewModel.swift */,
+				B3544D1B300EA371007EDB87 /* ProfessionalInfoViewModel.swift */,
+				B3544D19300EA367007EDB87 /* PersonalInfoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B3CAF294300E9469006A9F5F /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				B3CAF28A300E9469006A9F5F /* View */,
+				B3CAF293300E9469006A9F5F /* ViewModel */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		B3CAF298300E9469006A9F5F /* ProfileSetupCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B3CAF295300E9469006A9F5F /* ProfileSetupCoordinator.swift */,
+				B3CAF296300E9469006A9F5F /* ProfileSetupCoordinatorView.swift */,
+				B3CAF297300E9469006A9F5F /* ProfileSetupStep.swift */,
+			);
+			path = ProfileSetupCoordinator;
+			sourceTree = "<group>";
+		};
+		B3CAF299300E9469006A9F5F /* ProfileSetup */ = {
+			isa = PBXGroup;
+			children = (
+				B3CAF273300E9469006A9F5F /* Data */,
+				B3CAF280300E9469006A9F5F /* Domain */,
+				B3CAF294300E9469006A9F5F /* Presentation */,
+				B3CAF298300E9469006A9F5F /* ProfileSetupCoordinator */,
+			);
+			path = ProfileSetup;
+			sourceTree = "<group>";
+		};
 		C6C3BE45300A7CA300C5FC25 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +508,7 @@
 				C6C3BE4A300A7CA300C5FC25 /* Shadow.swift */,
 				C6C3BE4B300A7CA300C5FC25 /* Spacing.swift */,
 				C6C3BE4C300A7CA300C5FC25 /* Typography.swift */,
+				B3CAF25B300E8D7B006A9F5F /* CarelyButtonStyle.swift */,
 			);
 			path = Foundations;
 			sourceTree = "<group>";
@@ -319,7 +551,7 @@
 			children = (
 				C6C3BE5A300A7CA300C5FC25 /* Fonts */,
 				C6C3BE5B300A7CA300C5FC25 /* Assets.xcassets */,
-				C6C3BE5C300A7CA300C5FC25 /* Colors.xcassets */,
+				B3CAF25D300E8DEA006A9F5F /* Colors.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -380,8 +612,8 @@
 		C6C3BE7F300A7EA000C5FC25 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B3CAF2BA300E9F38006A9F5F /* ApplicationStatus.swift */,
 				C6C3BE80300A7EBD00C5FC25 /* AppState.swift */,
-				C6C3BE84300A7EBD00C5FC25 /* AuthCoordinator */,
 				0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */,
 				0CE50DC73009BFAE001B34AA /* ContentView.swift */,
 			);
@@ -445,7 +677,6 @@
 			isa = PBXGroup;
 			children = (
 				C6C3BE92300A7EEE00C5FC25 /* AuthError.swift */,
-				C6C3BE93300A7EEE00C5FC25 /* BasicUserInfo.swift */,
 				C6C3BE94300A7EEE00C5FC25 /* OTPVerificationEntity.swift */,
 			);
 			path = Entities;
@@ -462,7 +693,6 @@
 		C6C3BE9A300A7EEE00C5FC25 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				C6C3BE98300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift */,
 				C6C3BE99300A7EEE00C5FC25 /* VerifyOTPUseCase.swift */,
 			);
 			path = UseCases;
@@ -492,7 +722,6 @@
 				C6C3BEA4300A7EEE00C5FC25 /* OTPDigitInputField.swift */,
 				C6C3BEA5300A7EEE00C5FC25 /* OTPResendSectionView.swift */,
 				C6C3BEA6300A7EEE00C5FC25 /* OTPVerificationCardView.swift */,
-				C6C3BEA7300A7EEE00C5FC25 /* PersonalInfoFormCard.swift */,
 				C6C3BEA8300A7EEE00C5FC25 /* PhoneNumberField.swift */,
 				C6C3BEA9300A7EEE00C5FC25 /* SecurityCard.swift */,
 				C6C3BEAA300A7EEE00C5FC25 /* SecurityIndicator.swift */,
@@ -505,9 +734,7 @@
 			isa = PBXGroup;
 			children = (
 				C6C3BEAD300A7EEE00C5FC25 /* OTPVerificationView.swift */,
-				C6C3BEAE300A7EEE00C5FC25 /* PersonalInfoView.swift */,
 				C6C3BEAF300A7EEE00C5FC25 /* PhoneNumberView.swift */,
-				C6C3BEB0300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift */,
 				C6C3BEB1300A7EEE00C5FC25 /* WelcomeView.swift */,
 			);
 			path = Screens;
@@ -527,9 +754,7 @@
 			children = (
 				C6C3BEB4300A7EEE00C5FC25 /* AuthViewModel.swift */,
 				C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */,
-				C6C3BEB6300A7EEE00C5FC25 /* PersonalInfoViewModel.swift */,
 				C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */,
-				C6C3BEB8300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -546,6 +771,7 @@
 		C6C3BEBB300A7EEE00C5FC25 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				C6C3BE84300A7EBD00C5FC25 /* AuthCoordinator */,
 				C6C3BE91300A7EEE00C5FC25 /* Data */,
 				C6C3BE9B300A7EEE00C5FC25 /* Domain */,
 				C6C3BEBA300A7EEE00C5FC25 /* Presentation */,
@@ -558,7 +784,15 @@
 			children = (
 				C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */,
 				C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */,
-				C6C3BEBE300A7EEE00C5FC25 /* PrimaryButton.swift */,
+				B3CAF25F300E8EB2006A9F5F /* CarelyTextField.swift */,
+				B3CAF260300E8EB2006A9F5F /* CarelyTextFieldSize.swift */,
+				B3CAF261300E8EB2006A9F5F /* CustomTextAreaView.swift */,
+				B3CAF262300E8EB2006A9F5F /* InfoBannerView.swift */,
+				B3CAF263300E8EB2006A9F5F /* PrimaryButton.swift */,
+				B3CAF264300E8EB2006A9F5F /* PrimaryChip.swift */,
+				B3CAF265300E8EB2006A9F5F /* SecondaryButton.swift */,
+				B3CAF266300E8EB2006A9F5F /* SecondaryChip.swift */,
+				B3CAF267300E8EB2006A9F5F /* StepProgressHeader.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -566,8 +800,10 @@
 		C6C3BEC0300A7EEE00C5FC25 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B3544D29300EA543007EDB87 /* ApplicationStatus */,
 				C6C3BEBB300A7EEE00C5FC25 /* Auth */,
 				C6C3BEBF300A7EEE00C5FC25 /* Shared */,
+				B3CAF299300E9469006A9F5F /* ProfileSetup */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -681,6 +917,7 @@
 			files = (
 				0CE50DCD3009BFAF001B34AA /* Preview Assets.xcassets in Resources */,
 				C6C3BE72300A7CA300C5FC25 /* Poppins-Bold.ttf in Resources */,
+				B3CAF25E300E8DEA006A9F5F /* Colors.xcassets in Resources */,
 				C6C3BE73300A7CA300C5FC25 /* Poppins-Light.ttf in Resources */,
 				C6C3BE74300A7CA300C5FC25 /* Assets.xcassets in Resources */,
 				C6C3BE75300A7CA300C5FC25 /* Cairo-Light.ttf in Resources */,
@@ -690,7 +927,6 @@
 				C6C3BE79300A7CA300C5FC25 /* Poppins-Medium.ttf in Resources */,
 				C6C3BE7A300A7CA300C5FC25 /* Cairo-Bold.ttf in Resources */,
 				C6C3BE7B300A7CA300C5FC25 /* Poppins-Regular.ttf in Resources */,
-				C6C3BE7C300A7CA300C5FC25 /* Colors.xcassets in Resources */,
 				C6C3BE7D300A7CA300C5FC25 /* Poppins-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -716,62 +952,90 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3544D14300EA33F007EDB87 /* DocumentUploadCard.swift in Sources */,
 				C6C3BE67300A7CA300C5FC25 /* Colors.swift in Sources */,
 				C6C3BE68300A7CA300C5FC25 /* Radius.swift in Sources */,
 				C6C3BE69300A7CA300C5FC25 /* Shadow.swift in Sources */,
+				B3544D10300EA32E007EDB87 /* SelectionField.swift in Sources */,
 				C6C3BE6A300A7CA300C5FC25 /* ApiClient.swift in Sources */,
+				B3544D28300EA3AA007EDB87 /* ReviewApplicationView.swift in Sources */,
+				B3544D12300EA336007EDB87 /* DateOfBirthField.swift in Sources */,
 				C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */,
 				C6C3BE6C300A7CA300C5FC25 /* IconSize.swift in Sources */,
 				C6C3BE85300A7EBD00C5FC25 /* AppState.swift in Sources */,
+				B3544D16300EA349007EDB87 /* ServiceSelectionGrid.swift in Sources */,
 				C6C3BE86300A7EBD00C5FC25 /* AuthRouter.swift in Sources */,
 				C6C3BE87300A7EBD00C5FC25 /* AuthCoordinator.swift in Sources */,
+				B3544D24300EA39A007EDB87 /* ProfessionalInfoView.swift in Sources */,
 				C6C3BE88300A7EBD00C5FC25 /* AuthRoute.swift in Sources */,
+				B3CAF2BB300E9F38006A9F5F /* ApplicationStatus.swift in Sources */,
 				C6C3BE6D300A7CA300C5FC25 /* DIContainer.swift in Sources */,
 				C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */,
 				C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */,
 				C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */,
+				B3544D0C300EA30B007EDB87 /* ProfileSetupHeaderBar.swift in Sources */,
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* mapperfile.swift in Sources */,
 				C6C3BEC4300A7EEE00C5FC25 /* CustomInputView.swift in Sources */,
-				C6C3BEC5300A7EEE00C5FC25 /* PersonalInfoView.swift in Sources */,
 				C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */,
+				B3544D18300EA35A007EDB87 /* ReviewSectionCard.swift in Sources */,
 				C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */,
+				B3544D1A300EA367007EDB87 /* PersonalInfoViewModel.swift in Sources */,
 				C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */,
 				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
 				C6C3BECA300A7EEE00C5FC25 /* AuthRemoteDataSource.swift in Sources */,
 				C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */,
 				C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */,
 				C6C3BECD300A7EEE00C5FC25 /* ActionCard.swift in Sources */,
+				B3544D1E300EA379007EDB87 /* ProvidedServicesViewModel.swift in Sources */,
 				C6C3BECE300A7EEE00C5FC25 /* AuthViewModel.swift in Sources */,
+				B3544D20300EA383007EDB87 /* ReviewApplicationViewModel.swift in Sources */,
 				C6C3BECF300A7EEE00C5FC25 /* OTPDigitInputField.swift in Sources */,
 				C6C3BED0300A7EEE00C5FC25 /* VerifyOTPUseCase.swift in Sources */,
+				B3CAF268300E8EB2006A9F5F /* SecondaryChip.swift in Sources */,
+				B3544D1C300EA371007EDB87 /* ProfessionalInfoViewModel.swift in Sources */,
+				B3CAF269300E8EB2006A9F5F /* StepProgressHeader.swift in Sources */,
+				B3CAF26A300E8EB2006A9F5F /* CarelyTextFieldSize.swift in Sources */,
+				B3544D06300EA229007EDB87 /* ProvidedServices.swift in Sources */,
+				B3544D04300EA20C007EDB87 /* ProfessionalInfo.swift in Sources */,
+				B3544D22300EA38F007EDB87 /* PersonalInfoView.swift in Sources */,
+				B3CAF26B300E8EB2006A9F5F /* CustomTextAreaView.swift in Sources */,
+				B3CAF26C300E8EB2006A9F5F /* CarelyTextField.swift in Sources */,
+				B3544D02300EA1F3007EDB87 /* PersonalInfo.swift in Sources */,
+				B3CAF26D300E8EB2006A9F5F /* SecondaryButton.swift in Sources */,
+				B3CAF26E300E8EB2006A9F5F /* PrimaryChip.swift in Sources */,
+				B3CAF26F300E8EB2006A9F5F /* InfoBannerView.swift in Sources */,
+				B3CAF270300E8EB2006A9F5F /* PrimaryButton.swift in Sources */,
 				C6C3BED1300A7EEE00C5FC25 /* SecurityIndicator.swift in Sources */,
 				C6C3BED2300A7EEE00C5FC25 /* WelcomeView.swift in Sources */,
 				C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */,
+				B3CAF2B9300E964C006A9F5F /* ProfileSetupData.swift in Sources */,
 				C6C3BED4300A7EEE00C5FC25 /* OTPVerificationViewModel.swift in Sources */,
 				C6C3BED5300A7EEE00C5FC25 /* PhoneNumberField.swift in Sources */,
-				C6C3BED6300A7EEE00C5FC25 /* PersonalInfoFormCard.swift in Sources */,
 				C6C3BED7300A7EEE00C5FC25 /* OTPVerificationView.swift in Sources */,
-				C6C3BED8300A7EEE00C5FC25 /* ProfileSetupDecisionView.swift in Sources */,
 				C6C3BED9300A7EEE00C5FC25 /* OTPVerificationCardView.swift in Sources */,
+				B3544D26300EA3A2007EDB87 /* ProvidedServicesView.swift in Sources */,
 				C6C3BEDA300A7EEE00C5FC25 /* AuthError.swift in Sources */,
-				C6C3BEDB300A7EEE00C5FC25 /* ProfileSetupDecisionViewModel.swift in Sources */,
 				C6C3BEDC300A7EEE00C5FC25 /* AuthDto.swift in Sources */,
-				C6C3BEDD300A7EEE00C5FC25 /* PrimaryButton.swift in Sources */,
 				C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */,
 				C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */,
+				B3CAF29A300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift in Sources */,
+				B3CAF2A8300E9469006A9F5F /* ProfileSetupCoordinatorView.swift in Sources */,
+				B3544D09300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
+				B3CAF2AF300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift in Sources */,
+				B3CAF2B3300E9469006A9F5F /* ProfileSetupStep.swift in Sources */,
+				B3CAF2B6300E9469006A9F5F /* ProfileSetupCoordinator.swift in Sources */,
 				C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */,
 				C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */,
 				C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */,
-				C6C3BEE3300A7EEE00C5FC25 /* BasicUserInfo.swift in Sources */,
-				C6C3BEE4300A7EEE00C5FC25 /* PersonalInfoViewModel.swift in Sources */,
-				C6C3BEE5300A7EEE00C5FC25 /* SavePersonalInfoUseCase.swift in Sources */,
+				B3CAF25C300E8D7B006A9F5F /* CarelyButtonStyle.swift in Sources */,
 				C6C3BEE6300A7EEE00C5FC25 /* PhoneNumberViewModel.swift in Sources */,
 				C6C3BEE7300A7EEE00C5FC25 /* SkipForNowButton.swift in Sources */,
 				C6C3BE70300A7CA300C5FC25 /* Typography.swift in Sources */,
 				C6C3BE71300A7CA300C5FC25 /* Motion.swift in Sources */,
 				0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */,
 				0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */,
+				B3544D0E300EA325007EDB87 /* ProfileContinueFooter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

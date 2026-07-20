@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct ProfileSetupRepositoryProtocol {
-    
+protocol ProfileSetupRepositoryProtocol {
+    func submitApplication(_ data: ProfileSetupData) async throws
 }

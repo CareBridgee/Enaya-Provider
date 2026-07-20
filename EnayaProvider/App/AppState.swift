@@ -6,37 +6,56 @@
 //
 
 import SwiftUI
+import Foundation
 
-enum Phase {
+enum AppFlow: Equatable {
     case auth
+    case profileSetup
+    case underReview
+    case rejected
     case home
 }
 
 final class AppState: ObservableObject {
 
-    @Published private(set) var isSignedIn: Bool {
-        didSet {
-            UserDefaults.standard.set(isSignedIn, forKey: Self.signedInKey)
+    @Published private(set) var flow: AppFlow
+
+    private static let signedInKey = "isSignedIn"
+    private static let applicationStatusKey = "applicationStatus"
+
+    init() {
+        let isSignedIn = UserDefaults.standard.bool(forKey: Self.signedInKey)
+        if isSignedIn,
+           let rawStatus = UserDefaults.standard.string(forKey: Self.applicationStatusKey),
+           let status = ApplicationStatus(rawValue: rawStatus) {
+            self.flow = Self.flow(for: status)
+        } else {
+            self.flow = .auth
         }
     }
 
-    var phase: Phase {
-        isSignedIn ? .home : .auth
-    }
-
-    private static let signedInKey = "isSignedIn"
-
-    init() {
-        self.isSignedIn = UserDefaults.standard.bool(forKey: Self.signedInKey)
-    }
-
-    func signIn() {
-        isSignedIn = true
-        print("logged in")
+    func completeAuth(with status: ApplicationStatus) {
+        UserDefaults.standard.set(true, forKey: Self.signedInKey)
+        UserDefaults.standard.set(status.rawValue, forKey: Self.applicationStatusKey)
+        flow = Self.flow(for: status)
     }
 
     func signOut() {
-        isSignedIn = false
-        print("logged out")
+        UserDefaults.standard.set(false, forKey: Self.signedInKey)
+        UserDefaults.standard.removeObject(forKey: Self.applicationStatusKey)
+        flow = .auth
+    }
+
+    func startHomeFlow() {
+            flow = .home
+        }
+
+    private static func flow(for status: ApplicationStatus) -> AppFlow {
+        switch status {
+        case .incomplete: return .profileSetup
+        case .underReview: return .underReview
+        case .approved: return .home
+        case .rejected: return .rejected
+        }
     }
 }

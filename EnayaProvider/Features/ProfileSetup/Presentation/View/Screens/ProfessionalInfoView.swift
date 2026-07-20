@@ -1,3 +1,11 @@
+//
+//  ProfessionalInfoView.swift
+//  EnayaProvider
+//
+//  Created by Mahmoud Raafat Mustafa on 20/07/2026.
+//
+
+
 import SwiftUI
 
 struct ProfessionalInfoView: View {
@@ -7,7 +15,12 @@ struct ProfessionalInfoView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: Spacing.s16) {
                 DocumentUploadCard(
-                    title: "National ID",
+                    title: "National Front ID",
+                    subtitle: "Upload a clear scan of your Government issued Identity Card or Passport.",
+                    document: $viewModel.nationalIdDocument
+                )
+                DocumentUploadCard(
+                    title: "National Back ID",
                     subtitle: "Upload a clear scan of your Government issued Identity Card or Passport.",
                     document: $viewModel.nationalIdDocument
                 )

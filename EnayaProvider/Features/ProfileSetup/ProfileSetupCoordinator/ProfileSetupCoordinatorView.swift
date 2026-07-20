@@ -7,60 +7,43 @@
 
 import SwiftUI
 
-
 struct ProfileSetupCoordinatorView: View {
 
-    // MARK: - Coordinator
-
     @StateObject private var coordinator: ProfileSetupCoordinator
-    
+
+    private let container: DIContainer
     private let onFinish: () -> Void
 
-    // MARK: - Init
-
-    init(coordinator: ProfileSetupCoordinator, onFinish: @escaping () -> Void) {
+    init(container: DIContainer, coordinator: ProfileSetupCoordinator, onFinish: @escaping () -> Void) {
+        self.container = container
         self.onFinish = onFinish
         _coordinator = StateObject(wrappedValue: coordinator)
     }
 
-    // MARK: - Body
-
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(spacing: Spacing.s16) {
+
+            ProfileSetupHeaderBar(showBack: !coordinator.isFirstStep, onBack: coordinator.previous)
 
             StepProgressHeader(
                 currentStep: coordinator.currentStepIndex,
                 totalSteps: ProfileSetupStep.allCases.count,
                 stepTitle: coordinator.currentStep.stepTitle
             )
-            .padding(.top, Spacing.s16)
             .padding(.horizontal, Spacing.s16)
 
             Group {
                 switch coordinator.currentStep {
-                case .basicHealthInfo:
-                    BasicHealthInfoView()
-
-                case .existingConditions:
-                    ExistingConditionsView()
-
-                case .allergies:
-                    AllergiesView()
-
-                case .currentMedication:
-                    CurrentMedicationView()
-
-                case .medicalHistory:
-                    MedicalHistoryView()
-
-                case .mobility:
-                    MobilityView()
-
-                case .emergencyContact:
-                    EmergencyContactView()
-
-                case .homeAddress:
-                    HomeAddressView()
+                case .personalInfo:
+                    PersonalInfoView(viewModel: container.makePersonalInfoViewModel(coordinator: coordinator))
+                case .professionalInfo:
+                    ProfessionalInfoView(viewModel: container.makeProfessionalInfoViewModel(coordinator: coordinator))
+                case .providedServices:
+                    ProvidedServicesView(viewModel: container.makeProvidedServicesViewModel(coordinator: coordinator))
+                case .review:
+                    ReviewApplicationView(
+                        viewModel: container.makeReviewApplicationViewModel(coordinator: coordinator, onSubmitted: onFinish)
+                    )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
@@ -72,15 +55,8 @@ struct ProfileSetupCoordinatorView: View {
             )
             .animation(.spring(response: 0.4, dampingFraction: 0.85), value: coordinator.currentStep)
         }
+        .padding(.top, Spacing.s16)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(Color.backGround.ignoresSafeArea())
-    }
-
-    // MARK: - Helpers
-
-    private func handleBack() {
-        withAnimation(.spring(response: 0.4, dampingFraction: 0.85)) {
-            coordinator.previous()
-        }
     }
 }
