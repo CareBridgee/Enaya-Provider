@@ -1,7 +1,14 @@
+//
+//  StatusHeroBadge.swift
+//  EnayaProvider
+//
+//  Created by Mahmoud Raafat Mustafa on 20/07/2026.
+//
+
+
 import SwiftUI
 
 struct StatusHeroBadge: View {
-    // Illustration-scale sizing; no token in Spacing covers this range.
     private let outerRingSize: CGFloat = 160
     private let circleSize: CGFloat = 120
     private let accessorySize: CGFloat = 40
