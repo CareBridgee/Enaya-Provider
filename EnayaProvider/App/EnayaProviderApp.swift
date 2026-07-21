@@ -19,30 +19,43 @@ struct EnayaProviderApp: App {
     }
 
     var body: some Scene {
-        WindowGroup {
-            switch appState.flow {
+            WindowGroup {
+                switch appState.flow {
 
-            case .auth:
-                AuthCoordinator(container: diContainer, appState: appState)
+                case .auth:
+                    AuthCoordinator(container: diContainer, appState: appState)
 
-            case .profileSetup:
-                          ProfileSetupCoordinatorView(
-                              container: diContainer,
-                              coordinator: diContainer.makeProfileSetupCoordinator(),
-                              onFinish: { appState.completeAuth(with: .underReview) }
-                          )
+                case .profileSetup:
+                    ProfileSetupCoordinatorView(
+                        container: diContainer,
+                        coordinator: diContainer.makeProfileSetupCoordinator(),
+                        onFinish: { appState.completeAuth(with: .underReview) }
+                    )
 
-            case .underReview:
-                // TODO: Phase 5 — replace with real Application Under Review screen.
-                Text("Application Under Review")
+                case .underReview:
+                    UnderReviewView(
+                        viewModel: diContainer.makeUnderReviewViewModel(
+                            onBackToLogin: { appState.signOut() }
+                        )
+                    )
 
-            case .rejected:
-                // TODO: Phase 5 — replace with real Document Rejected screen.
-                Text("Document Rejected")
+                case .accountVerified:
+                    AccountVerifiedView(
+                        viewModel: diContainer.makeAccountVerifiedViewModel(
+                            onStartJourney: { appState.startHomeFlow() }
+                        )
+                    )
 
-            case .home:
-                ContentView()
+                case .rejected:
+                    DocumentRejectedView(
+                        viewModel: diContainer.makeDocumentRejectedViewModel(
+                            onUploadAgain: { appState.startProfileSetup() }
+                        )
+                    )
+
+                case .home:
+                    ContentView()
+                }
             }
         }
-    }
 }

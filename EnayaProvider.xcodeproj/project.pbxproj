@@ -32,6 +32,16 @@
 		B3544D24300EA39A007EDB87 /* ProfessionalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D23300EA39A007EDB87 /* ProfessionalInfoView.swift */; };
 		B3544D26300EA3A2007EDB87 /* ProvidedServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D25300EA3A2007EDB87 /* ProvidedServicesView.swift */; };
 		B3544D28300EA3AA007EDB87 /* ReviewApplicationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D27300EA3AA007EDB87 /* ReviewApplicationView.swift */; };
+		B3544D31300EACDE007EDB87 /* RejectionTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D30300EACDE007EDB87 /* RejectionTip.swift */; };
+		B3544D33300EAD02007EDB87 /* ApplicationStatusHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D32300EAD02007EDB87 /* ApplicationStatusHeader.swift */; };
+		B3544D35300EAD1B007EDB87 /* StatusHeroBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D34300EAD1B007EDB87 /* StatusHeroBadge.swift */; };
+		B3544D37300EAD2F007EDB87 /* ChecklistItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D36300EAD2F007EDB87 /* ChecklistItemState.swift */; };
+		B3544D39300EAD56007EDB87 /* UnderReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D38300EAD56007EDB87 /* UnderReviewViewModel.swift */; };
+		B3544D3B300EAD66007EDB87 /* DocumentRejectedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D3A300EAD66007EDB87 /* DocumentRejectedViewModel.swift */; };
+		B3544D3D300EADE2007EDB87 /* AccountVerifiedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D3C300EADE2007EDB87 /* AccountVerifiedViewModel.swift */; };
+		B3544D3F300EAE03007EDB87 /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */; };
+		B3544D41300EAE0D007EDB87 /* AccountVerifiedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */; };
+		B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */; };
 		B3CAF25C300E8D7B006A9F5F /* CarelyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF25B300E8D7B006A9F5F /* CarelyButtonStyle.swift */; };
 		B3CAF25E300E8DEA006A9F5F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3CAF25D300E8DEA006A9F5F /* Colors.xcassets */; };
 		B3CAF268300E8EB2006A9F5F /* SecondaryChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CAF266300E8EB2006A9F5F /* SecondaryChip.swift */; };
@@ -155,6 +165,16 @@
 		B3544D23300EA39A007EDB87 /* ProfessionalInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfessionalInfoView.swift; sourceTree = "<group>"; };
 		B3544D25300EA3A2007EDB87 /* ProvidedServicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvidedServicesView.swift; sourceTree = "<group>"; };
 		B3544D27300EA3AA007EDB87 /* ReviewApplicationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewApplicationView.swift; sourceTree = "<group>"; };
+		B3544D30300EACDE007EDB87 /* RejectionTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectionTip.swift; sourceTree = "<group>"; };
+		B3544D32300EAD02007EDB87 /* ApplicationStatusHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationStatusHeader.swift; sourceTree = "<group>"; };
+		B3544D34300EAD1B007EDB87 /* StatusHeroBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusHeroBadge.swift; sourceTree = "<group>"; };
+		B3544D36300EAD2F007EDB87 /* ChecklistItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistItemState.swift; sourceTree = "<group>"; };
+		B3544D38300EAD56007EDB87 /* UnderReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewViewModel.swift; sourceTree = "<group>"; };
+		B3544D3A300EAD66007EDB87 /* DocumentRejectedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRejectedViewModel.swift; sourceTree = "<group>"; };
+		B3544D3C300EADE2007EDB87 /* AccountVerifiedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerifiedViewModel.swift; sourceTree = "<group>"; };
+		B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
+		B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerifiedView.swift; sourceTree = "<group>"; };
+		B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRejectedView.swift; sourceTree = "<group>"; };
 		B3CAF25B300E8D7B006A9F5F /* CarelyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarelyButtonStyle.swift; sourceTree = "<group>"; };
 		B3CAF25D300E8DEA006A9F5F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		B3CAF25F300E8EB2006A9F5F /* CarelyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarelyTextField.swift; sourceTree = "<group>"; };
@@ -359,6 +379,7 @@
 		B3544D2B300EA582007EDB87 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				B3544D2F300EACCD007EDB87 /* Entities */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -366,6 +387,15 @@
 		B3544D2C300EA594007EDB87 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */,
+				B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */,
+				B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */,
+				B3544D3C300EADE2007EDB87 /* AccountVerifiedViewModel.swift */,
+				B3544D3A300EAD66007EDB87 /* DocumentRejectedViewModel.swift */,
+				B3544D38300EAD56007EDB87 /* UnderReviewViewModel.swift */,
+				B3544D36300EAD2F007EDB87 /* ChecklistItemState.swift */,
+				B3544D34300EAD1B007EDB87 /* StatusHeroBadge.swift */,
+				B3544D32300EAD02007EDB87 /* ApplicationStatusHeader.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -382,6 +412,14 @@
 			children = (
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B3544D2F300EACCD007EDB87 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B3544D30300EACDE007EDB87 /* RejectionTip.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		B3CAF272300E9469006A9F5F /* Repositories */ = {
@@ -953,16 +991,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3544D14300EA33F007EDB87 /* DocumentUploadCard.swift in Sources */,
+				B3544D3B300EAD66007EDB87 /* DocumentRejectedViewModel.swift in Sources */,
+				B3544D33300EAD02007EDB87 /* ApplicationStatusHeader.swift in Sources */,
 				C6C3BE67300A7CA300C5FC25 /* Colors.swift in Sources */,
+				B3544D41300EAE0D007EDB87 /* AccountVerifiedView.swift in Sources */,
 				C6C3BE68300A7CA300C5FC25 /* Radius.swift in Sources */,
 				C6C3BE69300A7CA300C5FC25 /* Shadow.swift in Sources */,
+				B3544D3D300EADE2007EDB87 /* AccountVerifiedViewModel.swift in Sources */,
 				B3544D10300EA32E007EDB87 /* SelectionField.swift in Sources */,
 				C6C3BE6A300A7CA300C5FC25 /* ApiClient.swift in Sources */,
 				B3544D28300EA3AA007EDB87 /* ReviewApplicationView.swift in Sources */,
 				B3544D12300EA336007EDB87 /* DateOfBirthField.swift in Sources */,
+				B3544D35300EAD1B007EDB87 /* StatusHeroBadge.swift in Sources */,
 				C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */,
 				C6C3BE6C300A7CA300C5FC25 /* IconSize.swift in Sources */,
 				C6C3BE85300A7EBD00C5FC25 /* AppState.swift in Sources */,
+				B3544D3F300EAE03007EDB87 /* UnderReviewView.swift in Sources */,
 				B3544D16300EA349007EDB87 /* ServiceSelectionGrid.swift in Sources */,
 				C6C3BE86300A7EBD00C5FC25 /* AuthRouter.swift in Sources */,
 				C6C3BE87300A7EBD00C5FC25 /* AuthCoordinator.swift in Sources */,
@@ -970,6 +1014,7 @@
 				C6C3BE88300A7EBD00C5FC25 /* AuthRoute.swift in Sources */,
 				B3CAF2BB300E9F38006A9F5F /* ApplicationStatus.swift in Sources */,
 				C6C3BE6D300A7CA300C5FC25 /* DIContainer.swift in Sources */,
+				B3544D39300EAD56007EDB87 /* UnderReviewViewModel.swift in Sources */,
 				C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */,
 				C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */,
 				C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */,
@@ -977,6 +1022,7 @@
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* mapperfile.swift in Sources */,
 				C6C3BEC4300A7EEE00C5FC25 /* CustomInputView.swift in Sources */,
+				B3544D31300EACDE007EDB87 /* RejectionTip.swift in Sources */,
 				C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */,
 				B3544D18300EA35A007EDB87 /* ReviewSectionCard.swift in Sources */,
 				C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */,
@@ -1010,6 +1056,7 @@
 				C6C3BED2300A7EEE00C5FC25 /* WelcomeView.swift in Sources */,
 				C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */,
 				B3CAF2B9300E964C006A9F5F /* ProfileSetupData.swift in Sources */,
+				B3544D37300EAD2F007EDB87 /* ChecklistItemState.swift in Sources */,
 				C6C3BED4300A7EEE00C5FC25 /* OTPVerificationViewModel.swift in Sources */,
 				C6C3BED5300A7EEE00C5FC25 /* PhoneNumberField.swift in Sources */,
 				C6C3BED7300A7EEE00C5FC25 /* OTPVerificationView.swift in Sources */,
@@ -1020,6 +1067,7 @@
 				C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */,
 				C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */,
 				B3CAF29A300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift in Sources */,
+				B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */,
 				B3CAF2A8300E9469006A9F5F /* ProfileSetupCoordinatorView.swift in Sources */,
 				B3544D09300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
 				B3CAF2AF300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift in Sources */,

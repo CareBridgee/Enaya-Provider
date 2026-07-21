@@ -4,7 +4,6 @@
 //
 //  Created by Mohamed Ayman on 16/07/2026.
 //
-
 import SwiftUI
 import Foundation
 
@@ -12,6 +11,7 @@ enum AppFlow: Equatable {
     case auth
     case profileSetup
     case underReview
+    case accountVerified
     case rejected
     case home
 }
@@ -28,7 +28,8 @@ final class AppState: ObservableObject {
         if isSignedIn,
            let rawStatus = UserDefaults.standard.string(forKey: Self.applicationStatusKey),
            let status = ApplicationStatus(rawValue: rawStatus) {
-            self.flow = Self.flow(for: status)
+            // Already-approved nurses skip the one-time celebration screen on relaunch.
+            self.flow = status == .approved ? .home : Self.flow(for: status)
         } else {
             self.flow = .auth
         }
@@ -47,14 +48,18 @@ final class AppState: ObservableObject {
     }
 
     func startHomeFlow() {
-            flow = .home
-        }
+        flow = .home
+    }
+
+    func startProfileSetup() {
+        flow = .profileSetup
+    }
 
     private static func flow(for status: ApplicationStatus) -> AppFlow {
         switch status {
         case .incomplete: return .profileSetup
         case .underReview: return .underReview
-        case .approved: return .home
+        case .approved: return .accountVerified
         case .rejected: return .rejected
         }
     }

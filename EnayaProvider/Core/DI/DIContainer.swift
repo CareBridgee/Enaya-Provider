@@ -74,4 +74,29 @@ final class DIContainer {
                 onSubmitted: onSubmitted
             )
         }
+    func makeUnderReviewViewModel(
+            onContactSupport: @escaping () -> Void = {},
+            onBackToLogin: @escaping () -> Void
+        ) -> UnderReviewViewModel {
+            UnderReviewViewModel(onContactSupport: onContactSupport, onBackToLogin: onBackToLogin)
+        }
+
+        func makeAccountVerifiedViewModel(onStartJourney: @escaping () -> Void) -> AccountVerifiedViewModel {
+            AccountVerifiedViewModel(onStartJourney: onStartJourney)
+        }
+
+        func makeDocumentRejectedViewModel(onUploadAgain: @escaping () -> Void) -> DocumentRejectedViewModel {
+            DocumentRejectedViewModel(
+                rejection: DocumentRejection(
+                    documentName: "Nursing License",
+                    reason: "the photo was blurry",
+                    tips: [
+                        RejectionTip(icon: "sun.max.fill", title: "Ensure Good Lighting", detail: "Capture your document in a well-lit area without glare or shadows."),
+                        RejectionTip(icon: "camera.viewfinder", title: "Stay in Focus", detail: "Hold your phone steady and make sure all text is sharp and legible."),
+                        RejectionTip(icon: "crop", title: "Visible Edges", detail: "Place the document on a flat surface and show all four corners of the card.")
+                    ]
+                ),
+                onUploadAgain: onUploadAgain
+            )
+        }
 }
