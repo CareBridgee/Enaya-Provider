@@ -9,7 +9,5 @@ import Foundation
 
 enum AuthRoute: Hashable {
     case PhoneNumber
-    case OTPVerification(phoneNumber:String) // Failure , Success + check if it was a new user
-    case PersonalInfo
-    case ProfileSetupDecision
+      case OTPVerification(phoneNumber: String)
 }
