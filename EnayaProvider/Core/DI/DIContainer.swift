@@ -76,9 +76,10 @@ final class DIContainer {
         }
     func makeUnderReviewViewModel(
             onContactSupport: @escaping () -> Void = {},
+            onApproved: @escaping () -> Void,
             onBackToLogin: @escaping () -> Void
         ) -> UnderReviewViewModel {
-            UnderReviewViewModel(onContactSupport: onContactSupport, onBackToLogin: onBackToLogin)
+            UnderReviewViewModel(onContactSupport: onContactSupport, onApproved: onApproved, onBackToLogin: onBackToLogin)
         }
 
         func makeAccountVerifiedViewModel(onStartJourney: @escaping () -> Void) -> AccountVerifiedViewModel {
@@ -97,6 +98,46 @@ final class DIContainer {
                     ]
                 ),
                 onUploadAgain: onUploadAgain
+            )
+        }
+    // MARK: - Home
+
+        private lazy var homeRepository: HomeRepositoryProtocol = HomeRepositoryImpl()
+
+        private func makeFetchHomeSummaryUseCase() -> FetchHomeSummaryUseCaseProtocol {
+            FetchHomeSummaryUseCase(repository: homeRepository)
+        }
+
+        private func makeFetchAvailabilityUseCase() -> FetchAvailabilityUseCaseProtocol {
+            FetchAvailabilityUseCase(repository: homeRepository)
+        }
+
+        private func makeSetAvailabilityUseCase() -> SetAvailabilityUseCaseProtocol {
+            SetAvailabilityUseCase(repository: homeRepository)
+        }
+
+        private func makeFetchActiveJobRequestUseCase() -> FetchActiveJobRequestUseCaseProtocol {
+            FetchActiveJobRequestUseCase(repository: homeRepository)
+        }
+
+        private func makeConfirmJobRequestUseCase() -> ConfirmJobRequestUseCaseProtocol {
+            ConfirmJobRequestUseCase(repository: homeRepository)
+        }
+
+        private func makeCancelJobRequestUseCase() -> CancelJobRequestUseCaseProtocol {
+            CancelJobRequestUseCase(repository: homeRepository)
+        }
+    private func makeObserveJobRequestsUseCase() -> ObserveJobRequestsUseCaseProtocol {
+            ObserveJobRequestsUseCase(repository: homeRepository)
+        }
+    func makeHomeViewModel() -> HomeViewModel {
+            HomeViewModel(
+                fetchSummaryUseCase: makeFetchHomeSummaryUseCase(),
+                fetchAvailabilityUseCase: makeFetchAvailabilityUseCase(),
+                setAvailabilityUseCase: makeSetAvailabilityUseCase(),
+                observeJobRequestsUseCase: makeObserveJobRequestsUseCase(), 
+                confirmJobRequestUseCase: makeConfirmJobRequestUseCase(),
+                cancelJobRequestUseCase: makeCancelJobRequestUseCase()
             )
         }
 }

@@ -22,7 +22,7 @@ struct DocumentUploadCard: View {
                 ZStack {
                     Circle()
                         .fill(Color.mintSurface)
-                        .frame(width: Spacing.s40, height: Spacing.s40)
+                        .frame(width: Spacing.s32, height: Spacing.s32)
                     Image(systemName: "doc.text.fill")
                         .foregroundColor(.brandPrimary)
                 }

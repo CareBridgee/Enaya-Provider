@@ -1,0 +1,63 @@
+//
+//  ProviderTabBar.swift
+//  EnayaProvider
+//
+//  Created by Mahmoud Raafat Mustafa on 22/07/2026.
+//
+
+
+import SwiftUI
+
+struct ProviderTabBar: View {
+
+    @Binding var selectedTab: AppTab
+
+    private let hapticGenerator = UIImpactFeedbackGenerator(style: .light)
+
+    var body: some View {
+        HStack(spacing: Spacing.s0) {
+            ForEach(AppTab.allCases, id: \.self) { tab in
+                tabButton(for: tab)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .padding(.horizontal, Spacing.s8)
+        .padding(.top, Spacing.s12)
+        .background(Color.surface.ignoresSafeArea(edges: .bottom))
+        .shadow(color: .black.opacity(0.06), radius: Radius.r12, y: -4)
+    }
+
+    @ViewBuilder
+    private func tabButton(for tab: AppTab) -> some View {
+        let isSelected = selectedTab == tab
+
+        Button {
+            select(tab)
+        } label: {
+            VStack(spacing: Spacing.s4) {
+                Image(systemName: tab.iconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: IconSize.s20, height: IconSize.s20)
+                    .foregroundColor(isSelected ? .onPrimary : .hint)
+                    .padding(Spacing.s8)
+                    .background(isSelected ? Color.brandPrimary : Color.clear)
+                    .clipShape(RoundedRectangle.trueFit(Radius.r12))
+
+                Text(tab.title)
+                    .carelyText(style: .caption, weight: isSelected ? .semiBold : .regular)
+                    .foregroundColor(isSelected ? .brandPrimary : .hint)
+            }
+            .padding(.bottom, Spacing.s8)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    private func select(_ tab: AppTab) {
+        guard tab != selectedTab else { return }
+        hapticGenerator.impactOccurred()
+        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+            selectedTab = tab
+        }
+    }
+}

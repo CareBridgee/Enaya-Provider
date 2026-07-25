@@ -11,7 +11,9 @@ import Foundation
 @MainActor
 final class ProfessionalInfoViewModel: ObservableObject {
 
-    @Published var nationalIdDocument: UploadedDocument?
+    @Published var nationalIdForntDocument: UploadedDocument?
+    @Published var nationalIdBackDocument: UploadedDocument?
+
     @Published var nursingLicenseDocument: UploadedDocument?
     @Published var professionalCertificateDocument: UploadedDocument?
     @Published var yearsOfExperience: ExperienceRange?
@@ -23,7 +25,7 @@ final class ProfessionalInfoViewModel: ObservableObject {
     init(coordinator: ProfileSetupCoordinator) {
         self.coordinator = coordinator
         let info = coordinator.data.professionalInfo
-        self.nationalIdDocument = info.nationalIdDocument
+        self.nationalIdForntDocument = info.nationalIdDocument
         self.nursingLicenseDocument = info.nursingLicenseDocument
         self.professionalCertificateDocument = info.professionalCertificateDocument
         self.yearsOfExperience = info.yearsOfExperience
@@ -31,7 +33,7 @@ final class ProfessionalInfoViewModel: ObservableObject {
     }
 
     var isValid: Bool {
-        nationalIdDocument != nil && nursingLicenseDocument != nil &&
+        nationalIdForntDocument != nil && nursingLicenseDocument != nil &&
         yearsOfExperience != nil && primarySpecialty != nil
     }
 
@@ -53,7 +55,7 @@ final class ProfessionalInfoViewModel: ObservableObject {
     private func persist() {
         coordinator.save(
             professionalInfo: ProfessionalInfo(
-                nationalIdDocument: nationalIdDocument,
+                nationalIdDocument: nationalIdForntDocument,
                 nursingLicenseDocument: nursingLicenseDocument,
                 professionalCertificateDocument: professionalCertificateDocument,
                 yearsOfExperience: yearsOfExperience,

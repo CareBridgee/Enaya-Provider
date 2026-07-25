@@ -17,12 +17,12 @@ struct ProfessionalInfoView: View {
                 DocumentUploadCard(
                     title: "National Front ID",
                     subtitle: "Upload a clear scan of your Government issued Identity Card or Passport.",
-                    document: $viewModel.nationalIdDocument
+                    document: $viewModel.nationalIdForntDocument
                 )
                 DocumentUploadCard(
                     title: "National Back ID",
                     subtitle: "Upload a clear scan of your Government issued Identity Card or Passport.",
-                    document: $viewModel.nationalIdDocument
+                    document: $viewModel.nationalIdBackDocument
                 )
 
                 DocumentUploadCard(
