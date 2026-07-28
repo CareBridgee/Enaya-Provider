@@ -14,61 +14,155 @@ struct PersonalInfoView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: Spacing.s20) {
-                Text("Personal Information")
-                    .carelyText(style: .heading3, weight: .semiBold)
-                    .foregroundColor(.primaryFont)
+            
+            VStack(spacing: 0) {
+                VStack(spacing: Spacing.s20) {
+                    
+                    VStack(alignment: .leading, spacing: Spacing.s8) {
+                        Text("Personal Information")
+                            .carelyText(style: .heading3, weight: .bold)
+                            .foregroundColor(.primaryFont)
+
+                        Text("Let's start with the basics. Please provide your legal details for verification.")
+                            .carelyText(style: .bodyRegular)
+                            .foregroundColor(.secondaryFont)
+                            .lineSpacing(4)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, Spacing.s24)
 
-                photoPicker
+                    photoPicker
 
-                CarelyTextField(label: "First Name", isRequired: true, placeholder: "e.g. Sarah", text: $viewModel.firstName)
-                CarelyTextField(label: "Last Name", isRequired: true, placeholder: "e.g. Jenkins", text: $viewModel.lastName)
+                    CarelyTextField(
+                        label: "First Name",
+                        isRequired: false,
+                        placeholder: "e.g. Sarah",
+                        text: $viewModel.firstName
+                    )
 
-                DateOfBirthField(date: $viewModel.dateOfBirth)
+                    CarelyTextField(
+                        label: "Last Name",
+                        isRequired: false,
+                        placeholder: "e.g. Jenkins",
+                        text: $viewModel.lastName
+                    )
 
-                CarelyTextField(label: "National ID", isRequired: true, placeholder: "0000000000000", text: $viewModel.nationalId, keyboardType: .numberPad)
+                    DateOfBirthField(date: $viewModel.dateOfBirth)
 
-                SelectionField(
-                    label: "Gender Identity",
-                    placeholder: "Select Gender",
-                    options: Gender.allCases,
-                    optionTitle: { $0.rawValue },
-                    selection: $viewModel.gender
-                )
+                    CarelyTextField(
+                        label: "National ID",
+                        isRequired: false,
+                        placeholder: "0000000000000",
+                        text: $viewModel.nationalId,
+                        keyboardType: .numberPad
+                    )
 
-                if let errorMessage = viewModel.errorMessage {
-                    AlertBanner(style: .error, message: errorMessage)
+                    SelectionField(
+                        label: "Gender Identity",
+                        placeholder: "Select Gender",
+                        leadingIcon: "person",
+                        options: Gender.allCases,
+                        optionTitle: { $0.rawValue },
+                        selection: $viewModel.gender
+                    )
+
+                    if let errorMessage = viewModel.errorMessage {
+                        AlertBanner(style: .error, message: errorMessage)
+                    }
+                    
+                    VStack(spacing: Spacing.s16) {
+                        PrimaryButton(
+                            title: "Continue to Step 2",
+                            icon: "arrow.right",
+                            iconPosition: .trailing,
+                            isFullWidth: true,
+                            action: viewModel.continueTapped
+                        )
+
+                        Text("Step 1 of 3: Personal Information")
+                            .carelyText(style: .caption)
+                            .foregroundColor(.secondaryFont)
+                    }
+                    .padding(.top, Spacing.s8)
+                    .padding(.bottom, Spacing.s24)
                 }
+                .padding(.horizontal, Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle(cornerRadius: 24))
+                .padding(.horizontal, Spacing.s16)
+                .padding(.top, Spacing.s16)
+                hipaaBanner
+                    .padding(.horizontal, Spacing.s16)
+                    .padding(.top, Spacing.s16)
+                    .padding(.bottom, Spacing.s32)
             }
-            .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s16)
-        }
-        .safeAreaInset(edge: .bottom) {
-            ProfileContinueFooter(title: "Continue to Step 2", onContinue: viewModel.continueTapped)
         }
         .background(Color.backGround.ignoresSafeArea())
     }
 
-    private var photoPicker: some View {
-        PhotosPicker(selection: $viewModel.photoSelection, matching: .images) {
-            ZStack {
-                Circle()
-                    .fill(Color.surfaceVariant)
-                    .frame(width: Spacing.s64 + Spacing.s16, height: Spacing.s64 + Spacing.s16)
+    // MARK: - Subviews
 
-                if let data = viewModel.profilePhotoData, let uiImage = UIImage(data: data) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: Spacing.s64 + Spacing.s16, height: Spacing.s64 + Spacing.s16)
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "camera.fill")
-                        .foregroundColor(.hint)
+    private var photoPicker: some View {
+            let currentPhotoData = viewModel.profilePhotoData
+            
+            return VStack(spacing: Spacing.s12) {
+                PhotosPicker(selection: $viewModel.photoSelection, matching: .images) {
+                    ZStack(alignment: .bottomTrailing) {
+                        ZStack {
+                            Circle()
+                                .fill(Color.surfaceVariant)
+                                .frame(width: 96, height: 96)
+
+                            if let data = currentPhotoData, let uiImage = UIImage(data: data) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 96, height: 96)
+                                    .clipShape(Circle())
+                            } else {
+                                Image(systemName: "camera")
+                                    .font(.system(size: 28))
+                                    .foregroundColor(.hint)
+                            }
+                        }
+                        .overlay(
+                            Circle()
+                                .strokeBorder(Color.brandPrimary.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                        )
+
+                        Circle()
+                            .fill(Color.brandPrimary)
+                            .frame(width: 28, height: 28)
+                            .overlay(
+                                Image(systemName: "pencil")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                            .offset(x: -4, y: -4)
+                    }
                 }
+
+                Text("Upload Profile Photo")
+                    .carelyText(style: .bodySmall, weight: .bold)
+                    .foregroundColor(.brandPrimary)
             }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, Spacing.s4)
         }
+
+        private var hipaaBanner: some View {
+            HStack(spacing: Spacing.s12) {
+                Image(systemName: "checkmark.shield.fill")
+                .foregroundColor(.brandPrimary)
+                .font(.system(size: IconSize.s16))
+
+            Text("Encrypted & HIPAA Compliant Data\nStorage")
+                .carelyText(style: .caption, weight: .medium)
+                .foregroundColor(.secondaryFont)
+        }
+        .padding(Spacing.s12)
+        .background(Color.surfaceVariant)
+        .clipShape(RoundedRectangle.carely(Radius.r12))
     }
 }

@@ -1,3 +1,11 @@
+//
+//  ReviewInfoRow.swift
+//  EnayaProvider
+//
+//  Created by Mahmoud Raafat Mustafa on 26/07/2026.
+//
+
+
 import SwiftUI
 
 struct ReviewInfoRow: View {

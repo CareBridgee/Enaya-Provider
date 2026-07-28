@@ -21,16 +21,18 @@ struct ProfileSetupCoordinatorView: View {
     }
 
     var body: some View {
-        VStack(spacing: Spacing.s16) {
+        VStack(spacing: Spacing.s12) {
 
-            ProfileSetupHeaderBar(showBack: !coordinator.isFirstStep, onBack: coordinator.previous)
+            if coordinator.currentStep != .review {
+                ProfileSetupHeaderBar(showBack: !coordinator.isFirstStep, onBack: coordinator.previous)
 
-            StepProgressHeader(
-                currentStep: coordinator.currentStepIndex,
-                totalSteps: ProfileSetupStep.allCases.count,
-                stepTitle: coordinator.currentStep.stepTitle
-            )
-            .padding(.horizontal, Spacing.s16)
+                StepProgressHeader(
+                    currentStep: coordinator.currentStepIndex,
+                    totalSteps: 3, 
+                    stepTitle: coordinator.currentStep.stepTitle
+                )
+                .padding(.horizontal, Spacing.s16)
+            }
 
             Group {
                 switch coordinator.currentStep {

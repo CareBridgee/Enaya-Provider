@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 20/07/2026.
 //
 
-
 import SwiftUI
 
 struct ProvidedServicesView: View {
@@ -13,14 +12,19 @@ struct ProvidedServicesView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading, spacing: Spacing.s16) {
-                Text("Services You Provide")
-                    .carelyText(style: .heading3, weight: .semiBold)
-                    .foregroundColor(.primaryFont)
+            VStack(alignment: .leading, spacing: Spacing.s20) {
+                
+                VStack(alignment: .leading, spacing: Spacing.s8) {
+                    Text("Services You Provide")
+                        .carelyText(style: .heading3, weight: .bold)
+                        .foregroundColor(.primaryFont)
 
-                Text("Select all services you are qualified and willing to provide to patients.")
-                    .carelyText(style: .bodySmall, weight: .regular)
-                    .foregroundColor(.secondaryFont)
+                    Text("Select all services you are qualified and willing to provide to patients.")
+                        .carelyText(style: .bodyRegular)
+                        .foregroundColor(.secondaryFont)
+                        .lineSpacing(4)
+                }
+                .padding(.top, Spacing.s8)
 
                 ServiceSelectionGrid(selected: viewModel.selectedServices, onToggle: viewModel.toggle)
 
@@ -33,11 +37,20 @@ struct ProvidedServicesView: View {
                 }
             }
             .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s16)
+            .padding(.bottom, Spacing.s24)
         }
         .safeAreaInset(edge: .bottom) {
-            ProfileContinueFooter(title: "Continue to Step 4", onContinue: viewModel.continueTapped)
+            VStack(spacing: 0) {
+                PrimaryButton(
+                    title: "Review Profile",
+                    isFullWidth: true,
+                    action: viewModel.continueTapped
+                )
+                .padding(.horizontal, Spacing.s16)
+                .padding(.top, Spacing.s16)
+                .padding(.bottom, Spacing.s16)
+            }
+            .background(Color.backGround)
         }
         .background(Color.backGround.ignoresSafeArea())
     }

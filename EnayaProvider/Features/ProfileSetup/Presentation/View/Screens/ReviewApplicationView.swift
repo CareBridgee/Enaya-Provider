@@ -10,60 +10,51 @@ import SwiftUI
 
 struct ReviewApplicationView: View {
     @StateObject var viewModel: ReviewApplicationViewModel
+    @State private var isCertified: Bool = false
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading, spacing: Spacing.s16) {
-                Text("Review Your Application")
-                    .carelyText(style: .heading3, weight: .semiBold)
-                    .foregroundColor(.primaryFont)
+        VStack(spacing: 0) {
+            ReviewCustomHeader()
+                .padding(.horizontal, Spacing.s16)
+                .padding(.bottom, Spacing.s16)
+            
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: Spacing.s20) {
+                    VStack(alignment: .leading, spacing: Spacing.s8) {
+                        Text("Review Your Application")
+                            .carelyText(style: .heading2, weight: .bold)
+                            .foregroundColor(.primaryFont)
 
-                Text("Please take a moment to ensure all details are correct. You can edit any section before final submission.")
-                    .carelyText(style: .bodySmall, weight: .regular)
-                    .foregroundColor(.secondaryFont)
+                        Text("Please take a moment to ensure all details are correct. You can edit any section before final submission.")
+                            .carelyText(style: .bodyRegular)
+                            .foregroundColor(.secondaryFont)
+                            .lineSpacing(4)
+                    }
 
-                ReviewSectionCard(
-                    title: "Personal Info",
-                    onEdit: viewModel.editPersonalInfoTapped,
-                    rows: [
-                        ("Full Name", "\(viewModel.data.personalInfo.firstName) \(viewModel.data.personalInfo.lastName)"),
-                        ("National ID", viewModel.data.personalInfo.nationalId),
-                        ("Gender", viewModel.data.personalInfo.gender?.rawValue ?? "—")
-                    ]
-                )
+                    ReviewProgressIndicator()
 
-                ReviewSectionCard(
-                    title: "Professional Info",
-                    onEdit: viewModel.editProfessionalInfoTapped,
-                    rows: [
-                        ("Experience", viewModel.data.professionalInfo.yearsOfExperience?.rawValue ?? "—"),
-                        ("Primary Specialty", viewModel.data.professionalInfo.primarySpecialty?.rawValue ?? "—")
-                    ]
-                )
+                    ReviewPersonalInfoCard(viewModel: viewModel)
+                    ReviewProfessionalInfoCard(viewModel: viewModel)
+                    ReviewServicesCard(viewModel: viewModel)
+                    ReviewDocumentsCard(viewModel: viewModel)
+                    
+                    ReviewPrivacyBanner()
 
-                ReviewSectionCard(
-                    title: "Selected Services",
-                    onEdit: viewModel.editServicesTapped,
-                    rows: [
-                        ("Services", viewModel.data.providedServices.selectedServices.map(\.title).joined(separator: ", "))
-                    ]
-                )
-
-                if let errorMessage = viewModel.errorMessage {
-                    AlertBanner(style: .error, message: errorMessage)
+                    if let errorMessage = viewModel.errorMessage {
+                        AlertBanner(style: .error, message: errorMessage)
+                    }
                 }
+                .padding(.horizontal, Spacing.s16)
+                .padding(.bottom, Spacing.s24)
             }
-            .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s16)
-        }
-        .safeAreaInset(edge: .bottom) {
-            ProfileContinueFooter(
-                title: "Submit Application",
-                isLoading: viewModel.isSubmitting,
-                onContinue: viewModel.submitTapped
-            )
         }
         .background(Color.backGround.ignoresSafeArea())
+        .safeAreaInset(edge: .bottom) {
+            ReviewSubmitFooter(
+                isCertified: $isCertified,
+                isSubmitting: viewModel.isSubmitting,
+                onSubmit: viewModel.submitTapped
+            )
+        }
     }
 }
