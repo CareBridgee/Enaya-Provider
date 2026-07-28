@@ -44,7 +44,7 @@ struct UnderReviewView: View {
                 }
                 .padding(Spacing.s16)
                 .background(Color.surface)
-                .clipShape(RoundedRectangle.trueFit(Radius.r16))
+                .clipShape(RoundedRectangle.carely(Radius.r16))
 
                 VStack(spacing: Spacing.s12) {
                     SecondaryButton(

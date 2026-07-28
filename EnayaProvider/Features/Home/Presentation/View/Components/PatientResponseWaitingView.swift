@@ -44,7 +44,7 @@ struct PatientResponseWaitingView: View {
         }
         .padding(Spacing.s24)
         .background(Color.surface)
-        .clipShape(RoundedRectangle.trueFit(Radius.r24))
+        .clipShape(RoundedRectangle.carely(Radius.r24))
         .shadow(color: .black.opacity(0.15), radius: Radius.r24, y: Spacing.s12)
         .padding(.horizontal, Spacing.s32)
         .onReceive(timer) { _ in

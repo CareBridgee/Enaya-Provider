@@ -23,7 +23,7 @@ struct EditOfferPopupView: View {
         }
         .padding(Spacing.s20)
         .background(Color.surface)
-        .clipShape(RoundedRectangle.trueFit(Radius.r24))
+        .clipShape(RoundedRectangle.carely(Radius.r24))
         .shadow(color: .black.opacity(0.15), radius: Radius.r24, y: Spacing.s12)
     }
 
@@ -65,7 +65,7 @@ struct EditOfferPopupView: View {
 
     private var serviceRow: some View {
         HStack(spacing: Spacing.s12) {
-            RoundedRectangle.trueFit(Radius.r8)
+            RoundedRectangle.carely(Radius.r8)
                 .fill(Color.brandPrimary.opacity(0.1))
                 .frame(width: Spacing.s32, height: Spacing.s32)
                 .overlay(Image(systemName: "cross.case.fill").foregroundColor(.brandPrimary))
@@ -94,7 +94,7 @@ struct EditOfferPopupView: View {
             .padding(.vertical, Spacing.s8)
             .frame(width: 140)
             .background(Color.surfaceVariant.opacity(0.5))
-            .clipShape(RoundedRectangle.trueFit(Radius.r12))
+            .clipShape(RoundedRectangle.carely(Radius.r12))
 
             Slider(value: $proposedPriceValue, in: jobRequest.minPrice.doubleValue...jobRequest.maxPrice.doubleValue)
                 .tint(.brandPrimary)
