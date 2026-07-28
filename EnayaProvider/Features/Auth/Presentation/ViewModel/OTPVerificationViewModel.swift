@@ -19,7 +19,7 @@ final class OTPVerificationViewModel: ObservableObject {
     private let verifyOTPUseCase: VerifyOTPUseCaseProtocol
     private let router: AuthRouter
     let phoneNumber: String
-    let otpLength = 4
+    let otpLength = 6
     private let onAuthFinished: (ApplicationStatus) -> Void
 
     @Published var otpCode: String = "" {
@@ -37,7 +37,8 @@ final class OTPVerificationViewModel: ObservableObject {
 
     @Published private(set) var state: OTPVerificationViewState = .idle
 
-    var isOTPComplete: Bool { otpCode.count == otpLength }
+    var isOTPComplete: Bool {
+        otpCode.count == otpLength &&  otpCode.allSatisfy(\.isNumber)}
     var isLoading: Bool { state == .loading }
 
     var isVerifyEnabled: Bool {
