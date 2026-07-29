@@ -43,7 +43,7 @@ struct GenderButton: View {
                 .foregroundColor(isSelected ? Color.onPrimary : Color.secondaryFont)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Spacing.s4)
-                .background(isSelected ? Color.primary : Color.clear)
+                .background(isSelected ? Color.brandPrimary : Color.clear)
                 .cornerRadius(12)
         }
     }

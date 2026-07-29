@@ -5,42 +5,38 @@
 //  Created by Mahmoud Raafat Mustafa on 20/07/2026.
 //
 
-
 import SwiftUI
 
-struct ReviewSectionCard: View {
+struct ReviewSectionCard<Content: View>: View {
     let title: String
+    let icon: String
     let onEdit: () -> Void
-    let rows: [(label: String, value: String)]
+    @ViewBuilder let content: () -> Content
 
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.s12) {
-            HStack {
-                Text(title)
-                    .carelyText(style: .bodyRegular, weight: .semiBold)
+        VStack(alignment: .leading, spacing: Spacing.s16) {
+            HStack(spacing: Spacing.s8) {
+                Image(systemName: icon)
+                    .font(.system(size: IconSize.s20))
                     .foregroundColor(.brandPrimary)
+                
+                Text(title)
+                    .carelyText(style: .bodyLarge, weight: .semiBold)
+                    .foregroundColor(.brandPrimary)
+                
                 Spacer()
+                
                 Button(action: onEdit) {
                     Image(systemName: "pencil")
-                        .foregroundColor(.hint)
+                        .font(.system(size: IconSize.s20, weight: .bold))
+                        .foregroundColor(.brandPrimary)
                 }
             }
 
-            VStack(alignment: .leading, spacing: Spacing.s8) {
-                ForEach(rows, id: \.label) { row in
-                    VStack(alignment: .leading, spacing: Spacing.s2) {
-                        Text(row.label)
-                            .carelyText(style: .caption, weight: .regular)
-                            .foregroundColor(.secondaryFont)
-                        Text(row.value)
-                            .carelyText(style: .bodyRegular, weight: .medium)
-                            .foregroundColor(.primaryFont)
-                    }
-                }
-            }
+            content()
         }
-        .padding(Spacing.s16)
+        .padding(Spacing.s20)
         .background(Color.surface)
-        .clipShape(RoundedRectangle.trueFit(Radius.r16))
+        .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 }

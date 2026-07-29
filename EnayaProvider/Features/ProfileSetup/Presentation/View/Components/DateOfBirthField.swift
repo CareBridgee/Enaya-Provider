@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 20/07/2026.
 //
 
-
 import SwiftUI
 
 struct DateOfBirthField: View {
@@ -23,18 +22,19 @@ struct DateOfBirthField: View {
                 .foregroundColor(.secondaryFont)
 
             ZStack(alignment: .leading) {
-                HStack {
+                HStack(spacing: Spacing.s12) {
+                    Image(systemName: "calendar")
+                        .foregroundColor(.hint)
+                        
                     Text(displayText)
                         .carelyText(style: .bodyRegular)
                         .foregroundColor(date == nil ? .hint : .primaryFont)
                     Spacer()
-                    Image(systemName: "calendar")
-                        .foregroundColor(.hint)
                 }
                 .padding(.horizontal, Spacing.s16)
                 .frame(height: CarelyTextFieldSize.medium.height)
                 .background(Color.surfaceVariant)
-                .clipShape(RoundedRectangle.trueFit(Radius.r12))
+                .clipShape(RoundedRectangle.carely(Radius.r12))
 
                 DatePicker(
                     "",

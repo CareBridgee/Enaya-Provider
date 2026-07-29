@@ -16,12 +16,13 @@ struct ProfessionalInfoView: View {
             VStack(spacing: Spacing.s16) {
                 DocumentUploadCard(
                     title: "National Front ID",
-                    subtitle: "Upload a clear scan of your Government issued Identity Card or Passport.",
+                    subtitle: "Upload a clear scan of your Government issued Front Identity Card or Passport.",
                     document: $viewModel.nationalIdForntDocument
                 )
+                
                 DocumentUploadCard(
                     title: "National Back ID",
-                    subtitle: "Upload a clear scan of your Government issued Identity Card or Passport.",
+                    subtitle: "Upload a clear scan of your Government issued Back Identity Card or Passport.",
                     document: $viewModel.nationalIdBackDocument
                 )
 
@@ -56,13 +57,29 @@ struct ProfessionalInfoView: View {
                 if let errorMessage = viewModel.errorMessage {
                     AlertBanner(style: .error, message: errorMessage)
                 }
+                
+                // MARK: - Agreement Note & Unpinned Button
+                VStack(spacing: Spacing.s16) {
+                    Text("By continuing, you agree that these documents are authentic and valid. Providing false information may lead to account suspension.")
+                        .carelyText(style: .caption)
+                        .foregroundColor(.secondaryFont)
+                        .multilineTextAlignment(.center)
+                        .padding(.top, Spacing.s8)
+                        .padding(.horizontal, Spacing.s8)
+                    
+                    PrimaryButton(
+                        title: "Continue to Step 3",
+                        icon: "arrow.right",
+                        iconPosition: .trailing,
+                        isFullWidth: true,
+                        action: viewModel.continueTapped
+                    )
+                }
+                .padding(.top, Spacing.s8)
             }
             .padding(.horizontal, Spacing.s16)
             .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s16)
-        }
-        .safeAreaInset(edge: .bottom) {
-            ProfileContinueFooter(title: "Continue", onContinue: viewModel.continueTapped)
+            .padding(.bottom, Spacing.s32)
         }
         .background(Color.backGround.ignoresSafeArea())
     }

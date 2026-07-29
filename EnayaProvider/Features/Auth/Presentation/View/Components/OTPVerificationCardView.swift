@@ -5,14 +5,13 @@
 //  Created by Mahmoud Raafat Mustafa on 16/07/2026.
 //
 
-
 import SwiftUI
 
 struct OTPVerificationCardView: View {
     @ObservedObject var viewModel: OTPVerificationViewModel
     
     var body: some View {
-        VStack(spacing: Spacing.s20) {
+        VStack(spacing: Spacing.s24) {
             if let errorMessage = viewModel.errorMessage {
                 AlertBanner(style: .error, message: errorMessage)
             }
@@ -24,16 +23,17 @@ struct OTPVerificationCardView: View {
                 length: viewModel.otpLength,
                 isError: viewModel.errorMessage != nil
             )
-
             verifyButton
         }
-        .padding(Spacing.s16)
+        .padding(Spacing.s24)
         .background(
-            RoundedRectangle.trueFit(Radius.r20)
+            RoundedRectangle.carely(Radius.r20)
                 .fill(Color.surface)
+                .shadow(color: Color.black.opacity(0.08), radius: 15, x: 0, y: 10)
         )
-        .animation(TrueFitMotion.springDefault, value: viewModel.errorMessage)
-        .animation(TrueFitMotion.springDefault, value: viewModel.successMessage)
+        .padding(.horizontal, Spacing.s16)
+        .animation(CarelyMotion.springDefault, value: viewModel.errorMessage)
+        .animation(CarelyMotion.springDefault, value: viewModel.successMessage)
     }
     
     private var verifyButton: some View {
@@ -51,13 +51,13 @@ struct OTPVerificationCardView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 52)
+            .frame(height: 56)
             .background(
                 Capsule()
-                    .fill(viewModel.isVerifyEnabled ? Color.primary : Color.disable)
+                    .fill(viewModel.isVerifyEnabled ? Color.brandPrimary : Color.disable)
             )
         }
         .disabled(!viewModel.isVerifyEnabled)
-        .animation(.easeInOut(duration: TrueFitMotion.durationFast), value: viewModel.isVerifyEnabled)
+        .animation(.easeInOut(duration: CarelyMotion.durationFast), value: viewModel.isVerifyEnabled)
     }
 }

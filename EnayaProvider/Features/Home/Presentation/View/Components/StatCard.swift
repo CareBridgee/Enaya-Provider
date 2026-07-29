@@ -37,6 +37,6 @@ struct StatCard: View {
         .padding(Spacing.s16)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.surface)
-        .clipShape(RoundedRectangle.trueFit(Radius.r16))
+        .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 }

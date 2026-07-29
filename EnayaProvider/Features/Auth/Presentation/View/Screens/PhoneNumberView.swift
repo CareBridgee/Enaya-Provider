@@ -13,10 +13,8 @@ struct PhoneNumberView : View {
         var body: some View {
             VStack(alignment: .leading, spacing: 24) {
                 
-                Text("Join us via phone number")
-                    .carelyText(style: .heading3)
-                    .foregroundColor(.primary)
-                
+                AppHeader(title: "Join us via phone number")
+
                 Text("We'll text a code to verify your phone.")
                     .carelyText(style: .bodyRegular, weight: .light)
                     .foregroundStyle(Color.primaryFont)
@@ -49,11 +47,15 @@ struct PhoneNumberView : View {
 
                 loginButton(
                     title: "NEXT",
-                    backgroundColor: .primary
+                    backgroundColor: .brandPrimary,
+                    strokeColor: .brandPrimary
+
                 ) {
                     viewModel.nextButtonPressed()
                 }
             }
+            .navigationBarBackButtonHidden(true)
+            .toolbar(.hidden, for: .navigationBar)
             .padding(12)
             .background(Color.backGround)
         }

@@ -48,7 +48,7 @@ struct DocumentUploadCard: View {
         }
         .padding(Spacing.s16)
         .background(Color.surface)
-        .clipShape(RoundedRectangle.trueFit(Radius.r16))
+        .clipShape(RoundedRectangle.carely(Radius.r16))
         .fileImporter(
             isPresented: $isImporterPresented,
             allowedContentTypes: [.pdf, .png, .jpeg],
@@ -74,7 +74,7 @@ struct DocumentUploadCard: View {
             }
             .padding(Spacing.s12)
             .background(Color.surfaceVariant)
-            .clipShape(RoundedRectangle.trueFit(Radius.r12))
+            .clipShape(RoundedRectangle.carely(Radius.r12))
         } else {
             Button(action: { isImporterPresented = true }) {
                 VStack(spacing: Spacing.s4) {
@@ -90,7 +90,7 @@ struct DocumentUploadCard: View {
                 .frame(maxWidth: .infinity)
                 .padding(Spacing.s16)
                 .overlay(
-                    RoundedRectangle.trueFit(Radius.r12)
+                    RoundedRectangle.carely(Radius.r12)
                         .strokeBorder(Color.divider, style: StrokeStyle(lineWidth: 1, dash: [4]))
                 )
             }

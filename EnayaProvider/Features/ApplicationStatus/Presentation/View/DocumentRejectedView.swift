@@ -50,7 +50,7 @@ struct DocumentRejectedView: View {
                         }
                         .padding(Spacing.s12)
                         .background(Color.surface)
-                        .clipShape(RoundedRectangle.trueFit(Radius.r12))
+                        .clipShape(RoundedRectangle.carely(Radius.r12))
                     }
                 }
 

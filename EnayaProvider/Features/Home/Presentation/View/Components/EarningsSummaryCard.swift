@@ -39,6 +39,6 @@ struct EarningsSummaryCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Spacing.s16)
         .background(Color.brandPrimary)
-        .clipShape(RoundedRectangle.trueFit(Radius.r16))
+        .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 }

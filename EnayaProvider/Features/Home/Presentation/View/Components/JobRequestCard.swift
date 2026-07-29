@@ -18,7 +18,7 @@ struct JobRequestCard: View {
         }
         .padding(Spacing.s16)
         .background(Color.surface)
-        .clipShape(RoundedRectangle.trueFit(Radius.r16))
+        .clipShape(RoundedRectangle.carely(Radius.r16))
         .shadow(color: .black.opacity(0.06), radius: Radius.r12, y: Spacing.s4)
     }
 
@@ -73,7 +73,7 @@ struct JobRequestCard: View {
 
     private var serviceRow: some View {
         HStack(spacing: Spacing.s12) {
-            RoundedRectangle.trueFit(Radius.r8)
+            RoundedRectangle.carely(Radius.r8)
                 .fill(Color.brandPrimary.opacity(0.1))
                 .frame(width: Spacing.s32, height: Spacing.s32)
                 .overlay(Image(systemName: "cross.case.fill").foregroundColor(.brandPrimary))
@@ -89,7 +89,7 @@ struct JobRequestCard: View {
         }
         .padding(Spacing.s12)
         .background(Color.surfaceVariant.opacity(0.5))
-        .clipShape(RoundedRectangle.trueFit(Radius.r12))
+        .clipShape(RoundedRectangle.carely(Radius.r12))
     }
 
     private var actionButtons: some View {

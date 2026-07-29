@@ -17,6 +17,5 @@ final class PhoneNumberViewModel: ObservableObject {
     }
     
     func nextButtonPressed(){
-        router.push(to: .OTPVerification(phoneNumber: phoneNumber))
-    }
+        router.push(to: .OTPVerification(phoneNumber: "+20"+phoneNumber))    }
 }

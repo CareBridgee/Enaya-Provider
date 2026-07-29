@@ -51,7 +51,7 @@ public struct SecondaryButton: View {
     }
     
     private var foregroundColor: Color {
-        isEnabled ? .primary : .onDisable
+        isEnabled ? .brandPrimary : .onDisable
     }
     
     public var body: some View {
@@ -80,7 +80,7 @@ public struct SecondaryButton: View {
             .frame(height: size.height)
             .padding(.horizontal, size.horizontalPadding)
             .background(backgroundColor)
-            .clipShape(RoundedRectangle.trueFit(radius))
+            .clipShape(RoundedRectangle.carely(radius))
         }
         .buttonStyle(SecondaryButtonPressStyle())
         .disabled(!isInteractive)
@@ -102,7 +102,7 @@ private struct SecondaryButtonPressStyle: ButtonStyle {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.97 : 1)
             .opacity(configuration.isPressed ? 0.9 : 1)
-            .animation(TrueFitMotion.springSnappy, value: configuration.isPressed)
+            .animation(CarelyMotion.springSnappy, value: configuration.isPressed)
     }
 }
 

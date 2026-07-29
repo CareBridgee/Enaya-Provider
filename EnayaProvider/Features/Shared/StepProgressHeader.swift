@@ -26,7 +26,7 @@ struct StepProgressHeader: View {
             HStack {
                 Text("Step \(currentStep) of \(totalSteps)")
                     .carelyText(style: .bodySmall, weight: .bold)
-                    .foregroundColor(isCompleted ? .primary.opacity(0.6) : .primary)
+                    .foregroundColor(.brandPrimary)
                 
                 Spacer()
                 
@@ -37,12 +37,12 @@ struct StepProgressHeader: View {
             
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle.trueFit(Radius.pill)
+                    RoundedRectangle.carely(Radius.pill)
                         .fill(Color.track)
                         .frame(height: 6)
                     
-                    RoundedRectangle.trueFit(Radius.pill)
-                        .fill(isCompleted ? Color.success : Color.primary)
+                    RoundedRectangle.carely(Radius.pill)
+                        .fill(isCompleted ? Color.success : Color.brandPrimary)
                         .frame(width: geometry.size.width * progressWidthMultiplier, height: 6)
                 }
             }

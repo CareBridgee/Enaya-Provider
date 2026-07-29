@@ -17,7 +17,7 @@ struct OfflineStateView: View {
     var body: some View {
         VStack(spacing: Spacing.s24) {
             ZStack(alignment: .bottomTrailing) {
-                RoundedRectangle.trueFit(Radius.r24)
+                RoundedRectangle.carely(Radius.r24)
                     .fill(Color.surfaceVariant)
                     .frame(width: illustrationSize, height: illustrationSize)
                     .overlay(

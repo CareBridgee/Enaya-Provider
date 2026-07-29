@@ -42,6 +42,15 @@
 		B3544D3F300EAE03007EDB87 /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */; };
 		B3544D41300EAE0D007EDB87 /* AccountVerifiedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */; };
 		B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */; };
+		B3C5703D301650F9009CD77F /* ReviewCustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */; };
+		B3C5703F30165107009CD77F /* ReviewProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */; };
+		B3C5704130165111009CD77F /* ReviewInfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5704030165111009CD77F /* ReviewInfoRow.swift */; };
+		B3C570433016511D009CD77F /* ReviewPersonalInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C570423016511D009CD77F /* ReviewPersonalInfoCard.swift */; };
+		B3C570453016512B009CD77F /* ReviewServicesCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C570443016512B009CD77F /* ReviewServicesCard.swift */; };
+		B3C5704730165139009CD77F /* ReviewDocumentsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5704630165139009CD77F /* ReviewDocumentsCard.swift */; };
+		B3C5704B3016515E009CD77F /* ReviewProfessionalInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5704A3016515E009CD77F /* ReviewProfessionalInfoCard.swift */; };
+		B3C5704F3016517E009CD77F /* ReviewPrivacyBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5704E3016517E009CD77F /* ReviewPrivacyBanner.swift */; };
+		B3C570513016518D009CD77F /* ReviewSubmitFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C570503016518D009CD77F /* ReviewSubmitFooter.swift */; };
 		B3C57E5A3010E901005C1BE8 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C57E593010E901005C1BE8 /* AppTab.swift */; };
 		B3C57E5C3010E90F005C1BE8 /* MainTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C57E5B3010E90F005C1BE8 /* MainTabCoordinator.swift */; };
 		B3C57E5E3010E91F005C1BE8 /* MainTabCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C57E5D3010E91F005C1BE8 /* MainTabCoordinatorView.swift */; };
@@ -204,6 +213,15 @@
 		B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
 		B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerifiedView.swift; sourceTree = "<group>"; };
 		B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRejectedView.swift; sourceTree = "<group>"; };
+		B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCustomHeader.swift; sourceTree = "<group>"; };
+		B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProgressIndicator.swift; sourceTree = "<group>"; };
+		B3C5704030165111009CD77F /* ReviewInfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewInfoRow.swift; sourceTree = "<group>"; };
+		B3C570423016511D009CD77F /* ReviewPersonalInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPersonalInfoCard.swift; sourceTree = "<group>"; };
+		B3C570443016512B009CD77F /* ReviewServicesCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewServicesCard.swift; sourceTree = "<group>"; };
+		B3C5704630165139009CD77F /* ReviewDocumentsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewDocumentsCard.swift; sourceTree = "<group>"; };
+		B3C5704A3016515E009CD77F /* ReviewProfessionalInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProfessionalInfoCard.swift; sourceTree = "<group>"; };
+		B3C5704E3016517E009CD77F /* ReviewPrivacyBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPrivacyBanner.swift; sourceTree = "<group>"; };
+		B3C570503016518D009CD77F /* ReviewSubmitFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSubmitFooter.swift; sourceTree = "<group>"; };
 		B3C57E593010E901005C1BE8 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
 		B3C57E5B3010E90F005C1BE8 /* MainTabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabCoordinator.swift; sourceTree = "<group>"; };
 		B3C57E5D3010E91F005C1BE8 /* MainTabCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabCoordinatorView.swift; sourceTree = "<group>"; };
@@ -404,6 +422,15 @@
 		B3544D0A300EA2F4007EDB87 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B3C570503016518D009CD77F /* ReviewSubmitFooter.swift */,
+				B3C5704E3016517E009CD77F /* ReviewPrivacyBanner.swift */,
+				B3C5704A3016515E009CD77F /* ReviewProfessionalInfoCard.swift */,
+				B3C5704630165139009CD77F /* ReviewDocumentsCard.swift */,
+				B3C570443016512B009CD77F /* ReviewServicesCard.swift */,
+				B3C570423016511D009CD77F /* ReviewPersonalInfoCard.swift */,
+				B3C5704030165111009CD77F /* ReviewInfoRow.swift */,
+				B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */,
+				B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */,
 				B3544D17300EA35A007EDB87 /* ReviewSectionCard.swift */,
 				B3544D15300EA349007EDB87 /* ServiceSelectionGrid.swift */,
 				B3544D13300EA33F007EDB87 /* DocumentUploadCard.swift */,
@@ -1206,6 +1233,7 @@
 				B3C57EB53010EAB1005C1BE8 /* FetchAvailabilityUseCaseProtocol.swift in Sources */,
 				B3C57ED13010EB6D005C1BE8 /* JobRequestCard.swift in Sources */,
 				B3544D35300EAD1B007EDB87 /* StatusHeroBadge.swift in Sources */,
+				B3C5704F3016517E009CD77F /* ReviewPrivacyBanner.swift in Sources */,
 				C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */,
 				C6C3BE6C300A7CA300C5FC25 /* IconSize.swift in Sources */,
 				B3C57ECD3010EB5D005C1BE8 /* StatCard.swift in Sources */,
@@ -1224,8 +1252,11 @@
 				C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */,
 				B3C57ECB3010EB55005C1BE8 /* EarningsSummaryCard.swift in Sources */,
 				B3C57EA93010EA6C005C1BE8 /* ProviderHomeSummary.swift in Sources */,
+				B3C570513016518D009CD77F /* ReviewSubmitFooter.swift in Sources */,
+				B3C570453016512B009CD77F /* ReviewServicesCard.swift in Sources */,
 				C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */,
 				C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */,
+				B3C5704730165139009CD77F /* ReviewDocumentsCard.swift in Sources */,
 				B3544D0C300EA30B007EDB87 /* ProfileSetupHeaderBar.swift in Sources */,
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* mapperfile.swift in Sources */,
@@ -1271,9 +1302,11 @@
 				B3CAF26F300E8EB2006A9F5F /* InfoBannerView.swift in Sources */,
 				B3C57EA73010EA63005C1BE8 /* HomeCoordinator.swift in Sources */,
 				B3CAF270300E8EB2006A9F5F /* PrimaryButton.swift in Sources */,
+				B3C5704130165111009CD77F /* ReviewInfoRow.swift in Sources */,
 				C6C3BED1300A7EEE00C5FC25 /* SecurityIndicator.swift in Sources */,
 				B3C57ECF3010EB64005C1BE8 /* OfflineStateView.swift in Sources */,
 				C6C3BED2300A7EEE00C5FC25 /* WelcomeView.swift in Sources */,
+				B3C5704B3016515E009CD77F /* ReviewProfessionalInfoCard.swift in Sources */,
 				C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */,
 				B3CAF2B9300E964C006A9F5F /* ProfileSetupData.swift in Sources */,
 				B3544D37300EAD2F007EDB87 /* ChecklistItemState.swift in Sources */,
@@ -1286,6 +1319,7 @@
 				C6C3BED9300A7EEE00C5FC25 /* OTPVerificationCardView.swift in Sources */,
 				B3544D26300EA3A2007EDB87 /* ProvidedServicesView.swift in Sources */,
 				C6C3BEDA300A7EEE00C5FC25 /* AuthError.swift in Sources */,
+				B3C5703D301650F9009CD77F /* ReviewCustomHeader.swift in Sources */,
 				B3C57EB13010EA91005C1BE8 /* HomeRepositoryProtocol.swift in Sources */,
 				C6C3BEDC300A7EEE00C5FC25 /* AuthDto.swift in Sources */,
 				C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */,
@@ -1294,7 +1328,9 @@
 				B3CAF29A300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift in Sources */,
 				B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */,
 				B3CAF2A8300E9469006A9F5F /* ProfileSetupCoordinatorView.swift in Sources */,
+				B3C5703F30165107009CD77F /* ReviewProgressIndicator.swift in Sources */,
 				B3544D09300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
+				B3C570433016511D009CD77F /* ReviewPersonalInfoCard.swift in Sources */,
 				B3CAF2AF300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift in Sources */,
 				B3CAF2B3300E9469006A9F5F /* ProfileSetupStep.swift in Sources */,
 				B3CAF2B6300E9469006A9F5F /* ProfileSetupCoordinator.swift in Sources */,

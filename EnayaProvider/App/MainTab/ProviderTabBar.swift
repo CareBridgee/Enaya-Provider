@@ -42,7 +42,7 @@ struct ProviderTabBar: View {
                     .foregroundColor(isSelected ? .onPrimary : .hint)
                     .padding(Spacing.s8)
                     .background(isSelected ? Color.brandPrimary : Color.clear)
-                    .clipShape(RoundedRectangle.trueFit(Radius.r12))
+                    .clipShape(RoundedRectangle.carely(Radius.r12))
 
                 Text(tab.title)
                     .carelyText(style: .caption, weight: isSelected ? .semiBold : .regular)
