@@ -10,11 +10,14 @@ import SwiftUI
 struct EnayaProviderApp: App {
 
     let diContainer: DIContainer
-    @StateObject private var appState = AppState()
+    @StateObject private var appState: AppState
 
     @MainActor
     init() {
-        self.diContainer = DIContainer()
+        let container = DIContainer()
+
+        self.diContainer = container
+        _appState = StateObject(wrappedValue: container.appState)
     }
 
     var body: some Scene {

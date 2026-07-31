@@ -12,14 +12,16 @@ struct PhoneNumberView : View {
 
         var body: some View {
             VStack(alignment: .leading, spacing: 24) {
-                
-                AppHeader(title: "Join us via phone number")
-
                 Text("We'll text a code to verify your phone.")
                     .carelyText(style: .bodyRegular, weight: .light)
                     .foregroundStyle(Color.primaryFont)
                 
-                PhoneNumberField(phoneNumber: $viewModel.phoneNumber)
+                PhoneNumberField(
+                    phoneNumber: $viewModel.phoneNumber,
+                    showError: viewModel.showPhoneNumberError,
+                    onFocusChanged: viewModel.phoneNumberFieldFocusChanged,
+                    onPhoneNumberChanged: viewModel.phoneNumberChanged
+                )
 
                 Text("Carrier charges may apply for SMS.")
                     .carelyText(style: .caption)
@@ -49,13 +51,12 @@ struct PhoneNumberView : View {
                     title: "NEXT",
                     backgroundColor: .brandPrimary,
                     strokeColor: .brandPrimary
-
                 ) {
                     viewModel.nextButtonPressed()
                 }
+                .disabled(!viewModel.isPhoneNumberValid)
             }
-            .navigationBarBackButtonHidden(true)
-            .toolbar(.hidden, for: .navigationBar)
+            .careConnectNavigationBar(title: "Join us via phone number")
             .padding(12)
             .background(Color.backGround)
         }

@@ -15,18 +15,19 @@ enum AppFlow: Equatable {
     case rejected
     case home
 }
-
+@MainActor
 final class AppState: ObservableObject {
 
     @Published private(set) var flow: AppFlow
 
-    private static let signedInKey = "isSignedIn"
-    private static let applicationStatusKey = "applicationStatus"
-
-    init() {
-        let isSignedIn = UserDefaults.standard.bool(forKey: Self.signedInKey)
-        if isSignedIn,
-           let rawStatus = UserDefaults.standard.string(forKey: Self.applicationStatusKey),
+    private let sessionManager: SessionManager
+    private var appSettings: AppSettingsProtocol
+    
+    init(sessionManager: SessionManager, appSettings: AppSettingsProtocol = AppSettings.shared) {
+        self.sessionManager = sessionManager
+        self.appSettings = appSettings
+        if sessionManager.state == .loggedIn,
+           let rawStatus = appSettings.applicationStatus,
            let status = ApplicationStatus(rawValue: rawStatus) {
             // Already-approved nurses skip the one-time celebration screen on relaunch.
             self.flow = status == .approved ? .home : Self.flow(for: status)
@@ -36,14 +37,12 @@ final class AppState: ObservableObject {
     }
 
     func completeAuth(with status: ApplicationStatus) {
-        UserDefaults.standard.set(true, forKey: Self.signedInKey)
-        UserDefaults.standard.set(status.rawValue, forKey: Self.applicationStatusKey)
+        appSettings.applicationStatus = status.rawValue
         flow = Self.flow(for: status)
     }
 
     func signOut() {
-        UserDefaults.standard.set(false, forKey: Self.signedInKey)
-        UserDefaults.standard.removeObject(forKey: Self.applicationStatusKey)
+        appSettings.applicationStatus = nil
         flow = .auth
     }
 
