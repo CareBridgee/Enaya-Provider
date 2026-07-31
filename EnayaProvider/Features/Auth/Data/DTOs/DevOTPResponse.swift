@@ -1,8 +1,13 @@
 //
 //  DevOTPResponse.swift
-//  EnayaProvider
+//  Carely
 //
-//  Created by Mona Zarea on 29/07/2026.
+//  Created by Mohamed Ayman on 25/07/2026.
 //
 
 import Foundation
+
+struct DevOTPResponse: Decodable {
+    let phoneNumber: String
+    let otp: String
+}

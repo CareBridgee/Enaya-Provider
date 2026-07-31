@@ -1,8 +1,11 @@
 //
 //  Gender.swift
-//  EnayaProvider
-//
-//  Created by Mona Zarea on 29/07/2026.
+//  Carely
 //
 
 import Foundation
+
+//enum Gender: String, Decodable {
+//    case male = "MALE"
+//    case female = "FEMALE"
+//}

@@ -11,6 +11,7 @@ enum AuthError: LocalizedError, Equatable {
     case otpExpired
     case network
     case unknown
+    case conflict
 
     var errorDescription: String? {
         switch self {
@@ -22,6 +23,8 @@ enum AuthError: LocalizedError, Equatable {
             return "Something went wrong. Please check your connection and try again."
         case .unknown:
             return "Something went wrong. Please try again."
+        case .conflict:
+            return "This email is already registered to a patient."
         }
     }
 }

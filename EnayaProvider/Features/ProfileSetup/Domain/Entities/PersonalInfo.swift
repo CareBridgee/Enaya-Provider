@@ -8,9 +8,9 @@
 
 import Foundation
 
-enum Gender: String, CaseIterable, Identifiable {
-    case male = "Male"
-    case female = "Female"
+enum Gender: String, CaseIterable, Identifiable ,Decodable{
+    case male = "MALE"
+    case female = "FEMALE"
     var id: Self { self }
 }
 

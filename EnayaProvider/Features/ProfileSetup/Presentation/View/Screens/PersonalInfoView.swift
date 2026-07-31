@@ -20,7 +20,7 @@ struct PersonalInfoView: View {
                     
                     VStack(alignment: .leading, spacing: Spacing.s8) {
                         Text("Personal Information")
-                            .carelyText(style: .heading3, weight: .bold)
+                            .carelyText(style: .heading3, weight: .semiBold)
                             .foregroundColor(.primaryFont)
 
                         Text("Let's start with the basics. Please provide your legal details for verification.")
@@ -30,7 +30,7 @@ struct PersonalInfoView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, Spacing.s24)
+                    .padding(.top, Spacing.s16)
 
                     photoPicker
 
@@ -165,4 +165,8 @@ struct PersonalInfoView: View {
         .background(Color.surfaceVariant)
         .clipShape(RoundedRectangle.carely(Radius.r12))
     }
+}
+
+#Preview {
+    PersonalInfoView(viewModel: PersonalInfoViewModel(coordinator: ProfileSetupCoordinator(data: ProfileSetupData())))
 }

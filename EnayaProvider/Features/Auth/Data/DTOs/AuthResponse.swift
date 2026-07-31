@@ -1,8 +1,15 @@
 //
 //  AuthResponse.swift
-//  EnayaProvider
+//  Carely
 //
-//  Created by Mona Zarea on 29/07/2026.
+//  Created by Mohamed Ayman on 25/07/2026.
 //
 
 import Foundation
+
+struct AuthResponse: Decodable {
+    let accessToken: String
+    let refreshToken: String
+    let expiresIn: Int64
+    let user: UserDTO
+}
