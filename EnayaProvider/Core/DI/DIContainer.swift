@@ -7,16 +7,47 @@
 
 // I will instantiate it once at the absolute highest pointz
 import Foundation
-
+import Alamofire
 @MainActor
 final class DIContainer {
 
-    private lazy var authRepository: AuthRepositoryProtocol = {
-        AuthRepositoryImpl()
-    }()
+    let appState: AppState
+    
+    private let tokenStore: TokenStoring
+    private let sessionManager: SessionManager
+    private let unauthNetworkClient: NetworkClientProtocol
+    private let authInterceptor: AuthInterceptor
+    
+    init() {
+        self.tokenStore = KeychainTokenStore()
+        self.sessionManager = SessionManager(tokenStore: tokenStore)
+        self.unauthNetworkClient = NetworkClient(session: .default)
+        
+        self.authInterceptor = AuthInterceptor(
+            tokenStore: tokenStore,
+            sessionMonitor: sessionManager,
+            unauthNetworkClient: unauthNetworkClient
+        )
+        
+        self.appState = AppState(sessionManager: sessionManager)
+    }
+    private lazy var session: Session = Session(interceptor: authInterceptor)
+    
+    private lazy var networkClient: NetworkClientProtocol = NetworkClient(session: session)
 
+    private lazy var authService: AuthServiceProtocol = AuthServiceImpl(
+        networkClient: networkClient
+    )
+    private lazy var authRepository: AuthRepositoryProtocol = AuthRepositoryImpl(
+        authService: authService
+    )
+    
+    private func makeLoginUseCase() -> LoginUseCaseProtocol {
+        LoginUseCase(repository: authRepository)
+    }
+    
     private func makeVerifyOTPUseCase() -> VerifyOTPUseCaseProtocol {
-        VerifyOTPUseCase(repository: authRepository)
+        VerifyOTPUseCase(repository: authRepository, tokenStore: tokenStore, sessionManager: sessionManager)
     }
 
     func makeWelcomeViewModel(router: AuthRouter) -> WelcomeViewModel {
@@ -24,7 +55,10 @@ final class DIContainer {
     }
 
     func makePhoneNumberViewModel(router: AuthRouter) -> PhoneNumberViewModel {
-        PhoneNumberViewModel(router: router)
+        PhoneNumberViewModel(
+            loginUseCase: makeLoginUseCase(),
+            router: router
+        )
     }
 
     func makeOTPVerificationViewModel(
