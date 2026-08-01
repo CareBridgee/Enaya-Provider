@@ -14,5 +14,6 @@ struct OTPVerificationEntity: Equatable {
     let refreshToken: String?
     let userId: String
     let applicationStatus: ApplicationStatus
+    let user: UserDTO
 }
 

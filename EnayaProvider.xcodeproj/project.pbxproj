@@ -13,6 +13,7 @@
 		0C5D9E12301BB48C00961737 /* CareConnectNavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E11301BB48C00961737 /* CareConnectNavigationBarModifier.swift */; };
 		0C5D9E14301BB4B900961737 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E13301BB4B900961737 /* AppConstants.swift */; };
 		0C5D9E16301BB88700961737 /* NetworkErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */; };
+		0CBA6368301E213D00E1258F /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA6367301E213D00E1258F /* UserStore.swift */; };
 		0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */; };
 		0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DC73009BFAE001B34AA /* ContentView.swift */; };
 		0CE50DCD3009BFAF001B34AA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE50DCC3009BFAF001B34AA /* Preview Assets.xcassets */; };
@@ -202,6 +203,7 @@
 		0C5D9E11301BB48C00961737 /* CareConnectNavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareConnectNavigationBarModifier.swift; sourceTree = "<group>"; };
 		0C5D9E13301BB4B900961737 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorMapper.swift; sourceTree = "<group>"; };
+		0CBA6367301E213D00E1258F /* UserStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
 		0CE50DC23009BFAE001B34AA /* EnayaProvider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnayaProvider.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderApp.swift; sourceTree = "<group>"; };
 		0CE50DC73009BFAE001B34AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 				0CF5E33C301A22D500B2BC3F /* NetworkConfiguration.swift */,
 				0CF5E32C301A22CF00B2BC3F /* Endpoint.swift */,
 				0CF5E332301A22CF00B2BC3F /* UserSession.swift */,
+				0CBA6367301E213D00E1258F /* UserStore.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1414,6 +1417,7 @@
 				B3C5703F30165107009CD77F /* ReviewProgressIndicator.swift in Sources */,
 				B3544D09300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
 				B3C570433016511D009CD77F /* ReviewPersonalInfoCard.swift in Sources */,
+				0CBA6368301E213D00E1258F /* UserStore.swift in Sources */,
 				B3CAF2AF300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift in Sources */,
 				B3CAF2B3300E9469006A9F5F /* ProfileSetupStep.swift in Sources */,
 				0C113018301C605E007193BB /* AppSettings.swift in Sources */,

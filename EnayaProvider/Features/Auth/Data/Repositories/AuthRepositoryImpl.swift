@@ -50,7 +50,8 @@ final class AuthRepositoryImpl: AuthRepositoryProtocol {
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 userId: response.user.id,
-                applicationStatus: actualStatus
+                applicationStatus: actualStatus,
+                user: response.user
             )
         } catch {
             throw error.toAuthError()

@@ -35,7 +35,7 @@ struct VerifyOTPUseCase: VerifyOTPUseCaseProtocol {
         tokenStore.saveTokens(access: entity.accessToken, refresh: entity.refreshToken ?? "")
 
         await MainActor.run {
-            sessionManager.setLoggedIn()
+            sessionManager.setLoggedIn(with: entity.user)
         }
 
         return entity

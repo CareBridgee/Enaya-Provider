@@ -14,13 +14,15 @@ final class DIContainer {
     let appState: AppState
     
     private let tokenStore: TokenStoring
+    private let userStore: UserStoring
     private let sessionManager: SessionManager
     private let unauthNetworkClient: NetworkClientProtocol
     private let authInterceptor: AuthInterceptor
     
     init() {
         self.tokenStore = KeychainTokenStore()
-        self.sessionManager = SessionManager(tokenStore: tokenStore)
+        self.userStore = UserDefaultsUserStore()
+        self.sessionManager = SessionManager(tokenStore: tokenStore, userStore: userStore)
         self.unauthNetworkClient = NetworkClient(session: .default)
         
         self.authInterceptor = AuthInterceptor(

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserDTO: Decodable {
+struct UserDTO: Codable, Equatable {
     let id: String
     let phoneNumber: String
     let email: String?
@@ -23,7 +23,7 @@ struct UserDTO: Decodable {
     let defaultProfileId: String?
     let nurse: NurseDTO?
 }
-struct NurseDTO: Decodable {
+struct NurseDTO: Codable, Equatable {
     let id: String
     let nationalId: String?
     let nationalIdFrontUrl: String?
