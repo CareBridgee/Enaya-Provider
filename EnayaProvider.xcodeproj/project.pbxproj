@@ -1227,6 +1227,7 @@
 			mainGroup = 0CE50DB93009BFAE001B34AA;
 			packageReferences = (
 				0CE50DEF3009BFF4001B34AA /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0CBA6366301E1A2900E1258F /* XCRemoteSwiftPackageReference "SwiftStomp" */,
 			);
 			productRefGroup = 0CE50DC33009BFAE001B34AA /* Products */;
 			projectDirPath = "";
@@ -1760,6 +1761,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0CBA6366301E1A2900E1258F /* XCRemoteSwiftPackageReference "SwiftStomp" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Romixery/SwiftStomp.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
 		0CE50DEF3009BFF4001B34AA /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
