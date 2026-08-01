@@ -14,6 +14,13 @@
 		0C5D9E14301BB4B900961737 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E13301BB4B900961737 /* AppConstants.swift */; };
 		0C5D9E16301BB88700961737 /* NetworkErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */; };
 		0CBA6368301E213D00E1258F /* UserStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA6367301E213D00E1258F /* UserStore.swift */; };
+		0CBA636C301E30DA00E1258F /* CloudinaryUploadService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA636A301E30DA00E1258F /* CloudinaryUploadService.swift */; };
+		0CBA636F301E329100E1258F /* UpdatePersonalInfoRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA636D301E329100E1258F /* UpdatePersonalInfoRequest.swift */; };
+		0CBA6373301E32A100E1258F /* ProfileSetupEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA6370301E32A100E1258F /* ProfileSetupEndpoint.swift */; };
+		0CBA6374301E32A100E1258F /* ProfileSetupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA6371301E32A100E1258F /* ProfileSetupService.swift */; };
+		0CBA6376301E32E800E1258F /* UpdatePersonalInfoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA6375301E32E800E1258F /* UpdatePersonalInfoUseCase.swift */; };
+		0CBA6378301E54C100E1258F /* RegisterNurseRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA6377301E54C100E1258F /* RegisterNurseRequest.swift */; };
+		0CBA637C301E54F000E1258F /* RegisterNurseUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBA637B301E54F000E1258F /* RegisterNurseUseCase.swift */; };
 		0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */; };
 		0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE50DC73009BFAE001B34AA /* ContentView.swift */; };
 		0CE50DCD3009BFAF001B34AA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CE50DCC3009BFAF001B34AA /* Preview Assets.xcassets */; };
@@ -204,6 +211,13 @@
 		0C5D9E13301BB4B900961737 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorMapper.swift; sourceTree = "<group>"; };
 		0CBA6367301E213D00E1258F /* UserStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserStore.swift; sourceTree = "<group>"; };
+		0CBA636A301E30DA00E1258F /* CloudinaryUploadService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudinaryUploadService.swift; sourceTree = "<group>"; };
+		0CBA636D301E329100E1258F /* UpdatePersonalInfoRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePersonalInfoRequest.swift; sourceTree = "<group>"; };
+		0CBA6370301E32A100E1258F /* ProfileSetupEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupEndpoint.swift; sourceTree = "<group>"; };
+		0CBA6371301E32A100E1258F /* ProfileSetupService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileSetupService.swift; sourceTree = "<group>"; };
+		0CBA6375301E32E800E1258F /* UpdatePersonalInfoUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePersonalInfoUseCase.swift; sourceTree = "<group>"; };
+		0CBA6377301E54C100E1258F /* RegisterNurseRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterNurseRequest.swift; sourceTree = "<group>"; };
+		0CBA637B301E54F000E1258F /* RegisterNurseUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterNurseUseCase.swift; sourceTree = "<group>"; };
 		0CE50DC23009BFAE001B34AA /* EnayaProvider.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EnayaProvider.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CE50DC53009BFAE001B34AA /* EnayaProviderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnayaProviderApp.swift; sourceTree = "<group>"; };
 		0CE50DC73009BFAE001B34AA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -398,6 +412,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0CBA636E301E329100E1258F /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				0CBA6377301E54C100E1258F /* RegisterNurseRequest.swift */,
+				0CBA636D301E329100E1258F /* UpdatePersonalInfoRequest.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		0CBA6372301E32A100E1258F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0CBA6370301E32A100E1258F /* ProfileSetupEndpoint.swift */,
+				0CBA6371301E32A100E1258F /* ProfileSetupService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		0CE50DB93009BFAE001B34AA = {
 			isa = PBXGroup;
 			children = (
@@ -459,6 +491,8 @@
 			isa = PBXGroup;
 			children = (
 				B3544D08300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift */,
+				0CBA6375301E32E800E1258F /* UpdatePersonalInfoUseCase.swift */,
+				0CBA637B301E54F000E1258F /* RegisterNurseUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -701,7 +735,9 @@
 		B3CAF273300E9469006A9F5F /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				0CBA636E301E329100E1258F /* DTOs */,
 				B3CAF272300E9469006A9F5F /* Repositories */,
+				0CBA6372301E32A100E1258F /* Services */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -902,6 +938,7 @@
 				0CF5E32C301A22CF00B2BC3F /* Endpoint.swift */,
 				0CF5E332301A22CF00B2BC3F /* UserSession.swift */,
 				0CBA6367301E213D00E1258F /* UserStore.swift */,
+				0CBA636A301E30DA00E1258F /* CloudinaryUploadService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1329,6 +1366,7 @@
 				B3C570453016512B009CD77F /* ReviewServicesCard.swift in Sources */,
 				C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */,
 				C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */,
+				0CBA637C301E54F000E1258F /* RegisterNurseUseCase.swift in Sources */,
 				0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */,
 				B3C5704730165139009CD77F /* ReviewDocumentsCard.swift in Sources */,
 				B3544D0C300EA30B007EDB87 /* ProfileSetupHeaderBar.swift in Sources */,
@@ -1340,6 +1378,8 @@
 				C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */,
 				B3544D18300EA35A007EDB87 /* ReviewSectionCard.swift in Sources */,
 				C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */,
+				0CBA6374301E32A100E1258F /* ProfileSetupService.swift in Sources */,
+				0CBA6376301E32E800E1258F /* UpdatePersonalInfoUseCase.swift in Sources */,
 				B3544D1A300EA367007EDB87 /* PersonalInfoViewModel.swift in Sources */,
 				0CF5E334301A22CF00B2BC3F /* NetworkError.swift in Sources */,
 				C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */,
@@ -1352,6 +1392,7 @@
 				C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */,
 				B3C57E5A3010E901005C1BE8 /* AppTab.swift in Sources */,
 				C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */,
+				0CBA6378301E54C100E1258F /* RegisterNurseRequest.swift in Sources */,
 				0CF5E338301A22CF00B2BC3F /* AuthorizationType.swift in Sources */,
 				B3C57EC13010EAF2005C1BE8 /* HomeViewModel.swift in Sources */,
 				C6C3BECD300A7EEE00C5FC25 /* ActionCard.swift in Sources */,
@@ -1362,6 +1403,7 @@
 				B3C57EBD3010EAD4005C1BE8 /* CancelJobRequestUseCaseProtocol.swift in Sources */,
 				C6C3BECE300A7EEE00C5FC25 /* AuthViewModel.swift in Sources */,
 				B3544D20300EA383007EDB87 /* ReviewApplicationViewModel.swift in Sources */,
+				0CBA636C301E30DA00E1258F /* CloudinaryUploadService.swift in Sources */,
 				C6C3BECF300A7EEE00C5FC25 /* OTPDigitInputField.swift in Sources */,
 				C6C3BED0300A7EEE00C5FC25 /* VerifyOTPUseCase.swift in Sources */,
 				B3CAF268300E8EB2006A9F5F /* SecondaryChip.swift in Sources */,
@@ -1411,12 +1453,14 @@
 				B3C57EC53010EB37005C1BE8 /* HomeView.swift in Sources */,
 				B3CAF29A300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift in Sources */,
 				B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */,
+				0CBA6373301E32A100E1258F /* ProfileSetupEndpoint.swift in Sources */,
 				B3CAF2A8300E9469006A9F5F /* ProfileSetupCoordinatorView.swift in Sources */,
 				0CF5E33A301A22CF00B2BC3F /* SessionManager.swift in Sources */,
 				0C5D9E16301BB88700961737 /* NetworkErrorMapper.swift in Sources */,
 				B3C5703F30165107009CD77F /* ReviewProgressIndicator.swift in Sources */,
 				B3544D09300EA2A6007EDB87 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
 				B3C570433016511D009CD77F /* ReviewPersonalInfoCard.swift in Sources */,
+				0CBA636F301E329100E1258F /* UpdatePersonalInfoRequest.swift in Sources */,
 				0CBA6368301E213D00E1258F /* UserStore.swift in Sources */,
 				B3CAF2AF300E9469006A9F5F /* ProfileSetupRepositoryProtocol.swift in Sources */,
 				B3CAF2B3300E9469006A9F5F /* ProfileSetupStep.swift in Sources */,

@@ -72,13 +72,20 @@ struct PersonalInfoView: View {
                     }
                     
                     VStack(spacing: Spacing.s16) {
-                        PrimaryButton(
-                            title: "Continue to Step 2",
-                            icon: "arrow.right",
-                            iconPosition: .trailing,
-                            isFullWidth: true,
-                            action: viewModel.continueTapped
-                        )
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .brandPrimary))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, Spacing.s16)
+                        } else {
+                            PrimaryButton(
+                                title: "Continue to Step 2",
+                                icon: "arrow.right",
+                                iconPosition: .trailing,
+                                isFullWidth: true,
+                                action: viewModel.continueTapped
+                            )
+                        }
 
                         Text("Step 1 of 3: Personal Information")
                             .carelyText(style: .caption)
@@ -167,6 +174,15 @@ struct PersonalInfoView: View {
     }
 }
 
+struct MockUpdatePersonalInfoUseCase: UpdatePersonalInfoUseCaseProtocol {
+    func execute(info: PersonalInfo) async throws {}
+}
+
 #Preview {
-    PersonalInfoView(viewModel: PersonalInfoViewModel(coordinator: ProfileSetupCoordinator(data: ProfileSetupData())))
+    PersonalInfoView(
+        viewModel: PersonalInfoViewModel(
+            coordinator: ProfileSetupCoordinator(data: ProfileSetupData()),
+            updatePersonalInfoUseCase: MockUpdatePersonalInfoUseCase()
+        )
+    )
 }

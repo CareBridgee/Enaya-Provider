@@ -6,7 +6,7 @@ protocol UserStoring: Sendable {
     func clearUser()
 }
 
-final class UserDefaultsUserStore: UserStoring {
+final class UserDefaultsUserStore: UserStoring, @unchecked Sendable {
     private let defaults = UserDefaults.standard
     private let userKey = "saved_user_session_key"
     

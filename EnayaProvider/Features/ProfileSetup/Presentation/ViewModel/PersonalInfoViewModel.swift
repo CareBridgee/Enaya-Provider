@@ -23,11 +23,18 @@ final class PersonalInfoViewModel: ObservableObject {
     @Published var nationalId: String
     @Published var gender: Gender?
     @Published var errorMessage: String?
+    @Published var isLoading: Bool = false
 
     private let coordinator: ProfileSetupCoordinator
+    private let updatePersonalInfoUseCase: UpdatePersonalInfoUseCaseProtocol
 
-    init(coordinator: ProfileSetupCoordinator) {
+    init(
+        coordinator: ProfileSetupCoordinator,
+        updatePersonalInfoUseCase: UpdatePersonalInfoUseCaseProtocol
+    ) {
         self.coordinator = coordinator
+        self.updatePersonalInfoUseCase = updatePersonalInfoUseCase
+        
         let info = coordinator.data.personalInfo
         self.profilePhotoData = info.profilePhotoData
         self.firstName = info.firstName
@@ -51,17 +58,33 @@ final class PersonalInfoViewModel: ObservableObject {
             return
         }
         errorMessage = nil
-        coordinator.save(
-            personalInfo: PersonalInfo(
-                profilePhotoData: profilePhotoData,
-                firstName: firstName.trimmingCharacters(in: .whitespaces),
-                lastName: lastName.trimmingCharacters(in: .whitespaces),
-                dateOfBirth: dateOfBirth,
-                nationalId: nationalId.trimmingCharacters(in: .whitespaces),
-                gender: gender
-            )
+        isLoading = true
+        
+        let info = PersonalInfo(
+            profilePhotoData: profilePhotoData,
+            firstName: firstName.trimmingCharacters(in: .whitespaces),
+            lastName: lastName.trimmingCharacters(in: .whitespaces),
+            dateOfBirth: dateOfBirth,
+            nationalId: nationalId.trimmingCharacters(in: .whitespaces),
+            gender: gender
         )
-        coordinator.next()
+        
+        Task {
+            do {
+                try await updatePersonalInfoUseCase.execute(info: info)
+                
+                await MainActor.run {
+                    self.isLoading = false
+                    self.coordinator.save(personalInfo: info)
+                    self.coordinator.next()
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoading = false
+                    self.errorMessage = "Failed to update profile: \(error.localizedDescription)"
+                }
+            }
+        }
     }
 
     private func loadPhoto() {

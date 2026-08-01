@@ -34,12 +34,16 @@ final class AuthInterceptor: RequestInterceptor, @unchecked Sendable {
 
         if request.value(forHTTPHeaderField: AuthorizationType.headerKey) != nil {
             request.setValue(nil, forHTTPHeaderField: AuthorizationType.headerKey)
+            print("AuthInterceptor: Request to \(urlRequest.url?.absoluteString ?? "") doesn't need token")
             completion(.success(request))
             return
         }
 
         if let token = tokenStore.getAccessToken() {
+            print("AuthInterceptor: Attaching token to \(urlRequest.url?.absoluteString ?? "")")
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+            print("AuthInterceptor: No token found in TokenStore for \(urlRequest.url?.absoluteString ?? "")")
         }
 
         completion(.success(request))
