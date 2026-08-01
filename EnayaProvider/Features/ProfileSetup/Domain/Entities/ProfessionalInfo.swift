@@ -34,8 +34,11 @@ enum NursingSpecialty: String, CaseIterable, Identifiable {
 
 struct ProfessionalInfo {
     var nationalIdDocument: UploadedDocument? = nil
+    var nationalIdBackDocument: UploadedDocument? = nil
     var nursingLicenseDocument: UploadedDocument? = nil
     var professionalCertificateDocument: UploadedDocument? = nil
     var yearsOfExperience: ExperienceRange? = nil
     var primarySpecialty: NursingSpecialty? = nil
+    var licenseNumber: String? = nil
+    var bio: String? = nil
 }

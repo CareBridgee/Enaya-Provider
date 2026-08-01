@@ -8,9 +8,13 @@
 import Foundation
 import Alamofire
 
-protocol NetworkClientProtocol {
+protocol NetworkClientProtocol: Sendable {
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T
     func requestWithoutResponse(_ endpoint: Endpoint) async throws
+    func upload<T: Decodable>(
+        _ endpoint: Endpoint,
+        multipartFormData: @escaping (MultipartFormData) -> Void
+    ) async throws -> T
 }
 
 final class NetworkClient: NetworkClientProtocol {
@@ -75,6 +79,37 @@ final class NetworkClient: NetworkClientProtocol {
             headers.add(name: AuthorizationType.headerKey, value: "true")
         }
         return headers
+    }
+    
+    func upload<T: Decodable>(
+        _ endpoint: Endpoint,
+        multipartFormData: @escaping (MultipartFormData) -> Void
+    ) async throws -> T {
+        if useLogs { print("NetworkClient: uploading \(endpoint.method.rawValue) \(endpoint.url)") }
+        let task = session.upload(
+            multipartFormData: multipartFormData,
+            to: endpoint.url,
+            method: endpoint.method,
+            headers: buildHeaders(for: endpoint)
+        )
+        .validate()
+        .serializingDecodable(T.self, decoder: decoder)
+        
+        let response = await task.response
+        
+        switch response.result {
+        case .success(let value):
+            if useLogs { print("NetworkClient: upload success for \(endpoint.url)") }
+            return value
+        case .failure(let error):
+            if useLogs {
+                print("NetworkClient: upload failure for \(endpoint.url) with error: \(error)")
+                if let data = response.data, let str = String(data: data, encoding: .utf8) {
+                    print("NetworkClient: upload server response body: \(str)")
+                }
+            }
+            throw NetworkErrorMapper.map(error, data: response.data, decoder: decoder)
+        }
     }
 }
 // MARK:

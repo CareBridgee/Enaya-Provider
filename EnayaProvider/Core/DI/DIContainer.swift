@@ -78,23 +78,52 @@ final class DIContainer {
 
     // MARK: - ProfileSetup
 
-    private lazy var profileSetupRepository: ProfileSetupRepositoryProtocol = ProfileSetupRepositoryImpl()
+    private lazy var mediaUploadService: MediaUploadServiceProtocol = CloudinaryUploadService()
+    
+    private lazy var profileSetupService: ProfileSetupServiceProtocol = ProfileSetupServiceImpl(
+        networkClient: networkClient
+    )
 
-        private func makeSubmitProfileApplicationUseCase() -> SubmitProfileApplicationUseCaseProtocol {
-            SubmitProfileApplicationUseCase(repository: profileSetupRepository)
-        }
+    private lazy var profileSetupRepository: ProfileSetupRepositoryProtocol = ProfileSetupRepositoryImpl(
+        profileSetupService: profileSetupService
+    )
+    
+    private func makeUpdatePersonalInfoUseCase() -> UpdatePersonalInfoUseCaseProtocol {
+        UpdatePersonalInfoUseCase(
+            repository: profileSetupRepository,
+            mediaUploadService: mediaUploadService,
+            sessionManager: sessionManager
+        )
+    }
 
-        func makeProfileSetupCoordinator() -> ProfileSetupCoordinator {
-            ProfileSetupCoordinator(data: ProfileSetupData())
-        }
+    private func makeSubmitProfileApplicationUseCase() -> SubmitProfileApplicationUseCaseProtocol {
+        SubmitProfileApplicationUseCase(repository: profileSetupRepository)
+    }
 
-        func makePersonalInfoViewModel(coordinator: ProfileSetupCoordinator) -> PersonalInfoViewModel {
-            PersonalInfoViewModel(coordinator: coordinator)
-        }
+    func makeProfileSetupCoordinator() -> ProfileSetupCoordinator {
+        ProfileSetupCoordinator(data: ProfileSetupData())
+    }
 
-        func makeProfessionalInfoViewModel(coordinator: ProfileSetupCoordinator) -> ProfessionalInfoViewModel {
-            ProfessionalInfoViewModel(coordinator: coordinator)
-        }
+    func makePersonalInfoViewModel(coordinator: ProfileSetupCoordinator) -> PersonalInfoViewModel {
+        PersonalInfoViewModel(
+            coordinator: coordinator,
+            updatePersonalInfoUseCase: makeUpdatePersonalInfoUseCase()
+        )
+    }
+
+    private func makeRegisterNurseUseCase() -> RegisterNurseUseCaseProtocol {
+        RegisterNurseUseCase(
+            repository: profileSetupRepository,
+            sessionManager: sessionManager
+        )
+    }
+
+    func makeProfessionalInfoViewModel(coordinator: ProfileSetupCoordinator) -> ProfessionalInfoViewModel {
+        ProfessionalInfoViewModel(
+            coordinator: coordinator,
+            registerNurseUseCase: makeRegisterNurseUseCase()
+        )
+    }
 
         func makeProvidedServicesViewModel(coordinator: ProfileSetupCoordinator) -> ProvidedServicesViewModel {
             ProvidedServicesViewModel(coordinator: coordinator)

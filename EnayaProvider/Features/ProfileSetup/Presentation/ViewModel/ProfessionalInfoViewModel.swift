@@ -18,23 +18,33 @@ final class ProfessionalInfoViewModel: ObservableObject {
     @Published var professionalCertificateDocument: UploadedDocument?
     @Published var yearsOfExperience: ExperienceRange?
     @Published var primarySpecialty: NursingSpecialty?
+    @Published var licenseNumber: String = ""
     @Published var errorMessage: String?
+    @Published var isLoading: Bool = false
 
     private let coordinator: ProfileSetupCoordinator
+    private let registerNurseUseCase: RegisterNurseUseCaseProtocol
 
-    init(coordinator: ProfileSetupCoordinator) {
+    init(
+        coordinator: ProfileSetupCoordinator,
+        registerNurseUseCase: RegisterNurseUseCaseProtocol
+    ) {
         self.coordinator = coordinator
+        self.registerNurseUseCase = registerNurseUseCase
+        
         let info = coordinator.data.professionalInfo
         self.nationalIdForntDocument = info.nationalIdDocument
+        self.nationalIdBackDocument = info.nationalIdBackDocument
         self.nursingLicenseDocument = info.nursingLicenseDocument
         self.professionalCertificateDocument = info.professionalCertificateDocument
         self.yearsOfExperience = info.yearsOfExperience
         self.primarySpecialty = info.primarySpecialty
+        self.licenseNumber = info.licenseNumber ?? ""
     }
 
     var isValid: Bool {
-        nationalIdForntDocument != nil && nursingLicenseDocument != nil &&
-        yearsOfExperience != nil && primarySpecialty != nil
+        nationalIdForntDocument != nil && nationalIdBackDocument != nil && nursingLicenseDocument != nil && professionalCertificateDocument != nil &&
+        yearsOfExperience != nil && primarySpecialty != nil && !licenseNumber.trimmingCharacters(in: .whitespaces).isEmpty
     }
 
     func backTapped() {
@@ -44,22 +54,52 @@ final class ProfessionalInfoViewModel: ObservableObject {
 
     func continueTapped() {
         guard isValid else {
-            errorMessage = "Please upload your National ID, Nursing License, and complete the fields above."
+            errorMessage = "Please complete all required fields and upload all documents."
             return
         }
         errorMessage = nil
+        isLoading = true
         persist()
-        coordinator.next()
+        
+        let info = ProfessionalInfo(
+            nationalIdDocument: nationalIdForntDocument,
+            nationalIdBackDocument: nationalIdBackDocument,
+            nursingLicenseDocument: nursingLicenseDocument,
+            professionalCertificateDocument: professionalCertificateDocument,
+            yearsOfExperience: yearsOfExperience,
+            primarySpecialty: primarySpecialty,
+            licenseNumber: licenseNumber,
+            bio: nil
+        )
+        
+        Task {
+            do {
+                try await registerNurseUseCase.execute(info: info, personalInfo: coordinator.data.personalInfo)
+                
+                await MainActor.run {
+                    self.isLoading = false
+                    self.coordinator.next()
+                }
+            } catch {
+                await MainActor.run {
+                    self.isLoading = false
+                    self.errorMessage = "Failed to register nurse: \(error.localizedDescription)"
+                }
+            }
+        }
     }
 
     private func persist() {
         coordinator.save(
             professionalInfo: ProfessionalInfo(
                 nationalIdDocument: nationalIdForntDocument,
+                nationalIdBackDocument: nationalIdBackDocument,
                 nursingLicenseDocument: nursingLicenseDocument,
                 professionalCertificateDocument: professionalCertificateDocument,
                 yearsOfExperience: yearsOfExperience,
-                primarySpecialty: primarySpecialty
+                primarySpecialty: primarySpecialty,
+                licenseNumber: licenseNumber,
+                bio: nil
             )
         )
     }

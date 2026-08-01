@@ -53,6 +53,13 @@ struct ProfessionalInfoView: View {
                     optionTitle: { $0.rawValue },
                     selection: $viewModel.primarySpecialty
                 )
+                
+                CarelyTextField(
+                    label: "License Number",
+                    isRequired: true,
+                    placeholder: "e.g. 123456789",
+                    text: $viewModel.licenseNumber
+                )
 
                 if let errorMessage = viewModel.errorMessage {
                     AlertBanner(style: .error, message: errorMessage)
@@ -67,13 +74,20 @@ struct ProfessionalInfoView: View {
                         .padding(.top, Spacing.s8)
                         .padding(.horizontal, Spacing.s8)
                     
-                    PrimaryButton(
-                        title: "Continue to Step 3",
-                        icon: "arrow.right",
-                        iconPosition: .trailing,
-                        isFullWidth: true,
-                        action: viewModel.continueTapped
-                    )
+                    if viewModel.isLoading {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .brandPrimary))
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, Spacing.s16)
+                    } else {
+                        PrimaryButton(
+                            title: "Continue to Step 3",
+                            icon: "arrow.right",
+                            iconPosition: .trailing,
+                            isFullWidth: true,
+                            action: viewModel.continueTapped
+                        )
+                    }
                 }
                 .padding(.top, Spacing.s8)
             }
