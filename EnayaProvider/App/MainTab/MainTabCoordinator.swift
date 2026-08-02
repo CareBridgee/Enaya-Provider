@@ -16,10 +16,11 @@ final class MainTabCoordinator: ObservableObject {
     let homeCoordinator: HomeCoordinator
 //    let trackerCoordinator: TrackerCoordinator
 //    let availabilityCoordinator: AvailabilityCoordinator
-//    let earningsCoordinator: EarningsCoordinator
+    let earningsCoordinator: EarningsCoordinator
 
     init() {
         self.homeCoordinator = HomeCoordinator()
+        self.earningsCoordinator = EarningsCoordinator()
         wireCrossTabNavigation()
     }
 

@@ -174,4 +174,68 @@ final class DIContainer {
                 cancelJobRequestUseCase: makeCancelJobRequestUseCase()
             )
         }
+    // MARK: - Offer
+
+        private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl()
+
+        private func makeStartVisitUseCase() -> StartVisitUseCaseProtocol {
+            StartVisitUseCase(repository: offerRepository)
+        }
+
+        private func makeCompleteVisitUseCase() -> CompleteVisitUseCaseProtocol {
+            CompleteVisitUseCase(repository: offerRepository)
+        }
+
+        private func makeCancelOfferUseCase() -> CancelOfferUseCaseProtocol {
+            CancelOfferUseCase(repository: offerRepository)
+        }
+
+        func makeOfferCoordinator(offer: ConfirmedOffer) -> OfferCoordinator {
+            OfferCoordinator(offer: offer)
+        }
+
+        func makeOfferConfirmedViewModel(coordinator: OfferCoordinator) -> OfferConfirmedViewModel {
+            OfferConfirmedViewModel(
+                coordinator: coordinator,
+                startVisitUseCase: makeStartVisitUseCase(),
+                completeVisitUseCase: makeCompleteVisitUseCase()
+            )
+        }
+
+        func makeOfferDetailsViewModel(coordinator: OfferCoordinator) -> OfferDetailsViewModel {
+            OfferDetailsViewModel(coordinator: coordinator)
+        }
+
+        func makeVisitCompletedViewModel(coordinator: OfferCoordinator, onReturnHome: @escaping () -> Void) -> VisitCompletedViewModel {
+            VisitCompletedViewModel(coordinator: coordinator, onReturnHome: onReturnHome)
+        }
+
+        func makeCancelOfferViewModel(coordinator: OfferCoordinator, onCancelled: @escaping () -> Void) -> CancelOfferViewModel {
+            CancelOfferViewModel(
+                coordinator: coordinator,
+                cancelOfferUseCase: makeCancelOfferUseCase(),
+                onCancelled: onCancelled
+            )
+        }
+    // MARK: - Earnings
+
+        private lazy var earningsRepository: EarningsRepositoryProtocol = EarningsRepositoryImpl()
+
+        private func makeFetchEarningsDataUseCase() -> FetchEarningsDataUseCase {
+            FetchEarningsDataUseCase(repository: earningsRepository)
+        }
+
+        func makeEarningsHistoryViewModel(coordinator: EarningsCoordinator) -> EarningsHistoryViewModel {
+            EarningsHistoryViewModel(
+                coordinator: coordinator,
+                useCase: makeFetchEarningsDataUseCase()
+            )
+        }
+
+        func makePayoutsViewModel(coordinator: EarningsCoordinator) -> PayoutsViewModel {
+            PayoutsViewModel(
+                coordinator: coordinator,
+                useCase: makeFetchEarningsDataUseCase()
+            )
+        }
 }
