@@ -63,6 +63,37 @@
 		B3544D3F300EAE03007EDB87 /* UnderReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */; };
 		B3544D41300EAE0D007EDB87 /* AccountVerifiedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */; };
 		B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */; };
+		B3A3BEB4301F27E200F31E3D /* OfferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB3301F27E200F31E3D /* OfferStatus.swift */; };
+		B3A3BEB6301F27F100F31E3D /* OfferRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB5301F27F100F31E3D /* OfferRepositoryProtocol.swift */; };
+		B3A3BEB8301F280E00F31E3D /* OfferRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB7301F280E00F31E3D /* OfferRepositoryImpl.swift */; };
+		B3A3BEBA301F281A00F31E3D /* StartVisitUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB9301F281A00F31E3D /* StartVisitUseCaseProtocol.swift */; };
+		B3A3BEC1301F284F00F31E3D /* OfferRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEC0301F284F00F31E3D /* OfferRoute.swift */; };
+		B3A3BEC3301F285800F31E3D /* OfferCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEC2301F285800F31E3D /* OfferCoordinator.swift */; };
+		B3A3BEC5301F287100F31E3D /* OfferCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEC4301F287100F31E3D /* OfferCoordinatorView.swift */; };
+		B3A3BEC7301F288800F31E3D /* OfferPatientCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEC6301F288800F31E3D /* OfferPatientCard.swift */; };
+		B3A3BEC9301F288E00F31E3D /* OfferStatChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEC8301F288E00F31E3D /* OfferStatChip.swift */; };
+		B3A3BECB301F289400F31E3D /* OfferSectionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BECA301F289400F31E3D /* OfferSectionLabel.swift */; };
+		B3A3BECD301F289A00F31E3D /* OfferMapAddressCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BECC301F289A00F31E3D /* OfferMapAddressCard.swift */; };
+		B3A3BECF301F28A000F31E3D /* OfferSummaryDetailGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BECE301F28A000F31E3D /* OfferSummaryDetailGrid.swift */; };
+		B3A3BED1301F28A500F31E3D /* CancellationReasonRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BED0301F28A500F31E3D /* CancellationReasonRow.swift */; };
+		B3A3BED3301F28B100F31E3D /* OfferConfirmedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BED2301F28B100F31E3D /* OfferConfirmedViewModel.swift */; };
+		B3A3BED5301F28B700F31E3D /* OfferDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BED4301F28B700F31E3D /* OfferDetailsViewModel.swift */; };
+		B3A3BED7301F28C100F31E3D /* VisitCompletedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BED6301F28C100F31E3D /* VisitCompletedViewModel.swift */; };
+		B3A3BED9301F28C700F31E3D /* CancelOfferViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BED8301F28C700F31E3D /* CancelOfferViewModel.swift */; };
+		B3A3BEDB301F28CE00F31E3D /* OfferConfirmedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEDA301F28CE00F31E3D /* OfferConfirmedView.swift */; };
+		B3A3BEDD301F28D900F31E3D /* OfferDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEDC301F28D900F31E3D /* OfferDetailsView.swift */; };
+		B3A3BEDF301F28E500F31E3D /* VisitCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEDE301F28E500F31E3D /* VisitCompletedView.swift */; };
+		B3A3BEE1301F28F300F31E3D /* CancelOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEE0301F28F300F31E3D /* CancelOfferView.swift */; };
+		B3B6A5C3301F3758004772C8 /* JobEarningStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */; };
+		B3B6A5C5301F3763004772C8 /* EarningsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */; };
+		B3B6A5C7301F376E004772C8 /* EarningsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */; };
+		B3B6A5C9301F3775004772C8 /* FetchEarningsDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C8301F3775004772C8 /* FetchEarningsDataUseCase.swift */; };
+		B3B6A5CB301F377F004772C8 /* EarningsRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5CA301F377F004772C8 /* EarningsRoute.swift */; };
+		B3B6A5CD301F3788004772C8 /* EarningsHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5CC301F3788004772C8 /* EarningsHistoryViewModel.swift */; };
+		B3B6A5CF301F3793004772C8 /* TabCustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5CE301F3793004772C8 /* TabCustomHeader.swift */; };
+		B3B6A5D3301F37A6004772C8 /* EarningsHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D2301F37A6004772C8 /* EarningsHistoryView.swift */; };
+		B3B6A5D5301F37B2004772C8 /* PayoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D4301F37B2004772C8 /* PayoutsView.swift */; };
+		B3B6A5D8301F37C5004772C8 /* EarningsCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D7301F37C5004772C8 /* EarningsCoordinatorView.swift */; };
 		B3C5703D301650F9009CD77F /* ReviewCustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */; };
 		B3C5703F30165107009CD77F /* ReviewProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */; };
 		B3C5704130165111009CD77F /* ReviewInfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5704030165111009CD77F /* ReviewInfoRow.swift */; };
@@ -254,6 +285,37 @@
 		B3544D3E300EAE03007EDB87 /* UnderReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderReviewView.swift; sourceTree = "<group>"; };
 		B3544D40300EAE0D007EDB87 /* AccountVerifiedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerifiedView.swift; sourceTree = "<group>"; };
 		B3544D42300EAE1A007EDB87 /* DocumentRejectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentRejectedView.swift; sourceTree = "<group>"; };
+		B3A3BEB3301F27E200F31E3D /* OfferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferStatus.swift; sourceTree = "<group>"; };
+		B3A3BEB5301F27F100F31E3D /* OfferRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRepositoryProtocol.swift; sourceTree = "<group>"; };
+		B3A3BEB7301F280E00F31E3D /* OfferRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRepositoryImpl.swift; sourceTree = "<group>"; };
+		B3A3BEB9301F281A00F31E3D /* StartVisitUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartVisitUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B3A3BEC0301F284F00F31E3D /* OfferRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRoute.swift; sourceTree = "<group>"; };
+		B3A3BEC2301F285800F31E3D /* OfferCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferCoordinator.swift; sourceTree = "<group>"; };
+		B3A3BEC4301F287100F31E3D /* OfferCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferCoordinatorView.swift; sourceTree = "<group>"; };
+		B3A3BEC6301F288800F31E3D /* OfferPatientCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferPatientCard.swift; sourceTree = "<group>"; };
+		B3A3BEC8301F288E00F31E3D /* OfferStatChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferStatChip.swift; sourceTree = "<group>"; };
+		B3A3BECA301F289400F31E3D /* OfferSectionLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferSectionLabel.swift; sourceTree = "<group>"; };
+		B3A3BECC301F289A00F31E3D /* OfferMapAddressCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferMapAddressCard.swift; sourceTree = "<group>"; };
+		B3A3BECE301F28A000F31E3D /* OfferSummaryDetailGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferSummaryDetailGrid.swift; sourceTree = "<group>"; };
+		B3A3BED0301F28A500F31E3D /* CancellationReasonRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellationReasonRow.swift; sourceTree = "<group>"; };
+		B3A3BED2301F28B100F31E3D /* OfferConfirmedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferConfirmedViewModel.swift; sourceTree = "<group>"; };
+		B3A3BED4301F28B700F31E3D /* OfferDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferDetailsViewModel.swift; sourceTree = "<group>"; };
+		B3A3BED6301F28C100F31E3D /* VisitCompletedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCompletedViewModel.swift; sourceTree = "<group>"; };
+		B3A3BED8301F28C700F31E3D /* CancelOfferViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOfferViewModel.swift; sourceTree = "<group>"; };
+		B3A3BEDA301F28CE00F31E3D /* OfferConfirmedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferConfirmedView.swift; sourceTree = "<group>"; };
+		B3A3BEDC301F28D900F31E3D /* OfferDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferDetailsView.swift; sourceTree = "<group>"; };
+		B3A3BEDE301F28E500F31E3D /* VisitCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCompletedView.swift; sourceTree = "<group>"; };
+		B3A3BEE0301F28F300F31E3D /* CancelOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOfferView.swift; sourceTree = "<group>"; };
+		B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobEarningStatus.swift; sourceTree = "<group>"; };
+		B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRepositoryProtocol.swift; sourceTree = "<group>"; };
+		B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRepositoryImpl.swift; sourceTree = "<group>"; };
+		B3B6A5C8301F3775004772C8 /* FetchEarningsDataUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchEarningsDataUseCase.swift; sourceTree = "<group>"; };
+		B3B6A5CA301F377F004772C8 /* EarningsRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRoute.swift; sourceTree = "<group>"; };
+		B3B6A5CC301F3788004772C8 /* EarningsHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryViewModel.swift; sourceTree = "<group>"; };
+		B3B6A5CE301F3793004772C8 /* TabCustomHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCustomHeader.swift; sourceTree = "<group>"; };
+		B3B6A5D2301F37A6004772C8 /* EarningsHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryView.swift; sourceTree = "<group>"; };
+		B3B6A5D4301F37B2004772C8 /* PayoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoutsView.swift; sourceTree = "<group>"; };
+		B3B6A5D7301F37C5004772C8 /* EarningsCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsCoordinatorView.swift; sourceTree = "<group>"; };
 		B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCustomHeader.swift; sourceTree = "<group>"; };
 		B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProgressIndicator.swift; sourceTree = "<group>"; };
 		B3C5704030165111009CD77F /* ReviewInfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewInfoRow.swift; sourceTree = "<group>"; };
@@ -547,6 +609,267 @@
 				B3544D30300EACDE007EDB87 /* RejectionTip.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		B3A3BEA5301F26DB00F31E3D /* Offer */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEBB301F283100F31E3D /* Coordinator */,
+				B3A3BEA8301F272A00F31E3D /* domain */,
+				B3A3BEA7301F271F00F31E3D /* data */,
+				B3A3BEA6301F271400F31E3D /* presentation */,
+			);
+			path = Offer;
+			sourceTree = "<group>";
+		};
+		B3A3BEA6301F271400F31E3D /* presentation */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEAA301F273900F31E3D /* viewModel */,
+				B3A3BEA9301F273200F31E3D /* view */,
+			);
+			path = presentation;
+			sourceTree = "<group>";
+		};
+		B3A3BEA7301F271F00F31E3D /* data */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEAD301F277700F31E3D /* Services */,
+				B3A3BEAC301F275100F31E3D /* Repositories */,
+				B3A3BEAB301F274700F31E3D /* DTOs */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		B3A3BEA8301F272A00F31E3D /* domain */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEB0301F27A200F31E3D /* Repositories */,
+				B3A3BEAF301F278D00F31E3D /* UseCases */,
+				B3A3BEAE301F278800F31E3D /* Entities */,
+			);
+			path = domain;
+			sourceTree = "<group>";
+		};
+		B3A3BEA9301F273200F31E3D /* view */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEB2301F27C100F31E3D /* Components */,
+				B3A3BEB1301F27B900F31E3D /* Screens */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		B3A3BEAA301F273900F31E3D /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BED8301F28C700F31E3D /* CancelOfferViewModel.swift */,
+				B3A3BED6301F28C100F31E3D /* VisitCompletedViewModel.swift */,
+				B3A3BED4301F28B700F31E3D /* OfferDetailsViewModel.swift */,
+				B3A3BED2301F28B100F31E3D /* OfferConfirmedViewModel.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		B3A3BEAB301F274700F31E3D /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		B3A3BEAC301F275100F31E3D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEB7301F280E00F31E3D /* OfferRepositoryImpl.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B3A3BEAD301F277700F31E3D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		B3A3BEAE301F278800F31E3D /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEB3301F27E200F31E3D /* OfferStatus.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		B3A3BEAF301F278D00F31E3D /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEB9301F281A00F31E3D /* StartVisitUseCaseProtocol.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		B3A3BEB0301F27A200F31E3D /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEB5301F27F100F31E3D /* OfferRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B3A3BEB1301F27B900F31E3D /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEE0301F28F300F31E3D /* CancelOfferView.swift */,
+				B3A3BEDE301F28E500F31E3D /* VisitCompletedView.swift */,
+				B3A3BEDC301F28D900F31E3D /* OfferDetailsView.swift */,
+				B3A3BEDA301F28CE00F31E3D /* OfferConfirmedView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		B3A3BEB2301F27C100F31E3D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BED0301F28A500F31E3D /* CancellationReasonRow.swift */,
+				B3A3BECE301F28A000F31E3D /* OfferSummaryDetailGrid.swift */,
+				B3A3BECC301F289A00F31E3D /* OfferMapAddressCard.swift */,
+				B3A3BECA301F289400F31E3D /* OfferSectionLabel.swift */,
+				B3A3BEC8301F288E00F31E3D /* OfferStatChip.swift */,
+				B3A3BEC6301F288800F31E3D /* OfferPatientCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B3A3BEBB301F283100F31E3D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B3A3BEC4301F287100F31E3D /* OfferCoordinatorView.swift */,
+				B3A3BEC2301F285800F31E3D /* OfferCoordinator.swift */,
+				B3A3BEC0301F284F00F31E3D /* OfferRoute.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B3B6A5B4301F3694004772C8 /* Eranings */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5D6301F37B6004772C8 /* EarningsCoordinator */,
+				B3B6A5B8301F36BE004772C8 /* domain */,
+				B3B6A5B6301F36A8004772C8 /* data */,
+				B3B6A5B5301F369E004772C8 /* presnetation */,
+			);
+			path = Eranings;
+			sourceTree = "<group>";
+		};
+		B3B6A5B5301F369E004772C8 /* presnetation */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5BE301F371B004772C8 /* viewModel */,
+				B3B6A5BD301F370F004772C8 /* view */,
+			);
+			path = presnetation;
+			sourceTree = "<group>";
+		};
+		B3B6A5B6301F36A8004772C8 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5C1301F373D004772C8 /* DTOs */,
+				B3B6A5BC301F3705004772C8 /* Repositories */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		B3B6A5B8301F36BE004772C8 /* domain */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5BB301F36FC004772C8 /* UseCases */,
+				B3B6A5BA301F36D5004772C8 /* Repositories */,
+				B3B6A5B9301F36C6004772C8 /* Entities */,
+			);
+			path = domain;
+			sourceTree = "<group>";
+		};
+		B3B6A5B9301F36C6004772C8 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		B3B6A5BA301F36D5004772C8 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B3B6A5BB301F36FC004772C8 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5C8301F3775004772C8 /* FetchEarningsDataUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		B3B6A5BC301F3705004772C8 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		B3B6A5BD301F370F004772C8 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5C0301F372C004772C8 /* components */,
+				B3B6A5BF301F3726004772C8 /* screens */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		B3B6A5BE301F371B004772C8 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5CC301F3788004772C8 /* EarningsHistoryViewModel.swift */,
+			);
+			path = viewModel;
+			sourceTree = "<group>";
+		};
+		B3B6A5BF301F3726004772C8 /* screens */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5D4301F37B2004772C8 /* PayoutsView.swift */,
+				B3B6A5D2301F37A6004772C8 /* EarningsHistoryView.swift */,
+			);
+			path = screens;
+			sourceTree = "<group>";
+		};
+		B3B6A5C0301F372C004772C8 /* components */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5CE301F3793004772C8 /* TabCustomHeader.swift */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
+		B3B6A5C1301F373D004772C8 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		B3B6A5D6301F37B6004772C8 /* EarningsCoordinator */ = {
+			isa = PBXGroup;
+			children = (
+				B3B6A5D7301F37C5004772C8 /* EarningsCoordinatorView.swift */,
+				B3B6A5CA301F377F004772C8 /* EarningsRoute.swift */,
+			);
+			path = EarningsCoordinator;
 			sourceTree = "<group>";
 		};
 		B3C57E583010E8E8005C1BE8 /* MainTab */ = {
@@ -1125,11 +1448,13 @@
 		C6C3BEC0300A7EEE00C5FC25 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B3A3BEA5301F26DB00F31E3D /* Offer */,
 				B3544D29300EA543007EDB87 /* ApplicationStatus */,
 				C6C3BEBB300A7EEE00C5FC25 /* Auth */,
 				C6C3BEBF300A7EEE00C5FC25 /* Shared */,
 				B3CAF299300E9469006A9F5F /* ProfileSetup */,
 				B3C57E883010EA0D005C1BE8 /* Home */,
+				B3B6A5B4301F3694004772C8 /* Eranings */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -1289,7 +1614,9 @@
 				B3544D41300EAE0D007EDB87 /* AccountVerifiedView.swift in Sources */,
 				C6C3BE68300A7CA300C5FC25 /* Radius.swift in Sources */,
 				C6C3BE69300A7CA300C5FC25 /* Shadow.swift in Sources */,
+				B3A3BEC9301F288E00F31E3D /* OfferStatChip.swift in Sources */,
 				B3C57EAD3010EA7D005C1BE8 /* JobRequest.swift in Sources */,
+				B3A3BECB301F289400F31E3D /* OfferSectionLabel.swift in Sources */,
 				B3544D3D300EADE2007EDB87 /* AccountVerifiedViewModel.swift in Sources */,
 				B3544D10300EA32E007EDB87 /* SelectionField.swift in Sources */,
 				C6C3BE6A300A7CA300C5FC25 /* AuthInterceptor.swift in Sources */,
@@ -1319,52 +1646,69 @@
 				C6C3BE6D300A7CA300C5FC25 /* DIContainer.swift in Sources */,
 				B3544D39300EAD56007EDB87 /* UnderReviewViewModel.swift in Sources */,
 				0CF5E33F301A24E000B2BC3F /* Gender.swift in Sources */,
+				B3A3BED1301F28A500F31E3D /* CancellationReasonRow.swift in Sources */,
 				C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */,
 				B3C57ECB3010EB55005C1BE8 /* EarningsSummaryCard.swift in Sources */,
 				B3C57EA93010EA6C005C1BE8 /* ProviderHomeSummary.swift in Sources */,
 				B3C570513016518D009CD77F /* ReviewSubmitFooter.swift in Sources */,
 				B3C570453016512B009CD77F /* ReviewServicesCard.swift in Sources */,
+				B3A3BECF301F28A000F31E3D /* OfferSummaryDetailGrid.swift in Sources */,
+				B3A3BEB4301F27E200F31E3D /* OfferStatus.swift in Sources */,
+				B3B6A5C5301F3763004772C8 /* EarningsRepositoryProtocol.swift in Sources */,
 				C6C3BE6F300A7CA300C5FC25 /* Spacing.swift in Sources */,
 				C6C3BEC1300A7EEE00C5FC25 /* AppHeader.swift in Sources */,
 				0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */,
 				B3C5704730165139009CD77F /* ReviewDocumentsCard.swift in Sources */,
 				B3544D0C300EA30B007EDB87 /* ProfileSetupHeaderBar.swift in Sources */,
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
+				B3A3BEDB301F28CE00F31E3D /* OfferConfirmedView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* AuthErrorMapper.swift in Sources */,
+				B3A3BEC7301F288800F31E3D /* OfferPatientCard.swift in Sources */,
 				C6C3BEC4300A7EEE00C5FC25 /* CustomInputView.swift in Sources */,
 				B3544D31300EACDE007EDB87 /* RejectionTip.swift in Sources */,
 				B3C57E603010E932005C1BE8 /* ProviderTabBar.swift in Sources */,
 				C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */,
 				B3544D18300EA35A007EDB87 /* ReviewSectionCard.swift in Sources */,
+				B3B6A5D8301F37C5004772C8 /* EarningsCoordinatorView.swift in Sources */,
 				C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */,
 				B3544D1A300EA367007EDB87 /* PersonalInfoViewModel.swift in Sources */,
 				0CF5E334301A22CF00B2BC3F /* NetworkError.swift in Sources */,
+				B3A3BEBA301F281A00F31E3D /* StartVisitUseCaseProtocol.swift in Sources */,
 				C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */,
+				B3A3BEDF301F28E500F31E3D /* VisitCompletedView.swift in Sources */,
 				0C5D9E10301BB0E500961737 /* LogoutUseCase.swift in Sources */,
 				B3C57EAB3010EA75005C1BE8 /* ProviderAvailability.swift in Sources */,
+				B3B6A5D5301F37B2004772C8 /* PayoutsView.swift in Sources */,
 				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
 				B3C57ED730111D55005C1BE8 /* ObserveJobRequestsUseCaseProtocol.swift in Sources */,
 				B3C57E5E3010E91F005C1BE8 /* MainTabCoordinatorView.swift in Sources */,
 				C6C3BECA300A7EEE00C5FC25 /* AuthEndpoint.swift in Sources */,
 				C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */,
+				B3A3BED5301F28B700F31E3D /* OfferDetailsViewModel.swift in Sources */,
 				B3C57E5A3010E901005C1BE8 /* AppTab.swift in Sources */,
 				C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */,
+				B3B6A5D3301F37A6004772C8 /* EarningsHistoryView.swift in Sources */,
 				0CF5E338301A22CF00B2BC3F /* AuthorizationType.swift in Sources */,
 				B3C57EC13010EAF2005C1BE8 /* HomeViewModel.swift in Sources */,
 				C6C3BECD300A7EEE00C5FC25 /* ActionCard.swift in Sources */,
 				0CF5E33D301A22D500B2BC3F /* NetworkConfiguration.swift in Sources */,
 				B3544D1E300EA379007EDB87 /* ProvidedServicesViewModel.swift in Sources */,
 				B3C57ED33010ED36005C1BE8 /* ApplicationStatus.swift in Sources */,
+				B3A3BEC3301F285800F31E3D /* OfferCoordinator.swift in Sources */,
 				0CF5E333301A22CF00B2BC3F /* KeychainTokenStore.swift in Sources */,
+				B3A3BEE1301F28F300F31E3D /* CancelOfferView.swift in Sources */,
 				B3C57EBD3010EAD4005C1BE8 /* CancelJobRequestUseCaseProtocol.swift in Sources */,
 				C6C3BECE300A7EEE00C5FC25 /* AuthViewModel.swift in Sources */,
 				B3544D20300EA383007EDB87 /* ReviewApplicationViewModel.swift in Sources */,
 				C6C3BECF300A7EEE00C5FC25 /* OTPDigitInputField.swift in Sources */,
 				C6C3BED0300A7EEE00C5FC25 /* VerifyOTPUseCase.swift in Sources */,
+				B3A3BED3301F28B100F31E3D /* OfferConfirmedViewModel.swift in Sources */,
 				B3CAF268300E8EB2006A9F5F /* SecondaryChip.swift in Sources */,
 				B3C57EA53010EA59005C1BE8 /* HomeCoordinatorView.swift in Sources */,
 				0CF5E346301A254500B2BC3F /* AuthService.swift in Sources */,
+				B3B6A5C7301F376E004772C8 /* EarningsRepositoryImpl.swift in Sources */,
 				B3544D1C300EA371007EDB87 /* ProfessionalInfoViewModel.swift in Sources */,
+				B3A3BEC5301F287100F31E3D /* OfferCoordinatorView.swift in Sources */,
 				B3CAF269300E8EB2006A9F5F /* StepProgressHeader.swift in Sources */,
 				B3C57EB73010EAB8005C1BE8 /* SetAvailabilityUseCaseProtocol.swift in Sources */,
 				B3CAF26A300E8EB2006A9F5F /* CarelyTextFieldSize.swift in Sources */,
@@ -1389,7 +1733,10 @@
 				C6C3BED3300A7EEE00C5FC25 /* AuthRepositoryImpl.swift in Sources */,
 				B3CAF2B9300E964C006A9F5F /* ProfileSetupData.swift in Sources */,
 				B3544D37300EAD2F007EDB87 /* ChecklistItemState.swift in Sources */,
+				B3A3BEC1301F284F00F31E3D /* OfferRoute.swift in Sources */,
 				B3C57EBF3010EAE2005C1BE8 /* HomeRepositoryImpl.swift in Sources */,
+				B3A3BEB8301F280E00F31E3D /* OfferRepositoryImpl.swift in Sources */,
+				B3B6A5C3301F3758004772C8 /* JobEarningStatus.swift in Sources */,
 				C6C3BED4300A7EEE00C5FC25 /* OTPVerificationViewModel.swift in Sources */,
 				B3C57EBB3010EACE005C1BE8 /* ConfirmJobRequestUseCaseProtocol.swift in Sources */,
 				0CF5E33B301A22CF00B2BC3F /* UserSession.swift in Sources */,
@@ -1402,9 +1749,14 @@
 				B3C5703D301650F9009CD77F /* ReviewCustomHeader.swift in Sources */,
 				B3C57EB13010EA91005C1BE8 /* HomeRepositoryProtocol.swift in Sources */,
 				C6C3BEDC300A7EEE00C5FC25 /* UserDTO.swift in Sources */,
+				B3A3BEDD301F28D900F31E3D /* OfferDetailsView.swift in Sources */,
 				C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */,
+				B3B6A5CD301F3788004772C8 /* EarningsHistoryViewModel.swift in Sources */,
 				0CF5E335301A22CF00B2BC3F /* Endpoint.swift in Sources */,
+				B3B6A5CF301F3793004772C8 /* TabCustomHeader.swift in Sources */,
 				C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */,
+				B3A3BED9301F28C700F31E3D /* CancelOfferViewModel.swift in Sources */,
+				B3A3BED7301F28C100F31E3D /* VisitCompletedViewModel.swift in Sources */,
 				B3C57EC53010EB37005C1BE8 /* HomeView.swift in Sources */,
 				B3CAF29A300E9469006A9F5F /* ProfileSetupRepositoryImpl.swift in Sources */,
 				B3544D43300EAE1A007EDB87 /* DocumentRejectedView.swift in Sources */,
@@ -1418,19 +1770,23 @@
 				B3CAF2B3300E9469006A9F5F /* ProfileSetupStep.swift in Sources */,
 				0C113018301C605E007193BB /* AppSettings.swift in Sources */,
 				B3CAF2B6300E9469006A9F5F /* ProfileSetupCoordinator.swift in Sources */,
+				B3B6A5CB301F377F004772C8 /* EarningsRoute.swift in Sources */,
 				C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */,
 				C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */,
 				C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */,
 				B3C57ED53010FCDC005C1BE8 /* EditOfferPopupView.swift in Sources */,
+				B3B6A5C9301F3775004772C8 /* FetchEarningsDataUseCase.swift in Sources */,
 				B3C57ED930111E60005C1BE8 /* PatientResponseWaitingView.swift in Sources */,
 				B3CAF25C300E8D7B006A9F5F /* CarelyButtonStyle.swift in Sources */,
 				0C5D9E0E301BB0D900961737 /* LoginUseCase.swift in Sources */,
 				0CF5E336301A22CF00B2BC3F /* NetworkClient.swift in Sources */,
+				B3A3BECD301F289A00F31E3D /* OfferMapAddressCard.swift in Sources */,
 				C6C3BEE6300A7EEE00C5FC25 /* PhoneNumberViewModel.swift in Sources */,
 				C6C3BEE7300A7EEE00C5FC25 /* SkipForNowButton.swift in Sources */,
 				C6C3BE70300A7CA300C5FC25 /* Typography.swift in Sources */,
 				C6C3BE71300A7CA300C5FC25 /* Motion.swift in Sources */,
 				B3C57EB33010EAA0005C1BE8 /* FetchHomeSummaryUseCase.swift in Sources */,
+				B3A3BEB6301F27F100F31E3D /* OfferRepositoryProtocol.swift in Sources */,
 				0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */,
 				0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */,
 				B3544D0E300EA325007EDB87 /* ProfileContinueFooter.swift in Sources */,
