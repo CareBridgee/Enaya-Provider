@@ -94,6 +94,8 @@
 		B3B6A5D3301F37A6004772C8 /* EarningsHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D2301F37A6004772C8 /* EarningsHistoryView.swift */; };
 		B3B6A5D5301F37B2004772C8 /* PayoutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D4301F37B2004772C8 /* PayoutsView.swift */; };
 		B3B6A5D8301F37C5004772C8 /* EarningsCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D7301F37C5004772C8 /* EarningsCoordinatorView.swift */; };
+		B3B6A5DC301F3C70004772C8 /* PayoutsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5DB301F3C70004772C8 /* PayoutsViewModel.swift */; };
+		B3B6A5DE301F3C8F004772C8 /* StatusBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5DD301F3C8F004772C8 /* StatusBadgeView.swift */; };
 		B3C5703D301650F9009CD77F /* ReviewCustomHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */; };
 		B3C5703F30165107009CD77F /* ReviewProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */; };
 		B3C5704130165111009CD77F /* ReviewInfoRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C5704030165111009CD77F /* ReviewInfoRow.swift */; };
@@ -316,6 +318,8 @@
 		B3B6A5D2301F37A6004772C8 /* EarningsHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsHistoryView.swift; sourceTree = "<group>"; };
 		B3B6A5D4301F37B2004772C8 /* PayoutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoutsView.swift; sourceTree = "<group>"; };
 		B3B6A5D7301F37C5004772C8 /* EarningsCoordinatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsCoordinatorView.swift; sourceTree = "<group>"; };
+		B3B6A5DB301F3C70004772C8 /* PayoutsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayoutsViewModel.swift; sourceTree = "<group>"; };
+		B3B6A5DD301F3C8F004772C8 /* StatusBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadgeView.swift; sourceTree = "<group>"; };
 		B3C5703C301650F8009CD77F /* ReviewCustomHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewCustomHeader.swift; sourceTree = "<group>"; };
 		B3C5703E30165107009CD77F /* ReviewProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewProgressIndicator.swift; sourceTree = "<group>"; };
 		B3C5704030165111009CD77F /* ReviewInfoRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewInfoRow.swift; sourceTree = "<group>"; };
@@ -834,6 +838,7 @@
 		B3B6A5BE301F371B004772C8 /* viewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B3B6A5DB301F3C70004772C8 /* PayoutsViewModel.swift */,
 				B3B6A5CC301F3788004772C8 /* EarningsHistoryViewModel.swift */,
 			);
 			path = viewModel;
@@ -851,6 +856,7 @@
 		B3B6A5C0301F372C004772C8 /* components */ = {
 			isa = PBXGroup;
 			children = (
+				B3B6A5DD301F3C8F004772C8 /* StatusBadgeView.swift */,
 				B3B6A5CE301F3793004772C8 /* TabCustomHeader.swift */,
 			);
 			path = components;
@@ -1617,6 +1623,7 @@
 				B3A3BEC9301F288E00F31E3D /* OfferStatChip.swift in Sources */,
 				B3C57EAD3010EA7D005C1BE8 /* JobRequest.swift in Sources */,
 				B3A3BECB301F289400F31E3D /* OfferSectionLabel.swift in Sources */,
+				B3B6A5DC301F3C70004772C8 /* PayoutsViewModel.swift in Sources */,
 				B3544D3D300EADE2007EDB87 /* AccountVerifiedViewModel.swift in Sources */,
 				B3544D10300EA32E007EDB87 /* SelectionField.swift in Sources */,
 				C6C3BE6A300A7CA300C5FC25 /* AuthInterceptor.swift in Sources */,
@@ -1660,6 +1667,7 @@
 				0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */,
 				B3C5704730165139009CD77F /* ReviewDocumentsCard.swift in Sources */,
 				B3544D0C300EA30B007EDB87 /* ProfileSetupHeaderBar.swift in Sources */,
+				B3B6A5DE301F3C8F004772C8 /* StatusBadgeView.swift in Sources */,
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
 				B3A3BEDB301F28CE00F31E3D /* OfferConfirmedView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* AuthErrorMapper.swift in Sources */,

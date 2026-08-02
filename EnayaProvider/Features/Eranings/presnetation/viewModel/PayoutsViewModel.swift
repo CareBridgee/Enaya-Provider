@@ -1,5 +1,5 @@
 //
-//  EarningsHistoryViewModel.swift
+//  PayoutsViewModel.swift
 //  EnayaProvider
 //
 //  Created by Mahmoud Raafat Mustafa on 02/08/2026.
@@ -7,10 +7,11 @@
 
 import Foundation
 
+
 @MainActor
-final class EarningsHistoryViewModel: ObservableObject {
-    @Published private(set) var summary: EarningsSummary?
-    @Published private(set) var jobs: [JobEarning] = []
+final class PayoutsViewModel: ObservableObject {
+    @Published private(set) var summary: PayoutSummary?
+    @Published private(set) var history: [PayoutTransaction] = []
     
     private let coordinator: EarningsCoordinator
     private let useCase: FetchEarningsDataUseCase
@@ -22,13 +23,12 @@ final class EarningsHistoryViewModel: ObservableObject {
 
     func loadData() {
         Task {
-            summary = try? await useCase.fetchSummary()
-        
-            jobs = (try? await useCase.fetchJobs()) ?? []
+            summary = try? await useCase.fetchPayoutSummary()
+            history = (try? await useCase.fetchPayoutHistory()) ?? []
         }
     }
 
-    func viewPayoutsTapped() {
-        coordinator.goToPayouts()
+    func goBackTapped() {
+        coordinator.goBack()
     }
 }
