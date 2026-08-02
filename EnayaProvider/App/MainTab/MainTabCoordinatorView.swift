@@ -29,7 +29,10 @@ struct MainTabCoordinatorView: View {
             HomeCoordinatorView(container: container, coordinator: coordinator.homeCoordinator)
                 .opacity(coordinator.selectedTab == .hub ? 1 : 0)
                 .allowsHitTesting(coordinator.selectedTab == .hub)
-
+            
+            EarningsCoordinatorView(container: container, coordinator: coordinator.earningsCoordinator)
+                            .opacity(coordinator.selectedTab == .earnings ? 1 : 0)
+                            .allowsHitTesting(coordinator.selectedTab == .earnings)
             // Tracker, Availability, and Earnings tabs land here the same way once built.
         }
         .animation(.easeInOut(duration: 0.15), value: coordinator.selectedTab)

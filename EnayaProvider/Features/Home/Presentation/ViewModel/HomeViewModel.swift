@@ -17,6 +17,7 @@ final class HomeViewModel: ObservableObject {
     
     @Published private(set) var isLoading = false
     @Published var errorMessage: String?
+    @Published var confirmedOffer: ConfirmedOffer?
 
     private var hubConnectionTask: Task<Void, Never>?
 
@@ -140,20 +141,40 @@ final class HomeViewModel: ObservableObject {
                 isWaitingForPatient = true
             }
             
-            waitingTask = Task {
-                // Wait for 10 seconds for patient response
-                try? await Task.sleep(nanoseconds: 10_000_000_000)
-                
-                // If the task was cancelled (user clicked cancel button), don't trigger timeout
-                guard !Task.isCancelled else { return }
-                
-                withAnimation {
-                    isWaitingForPatient = false
-                    errorMessage = "Patient did not respond in time. The offer was cancelled."
-                }
-            }
-        }
+        waitingTask = Task {
+                  try? await Task.sleep(nanoseconds: 3_000_000_000)
+                  guard !Task.isCancelled else { return }
 
+                  withAnimation {
+                      isWaitingForPatient = false
+                      confirmedOffer = buildConfirmedOffer(from: request)
+                  }
+              }
+          }
+
+          private func buildConfirmedOffer(from request: JobRequest) -> ConfirmedOffer {
+              ConfirmedOffer(
+                  id: request.id,
+                  patient: OfferPatient(name: request.patientLabel, ageText: nil),
+                  serviceName: request.serviceName,
+                  serviceIcon: "cross.case.fill",
+                  distanceText: request.distanceText,
+                  estimatedArrivalText: "10:30 AM",
+                  scheduledDateText: "Today, Nov 24",
+                  scheduledTimeText: "2:30 PM",
+                  durationMinutes: 45,
+                  address: OfferAddress(
+                      line: "1224 Oakwood Heights",
+                      detail: "Apt 4B, Beverly Hills, CA 90210",
+                      latitude: 34.0736,
+                      longitude: -118.4004
+                  ),
+                  totalAmount: request.proposedPrice,
+                  providerPayoutAmount: request.proposedPrice - (request.proposedPrice * 0.15),
+                  completedDateText: "Oct 24",
+                  status: .confirmed
+              )
+          }
         func cancelWaitingOffer() {
             waitingTask?.cancel()
             withAnimation {
