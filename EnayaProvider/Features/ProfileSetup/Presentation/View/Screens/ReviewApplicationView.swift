@@ -58,3 +58,10 @@ struct ReviewApplicationView: View {
         }
     }
 }
+#Preview {
+    let coordinator = ProfileSetupCoordinator(data: ProfileSetupData())
+    let container = DIContainer()
+    ReviewApplicationView(
+        viewModel: container.makeReviewApplicationViewModel(coordinator: coordinator, onSubmitted: {})
+    )
+}

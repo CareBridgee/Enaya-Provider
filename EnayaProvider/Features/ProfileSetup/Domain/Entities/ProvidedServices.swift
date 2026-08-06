@@ -8,48 +8,31 @@
 
 import Foundation
 
-enum CareService: String, CaseIterable, Identifiable {
-    case injection, ivTherapy, bloodCollection, woundDressing
-    case catheterCare, elderlyCare, childCare, postSurgeryCare
-    case maternalCare, physiotherapy, ecgService, homeAssessment
-
-    var id: Self { self }
-
-    var title: String {
-        switch self {
-        case .injection: return "Injection"
-        case .ivTherapy: return "IV Therapy"
-        case .bloodCollection: return "Blood Collection"
-        case .woundDressing: return "Wound Dressing"
-        case .catheterCare: return "Catheter Care"
-        case .elderlyCare: return "Elderly Care"
-        case .childCare: return "Child Care"
-        case .postSurgeryCare: return "Post-Surgery Care"
-        case .maternalCare: return "Maternal Care"
-        case .physiotherapy: return "Physiotherapy"
-        case .ecgService: return "ECG Service"
-        case .homeAssessment: return "Home Assessment"
-        }
-    }
-
+struct CareService: Identifiable, Hashable {
+    let id: String
+    let title: String
+    let description: String?
+    let iconUrl: String?
+    let category: String?
+    let basePrice: Double?
+    
+    // Fallback icon logic if no URL or to use local SF symbol by category
     var icon: String {
-        switch self {
-        case .injection: return "syringe"
-        case .ivTherapy: return "drop.fill"
-        case .bloodCollection: return "testtube.2"
-        case .woundDressing: return "bandage.fill"
-        case .catheterCare: return "cross.case.fill"
-        case .elderlyCare: return "figure.walk"
-        case .childCare: return "figure.child"
-        case .postSurgeryCare: return "bandage"
-        case .maternalCare: return "figure.and.child.holdinghands"
-        case .physiotherapy: return "figure.strengthtraining.traditional"
-        case .ecgService: return "waveform.path.ecg"
-        case .homeAssessment: return "house.fill"
-        }
+        guard let cat = category?.lowercased() else { return "star.fill" }
+        if cat.contains("injection") || title.lowercased().contains("injection") { return "syringe" }
+        if cat.contains("iv") || title.lowercased().contains("iv") { return "drop.fill" }
+        if cat.contains("blood") { return "testtube.2" }
+        if cat.contains("wound") { return "bandage.fill" }
+        if cat.contains("elderly") { return "figure.walk" }
+        if cat.contains("child") { return "figure.child" }
+        if cat.contains("maternal") { return "figure.and.child.holdinghands" }
+        if cat.contains("physio") { return "figure.strengthtraining.traditional" }
+        if cat.contains("ecg") { return "waveform.path.ecg" }
+        return "cross.case.fill"
     }
 }
 
 struct ProvidedServices {
+    var availableServices: [CareService] = []
     var selectedServices: Set<CareService> = []
 }

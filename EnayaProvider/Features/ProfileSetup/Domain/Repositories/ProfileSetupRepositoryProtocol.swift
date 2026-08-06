@@ -8,5 +8,6 @@
 import Foundation
 
 protocol ProfileSetupRepositoryProtocol {
+    func getServiceTypes() async throws -> [CareService]
     func submitApplication(_ data: ProfileSetupData) async throws
 }

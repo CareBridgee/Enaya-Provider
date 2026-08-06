@@ -27,6 +27,7 @@ final class SessionManager: ObservableObject, SessionMonitor {
     init(tokenStore: TokenStoring) {
         self.tokenStore = tokenStore
         self.state = tokenStore.getAccessToken() != nil ? .loggedIn : .loggedOut
+        print(tokenStore.getRefreshToken() ?? "Null Access Token")
     }
 
     func setLoggedIn() {

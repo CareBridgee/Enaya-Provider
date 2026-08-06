@@ -13,6 +13,7 @@ struct OTPVerificationEntity: Equatable {
     let accessToken: String
     let refreshToken: String?
     let userId: String
+    let nurseId: String?
     let applicationStatus: ApplicationStatus
 }
 
