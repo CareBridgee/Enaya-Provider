@@ -13,39 +13,55 @@ protocol TokenStoring: Sendable {
     func getAccessToken() -> String?
     func getRefreshToken() -> String?
     func clearTokens()
+
+    // MARK: - Nurse ID
+    func saveNurseId(_ id: String)
+    func getNurseId() -> String?
+    func clearNurseId()
 }
 
 final class KeychainTokenStore: TokenStoring, @unchecked Sendable {
 
     // MARK: - Configuration
-    
+
     private let isLoggingEnabled = false
 
-    private let service = "com.carely.auth"
-    private let accessKey = "accessToken"
-    private let refreshKey = "refreshToken"
+    private let service      = "com.carely.auth"
+    private let accessKey    = "accessToken"
+    private let refreshKey   = "refreshToken"
+    private let nurseIdKey   = "nurseId"
     private let accessibility = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
-    // MARK: - Public
+
+    // MARK: - Tokens
 
     func saveTokens(access: String, refresh: String) {
-        save(access, forKey: accessKey)
+        save(access,  forKey: accessKey)
         save(refresh, forKey: refreshKey)
     }
 
-    func getAccessToken() -> String? {
-        read(accessKey)
-    }
-
-    func getRefreshToken() -> String? {
-        read(refreshKey)
-    }
+    func getAccessToken() -> String? { read(accessKey) }
+    func getRefreshToken() -> String? { read(refreshKey) }
 
     func clearTokens() {
         delete(accessKey)
         delete(refreshKey)
     }
 
-    // MARK: - Keychain
+    // MARK: - Nurse ID
+
+    func saveNurseId(_ id: String) {
+        save(id, forKey: nurseIdKey)
+        log("Saved nurseId.")
+    }
+
+    func getNurseId() -> String? { read(nurseIdKey) }
+
+    func clearNurseId() {
+        delete(nurseIdKey)
+        log("Cleared nurseId.")
+    }
+
+    // MARK: - Keychain Internals
 
     private func save(_ value: String, forKey key: String) {
         delete(key)
@@ -55,12 +71,10 @@ final class KeychainTokenStore: TokenStoring, @unchecked Sendable {
         query[kSecAttrAccessible as String] = accessibility
 
         let status = SecItemAdd(query as CFDictionary, nil)
-
         guard status == errSecSuccess else {
             log("Failed to save '\(key)'. OSStatus: \(status)")
             return
         }
-
         log("Saved '\(key)' successfully.")
     }
 
@@ -70,13 +84,9 @@ final class KeychainTokenStore: TokenStoring, @unchecked Sendable {
         query[kSecMatchLimit as String] = kSecMatchLimitOne
 
         var result: AnyObject?
-
         let status = SecItemCopyMatching(query as CFDictionary, &result)
 
-        guard
-            status == errSecSuccess,
-            let data = result as? Data
-        else {
+        guard status == errSecSuccess, let data = result as? Data else {
             log("Failed to read '\(key)'. OSStatus: \(status)")
             return nil
         }
@@ -87,18 +97,16 @@ final class KeychainTokenStore: TokenStoring, @unchecked Sendable {
 
     private func delete(_ key: String) {
         let status = SecItemDelete(makeQuery(for: key) as CFDictionary)
-
         guard status == errSecSuccess || status == errSecItemNotFound else {
             log("Failed to delete '\(key)'. OSStatus: \(status)")
             return
         }
-
         log("Deleted '\(key)'.")
     }
 
     private func makeQuery(for key: String) -> [String: Any] {
         [
-            kSecClass as String: kSecClassGenericPassword,
+            kSecClass as String:       kSecClassGenericPassword,
             kSecAttrService as String: service,
             kSecAttrAccount as String: key
         ]

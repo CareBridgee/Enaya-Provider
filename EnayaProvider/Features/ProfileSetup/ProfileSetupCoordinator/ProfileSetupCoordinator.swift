@@ -4,7 +4,7 @@ import Foundation
 final class ProfileSetupCoordinator: ObservableObject {
 
     @Published private(set) var currentStep: ProfileSetupStep
-    @Published private(set) var data: ProfileSetupData
+    @Published var data: ProfileSetupData
 
     init(data: ProfileSetupData, startingStep: ProfileSetupStep = .personalInfo) {
         self.data = data

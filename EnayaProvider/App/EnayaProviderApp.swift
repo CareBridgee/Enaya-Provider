@@ -22,42 +22,54 @@ struct EnayaProviderApp: App {
 
     var body: some Scene {
         WindowGroup {
-            switch appState.flow {
+            Group {
+                switch appState.flow {
+                case .auth:
+                    AuthCoordinator(container: diContainer, appState: appState)
 
-            case .auth:
-                AuthCoordinator(container: diContainer, appState: appState)
-
-            case .profileSetup:
-                ProfileSetupCoordinatorView(
-                    container: diContainer,
-                    coordinator: diContainer.makeProfileSetupCoordinator(),
-                    onFinish: { appState.completeAuth(with: .underReview) }
-                )
-
-            case .underReview:
-                UnderReviewView(
-                    viewModel: diContainer.makeUnderReviewViewModel(
-                        onApproved: { appState.completeAuth(with: .approved) },
-                        onBackToLogin: { appState.signOut() }
+                case .profileSetup:
+                    ProfileSetupCoordinatorView(
+                        container: diContainer,
+                        coordinator: diContainer.makeProfileSetupCoordinator(),
+                        onFinish: { appState.completeAuth(with: .underReview) }
                     )
-                )
 
-            case .accountVerified:
-                AccountVerifiedView(
-                    viewModel: diContainer.makeAccountVerifiedViewModel(
-                        onStartJourney: { appState.startHomeFlow() }
+                case .underReview, .rejected:
+                    if let rawStatus = AppSettings.shared.applicationStatus,
+                       let status = ApplicationStatus(rawValue: rawStatus),
+                       let nurseId = diContainer.tokenStore.getNurseId() {
+                       
+                        VerificationReviewView(
+                            viewModel: diContainer.makeVerificationReviewViewModel(
+                                nurseId: nurseId,
+                                verificationStatus: status,
+                                onApproved: { appState.completeAuth(with: .approved) },
+                                onLogout: { appState.signOut() },
+                                onResubmit: { appState.startProfileSetup() }
+                            )
+                        )
+                    } else {
+                        Color.backGround.ignoresSafeArea()
+                            .onAppear { appState.signOut() }
+                    }
+
+                case .accountVerified:
+                    AccountVerifiedView(
+                        viewModel: diContainer.makeAccountVerifiedViewModel(
+                            onStartJourney: { appState.startHomeFlow() }
+                        )
                     )
-                )
 
-            case .rejected:
-                DocumentRejectedView(
-                    viewModel: diContainer.makeDocumentRejectedViewModel(
-                        onUploadAgain: { appState.startProfileSetup() }
-                    )
+                case .home:
+                    MainTabCoordinatorView(container: diContainer, appState: appState)
+                }
+            }
+            .task {
+                // Run the startup verification check
+                await appState.checkVerificationStatus(
+                    getNurseUseCase: diContainer.makeGetNurseUseCase(),
+                    tokenStore: diContainer.tokenStore
                 )
-
-            case .home:
-                MainTabCoordinatorView(container: diContainer, appState: appState)
             }
         }
     }

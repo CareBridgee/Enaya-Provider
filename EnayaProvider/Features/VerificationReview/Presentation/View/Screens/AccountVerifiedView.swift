@@ -36,7 +36,7 @@ struct AccountVerifiedView: View {
                         .carelyText(style: .bodyRegular, weight: .semiBold)
                         .foregroundColor(.success)
 
-                    Text("You are now part of the Serene Care network. Start accepting jobs to grow your career and provide care to those who need it most.")
+                    Text("You are now part of the Enaya network. Start accepting jobs to grow your career and provide care to those who need it most.")
                         .carelyText(style: .bodySmall, weight: .regular)
                         .foregroundColor(.secondaryFont)
                         .multilineTextAlignment(.center)

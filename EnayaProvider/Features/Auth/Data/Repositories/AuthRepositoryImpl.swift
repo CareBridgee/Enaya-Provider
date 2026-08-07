@@ -50,6 +50,7 @@ final class AuthRepositoryImpl: AuthRepositoryProtocol {
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 userId: response.user.id,
+                nurseId: response.user.nurse?.id,
                 applicationStatus: actualStatus
             )
         } catch {

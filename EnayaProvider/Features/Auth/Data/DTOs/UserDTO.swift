@@ -37,5 +37,15 @@ struct NurseDTO: Decodable {
     let totalReviews: Int
     let verificationStatus: String
     let rejectionReason: String?
-    let rejectionDetails: String?
+    let rejectionDetails: RejectionDetailsDTO?
+}
+
+struct RejectionDetailsDTO: Decodable {
+    let overallReason: String?
+    let failedSteps: [FailedStepDTO]?
+}
+
+struct FailedStepDTO: Decodable {
+    let step: String
+    let reason: String
 }

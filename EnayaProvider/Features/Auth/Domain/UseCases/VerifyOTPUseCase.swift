@@ -34,6 +34,10 @@ struct VerifyOTPUseCase: VerifyOTPUseCaseProtocol {
 
         tokenStore.saveTokens(access: entity.accessToken, refresh: entity.refreshToken ?? "")
 
+        if let nurseId = entity.nurseId, !nurseId.isEmpty {
+            tokenStore.saveNurseId(nurseId)
+        }
+
         await MainActor.run {
             sessionManager.setLoggedIn()
         }

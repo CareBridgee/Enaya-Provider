@@ -53,12 +53,34 @@ final class AppState: ObservableObject {
     func startProfileSetup() {
         flow = .profileSetup
     }
+    
+    func checkVerificationStatus(getNurseUseCase: GetNurseUseCaseProtocol, tokenStore: TokenStoring) async {
+        guard sessionManager.state == .loggedIn else {
+            await MainActor.run { flow = .auth }
+            return
+        }
+        
+        guard let nurseId = tokenStore.getNurseId() else {
+            await MainActor.run { flow = .auth }
+            return
+        }
+        
+        do {
+            let nurse = try await getNurseUseCase.execute(nurseId: nurseId)
+            await MainActor.run {
+                appSettings.applicationStatus = nurse.verificationStatus.rawValue
+                flow = Self.flow(for: nurse.verificationStatus)
+            }
+        } catch {
+            await MainActor.run { flow = .auth }
+        }
+    }
 
     private static func flow(for status: ApplicationStatus) -> AppFlow {
         switch status {
         case .incomplete: return .profileSetup
         case .underReview: return .underReview
-        case .approved: return .accountVerified
+        case .approved: return .home
         case .rejected: return .rejected
         }
     }

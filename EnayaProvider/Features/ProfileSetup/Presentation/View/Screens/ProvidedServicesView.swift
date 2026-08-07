@@ -26,7 +26,17 @@ struct ProvidedServicesView: View {
                 }
                 .padding(.top, Spacing.s8)
 
-                ServiceSelectionGrid(selected: viewModel.selectedServices, onToggle: viewModel.toggle)
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
+                } else {
+                    ServiceSelectionGrid(
+                        availableServices: viewModel.availableServices,
+                        selected: viewModel.selectedServices,
+                        onToggle: viewModel.toggle
+                    )
+                }
 
                 InfoBannerView(
                     text: "You can update these services later from your profile settings. Ensure you have valid certifications for the selected specialized services."
@@ -38,6 +48,9 @@ struct ProvidedServicesView: View {
             }
             .padding(.horizontal, Spacing.s16)
             .padding(.bottom, Spacing.s24)
+        }
+        .onAppear {
+            viewModel.loadServices()
         }
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 0) {

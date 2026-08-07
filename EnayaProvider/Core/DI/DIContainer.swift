@@ -13,7 +13,7 @@ final class DIContainer {
 
     let appState: AppState
     
-    private let tokenStore: TokenStoring
+    let tokenStore: TokenStoring
     private let sessionManager: SessionManager
     private let unauthNetworkClient: NetworkClientProtocol
     private let authInterceptor: AuthInterceptor
@@ -75,12 +75,22 @@ final class DIContainer {
     }
 
     // MARK: - ProfileSetup
+    
+    private lazy var cloudinaryService: CloudinaryUploadServiceProtocol = CloudinaryUploadService(session: .shared)
+    private lazy var profileSetupService: ProfileSetupServiceProtocol = ProfileSetupServiceImpl(networkClient: networkClient)
 
-    private lazy var profileSetupRepository: ProfileSetupRepositoryProtocol = ProfileSetupRepositoryImpl()
+    private lazy var profileSetupRepository: ProfileSetupRepositoryProtocol = ProfileSetupRepositoryImpl(
+        profileService: profileSetupService,
+        cloudinaryService: cloudinaryService
+    )
 
-        private func makeSubmitProfileApplicationUseCase() -> SubmitProfileApplicationUseCaseProtocol {
-            SubmitProfileApplicationUseCase(repository: profileSetupRepository)
-        }
+    private func makeFetchServiceTypesUseCase() -> FetchServiceTypesUseCaseProtocol {
+        FetchServiceTypesUseCase(repository: profileSetupRepository)
+    }
+
+    private func makeSubmitProfileApplicationUseCase() -> SubmitProfileApplicationUseCaseProtocol {
+        SubmitProfileApplicationUseCase(repository: profileSetupRepository)
+    }
 
         func makeProfileSetupCoordinator() -> ProfileSetupCoordinator {
             ProfileSetupCoordinator(data: ProfileSetupData())
@@ -95,7 +105,10 @@ final class DIContainer {
         }
 
         func makeProvidedServicesViewModel(coordinator: ProfileSetupCoordinator) -> ProvidedServicesViewModel {
-            ProvidedServicesViewModel(coordinator: coordinator)
+            ProvidedServicesViewModel(
+                coordinator: coordinator,
+                fetchServiceTypesUseCase: makeFetchServiceTypesUseCase()
+            )
         }
 
         func makeReviewApplicationViewModel(
@@ -108,32 +121,54 @@ final class DIContainer {
                 onSubmitted: onSubmitted
             )
         }
-    func makeUnderReviewViewModel(
-            onContactSupport: @escaping () -> Void = {},
-            onApproved: @escaping () -> Void,
-            onBackToLogin: @escaping () -> Void
-        ) -> UnderReviewViewModel {
-            UnderReviewViewModel(onContactSupport: onContactSupport, onApproved: onApproved, onBackToLogin: onBackToLogin)
-        }
 
         func makeAccountVerifiedViewModel(onStartJourney: @escaping () -> Void) -> AccountVerifiedViewModel {
             AccountVerifiedViewModel(onStartJourney: onStartJourney)
         }
+        
+    // MARK: - Nurse Verification Review (Post-Login)
+        
+    private lazy var nurseService: NurseServiceProtocol = NurseServiceImpl(networkClient: networkClient)
+    private lazy var nurseRepository: NurseRepositoryProtocol = NurseRepositoryImpl(nurseService: nurseService)
+    
+    func makeGetNurseUseCase() -> GetNurseUseCaseProtocol {
+        GetNurseUseCase(repository: nurseRepository)
+    }
+    
+    func makeLogoutUseCase() -> LogoutUseCaseProtocol {
+        LogoutUseCase(
+            repository: authRepository,
+            tokenStore: tokenStore,
+            sessionManager: sessionManager
+        )
+    }
+    
+    func makeVerificationReviewViewModel(
+        nurseId: String,
+        verificationStatus: ApplicationStatus,
+        onApproved: @escaping () -> Void,
+        onLogout: @escaping () -> Void,
+        onResubmit: @escaping () -> Void
+    ) -> VerificationReviewViewModel {
+        let initialNurse = NurseEntity(
+            id: nurseId,
+            firstName: nil,
+            lastName: nil,
+            verificationStatus: verificationStatus,
+            rejectionReason: nil,
+            rejectionDetails: nil
+        )
+        return VerificationReviewViewModel(
+            nurse: initialNurse,
+            nurseId: nurseId,
+            getNurseUseCase: makeGetNurseUseCase(),
+            logoutUseCase: makeLogoutUseCase(),
+            onApproved: onApproved,
+            onLogout: onLogout,
+            onResubmit: onResubmit
+        )
+    }
 
-        func makeDocumentRejectedViewModel(onUploadAgain: @escaping () -> Void) -> DocumentRejectedViewModel {
-            DocumentRejectedViewModel(
-                rejection: DocumentRejection(
-                    documentName: "Nursing License",
-                    reason: "the photo was blurry",
-                    tips: [
-                        RejectionTip(icon: "sun.max.fill", title: "Ensure Good Lighting", detail: "Capture your document in a well-lit area without glare or shadows."),
-                        RejectionTip(icon: "camera.viewfinder", title: "Stay in Focus", detail: "Hold your phone steady and make sure all text is sharp and legible."),
-                        RejectionTip(icon: "crop", title: "Visible Edges", detail: "Place the document on a flat surface and show all four corners of the card.")
-                    ]
-                ),
-                onUploadAgain: onUploadAgain
-            )
-        }
     // MARK: - Home
 
         private lazy var homeRepository: HomeRepositoryProtocol = HomeRepositoryImpl()

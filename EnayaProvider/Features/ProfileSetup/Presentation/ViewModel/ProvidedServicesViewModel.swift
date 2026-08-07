@@ -11,14 +11,38 @@ import Foundation
 @MainActor
 final class ProvidedServicesViewModel: ObservableObject {
 
+    @Published var availableServices: [CareService] = []
     @Published var selectedServices: Set<CareService>
     @Published var errorMessage: String?
+    @Published var isLoading: Bool = false
 
     private let coordinator: ProfileSetupCoordinator
+    private let fetchServiceTypesUseCase: FetchServiceTypesUseCaseProtocol
 
-    init(coordinator: ProfileSetupCoordinator) {
+    init(
+        coordinator: ProfileSetupCoordinator,
+        fetchServiceTypesUseCase: FetchServiceTypesUseCaseProtocol
+    ) {
         self.coordinator = coordinator
+        self.fetchServiceTypesUseCase = fetchServiceTypesUseCase
         self.selectedServices = coordinator.data.providedServices.selectedServices
+    }
+    
+    func loadServices() {
+        guard availableServices.isEmpty else { return }
+        isLoading = true
+        errorMessage = nil
+        Task {
+            do {
+                let services = try await fetchServiceTypesUseCase.execute()
+                self.availableServices = services
+                self.coordinator.data.providedServices.availableServices = services
+                self.isLoading = false
+            } catch {
+                self.isLoading = false
+                self.errorMessage = "Failed to load services. Please try again."
+            }
+        }
     }
 
     func toggle(_ service: CareService) {
@@ -45,6 +69,6 @@ final class ProvidedServicesViewModel: ObservableObject {
     }
 
     private func persist() {
-        coordinator.save(providedServices: ProvidedServices(selectedServices: selectedServices))
+        coordinator.save(providedServices: ProvidedServices(availableServices: availableServices, selectedServices: selectedServices))
     }
 }

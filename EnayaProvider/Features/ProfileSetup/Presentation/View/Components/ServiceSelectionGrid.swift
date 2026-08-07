@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct ServiceSelectionGrid: View {
+    let availableServices: [CareService]
     let selected: Set<CareService>
     let onToggle: (CareService) -> Void
 
@@ -19,7 +20,7 @@ struct ServiceSelectionGrid: View {
 
     var body: some View {
         LazyVGrid(columns: columns, spacing: Spacing.s12) {
-            ForEach(CareService.allCases) { service in
+            ForEach(availableServices) { service in
                 PrimaryChip(
                     image: Image(systemName: service.icon),
                     title: service.title,

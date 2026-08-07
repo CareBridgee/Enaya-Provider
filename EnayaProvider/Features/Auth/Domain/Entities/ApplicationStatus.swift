@@ -10,8 +10,8 @@
 import Foundation
 
 enum ApplicationStatus: String, Equatable {
-    case incomplete
-    case underReview
-    case approved
-    case rejected
+    case incomplete  = "INCOMPLETE"
+    case underReview = "UNDER_REVIEW"
+    case approved    = "APPROVED"
+    case rejected    = "REJECTED"
 }

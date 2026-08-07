@@ -18,8 +18,11 @@ struct ReviewDocumentsCard: View {
             onEdit: viewModel.editProfessionalInfoTapped
         ) {
             VStack(spacing: Spacing.s12) {
-                if let backID = viewModel.data.professionalInfo.nationalIdDocument {
+                if let backID = viewModel.data.professionalInfo.nationalIdBack {
                     ReviewDocumentRow(icon: "photo.fill", name: backID.fileName)
+                }
+                if let frontID = viewModel.data.professionalInfo.nationalIdFront {
+                    ReviewDocumentRow(icon: "photo.fill", name: frontID.fileName)
                 }
                 if let license = viewModel.data.professionalInfo.nursingLicenseDocument {
                     ReviewDocumentRow(icon: "doc.text.fill", name: license.fileName)

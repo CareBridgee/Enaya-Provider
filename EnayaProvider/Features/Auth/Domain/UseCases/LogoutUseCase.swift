@@ -32,6 +32,7 @@ struct LogoutUseCase: LogoutUseCaseProtocol {
         }
 
         tokenStore.clearTokens()
+        tokenStore.clearNurseId()
 
         await MainActor.run {
             sessionManager.setLoggedOut()
