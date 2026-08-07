@@ -25,14 +25,23 @@ final class OfferDetailsViewModel: ObservableObject {
         UIPasteboard.general.string = offer.address.fullText
     }
 
-    func viewPatientSummaryTapped() {
-        // No patient-summary destination yet.
+    func viewPatientSummaryTapped() {}
+
+    func callPatientTapped() {
+        guard let phoneNumber = offer.patient.phoneNumber,
+              let url = URL(string: "tel://\(phoneNumber)") else { return }
+        UIApplication.shared.open(url)
     }
 
     func openInMapsTapped() {
-        let coordinate = CLLocationCoordinate2D(latitude: offer.address.latitude, longitude: offer.address.longitude)
-        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
-        mapItem.name = offer.address.line
-        mapItem.openInMaps()
+        let addressText = offer.address.fullText
+        guard !addressText.isEmpty else { return }
+
+        CLGeocoder().geocodeAddressString(addressText) { placemarks, _ in
+            guard let coordinate = placemarks?.first?.location?.coordinate else { return }
+            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
+            mapItem.name = addressText
+            mapItem.openInMaps()
+        }
     }
 }

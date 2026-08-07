@@ -11,15 +11,14 @@ import SwiftUI
 struct PatientResponseWaitingView: View {
     let onCancel: () -> Void
     
-    // Timer state
-    @State private var timeRemaining: Double = 10.0
+    @State private var timeRemaining: Double = 30.0
     private let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var body: some View {
         VStack(spacing: Spacing.s24) {
             
             VStack(spacing: Spacing.s8) {
-                ProgressView(value: max(0, timeRemaining), total: 10.0)
+                ProgressView(value: max(0, timeRemaining), total: 30.0)
                     .progressViewStyle(LinearProgressViewStyle(tint: .brandPrimary))
                     .animation(.linear(duration: 0.1), value: timeRemaining)
                 
@@ -50,6 +49,9 @@ struct PatientResponseWaitingView: View {
         .onReceive(timer) { _ in
             if timeRemaining > 0 {
                 timeRemaining = max(0, timeRemaining - 0.1)
+                if timeRemaining == 0 {
+                    onCancel()
+                }
             }
         }
     }

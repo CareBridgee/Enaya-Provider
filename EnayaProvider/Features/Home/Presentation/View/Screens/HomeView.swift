@@ -11,9 +11,8 @@ struct HomeView: View {
                 VStack(spacing: Spacing.s20) {
                     HomeHeaderView(providerName: viewModel.summary?.providerName ?? "", greeting: viewModel.greeting)
 
-                    AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: viewModel.toggleAvailability)
+                    AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: { viewModel.toggleAvailability() })
 
-                    // ALWAYS VISIBLE: Earnings and Stats are now outside the online check
                     EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
 
                     HStack(spacing: Spacing.s12) {
@@ -24,46 +23,37 @@ struct HomeView: View {
                     if viewModel.isOnline {
                         onlineRequestsSection
                     } else {
-                        OfflineStateView(onGoOnline: viewModel.toggleAvailability)
-                            .padding(.top, Spacing.s16) // Slightly reduced padding to look better below stats
+                        OfflineStateView(onGoOnline: { viewModel.toggleAvailability() })
+                            .padding(.top, Spacing.s16)
                     }
                 }
                 .padding(.horizontal, Spacing.s16)
                 .padding(.bottom, Spacing.s24)
             }
-            .blur(radius: (viewModel.editingJobRequest != nil || viewModel.isWaitingForPatient) ? 3 : 0)
-
-            // Edit Popup Overlay
-            if let request = viewModel.editingJobRequest {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture { viewModel.cancelEditing() }
-                    .transition(.opacity)
-                
-                EditOfferPopupView(
-                    jobRequest: request,
-                    proposedPriceValue: $viewModel.proposedPriceValue,
-                    onCancel: viewModel.cancelEditing,
-                    onSave: viewModel.saveEditedOffer
-                )
-                .padding(.horizontal, Spacing.s24)
-                .transition(.scale(scale: 0.9).combined(with: .opacity))
-                .zIndex(1)
-            }
+            .blur(radius: viewModel.isWaitingForPatient ? 3 : 0)
             
-            // Waiting for Patient Overlay
             if viewModel.isWaitingForPatient {
                 Color.black.opacity(0.6)
                     .ignoresSafeArea()
                     .transition(.opacity)
                 
-                PatientResponseWaitingView(onCancel: viewModel.cancelWaitingOffer)
+                PatientResponseWaitingView(onCancel: { viewModel.cancelWaitingOffer() })
                     .transition(.scale(scale: 0.95).combined(with: .opacity))
                     .zIndex(2)
             }
         }
+        .sheet(item: $viewModel.editingJobRequest) { request in
+            EditOfferPopupView(
+                jobRequest: request,
+                proposedPriceValue: $viewModel.proposedPriceValue,
+                onCancel: { viewModel.cancelEditing() },
+                onSave: { viewModel.saveEditedOffer() }
+            )
+            .presentationDetents([.fraction(0.55), .medium])
+            .presentationDragIndicator(.visible)
+        }
         .task { await viewModel.load() }
-        .alert("Request Cancelled", isPresented: errorBinding) {
+        .alert("Notice", isPresented: errorBinding) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
@@ -108,6 +98,9 @@ struct HomeView: View {
     }
     
     private var errorBinding: Binding<Bool> {
-        Binding(get: { viewModel.errorMessage != nil }, set: { if !$0 { viewModel.errorMessage = nil } })
+        Binding(
+            get: { viewModel.errorMessage != nil },
+            set: { if !$0 { viewModel.errorMessage = nil } }
+        )
     }
 }

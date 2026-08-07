@@ -21,56 +21,59 @@ struct EnayaProviderApp: App {
     }
 
     var body: some Scene {
-        WindowGroup {
-            Group {
-                switch appState.flow {
-                case .auth:
-                    AuthCoordinator(container: diContainer, appState: appState)
+            WindowGroup {
+                Group {
+                    switch appState.flow {
+                    case .auth:
+                        AuthCoordinator(container: diContainer, appState: appState)
 
-                case .profileSetup:
-                    ProfileSetupCoordinatorView(
-                        container: diContainer,
-                        coordinator: diContainer.makeProfileSetupCoordinator(),
-                        onFinish: { appState.completeAuth(with: .underReview) }
-                    )
+                    case .profileSetup:
+                        ProfileSetupCoordinatorView(
+                            container: diContainer,
+                            coordinator: diContainer.makeProfileSetupCoordinator(),
+                            onFinish: { appState.completeAuth(with: .underReview) }
+                        )
 
-                case .underReview, .rejected:
-                    if let rawStatus = AppSettings.shared.applicationStatus,
-                       let status = ApplicationStatus(rawValue: rawStatus),
-                       let nurseId = diContainer.tokenStore.getNurseId() {
-                       
-                        VerificationReviewView(
-                            viewModel: diContainer.makeVerificationReviewViewModel(
-                                nurseId: nurseId,
-                                verificationStatus: status,
-                                onApproved: { appState.completeAuth(with: .approved) },
-                                onLogout: { appState.signOut() },
-                                onResubmit: { appState.startProfileSetup() }
+                    case .underReview, .rejected:
+                        if let rawStatus = AppSettings.shared.applicationStatus,
+                           let status = ApplicationStatus(rawValue: rawStatus),
+                           let nurseId = diContainer.tokenStore.getNurseId() {
+                            
+                            VerificationReviewView(
+                                viewModel: diContainer.makeVerificationReviewViewModel(
+                                    nurseId: nurseId,
+                                    verificationStatus: status,
+                                    onApproved: { appState.completeAuth(with: .approved) },
+                                    onLogout: { appState.signOut() },
+                                    onResubmit: { appState.startProfileSetup() }
+                                )
+                            )
+                        } else {
+                            Color.backGround.ignoresSafeArea()
+                                .onAppear { appState.signOut() }
+                        }
+
+                    case .accountVerified:
+                        AccountVerifiedView(
+                            viewModel: diContainer.makeAccountVerifiedViewModel(
+                                onStartJourney: { appState.startHomeFlow() }
                             )
                         )
-                    } else {
-                        Color.backGround.ignoresSafeArea()
-                            .onAppear { appState.signOut() }
+
+                    case .home:
+                        MainTabCoordinatorView(container: diContainer, appState: appState)
                     }
-
-                case .accountVerified:
-                    AccountVerifiedView(
-                        viewModel: diContainer.makeAccountVerifiedViewModel(
-                            onStartJourney: { appState.startHomeFlow() }
-                        )
+                }
+                .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SessionExpired"))) { _ in
+                    appState.signOut()
+                }
+                .task {
+                    // Run the startup verification check
+                    await appState.checkVerificationStatus(
+                        getNurseUseCase: diContainer.makeGetNurseUseCase(),
+                        tokenStore: diContainer.tokenStore
                     )
-
-                case .home:
-                    MainTabCoordinatorView(container: diContainer, appState: appState)
                 }
             }
-            .task {
-                // Run the startup verification check
-                await appState.checkVerificationStatus(
-                    getNurseUseCase: diContainer.makeGetNurseUseCase(),
-                    tokenStore: diContainer.tokenStore
-                )
-            }
         }
-    }
 }

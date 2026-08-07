@@ -5,21 +5,31 @@ struct JobRequestCard: View {
     let onEditOffer: () -> Void
     let onMakeOffer: () -> Void
 
+    @State private var isExpanded: Bool = false
     private var isPending: Bool { jobRequest.status == .pending }
+    private var isCancelled: Bool { jobRequest.status == .cancelled }
 
     var body: some View {
         VStack(spacing: Spacing.s16) {
             header
             serviceRow
             
-            if !isPending {
+            if isExpanded {
                 actionButtons
+                    .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
         .padding(Spacing.s16)
         .background(Color.surface)
         .clipShape(RoundedRectangle.carely(Radius.r16))
-        .shadow(color: .black.opacity(0.06), radius: Radius.r12, y: Spacing.s4)
+        .shadow(color: .black.opacity(isExpanded ? 0.12 : 0.06), radius: Radius.r12, y: Spacing.s4)
+        .scaleEffect(isExpanded ? 1.02 : 1.0)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
+                isExpanded.toggle()
+            }
+        }
     }
 
     private var header: some View {
@@ -49,11 +59,26 @@ struct JobRequestCard: View {
 
             HStack(spacing: Spacing.s8) {
                 VStack(alignment: .trailing, spacing: Spacing.s2) {
-                    Text("$\(String(format: "%.2f", jobRequest.proposedPrice.doubleValue))")
-                        .carelyText(style: .bodyLarge, weight: .bold)
-                        .foregroundColor(.brandPrimary)
+                    HStack(spacing: Spacing.s8) {
+                        Text("$\(String(format: "%.2f", jobRequest.proposedPrice.doubleValue))")
+                            .carelyText(style: .bodyLarge, weight: .bold)
+                            .foregroundColor(.brandPrimary)
+                        
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.secondaryFont)
+                            .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                    }
                     
-                    if !isPending {
+                    if isCancelled {
+                        Text("Cancelled")
+                            .carelyText(style: .caption, weight: .semiBold)
+                            .foregroundColor(.red)
+                            .padding(.horizontal, Spacing.s8)
+                            .padding(.vertical, Spacing.s2)
+                            .background(Color.red.opacity(0.1))
+                            .clipShape(Capsule())
+                    } else if !isPending {
                         Text("Estimated")
                             .carelyText(style: .caption, weight: .regular)
                             .foregroundColor(.secondaryFont)
@@ -97,5 +122,6 @@ struct JobRequestCard: View {
             SecondaryButton(title: "Edit offer", action: onEditOffer)
             PrimaryButton(title: "Make Offer", action: onMakeOffer)
         }
+        .padding(.top, Spacing.s8)
     }
 }
