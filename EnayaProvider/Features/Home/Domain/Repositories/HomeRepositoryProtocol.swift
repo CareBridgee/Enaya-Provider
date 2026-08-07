@@ -10,10 +10,11 @@ import Foundation
 
 protocol HomeRepositoryProtocol {
     func fetchSummary() async throws -> ProviderHomeSummary
-    func fetchAvailability() async throws -> ProviderAvailability
-    func setAvailability(_ status: ProviderAvailability) async throws
-    func fetchActiveJobRequest() async throws -> JobRequest?
-    func confirmJobRequest(id: UUID, proposedPrice: Decimal) async throws -> JobRequest
-    func cancelJobRequest(id: UUID) async throws
+    func setAvailability(isOnline: Bool) async throws
     func observeJobRequests() -> AsyncStream<[JobRequest]>
+    func submitOffer(for request: JobRequest, proposedPrice: Decimal) async throws -> String
+    func cancelOffer(offerId: String) async throws
+    func observeReservationEvents(reservationId: String) -> AsyncStream<ReservationEventResponse>
+    func fetchServiceRequestPreview(serviceRequestId: String) async throws -> ServiceRequestPreviewResponseDTO 
+    func fetchServiceRequestProfile(serviceRequestId: String) async throws -> ServiceRequestProfileResponseDTO
 }
