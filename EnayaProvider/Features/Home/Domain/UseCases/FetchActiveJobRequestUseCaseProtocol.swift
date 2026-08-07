@@ -6,18 +6,4 @@
 //
 
 
-protocol FetchActiveJobRequestUseCaseProtocol {
-    func execute() async throws -> JobRequest?
-}
 
-struct FetchActiveJobRequestUseCase: FetchActiveJobRequestUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
-
-    init(repository: HomeRepositoryProtocol) {
-        self.repository = repository
-    }
-
-    func execute() async throws -> JobRequest? {
-        try await repository.fetchActiveJobRequest()
-    }
-}

@@ -6,18 +6,10 @@
 //
 
 
-protocol SetAvailabilityUseCaseProtocol {
-    func execute(_ status: ProviderAvailability) async throws
-}
+import Foundation
 
-struct SetAvailabilityUseCase: SetAvailabilityUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
 
-    init(repository: HomeRepositoryProtocol) {
-        self.repository = repository
-    }
-
-    func execute(_ status: ProviderAvailability) async throws {
-        try await repository.setAvailability(status)
-    }
+struct ToggleAvailabilityUseCase {
+    let repo: HomeRepositoryProtocol
+    func execute(isOnline: Bool) async throws { try await repo.setAvailability(isOnline: isOnline) }
 }

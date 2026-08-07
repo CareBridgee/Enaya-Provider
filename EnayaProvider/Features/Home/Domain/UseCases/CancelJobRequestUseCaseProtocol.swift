@@ -12,14 +12,8 @@ protocol CancelJobRequestUseCaseProtocol {
     func execute(id: UUID) async throws
 }
 
-struct CancelJobRequestUseCase: CancelJobRequestUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
 
-    init(repository: HomeRepositoryProtocol) {
-        self.repository = repository
-    }
-
-    func execute(id: UUID) async throws {
-        try await repository.cancelJobRequest(id: id)
-    }
+struct CancelJobRequestUseCase {
+    let repo: HomeRepositoryProtocol
+    func execute(offerId: String) async throws { try await repo.cancelOffer(offerId: offerId) }
 }

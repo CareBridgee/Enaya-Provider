@@ -10,6 +10,7 @@ import Foundation
 
 struct ProviderHomeSummary: Equatable {
     let providerName: String
+    let profileImageUrl:String?
     let todaysEarnings: Decimal
     let earningsChangePercent: Double
     let todaysJobsCount: Int

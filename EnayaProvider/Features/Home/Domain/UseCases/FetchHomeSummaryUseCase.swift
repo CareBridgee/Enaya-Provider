@@ -17,7 +17,5 @@ struct FetchHomeSummaryUseCase: FetchHomeSummaryUseCaseProtocol {
         self.repository = repository
     }
 
-    func execute() async throws -> ProviderHomeSummary {
-        try await repository.fetchSummary()
-    }
+    func execute() async throws -> ProviderHomeSummary { try await repository.fetchSummary() }
 }
