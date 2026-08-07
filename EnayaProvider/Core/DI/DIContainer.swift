@@ -31,6 +31,40 @@ final class DIContainer {
         
         self.appState = AppState(sessionManager: sessionManager)
     }
+    private lazy var sharedSocketClient: SocketClientProtocol = {
+        guard let url = URL(string: NetworkConfiguration.socketURL) else {
+            fatalError("Invalid socket URL")
+        }
+
+        let client = StompSocketClient(url: url, tokenStore: tokenStore)
+        client.onSessionExpired = {
+          
+            NotificationCenter.default.post(name: NSNotification.Name("SessionExpired"), object: nil)
+        }
+        client.onTokenExpiredOrFailed = { [weak self] in
+            guard let self = self else { return false }
+
+            guard let refreshToken = self.tokenStore.getRefreshToken(), !refreshToken.isEmpty else {
+                return false
+            }
+
+            do {
+                let authResponse = try await self.authService.refresh(refreshToken: refreshToken)
+
+                self.tokenStore.saveTokens(
+                    access: authResponse.accessToken,
+                    refresh: authResponse.refreshToken
+                )
+
+                return true
+            } catch {
+                print("[Socket] Direct token refresh failed: \(error)")
+                return false
+            }
+        }
+
+        return client
+    }()
     private lazy var session: Session = Session(interceptor: authInterceptor)
     
     private lazy var networkClient: NetworkClientProtocol = NetworkClient(session: session)
@@ -78,7 +112,14 @@ final class DIContainer {
     
     private lazy var cloudinaryService: CloudinaryUploadServiceProtocol = CloudinaryUploadService(session: .shared)
     private lazy var profileSetupService: ProfileSetupServiceProtocol = ProfileSetupServiceImpl(networkClient: networkClient)
-
+    // MARK: - Notifications
+        private lazy var notificationsHubService: NotificationsHubServiceProtocol = {
+            return NotificationsSocketDataSource(socketClient: sharedSocketClient)
+        }()
+        
+        func getNotificationsHubService() -> NotificationsHubServiceProtocol {
+            return notificationsHubService
+        }
     private lazy var profileSetupRepository: ProfileSetupRepositoryProtocol = ProfileSetupRepositoryImpl(
         profileService: profileSetupService,
         cloudinaryService: cloudinaryService
@@ -171,42 +212,62 @@ final class DIContainer {
 
     // MARK: - Home
 
-        private lazy var homeRepository: HomeRepositoryProtocol = HomeRepositoryImpl()
+    // MARK: - Location Service
+        private lazy var currentLocationService: CurrentLocationServiceProtocol = {
+            return CurrentLocationService()
+        }()
 
-        private func makeFetchHomeSummaryUseCase() -> FetchHomeSummaryUseCaseProtocol {
+        // MARK: - Hub Services
+        private lazy var nurseHomeHubService: NurseHomeHubServiceProtocol = {
+            return NurseHomeSocketDataSource(socketClient: sharedSocketClient)
+        }()
+        
+        // MARK: - Repository
+        private lazy var homeRepository: HomeRepositoryProtocol = {
+            return HomeRepositoryImpl(
+                networkClient: networkClient,
+                hubService: nurseHomeHubService,
+                locationService: currentLocationService,
+                tokenStore: tokenStore
+            )
+        }()
+
+        // MARK: - Use Cases
+        private func makeFetchHomeSummaryUseCase() -> FetchHomeSummaryUseCase {
             FetchHomeSummaryUseCase(repository: homeRepository)
         }
 
-        private func makeFetchAvailabilityUseCase() -> FetchAvailabilityUseCaseProtocol {
-            FetchAvailabilityUseCase(repository: homeRepository)
+        private func makeToggleAvailabilityUseCase() -> ToggleAvailabilityUseCase {
+            ToggleAvailabilityUseCase(repo: homeRepository)
         }
 
-        private func makeSetAvailabilityUseCase() -> SetAvailabilityUseCaseProtocol {
-            SetAvailabilityUseCase(repository: homeRepository)
-        }
-
-        private func makeFetchActiveJobRequestUseCase() -> FetchActiveJobRequestUseCaseProtocol {
-            FetchActiveJobRequestUseCase(repository: homeRepository)
-        }
-
-        private func makeConfirmJobRequestUseCase() -> ConfirmJobRequestUseCaseProtocol {
-            ConfirmJobRequestUseCase(repository: homeRepository)
-        }
-
-        private func makeCancelJobRequestUseCase() -> CancelJobRequestUseCaseProtocol {
-            CancelJobRequestUseCase(repository: homeRepository)
-        }
-    private func makeObserveJobRequestsUseCase() -> ObserveJobRequestsUseCaseProtocol {
+        private func makeObserveJobRequestsUseCase() -> ObserveJobRequestsUseCase {
             ObserveJobRequestsUseCase(repository: homeRepository)
         }
-    func makeHomeViewModel() -> HomeViewModel {
+
+        private func makeSubmitOfferUseCase() -> SubmitOfferUseCase {
+            SubmitOfferUseCase(repo: homeRepository)
+        }
+
+    private func makeCancelOfferUseCase() -> CancelJobRequestUseCase {
+        CancelJobRequestUseCase(repo: homeRepository)
+        }
+    private func makeObserveReservationEventsUseCase() -> ObserveReservationEventsUseCaseProtocol {
+         ObserveReservationEventsUseCase(repository: homeRepository)
+     }
+    private func makeFetchServiceRequestProfileUseCase() -> FetchServiceRequestProfileUseCaseProtocol {
+        FetchServiceRequestProfileUseCase(repository: homeRepository)
+     }
+        // MARK: - ViewModels
+        func makeHomeViewModel() -> HomeViewModel {
             HomeViewModel(
-                fetchSummaryUseCase: makeFetchHomeSummaryUseCase(),
-                fetchAvailabilityUseCase: makeFetchAvailabilityUseCase(),
-                setAvailabilityUseCase: makeSetAvailabilityUseCase(),
-                observeJobRequestsUseCase: makeObserveJobRequestsUseCase(), 
-                confirmJobRequestUseCase: makeConfirmJobRequestUseCase(),
-                cancelJobRequestUseCase: makeCancelJobRequestUseCase()
+                fetchSummary: makeFetchHomeSummaryUseCase(),
+                toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
+                observeJobRequests: makeObserveJobRequestsUseCase(),
+                submitOfferUseCase: makeSubmitOfferUseCase(),
+                cancelOfferUseCase: makeCancelOfferUseCase(),
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
+                fetchServiceRequestProfileUseCase: makeFetchServiceRequestProfileUseCase()
             )
         }
     // MARK: - Offer
