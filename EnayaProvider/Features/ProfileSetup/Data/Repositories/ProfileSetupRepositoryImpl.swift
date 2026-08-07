@@ -72,9 +72,9 @@ final class ProfileSetupRepositoryImpl: ProfileSetupRepositoryProtocol {
             nationalId: data.personalInfo.nationalId,
             yearsOfExperience: 1,
             professionalCertificate: data.professionalInfo.professionalCertificateDocument,
-            nationalIdBack: data.professionalInfo.nationalIdDocument,
+            nationalIdBack: data.professionalInfo.nationalIdBack,
             licenseImage: data.professionalInfo.nursingLicenseDocument,
-            nationalIdFront: data.professionalInfo.nursingLicenseDocument
+            nationalIdFront: data.professionalInfo.nationalIdFront
         )
         for service in data.providedServices.selectedServices {
             let req = NurseServiceRequestDTO(serviceTypeId: service.id)

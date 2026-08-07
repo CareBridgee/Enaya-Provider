@@ -25,7 +25,8 @@ final class ProfessionalInfoViewModel: ObservableObject {
     init(coordinator: ProfileSetupCoordinator) {
         self.coordinator = coordinator
         let info = coordinator.data.professionalInfo
-        self.nationalIdForntDocument = info.nationalIdDocument
+        self.nationalIdForntDocument = info.nationalIdFront
+        self.nationalIdBackDocument = info.nationalIdBack
         self.nursingLicenseDocument = info.nursingLicenseDocument
         self.professionalCertificateDocument = info.professionalCertificateDocument
         self.yearsOfExperience = info.yearsOfExperience
@@ -55,7 +56,8 @@ final class ProfessionalInfoViewModel: ObservableObject {
     private func persist() {
         coordinator.save(
             professionalInfo: ProfessionalInfo(
-                nationalIdDocument: nationalIdForntDocument,
+                nationalIdBack: nationalIdBackDocument,
+                nationalIdFront: nationalIdForntDocument,
                 nursingLicenseDocument: nursingLicenseDocument,
                 professionalCertificateDocument: professionalCertificateDocument,
                 yearsOfExperience: yearsOfExperience,
