@@ -14,7 +14,7 @@ struct ServiceRequestPreviewResponseDTO: Decodable {
     let serviceName: String
     let serviceDescription: String?
     let preferredDate: String?
-    let preferredTime: PreferredTimeDTO?
+    let preferredTime: String?
     let status: String
     let estimatedPrice: Double?
     let createdAt: String?
@@ -31,6 +31,7 @@ struct PreviewPatientDTO: Decodable {
     let height: Double?
     let weight: Double?
     let mobilityStatus: String?
+    let profileImageUrl: String?
     let mobilityNotes: String?
     let previousSurgeries: String?
     let previousHospitalizations: String?
@@ -58,7 +59,7 @@ struct ServiceRequestProfileResponseDTO: Decodable {
     let serviceName: String
     let serviceDescription: String?
     let preferredDate: String?
-    let preferredTime: PreferredTimeDTO?
+    let preferredTime: String?
     let status: String
     let estimatedPrice: Double?
     let createdAt: String?
@@ -67,17 +68,13 @@ struct ServiceRequestProfileResponseDTO: Decodable {
     let address: ServiceAddressDTO?
 }
 
-struct PreferredTimeDTO: Decodable {
-    let hour: Int
-    let minute: Int
-    let second: Int?
-    let nano: Int?
-}
+
 
 struct PatientProfileDTO: Decodable {
     let profileId: String
     let firstName: String
     let lastName: String
+    let profileImageUrl: String?
     let dateOfBirth: String?
     let gender: String?
 }

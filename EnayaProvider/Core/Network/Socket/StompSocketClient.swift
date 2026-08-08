@@ -196,10 +196,13 @@ extension StompSocketClient: SwiftStompDelegate {
     }
 
     func onError(swiftStomp: SwiftStomp, briefDescription: String, fullDescription: String?, receiptId: String?, type: StompErrorType) {
-        let desc = fullDescription ?? briefDescription
-        log("STOMP ERROR — \(desc)")
-        self.onErrorListeners.values.forEach { $0(desc) }
-    }
+            let desc = fullDescription ?? briefDescription
+            log("STOMP ERROR — \(desc)")
+            
+            activeSubscriptions = activeSubscriptions.filter { !$0.hasPrefix("/topic/reservation/") }
+            
+            self.onErrorListeners.values.forEach { $0(desc) }
+        }
 
     func onReceipt(swiftStomp: SwiftStomp, receiptId: String) {
         // Not used

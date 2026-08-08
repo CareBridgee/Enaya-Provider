@@ -9,45 +9,44 @@
 import Foundation
 import SwiftUI
 
+enum OfferPhase {
+    case active
+    case completed
+}
+
 @MainActor
 final class OfferCoordinator: ObservableObject {
-
-    enum Phase {
-        case active
-        case completed
-    }
-
-    @Published private(set) var offer: ConfirmedOffer
-    @Published var phase: Phase = .active
     @Published var path = NavigationPath()
+    @Published var phase: OfferPhase = .active
     @Published var isShowingCancelSheet = false
-
-    init(offer: ConfirmedOffer) {
-        self.offer = offer
+    
+    let reservationId: String
+    
+    init(reservationId: String) {
+        self.reservationId = reservationId
     }
-
+    
     func openDetails() {
         path.append(OfferRoute.details)
     }
-
-    func markVisitStarted() {
-        offer.status = .visitStarted
-    }
-
-    func markVisitCompleted() {
-        offer.status = .completed
-        phase = .completed
-    }
-
+    
     func presentCancelSheet() {
         isShowingCancelSheet = true
     }
-
+    
     func dismissCancelSheet() {
         isShowingCancelSheet = false
     }
-
+    
     func markCancelled() {
-        offer.status = .cancelled
+        // Will close the whole flow via onFinished
+    }
+    
+    func markVisitStarted() {
+        // Update local state if needed
+    }
+    
+    func markVisitCompleted() {
+        phase = .completed
     }
 }

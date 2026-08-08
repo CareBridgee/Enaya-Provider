@@ -13,59 +13,79 @@ struct OfferDetailsView: View {
     @StateObject var viewModel: OfferDetailsViewModel
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: Spacing.s16) {
-                scheduleCard
+        ZStack {
+            Color.backGround.ignoresSafeArea()
+            
+            if viewModel.isLoading {
+                ProgressView("Loading live details...")
+            } else if let _ = viewModel.requestDetails {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: Spacing.s16) {
+                        scheduleCard
+                        
+                        OfferPatientCard(
+                            name: viewModel.patientFullName,
+                            ageText: nil,
+                            caption: "Patient",
+                            captionValue: "",
+                            imageUrl: viewModel.patientImageUrl,
+                            onCall: viewModel.callPatientTapped,
+                            onMessage: {}
+                        )
 
-                OfferPatientCard(
-                    name: coordinator.offer.patient.name,
-                    ageText: coordinator.offer.patient.ageText,
-                    caption: "Patient",
-                    captionValue: "",
-                    onCall: {},
-                    onMessage: {}
-                )
+                        serviceCard
 
-                serviceCard
+                        Button(action: viewModel.viewPatientSummaryTapped) {
+                            HStack {
+                                Image(systemName: "doc.text")
+                                Text("View patient summary")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                            }
+                            .carelyText(style: .bodySmall, weight: .medium)
+                            .foregroundColor(.primaryFont)
+                            .padding(Spacing.s16)
+                            .background(Color.surface)
+                            .clipShape(RoundedRectangle.carely(Radius.r16))
+                        }
 
-                Button(action: viewModel.viewPatientSummaryTapped) {
-                    HStack {
-                        Image(systemName: "doc.text")
-                        Text("View patient summary")
-                        Spacer()
-                        Image(systemName: "chevron.right")
+                        VStack(alignment: .leading, spacing: Spacing.s8) {
+                            OfferSectionLabel(title: "Location", trailingTitle: "Copy Address", onTrailingTapped: viewModel.copyAddressTapped)
+                            
+ 
+                            Text(viewModel.fullAddressText)
+                                .carelyText(style: .bodyRegular, weight: .regular)
+                                .padding()
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(Color.surface)
+                                .clipShape(RoundedRectangle.carely(Radius.r16))
+                        }
+
+                        paymentCard
                     }
-                    .carelyText(style: .bodySmall, weight: .medium)
-                    .foregroundColor(.primaryFont)
-                    .padding(Spacing.s16)
-                    .background(Color.surface)
-                    .clipShape(RoundedRectangle.carely(Radius.r16))
+                    .padding(.horizontal, Spacing.s16)
+                    .padding(.top, Spacing.s16)
+                    .padding(.bottom, Spacing.s24)
                 }
-
-                VStack(alignment: .leading, spacing: Spacing.s8) {
-                    OfferSectionLabel(title: "Location", trailingTitle: "Copy Address", onTrailingTapped: viewModel.copyAddressTapped)
-                    OfferMapAddressCard(address: coordinator.offer.address, onOpenInMaps: viewModel.openInMapsTapped)
-                }
-
-                paymentCard
+            } else if let error = viewModel.errorMessage {
+                Text(error).foregroundColor(.red)
             }
-            .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s24)
         }
-        .background(Color.backGround.ignoresSafeArea())
         .careConnectNavigationBar(title: "Offer Details")
+        .task {
+            await viewModel.fetchDetails()
+        }
     }
 
     private var scheduleCard: some View {
         HStack(spacing: Spacing.s12) {
             Image(systemName: "calendar")
                 .foregroundColor(.brandPrimary)
-            Text(coordinator.offer.scheduledDateText)
+            Text(viewModel.scheduledDateText)
                 .carelyText(style: .bodyRegular, weight: .semiBold)
                 .foregroundColor(.primaryFont)
             Spacer()
-            Text(coordinator.offer.scheduledTimeText)
+            Text(viewModel.scheduledTimeText)
                 .carelyText(style: .bodyRegular, weight: .bold)
                 .foregroundColor(.brandPrimary)
         }
@@ -85,11 +105,11 @@ struct OfferDetailsView: View {
             }
 
             HStack {
-                Label(coordinator.offer.serviceName, systemImage: coordinator.offer.serviceIcon)
+                Label(viewModel.serviceName, systemImage: "cross.case.fill")
                     .carelyText(style: .bodyRegular, weight: .semiBold)
                     .foregroundColor(.primaryFont)
                 Spacer()
-                Text("\(coordinator.offer.durationMinutes) mins")
+                Text("\(viewModel.durationMinutes) mins")
                     .carelyText(style: .bodyRegular, weight: .semiBold)
                     .foregroundColor(.primaryFont)
             }
@@ -108,7 +128,7 @@ struct OfferDetailsView: View {
                     .carelyText(style: .bodyRegular, weight: .medium)
                     .foregroundColor(.primaryFont)
                 Spacer()
-                Text("$\(String(format: "%.2f", NSDecimalNumber(decimal: coordinator.offer.totalAmount).doubleValue))")
+                Text("$\(String(format: "%.2f", viewModel.totalAmount))")
                     .carelyText(style: .bodyLarge, weight: .bold)
                     .foregroundColor(.primaryFont)
             }

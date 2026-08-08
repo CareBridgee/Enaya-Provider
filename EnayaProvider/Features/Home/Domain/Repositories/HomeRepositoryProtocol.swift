@@ -12,9 +12,8 @@ protocol HomeRepositoryProtocol {
     func fetchSummary() async throws -> ProviderHomeSummary
     func setAvailability(isOnline: Bool) async throws
     func observeJobRequests() -> AsyncStream<[JobRequest]>
-    func submitOffer(for request: JobRequest, proposedPrice: Decimal) async throws -> String
+    func submitOffer(for request: JobRequest, proposedPrice: Decimal) async throws
     func cancelOffer(offerId: String) async throws
     func observeReservationEvents(reservationId: String) -> AsyncStream<ReservationEventResponse>
-    func fetchServiceRequestPreview(serviceRequestId: String) async throws -> ServiceRequestPreviewResponseDTO 
-    func fetchServiceRequestProfile(serviceRequestId: String) async throws -> ServiceRequestProfileResponseDTO
+    func fetchServiceRequestPreview(serviceRequestId: String) async throws -> ServiceRequestPreviewResponseDTO
 }

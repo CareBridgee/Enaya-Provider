@@ -14,39 +14,35 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var isWaitingForPatient: Bool = false
     @Published private(set) var isLoading = false
     @Published var errorMessage: String?
-    @Published var confirmedOffer: ConfirmedOffer?
+    
+    @Published var acceptedRequestId: String?
     
     private var activeOfferId: String?
     private var hubConnectionTask: Task<Void, Never>?
+    private var reservationTask: Task<Void, Never>?
     
     private let fetchSummary: FetchHomeSummaryUseCase
     private let toggleAvailabilityUseCase: ToggleAvailabilityUseCase
     private let observeJobRequests: ObserveJobRequestsUseCase
     private let submitOfferUseCase: SubmitOfferUseCase
     private let cancelOfferUseCase: CancelJobRequestUseCase
-    
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
-        private var reservationTask: Task<Void, Never>?
 
-    private let fetchServiceRequestProfileUseCase: FetchServiceRequestProfileUseCaseProtocol
-
-        init(
-            fetchSummary: FetchHomeSummaryUseCase,
-            toggleAvailabilityUseCase: ToggleAvailabilityUseCase,
-            observeJobRequests: ObserveJobRequestsUseCase,
-            submitOfferUseCase: SubmitOfferUseCase,
-            cancelOfferUseCase: CancelJobRequestUseCase,
-            observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol,
-            fetchServiceRequestProfileUseCase: FetchServiceRequestProfileUseCaseProtocol
-        ) {
-            self.fetchSummary = fetchSummary
-            self.toggleAvailabilityUseCase = toggleAvailabilityUseCase
-            self.observeJobRequests = observeJobRequests
-            self.submitOfferUseCase = submitOfferUseCase
-            self.cancelOfferUseCase = cancelOfferUseCase
-            self.observeReservationEventsUseCase = observeReservationEventsUseCase
-            self.fetchServiceRequestProfileUseCase = fetchServiceRequestProfileUseCase
-        }
+    init(
+        fetchSummary: FetchHomeSummaryUseCase,
+        toggleAvailabilityUseCase: ToggleAvailabilityUseCase,
+        observeJobRequests: ObserveJobRequestsUseCase,
+        submitOfferUseCase: SubmitOfferUseCase,
+        cancelOfferUseCase: CancelJobRequestUseCase,
+        observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+    ) {
+        self.fetchSummary = fetchSummary
+        self.toggleAvailabilityUseCase = toggleAvailabilityUseCase
+        self.observeJobRequests = observeJobRequests
+        self.submitOfferUseCase = submitOfferUseCase
+        self.cancelOfferUseCase = cancelOfferUseCase
+        self.observeReservationEventsUseCase = observeReservationEventsUseCase
+    }
     
     var isOnline: Bool { availability == .online }
     
@@ -144,150 +140,97 @@ final class HomeViewModel: ObservableObject {
     }
     
     func submitOffer(for request: JobRequest) {
-            let price = Decimal(proposedPriceValue > 0 ? proposedPriceValue : request.proposedPrice.doubleValue)
-            cancelEditing()
-
-            withAnimation { isWaitingForPatient = true }
-
-            Task {
-                do {
-                    let offerId = try await submitOfferUseCase.execute(request: request, price: price)
-                    self.activeOfferId = offerId
-                    observeReservation(for: request)
-                } catch let error {
-                    withAnimation { isWaitingForPatient = false }
-                    let nsError = error as NSError
-                    if let serverMessage = nsError.userInfo[NSLocalizedDescriptionKey] as? String {
-                        errorMessage = serverMessage
-                    } else {
-                        errorMessage = error.localizedDescription
-                    }
-                }
+        let price = Decimal(proposedPriceValue > 0 ? proposedPriceValue : request.proposedPrice.doubleValue)
+        cancelEditing()
+        
+        withAnimation { isWaitingForPatient = true }
+        
+        Task {
+            do {
+                try await submitOfferUseCase.execute(request: request, price: price)
+                
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                
+                self.observeReservation(for: request)
+                
+            } catch let error {
+                withAnimation { isWaitingForPatient = false }
+                self.errorMessage = error.localizedDescription
             }
         }
+    }
 
     private func observeReservation(for request: JobRequest) {
-            reservationTask?.cancel()
-            let reservationId = request.id.uuidString.lowercased()
+        reservationTask?.cancel()
+        let reservationId = request.id.uuidString.lowercased()
 
-            reservationTask = Task { @MainActor in
-                for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
-                    switch event.type.uppercased() {
-                    case "OFFER_ACCEPTED":
-                        await handleOfferAccepted(request: request)
-                        reservationTask?.cancel()
-                        return
-                    case "OFFER_REJECTED", "OFFER_WITHDRAWN":
-                        withAnimation { isWaitingForPatient = false }
-                        activeOfferId = nil
-                        errorMessage = "The patient declined your offer."
-                        reservationTask?.cancel()
-                        return
-                    default:
-                        break
+        reservationTask = Task { @MainActor in
+            for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
+                switch event.type.uppercased() {
+                
+                case "OFFER_CREATED":
+                    if let newOfferId = event.data?.id {
+                        self.activeOfferId = newOfferId
                     }
+                    
+                case "OFFER_ACCEPTED":
+                    reservationTask?.cancel()
+                    withAnimation { isWaitingForPatient = false }
+                    self.activeOfferId = nil
+                    self.acceptedRequestId = reservationId
+                    return
+                    
+                case "OFFER_REJECTED", "OFFER_WITHDRAWN":
+                    withAnimation { isWaitingForPatient = false }
+                    self.activeOfferId = nil
+                    self.errorMessage = "The patient declined your offer."
+                    reservationTask?.cancel()
+                    return
+                    
+                case "REQUEST_CANCELLED":
+                    withAnimation { isWaitingForPatient = false }
+                    self.activeOfferId = nil
+                    self.errorMessage = "The patient cancelled the request."
+                    reservationTask?.cancel()
+                    return
+                    
+                default:
+                    break
                 }
             }
         }
-
-        private func handleOfferAccepted(request: JobRequest) async {
-            do {
-                let profile = try await fetchServiceRequestProfileUseCase.execute(serviceRequestId: request.id.uuidString)
-                withAnimation { isWaitingForPatient = false }
-                activeOfferId = nil
-                confirmedOffer = buildConfirmedOffer(from: profile, proposedPrice: request.proposedPrice)
-            } catch {
-                withAnimation { isWaitingForPatient = false }
-                errorMessage = "Offer accepted, but couldn't load the visit details. Pull to refresh."
-            }
-        }
-
-        private func buildConfirmedOffer(from profile: ServiceRequestProfileResponseDTO, proposedPrice: Decimal) -> ConfirmedOffer {
-            let ageText = calculateAge(from: profile.patient.dateOfBirth)
-            let timeText = formattedTime(profile.preferredTime)
-            let dateText = formattedDate(profile.preferredDate)
-
-            return ConfirmedOffer(
-                id: UUID(uuidString: profile.serviceRequestId) ?? UUID(),
-                patient: OfferPatient(name: "\(profile.patient.firstName) \(profile.patient.lastName)", ageText: ageText, phoneNumber: profile.patientPhoneNumber),
-                serviceName: profile.serviceName,
-                serviceIcon: "cross.case.fill",
-                distanceText: "",
-                estimatedArrivalText: timeText,
-                scheduledDateText: dateText,
-                scheduledTimeText: timeText,
-                durationMinutes: 45,
-                address: OfferAddress(
-                    line: profile.address?.formattedLine ?? "",
-                    detail: profile.address?.formattedDetail ?? "",
-                    addressText: profile.address?.fullAddressText ?? ""
-                ),
-                totalAmount: proposedPrice,
-                providerPayoutAmount: proposedPrice - (proposedPrice * 0.15),
-                completedDateText: "",
-                status: .confirmed
-            )
-        }
-
-        private func calculateAge(from dateOfBirth: String?) -> String? {
-            guard let dateOfBirth else { return nil }
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            guard let dob = formatter.date(from: dateOfBirth) else { return nil }
-            let age = Calendar.current.dateComponents([.year], from: dob, to: Date()).year ?? 0
-            return "\(age)"
-        }
-
-        private func formattedTime(_ time: PreferredTimeDTO?) -> String {
-            guard let time else { return "Time TBD" }
-            var components = DateComponents()
-            components.hour = time.hour
-            components.minute = time.minute
-            guard let date = Calendar.current.date(from: components) else { return "Time TBD" }
-            let formatter = DateFormatter()
-            formatter.dateFormat = "h:mm a"
-            return formatter.string(from: date)
-        }
-
-        private func formattedDate(_ dateString: String?) -> String {
-            guard let dateString else { return "Date TBD" }
-            let inputFormatter = DateFormatter()
-            inputFormatter.dateFormat = "yyyy-MM-dd"
-            guard let date = inputFormatter.date(from: dateString) else { return dateString }
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "MMM d"
-            return outputFormatter.string(from: date)
-        }
+    }
 
     func cancelWaitingOffer() {
-            reservationTask?.cancel()
-            reservationTask = nil
+        reservationTask?.cancel()
+        reservationTask = nil
 
-            guard let offerId = activeOfferId else {
-                withAnimation { isWaitingForPatient = false }
-                return
-            }
-
-            Task {
-                isLoading = true
-                do {
-                    try await cancelOfferUseCase.execute(offerId: offerId)
-                    self.activeOfferId = nil
-
-                    if let editingId = editingJobRequest?.id,
-                       let index = jobRequests.firstIndex(where: { $0.id == editingId }) {
-                        jobRequests[index].status = .cancelled
-                    } else if let firstIndex = jobRequests.indices.first {
-                        jobRequests[firstIndex].status = .cancelled
-                    }
-
-                    withAnimation { isWaitingForPatient = false }
-                } catch {
-                    errorMessage = "Failed to cancel offer."
-                }
-                isLoading = false
-            }
+        guard let offerId = activeOfferId else {
+            withAnimation { isWaitingForPatient = false }
+            return
         }
+
+        Task {
+            isLoading = true
+            do {
+                try await cancelOfferUseCase.execute(offerId: offerId)
+                self.activeOfferId = nil
+
+                if let editingId = editingJobRequest?.id,
+                   let index = jobRequests.firstIndex(where: { $0.id == editingId }) {
+                    jobRequests[index].status = .cancelled
+                } else if let firstIndex = jobRequests.indices.first {
+                    jobRequests[firstIndex].status = .cancelled
+                }
+
+                withAnimation { isWaitingForPatient = false }
+            } catch {
+                errorMessage = "Failed to cancel offer."
+            }
+            isLoading = false
+        }
+    }
+    
 }
 
 extension HomeViewModel {
@@ -296,3 +239,7 @@ extension HomeViewModel {
     var jobsCountText: String { "\(summary?.todaysJobsCount ?? 0) Total" }
     var ratingText: String { String(format: "%.1f", summary?.rating ?? 0) }
 }
+
+    
+
+

@@ -6,6 +6,7 @@
 //
 
 
+
 import SwiftUI
 
 struct OfferConfirmedView: View {
@@ -45,6 +46,9 @@ struct OfferConfirmedView: View {
                 .padding(.horizontal, Spacing.s16)
                 .background(Color.backGround)
         }
+        .task {
+            await viewModel.loadDetails()
+        }
     }
 
     private var statusHero: some View {
@@ -70,10 +74,11 @@ struct OfferConfirmedView: View {
 
     private var patientCard: some View {
         OfferPatientCard(
-            name: coordinator.offer.patient.name,
+            name: viewModel.patientName,
             ageText: nil,
             caption: "Estimated Arrival",
-            captionValue: coordinator.offer.estimatedArrivalText,
+            captionValue: viewModel.estimatedArrivalText,
+            imageUrl: viewModel.patientImageUrl, 
             onCall: {},
             onMessage: {}
         )
@@ -81,8 +86,8 @@ struct OfferConfirmedView: View {
 
     private var statsRow: some View {
         HStack(spacing: Spacing.s12) {
-            OfferStatChip(icon: "location.fill", title: "Distance", value: coordinator.offer.distanceText)
-            OfferStatChip(icon: "briefcase.fill", title: "Service", value: coordinator.offer.serviceName)
+            OfferStatChip(icon: "location.fill", title: "Distance", value: viewModel.distanceText)
+            OfferStatChip(icon: "briefcase.fill", title: "Service", value: viewModel.serviceName)
         }
     }
 

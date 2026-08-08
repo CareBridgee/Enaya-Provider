@@ -19,6 +19,7 @@ struct OfferPatient: Equatable {
     let name: String
     let ageText: String?
     let phoneNumber: String?
+    let imageUrl: String?
 }
 
 struct OfferAddress: Equatable {

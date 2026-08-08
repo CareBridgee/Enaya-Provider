@@ -26,6 +26,9 @@
 		A53D6965B6B4AF21EE0A694F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0B81D17F4FF2D7C0E3CB0B16 /* Alamofire */; };
 		B364D4A73026778400837667 /* ServiceRequestProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */; };
 		B364D4A93026780E00837667 /* FetchServiceRequestProfileUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364D4A83026780E00837667 /* FetchServiceRequestProfileUseCaseProtocol.swift */; };
+		B39DA9773027C2BC00CB65C7 /* ServiceRequestDetailsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */; };
+		B39DA9793027C2FE00CB65C7 /* OfferEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */; };
+		B39DA97B3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */; };
 		B3A08AE43026281A00FF712D /* ProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */; };
 		B3A08AEA302651C700FF712D /* ReservationEventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */; };
 		B3A08AEC30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */; };
@@ -63,6 +66,7 @@
 		B3A6480E3025DE9800F2BA4B /* SwiftStomp in Frameworks */ = {isa = PBXBuildFile; productRef = B3A6480D3025DE9800F2BA4B /* SwiftStomp */; };
 		B3A648103025E58F00F2BA4B /* NotificationBannerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */; };
 		B3A648123025E60600F2BA4B /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A648113025E60600F2BA4B /* NotificationBannerView.swift */; };
+		B3A85CCA30276091005C153A /* SocketErrorPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A85CC930276091005C153A /* SocketErrorPayload.swift */; };
 		B3B6A5C3301F3758004772C8 /* JobEarningStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */; };
 		B3B6A5C5301F3763004772C8 /* EarningsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */; };
 		B3B6A5C7301F376E004772C8 /* EarningsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */; };
@@ -282,6 +286,9 @@
 		0CF5E345301A254500B2BC3F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRequestProfileResponseDTO.swift; sourceTree = "<group>"; };
 		B364D4A83026780E00837667 /* FetchServiceRequestProfileUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchServiceRequestProfileUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRequestDetailsResponseDTO.swift; sourceTree = "<group>"; };
+		B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferEndpoint.swift; sourceTree = "<group>"; };
+		B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchServiceRequestDetailsUseCase.swift; sourceTree = "<group>"; };
 		B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResponseDTO.swift; sourceTree = "<group>"; };
 		B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationEventResponse.swift; sourceTree = "<group>"; };
 		B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveReservationEventsUseCaseProtocol.swift; sourceTree = "<group>"; };
@@ -318,6 +325,7 @@
 		B3A648073025DE5200F2BA4B /* UserMeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMeDTO.swift; sourceTree = "<group>"; };
 		B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerModifier.swift; sourceTree = "<group>"; };
 		B3A648113025E60600F2BA4B /* NotificationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerView.swift; sourceTree = "<group>"; };
+		B3A85CC930276091005C153A /* SocketErrorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketErrorPayload.swift; sourceTree = "<group>"; };
 		B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobEarningStatus.swift; sourceTree = "<group>"; };
 		B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -662,6 +670,7 @@
 		B3A3BEAD301F277700F31E3D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -677,6 +686,7 @@
 		B3A3BEAF301F278D00F31E3D /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */,
 				B3A3BEB9301F281A00F31E3D /* StartVisitUseCaseProtocol.swift */,
 			);
 			path = UseCases;
@@ -748,6 +758,8 @@
 		B3A648083025DE5200F2BA4B /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */,
+				B3A85CC930276091005C153A /* SocketErrorPayload.swift */,
 				B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */,
 				B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */,
 				B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */,
@@ -1826,6 +1838,7 @@
 				C6267A5130239B0F003484E6 /* ProvidedServices.swift in Sources */,
 				C6267A5230239B0F003484E6 /* NurseRegistrationResponseDTO.swift in Sources */,
 				C6267A5330239B0F003484E6 /* NurseEntity.swift in Sources */,
+				B39DA97B3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift in Sources */,
 				C6267A5430239B0F003484E6 /* NurseService.swift in Sources */,
 				C6267A5530239B0F003484E6 /* ProvidedServicesView.swift in Sources */,
 				C6267A5630239B0F003484E6 /* ProfessionalInfoView.swift in Sources */,
@@ -1928,6 +1941,7 @@
 				B3A3BEDF301F28E500F31E3D /* VisitCompletedView.swift in Sources */,
 				0C5D9E10301BB0E500961737 /* LogoutUseCase.swift in Sources */,
 				B3A648103025E58F00F2BA4B /* NotificationBannerModifier.swift in Sources */,
+				B39DA9773027C2BC00CB65C7 /* ServiceRequestDetailsResponseDTO.swift in Sources */,
 				B3C57EAB3010EA75005C1BE8 /* ProviderAvailability.swift in Sources */,
 				B3B6A5D5301F37B2004772C8 /* PayoutsView.swift in Sources */,
 				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
@@ -1966,6 +1980,8 @@
 				B3CAF26C300E8EB2006A9F5F /* CarelyTextField.swift in Sources */,
 				B3CAF26D300E8EB2006A9F5F /* SecondaryButton.swift in Sources */,
 				B3CAF26E300E8EB2006A9F5F /* PrimaryChip.swift in Sources */,
+				B3A85CCA30276091005C153A /* SocketErrorPayload.swift in Sources */,
+				B39DA9793027C2FE00CB65C7 /* OfferEndpoint.swift in Sources */,
 				B3CAF26F300E8EB2006A9F5F /* InfoBannerView.swift in Sources */,
 				B3C57EA73010EA63005C1BE8 /* HomeCoordinator.swift in Sources */,
 				B3CAF270300E8EB2006A9F5F /* PrimaryButton.swift in Sources */,

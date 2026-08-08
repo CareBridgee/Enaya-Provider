@@ -6,13 +6,3 @@
 //
 
 
-protocol FetchServiceRequestProfileUseCaseProtocol {
-    func execute(serviceRequestId: String) async throws -> ServiceRequestProfileResponseDTO
-}
-
-struct FetchServiceRequestProfileUseCase: FetchServiceRequestProfileUseCaseProtocol {
-    let repository: HomeRepositoryProtocol
-    func execute(serviceRequestId: String) async throws -> ServiceRequestProfileResponseDTO {
-        try await repository.fetchServiceRequestProfile(serviceRequestId: serviceRequestId)
-    }
-}

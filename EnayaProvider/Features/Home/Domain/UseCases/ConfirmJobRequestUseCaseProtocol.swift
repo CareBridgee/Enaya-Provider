@@ -10,7 +10,8 @@ import Foundation
 
 struct SubmitOfferUseCase {
     let repo: HomeRepositoryProtocol
-    func execute(request: JobRequest, price: Decimal) async throws -> String {
+    
+    func execute(request: JobRequest, price: Decimal) async throws {
         try await repo.submitOffer(for: request, proposedPrice: price)
     }
 }

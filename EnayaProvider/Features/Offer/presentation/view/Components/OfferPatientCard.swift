@@ -13,15 +13,29 @@ struct OfferPatientCard: View {
     let ageText: String?
     let caption: String
     let captionValue: String
+    let imageUrl: String?
     let onCall: (() -> Void)?
     let onMessage: (() -> Void)?
 
     var body: some View {
         HStack(spacing: Spacing.s12) {
-            Circle()
-                .fill(Color.surfaceVariant)
-                .frame(width: Spacing.s48, height: Spacing.s48)
-                .overlay(Image(systemName: "person.fill").foregroundColor(.hint))
+            AsyncImage(url: URL(string: imageUrl ?? "")) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } else if phase.error != nil || imageUrl == nil || imageUrl!.isEmpty {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .padding(12)
+                        .foregroundColor(.hint)
+                } else {
+                    ProgressView()
+                }
+            }
+            .frame(width: Spacing.s48, height: Spacing.s48)
+            .background(Color.surfaceVariant)
+            .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.s2) {
                 Text(name)
@@ -35,12 +49,8 @@ struct OfferPatientCard: View {
 
             Spacer(minLength: .zero)
 
-            if let onCall {
-                iconButton("phone.fill", action: onCall)
-            }
-            if let onMessage {
-                iconButton("message.fill", action: onMessage)
-            }
+            if let onCall { iconButton("phone.fill", action: onCall) }
+            if let onMessage { iconButton("message.fill", action: onMessage) }
         }
         .padding(Spacing.s16)
         .background(Color.surface)

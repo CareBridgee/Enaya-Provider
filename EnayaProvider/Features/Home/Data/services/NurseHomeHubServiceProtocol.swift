@@ -11,18 +11,27 @@ protocol NurseHomeHubServiceProtocol {
     var onNearbyRequestReceived: ((NearbyNurseServiceRequestResponse) -> Void)? { get set }
     func connect()
     func disconnect()
+    
     func subscribeToNearbyRequests()
     func unsubscribeFromNearbyRequests()
+    
+    func subscribeToErrors(onError: @escaping (SocketErrorPayload) -> Void)
+    func unsubscribeFromErrors()
+    
     func updateAvailability(isAvailable: Bool, lat: Double, lng: Double)
     func sendHeartbeat()
+    func sendOffer(serviceRequestId: String, price: Double, date: String, time: String, message: String)
+
     func subscribeToReservation(reservationId: String, onEvent: @escaping (ReservationEventResponse) -> Void)
     func unsubscribeFromReservation(reservationId: String)
 }
 
-import Foundation
+
 
 final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
     var onNearbyRequestReceived: ((NearbyNurseServiceRequestResponse) -> Void)?
+    
+    private var onErrorReceived: ((SocketErrorPayload) -> Void)?
     
     private let socketClient: SocketClientProtocol
     private let decoder = JSONDecoder()
@@ -38,17 +47,36 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
         socketClient.onConnectedListeners[listenerKey] = { [weak self] in
             self?.subscribeToNearbyRequests()
         }
+        
         socketClient.onMessageReceivedListeners[listenerKey] = { [weak self] destination, body in
             if destination.contains("/queue/nearby-request") {
                 self?.handleIncomingRequest(body: body)
+            } else if destination.contains("/queue/errors") {
+                self?.handleIncomingError(body: body)
             }
         }
     }
     
     func connect() { socketClient.connect() }
-    func disconnect() { unsubscribeFromNearbyRequests() }
+    
+    func disconnect() {
+        unsubscribeFromNearbyRequests()
+        unsubscribeFromErrors()
+    }
+    
     func subscribeToNearbyRequests() { socketClient.subscribe(to: "/user/queue/nearby-request") }
+    
     func unsubscribeFromNearbyRequests() { socketClient.unsubscribe(from: "/user/queue/nearby-request") }
+
+    func subscribeToErrors(onError: @escaping (SocketErrorPayload) -> Void) {
+        self.onErrorReceived = onError
+        socketClient.subscribe(to: "/user/queue/errors")
+    }
+
+    func unsubscribeFromErrors() {
+        socketClient.unsubscribe(from: "/user/queue/errors")
+        self.onErrorReceived = nil
+    }
 
     func updateAvailability(isAvailable: Bool, lat: Double, lng: Double) {
         let payload = AvailabilityRequestDTO(available: isAvailable, lat: isAvailable ? lat : nil, lng: isAvailable ? lng : nil)
@@ -59,7 +87,22 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
             print("[Socket] Sent Availability: \(jsonString)")
         }
     }
-
+    func sendOffer(serviceRequestId: String, price: Double, date: String, time: String, message: String) {
+        let payload: [String: Any] = [
+            "serviceRequestId": serviceRequestId,
+            "proposedPrice": price,
+            "proposedDate": date,
+            "proposedTime": time,
+            "message": message
+        ]
+        
+        if let data = try? JSONSerialization.data(withJSONObject: payload),
+           let jsonString = String(data: data, encoding: .utf8) {
+            let headers = ["content-type": "application/json"]
+            socketClient.send(to: "/app/reservation/offer/create", headers: headers, body: jsonString)
+            print("[Socket] Sent Offer Create: \(jsonString)")
+        }
+    }
     func sendHeartbeat() {
         socketClient.send(to: "/app/heartbeat", headers: [:], body: "")
         print("[Socket] Sent Heartbeat")
@@ -103,6 +146,19 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
             print("[Socket] Nearby Request Received: \(request.serviceRequestId)")
         } catch {
             print("[Socket] Failed to decode Nearby Request: \(error)")
+        }
+    }
+    
+    private func handleIncomingError(body: String) {
+        print("[Socket RAW Error]: \(body)")
+        
+        guard let data = body.data(using: .utf8) else { return }
+        
+        do {
+            let errorPayload = try decoder.decode(SocketErrorPayload.self, from: data)
+            DispatchQueue.main.async { self.onErrorReceived?(errorPayload) }
+        } catch {
+            print("[Socket] Failed to decode Error Payload: \(error)")
         }
     }
 }

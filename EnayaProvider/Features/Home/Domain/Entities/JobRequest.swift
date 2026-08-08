@@ -16,6 +16,7 @@ struct JobRequest: Identifiable, Equatable {
 
     let id: UUID
     var patientLabel: String
+    var patientImageUrl: String
     let distanceText: String
     let serviceName: String
     var estimatedPrice: Decimal

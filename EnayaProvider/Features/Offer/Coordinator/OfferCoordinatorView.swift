@@ -34,7 +34,7 @@ struct OfferCoordinatorView: View {
                 case .details:
                     OfferDetailsView(
                         coordinator: coordinator,
-                        viewModel: container.makeOfferDetailsViewModel(coordinator: coordinator)
+                        viewModel: container.makeOfferDetailsViewModel(reservationId: coordinator.reservationId, coordinator: coordinator)
                     )
                 }
             }
@@ -42,7 +42,12 @@ struct OfferCoordinatorView: View {
         .sheet(isPresented: $coordinator.isShowingCancelSheet) {
             CancelOfferView(
                 coordinator: coordinator,
-                viewModel: container.makeCancelOfferViewModel(coordinator: coordinator, onCancelled: onFinished)
+                viewModel: container.makeCancelOfferViewModel(
+                    reservationId: coordinator.reservationId,
+                    serviceName: "Service Request",
+                    coordinator: coordinator,
+                    onCancelled: onFinished
+                )
             )
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)

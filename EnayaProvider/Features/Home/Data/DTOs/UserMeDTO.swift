@@ -20,6 +20,9 @@ struct NurseInfoDTO: Decodable {
     let id: String
     let ratingAvg: Double
     let totalReviews: Int
+    let firstName: String
+    let lastName: String
+    let profileImageUrl: String?
 }
 
 

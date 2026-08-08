@@ -249,30 +249,35 @@ final class DIContainer {
             SubmitOfferUseCase(repo: homeRepository)
         }
 
-    private func makeCancelOfferUseCase() -> CancelJobRequestUseCase {
-        CancelJobRequestUseCase(repo: homeRepository)
+    // MARK: - Home Feature
+        
+        private func makeCancelWaitingOfferUseCase() -> CancelJobRequestUseCase {
+            CancelJobRequestUseCase(repo: homeRepository)
         }
-    private func makeObserveReservationEventsUseCase() -> ObserveReservationEventsUseCaseProtocol {
-         ObserveReservationEventsUseCase(repository: homeRepository)
-     }
-    private func makeFetchServiceRequestProfileUseCase() -> FetchServiceRequestProfileUseCaseProtocol {
-        FetchServiceRequestProfileUseCase(repository: homeRepository)
-     }
-        // MARK: - ViewModels
+
         func makeHomeViewModel() -> HomeViewModel {
             HomeViewModel(
                 fetchSummary: makeFetchHomeSummaryUseCase(),
                 toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
                 observeJobRequests: makeObserveJobRequestsUseCase(),
                 submitOfferUseCase: makeSubmitOfferUseCase(),
-                cancelOfferUseCase: makeCancelOfferUseCase(),
-                observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
-                fetchServiceRequestProfileUseCase: makeFetchServiceRequestProfileUseCase()
+                cancelOfferUseCase: makeCancelWaitingOfferUseCase(),
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
             )
         }
-    // MARK: - Offer
 
-        private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl()
+        
+        private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl(
+            networkClient: networkClient
+        )
+
+        func makeFetchServiceRequestDetailsUseCase() -> FetchServiceRequestDetailsUseCase {
+            FetchServiceRequestDetailsUseCase(repo: offerRepository)
+        }
+
+        func makeCancelServiceRequestUseCase() -> CancelServiceRequestUseCase {
+            CancelServiceRequestUseCase(repo: offerRepository)
+        }
 
         private func makeStartVisitUseCase() -> StartVisitUseCaseProtocol {
             StartVisitUseCase(repository: offerRepository)
@@ -282,37 +287,55 @@ final class DIContainer {
             CompleteVisitUseCase(repository: offerRepository)
         }
 
-        private func makeCancelOfferUseCase() -> CancelOfferUseCaseProtocol {
-            CancelOfferUseCase(repository: offerRepository)
-        }
-
-        func makeOfferCoordinator(offer: ConfirmedOffer) -> OfferCoordinator {
-            OfferCoordinator(offer: offer)
+        func makeOfferCoordinator(reservationId: String) -> OfferCoordinator {
+            OfferCoordinator(reservationId: reservationId)
         }
 
         func makeOfferConfirmedViewModel(coordinator: OfferCoordinator) -> OfferConfirmedViewModel {
             OfferConfirmedViewModel(
+                reservationId: coordinator.reservationId,
                 coordinator: coordinator,
+                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
                 startVisitUseCase: makeStartVisitUseCase(),
                 completeVisitUseCase: makeCompleteVisitUseCase()
             )
         }
 
-        func makeOfferDetailsViewModel(coordinator: OfferCoordinator) -> OfferDetailsViewModel {
-            OfferDetailsViewModel(coordinator: coordinator)
-        }
-
-        func makeVisitCompletedViewModel(coordinator: OfferCoordinator, onReturnHome: @escaping () -> Void) -> VisitCompletedViewModel {
-            VisitCompletedViewModel(coordinator: coordinator, onReturnHome: onReturnHome)
-        }
-
-        func makeCancelOfferViewModel(coordinator: OfferCoordinator, onCancelled: @escaping () -> Void) -> CancelOfferViewModel {
-            CancelOfferViewModel(
+        func makeOfferDetailsViewModel(reservationId: String, coordinator: OfferCoordinator) -> OfferDetailsViewModel {
+            OfferDetailsViewModel(
+                reservationId: reservationId,
                 coordinator: coordinator,
-                cancelOfferUseCase: makeCancelOfferUseCase(),
+                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase()
+            )
+        }
+
+        func makeCancelOfferViewModel(reservationId: String, serviceName: String, coordinator: OfferCoordinator, onCancelled: @escaping () -> Void) -> CancelOfferViewModel {
+            CancelOfferViewModel(
+                reservationId: reservationId,
+                serviceName: serviceName,
+                coordinator: coordinator,
+                cancelRequestUseCase: makeCancelServiceRequestUseCase(),
                 onCancelled: onCancelled
             )
         }
+
+    func makeVisitCompletedViewModel(coordinator: OfferCoordinator, onReturnHome: @escaping () -> Void) -> VisitCompletedViewModel {
+            VisitCompletedViewModel(
+                reservationId: coordinator.reservationId,
+                coordinator: coordinator,
+                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                onReturnHome: onReturnHome
+            )
+        }
+    private func makeObserveReservationEventsUseCase() -> ObserveReservationEventsUseCaseProtocol {
+         ObserveReservationEventsUseCase(repository: homeRepository)
+     }
+   
+
+
+    
+
+      
     // MARK: - Earnings
 
         private lazy var earningsRepository: EarningsRepositoryProtocol = EarningsRepositoryImpl()

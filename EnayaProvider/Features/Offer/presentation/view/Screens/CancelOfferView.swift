@@ -16,7 +16,7 @@ struct CancelOfferView: View {
         ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading, spacing: Spacing.s16) {
                 VStack(alignment: .leading, spacing: Spacing.s8) {
-                    Text("Cancel \(coordinator.offer.serviceName) Trip?")
+                    Text("Cancel \(viewModel.serviceNameDisplay) Trip?")
                         .carelyText(style: .heading3, weight: .bold)
                         .foregroundColor(.primaryFont)
 
@@ -25,10 +25,14 @@ struct CancelOfferView: View {
                         .foregroundColor(.secondaryFont)
                 }
 
-                AlertBanner(
-                    style: .error,
-                    message: "Frequent or late cancellations may result in cancellation fees and impact your rating, as confirmed on your current Nurse Partner Policy based on your current distance of \(coordinator.offer.distanceText). Scheduled to start around \(coordinator.offer.estimatedArrivalText)."
-                )
+                if let error = viewModel.errorMessage {
+                    AlertBanner(style: .error, message: error)
+                } else {
+                    AlertBanner(
+                        style: .error,
+                        message: "Frequent or late cancellations may result in cancellation fees and impact your rating, as confirmed on your current Nurse Partner Policy."
+                    )
+                }
 
                 OfferSectionLabel(title: "Reason for Cancellation")
 
