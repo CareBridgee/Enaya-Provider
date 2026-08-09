@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-
-
 struct HomeCoordinatorView: View {
     let container: DIContainer
     @ObservedObject var coordinator: HomeCoordinator
@@ -23,16 +21,23 @@ struct HomeCoordinatorView: View {
 
     var body: some View {
         HomeView(viewModel: viewModel)
-            // استخدام acceptedRequestId لفتح شاشة العرض الحقيقية
-            .fullScreenCover(item: $viewModel.acceptedRequestId) { reservationId in
-                OfferCoordinatorView(
-                    container: container,
-                    coordinator: container.makeOfferCoordinator(reservationId: reservationId),
-                    onFinished: { viewModel.acceptedRequestId = nil }
+            .fullScreenCover(
+                isPresented: Binding(
+                    get: { viewModel.acceptedRequestId != nil },
+                    set: { isPresented in
+                        if !isPresented {
+                            viewModel.acceptedRequestId = nil
+                        }
+                    }
                 )
+            ) {
+                if let reservationId = viewModel.acceptedRequestId {
+                    OfferCoordinatorView(
+                        container: container,
+                        coordinator: container.makeOfferCoordinator(reservationId: reservationId),
+                        onFinished: { viewModel.acceptedRequestId = nil }
+                    )
+                }
             }
     }
-}
-extension String: @retroactive Identifiable {
-    public var id: String { self }
 }
