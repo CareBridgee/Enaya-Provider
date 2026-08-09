@@ -7,36 +7,52 @@
 
 
 import SwiftUI
-import MapKit
 
 struct OfferMapAddressCard: View {
-    let address: OfferAddress
+    let addressLine: String
+    let addressDetail: String
     let onOpenInMaps: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.s12) {
-            HStack {
+            HStack(alignment: .top, spacing: Spacing.s8) {
                 Image(systemName: "mappin.and.ellipse")
                     .foregroundColor(.brandPrimary)
-                Text(address.fullText)
-                    .carelyText(style: .bodySmall, weight: .medium)
-                    .foregroundColor(.primaryFont)
+                    .padding(.top, 2)
+                
+                VStack(alignment: .leading, spacing: Spacing.s4) {
+                    Text(addressLine)
+                        .carelyText(style: .bodyLarge, weight: .medium)
+                        .foregroundColor(.primaryFont)
+                    Text(addressDetail)
+                        .carelyText(style: .bodySmall, weight: .regular)
+                        .foregroundColor(.secondaryFont)
+                }
                 Spacer(minLength: .zero)
             }
 
-            Image("map-image")
-                .resizable()
-                .scaledToFill()
-                .frame(height: 140)
-                .clipShape(RoundedRectangle.carely(Radius.r16))
+            ZStack(alignment: .bottomTrailing) {
+                Image("map-image") // Your map asset
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 140)
+                    .clipShape(RoundedRectangle.carely(Radius.r12))
+                    .clipped()
 
-            Button(action: onOpenInMaps) {
-                HStack(spacing: Spacing.s4) {
-                    Image(systemName: "arrow.up.forward.app")
-                    Text("Open in Maps")
+                Button(action: onOpenInMaps) {
+                    HStack(spacing: Spacing.s8) {
+                        Image(systemName: "arrow.up.forward.app")
+                        Text("Open in Maps")
+                    }
+                    .carelyText(style: .bodySmall, weight: .semiBold)
+                    .foregroundColor(.brandPrimary)
+                    .padding(.horizontal, Spacing.s16)
+                    .padding(.vertical, Spacing.s8)
+                    .background(Color.surface)
+                    .clipShape(RoundedRectangle.carely(Radius.r24))
+                    .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
                 }
-                .carelyText(style: .bodySmall, weight: .semiBold)
-                .foregroundColor(.brandPrimary)
+                .padding(Spacing.s12)
             }
         }
         .padding(Spacing.s16)

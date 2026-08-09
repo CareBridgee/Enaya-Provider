@@ -32,4 +32,7 @@ final class OfferRepositoryImpl: OfferRepositoryProtocol {
     func completeVisit(requestId: String, visitCode: String) async throws {
         try await networkClient.requestWithoutResponse(OfferEndpoint.completeVisit(serviceRequestId: requestId, visitCode: visitCode))
     }
+    func fetchRequestProfile(requestId: String) async throws -> ServiceRequestProfileResponseDTO {
+            return try await networkClient.request(OfferEndpoint.getServiceRequestProfile(serviceRequestId: requestId))
+        }
 }

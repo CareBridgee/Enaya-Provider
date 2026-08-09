@@ -18,14 +18,14 @@ struct OfferDetailsView: View {
             
             if viewModel.isLoading {
                 ProgressView("Loading live details...")
-            } else if let _ = viewModel.requestDetails {
+            } else if viewModel.requestDetails != nil {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: Spacing.s16) {
                         scheduleCard
                         
                         OfferPatientCard(
                             name: viewModel.patientFullName,
-                            ageText: nil,
+                            ageText: viewModel.patientAge, // Calculated Age
                             caption: "Patient",
                             captionValue: "",
                             imageUrl: viewModel.patientImageUrl,
@@ -35,30 +35,14 @@ struct OfferDetailsView: View {
 
                         serviceCard
 
-                        Button(action: viewModel.viewPatientSummaryTapped) {
-                            HStack {
-                                Image(systemName: "doc.text")
-                                Text("View patient summary")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                            }
-                            .carelyText(style: .bodySmall, weight: .medium)
-                            .foregroundColor(.primaryFont)
-                            .padding(Spacing.s16)
-                            .background(Color.surface)
-                            .clipShape(RoundedRectangle.carely(Radius.r16))
-                        }
-
                         VStack(alignment: .leading, spacing: Spacing.s8) {
-                            OfferSectionLabel(title: "Location", trailingTitle: "Copy Address", onTrailingTapped: viewModel.copyAddressTapped)
+                            OfferSectionLabel(title: "LOCATION", trailingTitle: "Copy Address", onTrailingTapped: viewModel.copyAddressTapped)
                             
- 
-                            Text(viewModel.fullAddressText)
-                                .carelyText(style: .bodyRegular, weight: .regular)
-                                .padding()
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.surface)
-                                .clipShape(RoundedRectangle.carely(Radius.r16))
+                            OfferMapAddressCard(
+                                addressLine: viewModel.addressLine,
+                                addressDetail: viewModel.addressDetail,
+                                onOpenInMaps: viewModel.openInMapsTapped
+                            )
                         }
 
                         paymentCard
@@ -73,21 +57,30 @@ struct OfferDetailsView: View {
         }
         .careConnectNavigationBar(title: "Offer Details")
         .task {
-            await viewModel.fetchDetails()
+            await viewModel.fetchData()
         }
+        .alert("Notice", isPresented: $viewModel.showPhoneAlert) {
+                   Button("OK", role: .cancel) { }
+               } message: {
+                   Text(viewModel.phoneAlertMessage)
+               }
     }
 
     private var scheduleCard: some View {
         HStack(spacing: Spacing.s12) {
             Image(systemName: "calendar")
+                .font(.system(size: 20))
                 .foregroundColor(.brandPrimary)
-            Text(viewModel.scheduledDateText)
-                .carelyText(style: .bodyRegular, weight: .semiBold)
-                .foregroundColor(.primaryFont)
+            
+            VStack(alignment: .leading, spacing: 2) {
+                Text(viewModel.scheduledDateText)
+                    .carelyText(style: .bodySmall, weight: .regular)
+                    .foregroundColor(.secondaryFont)
+                Text(viewModel.scheduledTimeText)
+                    .carelyText(style: .heading3, weight: .semiBold)
+                    .foregroundColor(.brandPrimary)
+            }
             Spacer()
-            Text(viewModel.scheduledTimeText)
-                .carelyText(style: .bodyRegular, weight: .bold)
-                .foregroundColor(.brandPrimary)
         }
         .padding(Spacing.s16)
         .background(Color.mintSurface)
@@ -95,23 +88,41 @@ struct OfferDetailsView: View {
     }
 
     private var serviceCard: some View {
-        VStack(alignment: .leading, spacing: Spacing.s8) {
-            HStack {
-                OfferSectionLabel(title: "Service Type")
+        VStack(alignment: .leading, spacing: Spacing.s16) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: Spacing.s4) {
+                    OfferSectionLabel(title: "SERVICE TYPE")
+                    HStack(spacing: Spacing.s8) {
+                        Text(viewModel.serviceName)
+                            .carelyText(style: .bodyLarge, weight: .semiBold)
+                            .foregroundColor(.primaryFont)
+                        Image(systemName: "cross.case.fill")
+                            .foregroundColor(.brandPrimary)
+                    }
+                }
                 Spacer()
-                Text("Estimated duration")
-                    .carelyText(style: .caption, weight: .regular)
-                    .foregroundColor(.secondaryFont)
+                VStack(alignment: .trailing, spacing: Spacing.s4) {
+                    Text("Estimated duration")
+                        .carelyText(style: .caption, weight: .regular)
+                        .foregroundColor(.primaryFont)
+                    Text("\(viewModel.durationMinutes) mins")
+                        .carelyText(style: .bodyLarge, weight: .medium)
+                        .foregroundColor(.primaryFont)
+                }
             }
 
-            HStack {
-                Label(viewModel.serviceName, systemImage: "cross.case.fill")
-                    .carelyText(style: .bodyRegular, weight: .semiBold)
-                    .foregroundColor(.primaryFont)
-                Spacer()
-                Text("\(viewModel.durationMinutes) mins")
-                    .carelyText(style: .bodyRegular, weight: .semiBold)
-                    .foregroundColor(.primaryFont)
+            Button(action: viewModel.viewPatientSummaryTapped) {
+                HStack {
+                    Text("View patient summery")
+                        .carelyText(style: .bodyRegular, weight: .regular)
+                        .foregroundColor(.primaryFont)
+                    Spacer()
+                    Image(systemName: "doc.text")
+                        .foregroundColor(.secondaryFont)
+                }
+                .padding(Spacing.s16)
+                .background(Color.surfaceVariant.opacity(0.5))
+                .clipShape(RoundedRectangle.carely(Radius.r12))
             }
         }
         .padding(Spacing.s16)
@@ -120,24 +131,24 @@ struct OfferDetailsView: View {
     }
 
     private var paymentCard: some View {
-        VStack(alignment: .leading, spacing: Spacing.s12) {
-            OfferSectionLabel(title: "Payment Summary")
+        VStack(alignment: .leading, spacing: Spacing.s16) {
+            OfferSectionLabel(title: "PAYMENT SUMMARY")
 
             HStack {
                 Text("Total Amount")
-                    .carelyText(style: .bodyRegular, weight: .medium)
+                    .carelyText(style: .bodyLarge, weight: .semiBold)
                     .foregroundColor(.primaryFont)
                 Spacer()
                 Text("$\(String(format: "%.2f", viewModel.totalAmount))")
-                    .carelyText(style: .bodyLarge, weight: .bold)
-                    .foregroundColor(.primaryFont)
+                    .carelyText(style: .heading3, weight: .bold)
+                    .foregroundColor(.brandPrimary)
             }
 
-            HStack(spacing: Spacing.s8) {
-                Image(systemName: "creditcard.fill").foregroundColor(.hint)
+            HStack(spacing: Spacing.s12) {
+                Image(systemName: "creditcard.fill").foregroundColor(.brandPrimary)
                 Text("Payment will be processed after completion")
-                    .carelyText(style: .caption, weight: .regular)
-                    .foregroundColor(.secondaryFont)
+                    .carelyText(style: .bodySmall, weight: .medium)
+                    .foregroundColor(.primaryFont)
             }
         }
         .padding(Spacing.s16)

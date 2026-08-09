@@ -3,27 +3,28 @@ import SwiftUI
 
 @MainActor
 final class HomeViewModel: ObservableObject {
-    
+
     @Published private(set) var summary: ProviderHomeSummary?
     @Published private(set) var availability: ProviderAvailability = .offline
     @Published private(set) var jobRequests: [JobRequest] = []
-    
+
     @Published var editingJobRequest: JobRequest?
     @Published var proposedPriceValue: Double = 0
-    
+
     @Published private(set) var isWaitingForPatient: Bool = false
     @Published private(set) var isLoading = false
     @Published var errorMessage: String?
-    
+
     @Published var acceptedRequestId: String?
-    
+
     private var activeOfferId: String?
     private var hubConnectionTask: Task<Void, Never>?
     private var reservationTask: Task<Void, Never>?
-    
+
     private let fetchSummary: FetchHomeSummaryUseCase
     private let toggleAvailabilityUseCase: ToggleAvailabilityUseCase
     private let observeJobRequests: ObserveJobRequestsUseCase
+    private let refreshJobRequestsUseCase: RefreshJobRequestsUseCaseProtocol
     private let submitOfferUseCase: SubmitOfferUseCase
     private let cancelOfferUseCase: CancelJobRequestUseCase
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
@@ -32,6 +33,7 @@ final class HomeViewModel: ObservableObject {
         fetchSummary: FetchHomeSummaryUseCase,
         toggleAvailabilityUseCase: ToggleAvailabilityUseCase,
         observeJobRequests: ObserveJobRequestsUseCase,
+        refreshJobRequestsUseCase: RefreshJobRequestsUseCaseProtocol,
         submitOfferUseCase: SubmitOfferUseCase,
         cancelOfferUseCase: CancelJobRequestUseCase,
         observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
@@ -39,13 +41,14 @@ final class HomeViewModel: ObservableObject {
         self.fetchSummary = fetchSummary
         self.toggleAvailabilityUseCase = toggleAvailabilityUseCase
         self.observeJobRequests = observeJobRequests
+        self.refreshJobRequestsUseCase = refreshJobRequestsUseCase
         self.submitOfferUseCase = submitOfferUseCase
         self.cancelOfferUseCase = cancelOfferUseCase
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
     }
-    
+
     var isOnline: Bool { availability == .online }
-    
+
     var greeting: String {
         switch Calendar.current.component(.hour, from: Date()) {
         case 0..<12: return "Good morning"
@@ -53,23 +56,21 @@ final class HomeViewModel: ObservableObject {
         default: return "Good evening"
         }
     }
-    
+
     func load() async {
         isLoading = true
         errorMessage = nil
         do {
             summary = try await fetchSummary.execute()
-            
+
             let rawStatus = UserDefaults.standard.string(forKey: "providerAvailability")
             availability = ProviderAvailability(rawValue: rawStatus ?? "") ?? .offline
-            
+
             if availability == .online {
                 do {
                     try await toggleAvailabilityUseCase.execute(isOnline: true)
                     startObservingRequests()
-                    print("✅ [HomeVM] App launched while Online: Location refreshed and sent successfully.")
                 } catch {
-                    print("⚠️ [HomeVM] Failed to refresh location on launch: \(error)")
                     availability = .offline
                     UserDefaults.standard.set("offline", forKey: "providerAvailability")
                 }
@@ -84,10 +85,10 @@ final class HomeViewModel: ObservableObject {
         Task {
             isLoading = true
             let newStatus: ProviderAvailability = availability == .online ? .offline : .online
-            
+
             do {
                 try await toggleAvailabilityUseCase.execute(isOnline: newStatus == .online)
-                
+
                 availability = newStatus
                 if newStatus == .online {
                     startObservingRequests()
@@ -106,53 +107,67 @@ final class HomeViewModel: ObservableObject {
         hubConnectionTask?.cancel()
         hubConnectionTask = Task { @MainActor in
             for await requests in observeJobRequests.execute() {
-                print("🔄 [HomeVM] UI is updating with \(requests.count) requests")
                 withAnimation(.spring()) {
                     self.jobRequests = requests
                 }
             }
         }
     }
-    
+
     private func stopObservingRequests() {
         hubConnectionTask?.cancel()
         withAnimation { jobRequests.removeAll() }
     }
-    
+
+    func refreshJobRequests() async {
+        guard isOnline else { return }
+        do {
+            let updated = try await refreshJobRequestsUseCase.execute()
+            withAnimation { jobRequests = updated }
+        } catch {
+            print("Failed to refresh job requests: \(error)")
+        }
+    }
+
+    func handleOfferFlowFinished(reservationId: String) {
+        acceptedRequestId = nil
+        if let uuid = UUID(uuidString: reservationId) {
+            withAnimation { jobRequests.removeAll { $0.id == uuid } }
+        }
+        Task { await refreshJobRequests() }
+    }
+
     func startEditingOffer(for request: JobRequest) {
         proposedPriceValue = request.proposedPrice.doubleValue
         withAnimation { editingJobRequest = request }
     }
-    
+
     func cancelEditing() {
         withAnimation { editingJobRequest = nil }
     }
-    
+
     func saveEditedOffer() {
         guard var request = editingJobRequest else { return }
         request.proposedPrice = Decimal(proposedPriceValue)
-        
+
         if let index = jobRequests.firstIndex(where: { $0.id == request.id }) {
             jobRequests[index] = request
         }
-        
+
         cancelEditing()
     }
-    
+
     func submitOffer(for request: JobRequest) {
         let price = Decimal(proposedPriceValue > 0 ? proposedPriceValue : request.proposedPrice.doubleValue)
         cancelEditing()
-        
+
         withAnimation { isWaitingForPatient = true }
-        
+
         Task {
             do {
                 try await submitOfferUseCase.execute(request: request, price: price)
-                
                 try? await Task.sleep(nanoseconds: 500_000_000)
-                
                 self.observeReservation(for: request)
-                
             } catch let error {
                 withAnimation { isWaitingForPatient = false }
                 self.errorMessage = error.localizedDescription
@@ -167,33 +182,33 @@ final class HomeViewModel: ObservableObject {
         reservationTask = Task { @MainActor in
             for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
                 switch event.type.uppercased() {
-                
+
                 case "OFFER_CREATED":
                     if let newOfferId = event.data?.id {
                         self.activeOfferId = newOfferId
                     }
-                    
+
                 case "OFFER_ACCEPTED":
                     reservationTask?.cancel()
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
                     self.acceptedRequestId = reservationId
                     return
-                    
+
                 case "OFFER_REJECTED", "OFFER_WITHDRAWN":
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
                     self.errorMessage = "The patient declined your offer."
                     reservationTask?.cancel()
                     return
-                    
+
                 case "REQUEST_CANCELLED":
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
                     self.errorMessage = "The patient cancelled the request."
                     reservationTask?.cancel()
                     return
-                    
+
                 default:
                     break
                 }
@@ -230,7 +245,6 @@ final class HomeViewModel: ObservableObject {
             isLoading = false
         }
     }
-    
 }
 
 extension HomeViewModel {
@@ -239,7 +253,3 @@ extension HomeViewModel {
     var jobsCountText: String { "\(summary?.todaysJobsCount ?? 0) Total" }
     var ratingText: String { String(format: "%.1f", summary?.rating ?? 0) }
 }
-
-    
-
-

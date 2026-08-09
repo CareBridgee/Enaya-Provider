@@ -11,13 +11,13 @@ protocol NurseHomeHubServiceProtocol {
     var onNearbyRequestReceived: ((NearbyNurseServiceRequestResponse) -> Void)? { get set }
     func connect()
     func disconnect()
-    
+
     func subscribeToNearbyRequests()
     func unsubscribeFromNearbyRequests()
-    
+
     func subscribeToErrors(onError: @escaping (SocketErrorPayload) -> Void)
     func unsubscribeFromErrors()
-    
+
     func updateAvailability(isAvailable: Bool, lat: Double, lng: Double)
     func sendHeartbeat()
     func sendOffer(serviceRequestId: String, price: Double, date: String, time: String, message: String)
@@ -26,13 +26,12 @@ protocol NurseHomeHubServiceProtocol {
     func unsubscribeFromReservation(reservationId: String)
 }
 
-
-
 final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
     var onNearbyRequestReceived: ((NearbyNurseServiceRequestResponse) -> Void)?
-    
+
     private var onErrorReceived: ((SocketErrorPayload) -> Void)?
-    
+    private var desiredAvailability: AvailabilityRequestDTO?
+
     private let socketClient: SocketClientProtocol
     private let decoder = JSONDecoder()
     private let encoder = JSONEncoder()
@@ -46,8 +45,9 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
     private func setupSocketEvents() {
         socketClient.onConnectedListeners[listenerKey] = { [weak self] in
             self?.subscribeToNearbyRequests()
+            self?.resendAvailabilityIfNeeded()
         }
-        
+
         socketClient.onMessageReceivedListeners[listenerKey] = { [weak self] destination, body in
             if destination.contains("/queue/nearby-request") {
                 self?.handleIncomingRequest(body: body)
@@ -56,16 +56,17 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
             }
         }
     }
-    
+
     func connect() { socketClient.connect() }
-    
+
     func disconnect() {
         unsubscribeFromNearbyRequests()
         unsubscribeFromErrors()
+        desiredAvailability = nil
     }
-    
+
     func subscribeToNearbyRequests() { socketClient.subscribe(to: "/user/queue/nearby-request") }
-    
+
     func unsubscribeFromNearbyRequests() { socketClient.unsubscribe(from: "/user/queue/nearby-request") }
 
     func subscribeToErrors(onError: @escaping (SocketErrorPayload) -> Void) {
@@ -80,13 +81,24 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
 
     func updateAvailability(isAvailable: Bool, lat: Double, lng: Double) {
         let payload = AvailabilityRequestDTO(available: isAvailable, lat: isAvailable ? lat : nil, lng: isAvailable ? lng : nil)
-        
+        desiredAvailability = isAvailable ? payload : nil
+        sendAvailability(payload)
+    }
+
+    private func sendAvailability(_ payload: AvailabilityRequestDTO) {
+        guard socketClient.isConnected else { return }
         if let data = try? encoder.encode(payload), let jsonString = String(data: data, encoding: .utf8) {
             let headers = ["content-type": "application/json"]
             socketClient.send(to: "/app/reservation/availability", headers: headers, body: jsonString)
             print("[Socket] Sent Availability: \(jsonString)")
         }
     }
+
+    private func resendAvailabilityIfNeeded() {
+        guard let payload = desiredAvailability else { return }
+        sendAvailability(payload)
+    }
+
     func sendOffer(serviceRequestId: String, price: Double, date: String, time: String, message: String) {
         let payload: [String: Any] = [
             "serviceRequestId": serviceRequestId,
@@ -95,7 +107,7 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
             "proposedTime": time,
             "message": message
         ]
-        
+
         if let data = try? JSONSerialization.data(withJSONObject: payload),
            let jsonString = String(data: data, encoding: .utf8) {
             let headers = ["content-type": "application/json"]
@@ -103,16 +115,16 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
             print("[Socket] Sent Offer Create: \(jsonString)")
         }
     }
+
     func sendHeartbeat() {
         socketClient.send(to: "/app/heartbeat", headers: [:], body: "")
-        print("[Socket] Sent Heartbeat")
     }
-    
+
     func subscribeToReservation(reservationId: String, onEvent: @escaping (ReservationEventResponse) -> Void) {
         let destination = "/topic/reservation/\(reservationId)"
-        
+
         socketClient.subscribe(to: destination)
-        
+
         let reservationListenerKey = "Reservation_\(reservationId)"
         socketClient.onMessageReceivedListeners[reservationListenerKey] = { [weak self] dest, body in
             if dest == destination {
@@ -134,26 +146,21 @@ final class NurseHomeSocketDataSource: NurseHomeHubServiceProtocol {
         socketClient.unsubscribe(from: destination)
         socketClient.onMessageReceivedListeners.removeValue(forKey: "Reservation_\(reservationId)")
     }
-    
+
     private func handleIncomingRequest(body: String) {
-        print("[Socket RAW Body]: \(body)")
-        
         guard let data = body.data(using: .utf8) else { return }
-        
+
         do {
             let request = try decoder.decode(NearbyNurseServiceRequestResponse.self, from: data)
             DispatchQueue.main.async { self.onNearbyRequestReceived?(request) }
-            print("[Socket] Nearby Request Received: \(request.serviceRequestId)")
         } catch {
             print("[Socket] Failed to decode Nearby Request: \(error)")
         }
     }
-    
+
     private func handleIncomingError(body: String) {
-        print("[Socket RAW Error]: \(body)")
-        
         guard let data = body.data(using: .utf8) else { return }
-        
+
         do {
             let errorPayload = try decoder.decode(SocketErrorPayload.self, from: data)
             DispatchQueue.main.async { self.onErrorReceived?(errorPayload) }

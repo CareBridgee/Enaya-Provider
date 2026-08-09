@@ -13,4 +13,5 @@ protocol OfferRepositoryProtocol {
     func cancelServiceRequest(requestId: String) async throws
     func startVisit(requestId: String) async throws
     func completeVisit(requestId: String, visitCode: String) async throws
+    func fetchRequestProfile(requestId: String) async throws -> ServiceRequestProfileResponseDTO
 }

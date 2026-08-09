@@ -4,44 +4,34 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
 
     var body: some View {
-        ZStack {
-            Color.backGround.ignoresSafeArea()
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: Spacing.s20) {
-                    HomeHeaderView(providerName: viewModel.summary?.providerName ?? "", greeting: viewModel.greeting)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: Spacing.s20) {
+                HomeHeaderView(
+                    providerName: viewModel.summary?.providerName ?? "",
+                    profileImageUrl: viewModel.summary?.profileImageUrl,
+                    greeting: viewModel.greeting
+                )
 
-                    AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: { viewModel.toggleAvailability() })
+                AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: { viewModel.toggleAvailability() })
 
-                    EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
+                EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
 
-                    HStack(spacing: Spacing.s12) {
-                        StatCard(title: "Today's Jobs", value: viewModel.jobsCountText)
-                        StatCard(title: "Rating", value: viewModel.ratingText, valueTrailingIcon: "star.fill", valueTrailingIconColor: .amber)
-                    }
-
-                    if viewModel.isOnline {
-                        onlineRequestsSection
-                    } else {
-                        OfflineStateView(onGoOnline: { viewModel.toggleAvailability() })
-                            .padding(.top, Spacing.s16)
-                    }
+                HStack(spacing: Spacing.s12) {
+                    StatCard(title: "Today's Jobs", value: viewModel.jobsCountText)
+                    StatCard(title: "Rating", value: viewModel.ratingText, valueTrailingIcon: "star.fill", valueTrailingIconColor: .amber)
                 }
-                .padding(.horizontal, Spacing.s16)
-                .padding(.bottom, Spacing.s24)
+
+                if viewModel.isOnline {
+                    onlineRequestsSection
+                } else {
+                    OfflineStateView(onGoOnline: { viewModel.toggleAvailability() })
+                        .padding(.top, Spacing.s16)
+                }
             }
-            .blur(radius: viewModel.isWaitingForPatient ? 3 : 0)
-            
-            if viewModel.isWaitingForPatient {
-                Color.black.opacity(0.6)
-                    .ignoresSafeArea()
-                    .transition(.opacity)
-                
-                PatientResponseWaitingView(onCancel: { viewModel.cancelWaitingOffer() })
-                    .transition(.scale(scale: 0.95).combined(with: .opacity))
-                    .zIndex(2)
-            }
+            .padding(.horizontal, Spacing.s16)
+            .padding(.bottom, Spacing.s24)
         }
+        .background(Color.backGround.ignoresSafeArea())
         .sheet(item: $viewModel.editingJobRequest) { request in
             EditOfferPopupView(
                 jobRequest: request,
@@ -52,12 +42,28 @@ struct HomeView: View {
             .presentationDetents([.fraction(0.55), .medium])
             .presentationDragIndicator(.visible)
         }
+        .fullScreenCover(isPresented: waitingBinding) {
+            ZStack {
+                Color.black.opacity(0.6).ignoresSafeArea()
+                PatientResponseWaitingView(onCancel: { viewModel.cancelWaitingOffer() })
+            }
+            .presentationBackground(.clear)
+        }
         .task { await viewModel.load() }
         .alert("Notice", isPresented: errorBinding) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
+    }
+
+    private var waitingBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.isWaitingForPatient },
+            set: { newValue in
+                if !newValue { viewModel.cancelWaitingOffer() }
+            }
+        )
     }
 
     @ViewBuilder
@@ -96,7 +102,7 @@ struct HomeView: View {
             }
         }
     }
-    
+
     private var errorBinding: Binding<Bool> {
         Binding(
             get: { viewModel.errorMessage != nil },

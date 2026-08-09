@@ -12,11 +12,13 @@ import SwiftUI
 enum AlertBannerStyle {
     case success
     case error
+    case info
 
     var backgroundColor: Color {
         switch self {
         case .success: return .successContainer
         case .error: return .errorContainer
+        case .info: return .mintSurface
         }
     }
 
@@ -24,6 +26,7 @@ enum AlertBannerStyle {
         switch self {
         case .success: return .onSuccessContainer
         case .error: return .onErrorContainer
+        case .info: return .brandPrimary
         }
     }
 
@@ -31,10 +34,10 @@ enum AlertBannerStyle {
         switch self {
         case .success: return "checkmark.circle.fill"
         case .error: return "exclamationmark.circle.fill"
+        case .info: return "info.circle" 
         }
     }
 }
-
 struct AlertBanner: View {
     let style: AlertBannerStyle
     let message: String

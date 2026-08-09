@@ -255,16 +255,21 @@ final class DIContainer {
             CancelJobRequestUseCase(repo: homeRepository)
         }
 
-        func makeHomeViewModel() -> HomeViewModel {
-            HomeViewModel(
-                fetchSummary: makeFetchHomeSummaryUseCase(),
-                toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
-                observeJobRequests: makeObserveJobRequestsUseCase(),
-                submitOfferUseCase: makeSubmitOfferUseCase(),
-                cancelOfferUseCase: makeCancelWaitingOfferUseCase(),
-                observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
-            )
-        }
+    private func makeRefreshJobRequestsUseCase() -> RefreshJobRequestsUseCaseProtocol {
+        RefreshJobRequestsUseCase(repository: homeRepository)
+    }
+
+    func makeHomeViewModel() -> HomeViewModel {
+        HomeViewModel(
+            fetchSummary: makeFetchHomeSummaryUseCase(),
+            toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
+            observeJobRequests: makeObserveJobRequestsUseCase(),
+            refreshJobRequestsUseCase: makeRefreshJobRequestsUseCase(),
+            submitOfferUseCase: makeSubmitOfferUseCase(),
+            cancelOfferUseCase: makeCancelWaitingOfferUseCase(),
+            observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+        )
+    }
 
         
         private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl(
@@ -274,6 +279,9 @@ final class DIContainer {
         func makeFetchServiceRequestDetailsUseCase() -> FetchServiceRequestDetailsUseCase {
             FetchServiceRequestDetailsUseCase(repo: offerRepository)
         }
+    func makeFetchServiceRequestProfileUseCase() -> FetchServiceRequestProfileUseCase {
+        FetchServiceRequestProfileUseCase(repository: offerRepository)
+    }
 
         func makeCancelServiceRequestUseCase() -> CancelServiceRequestUseCase {
             CancelServiceRequestUseCase(repo: offerRepository)
@@ -296,7 +304,7 @@ final class DIContainer {
                 reservationId: coordinator.reservationId,
                 coordinator: coordinator,
                 fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
-                startVisitUseCase: makeStartVisitUseCase(),
+                fetchProfileUseCase: makeFetchServiceRequestProfileUseCase(),
                 completeVisitUseCase: makeCompleteVisitUseCase()
             )
         }
@@ -305,7 +313,8 @@ final class DIContainer {
             OfferDetailsViewModel(
                 reservationId: reservationId,
                 coordinator: coordinator,
-                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase()
+                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                fetchProfileUseCase: makeFetchServiceRequestProfileUseCase()
             )
         }
 

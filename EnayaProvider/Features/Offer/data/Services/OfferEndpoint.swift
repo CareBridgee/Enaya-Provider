@@ -14,19 +14,21 @@ enum OfferEndpoint: Endpoint {
     case cancelServiceRequest(serviceRequestId: String)
     case startVisit(serviceRequestId: String)
     case completeVisit(serviceRequestId: String, visitCode: String)
+    case getServiceRequestProfile(serviceRequestId: String)
     
     var path: String {
         switch self {
         case .getRequestDetails(let id): return "/api/v1/service-requests/\(id)"
         case .cancelServiceRequest(let id): return "/api/v1/service-requests/\(id)/cancel"
-        case .startVisit(let id): return "/api/v1/service-requests/\(id)/start" 
+        case .startVisit(let id): return "/api/v1/service-requests/\(id)/start"
         case .completeVisit(let id, _): return "/api/v1/service-requests/\(id)/complete"
+        case .getServiceRequestProfile(let id): return "/api/v1/service-requests/\(id)/profile"
         }
     }
     
     var method: HTTPMethod {
         switch self {
-        case .getRequestDetails: return .get
+        case .getRequestDetails, .getServiceRequestProfile: return .get
         case .cancelServiceRequest: return .patch
         case .startVisit, .completeVisit: return .post
         }

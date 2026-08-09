@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 22/07/2026.
 //
 
-
 import SwiftUI
 
 struct HomeCoordinatorView: View {
@@ -35,7 +34,7 @@ struct HomeCoordinatorView: View {
                     OfferCoordinatorView(
                         container: container,
                         coordinator: container.makeOfferCoordinator(reservationId: reservationId),
-                        onFinished: { viewModel.acceptedRequestId = nil }
+                        onFinished: { viewModel.handleOfferFlowFinished(reservationId: reservationId) }
                     )
                 }
             }

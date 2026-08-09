@@ -10,17 +10,12 @@ import SwiftUI
 
 struct HomeHeaderView: View {
     let providerName: String
+    let profileImageUrl: String?
     let greeting: String
 
     var body: some View {
         HStack(spacing: Spacing.s12) {
-            Circle()
-                .fill(Color.surfaceVariant)
-                .frame(width: Spacing.s48, height: Spacing.s48)
-                .overlay(
-                    Image(systemName: "person.fill")
-                        .foregroundColor(.hint)
-                )
+            avatar
 
             VStack(alignment: .leading, spacing: Spacing.s2) {
                 Text(providerName)
@@ -42,5 +37,35 @@ struct HomeHeaderView: View {
                 )
         }
         .padding(.top, Spacing.s16)
+    }
+
+    @ViewBuilder
+    private var avatar: some View {
+        if let urlString = profileImageUrl, let url = URL(string: urlString), !urlString.isEmpty {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image.resizable().scaledToFill()
+                default:
+                    placeholderIcon
+                }
+            }
+            .frame(width: Spacing.s48, height: Spacing.s48)
+            .background(Color.surfaceVariant)
+            .clipShape(Circle())
+        } else {
+            placeholderIcon
+                .frame(width: Spacing.s48, height: Spacing.s48)
+                .background(Color.surfaceVariant)
+                .clipShape(Circle())
+        }
+    }
+
+    private var placeholderIcon: some View {
+        Image(systemName: "person.fill")
+            .resizable()
+            .scaledToFit()
+            .foregroundColor(.hint)
+            .padding(12)
     }
 }
