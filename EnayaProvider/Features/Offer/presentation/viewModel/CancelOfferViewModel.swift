@@ -41,6 +41,8 @@ final class CancelOfferViewModel: ObservableObject {
         guard isConfirmEnabled, !isSubmitting else { return }
         isSubmitting = true
         errorMessage = nil
+        
+        coordinator.isNurseCancelling = true
 
         Task {
             do {
@@ -48,9 +50,14 @@ final class CancelOfferViewModel: ObservableObject {
                 
                 coordinator.markCancelled()
                 isSubmitting = false
+                
                 coordinator.dismissCancelSheet()
+                
+                try? await Task.sleep(nanoseconds: 300_000_000)
+                
                 onCancelled()
             } catch {
+                coordinator.isNurseCancelling = false
                 isSubmitting = false
                 errorMessage = error.localizedDescription
                 print("Cancel Failed: \(error)")
@@ -58,3 +65,5 @@ final class CancelOfferViewModel: ObservableObject {
         }
     }
 }
+
+

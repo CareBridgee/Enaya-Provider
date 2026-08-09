@@ -93,9 +93,7 @@ final class HomeRepositoryImpl: HomeRepositoryProtocol {
             self.requestsContinuation = continuation
             hubService.connect()
 
-            hubService.subscribeToErrors { errorPayload in
-                print("[Socket Error Received]: \(errorPayload)")
-            }
+         
 
             Task {
                 try? await self.fetchAndIngestHistoricalRequests()
@@ -158,30 +156,40 @@ final class HomeRepositoryImpl: HomeRepositoryProtocol {
         }
 
         do {
-            let preview = try await fetchServiceRequestPreview(serviceRequestId: response.serviceRequestId)
-            let price = Decimal(preview.estimatedPrice ?? 100)
+                    let preview = try await fetchServiceRequestPreview(serviceRequestId: response.serviceRequestId)
+                    let basePrice = Decimal(preview.estimatedPrice ?? 100)
+                    
+                    let minPrice = basePrice * 0.8
+                    let maxPrice = basePrice * 1.5
 
-            if let index = activeRequests.firstIndex(where: { $0.id == placeholder.id }) {
-                if let fName = preview.patient?.firstName, let lName = preview.patient?.lastName {
-                    activeRequests[index].patientLabel = "\(fName) \(lName)"
+                    if let index = activeRequests.firstIndex(where: { $0.id == placeholder.id }) {
+                        if let fName = preview.patient?.firstName, let lName = preview.patient?.lastName {
+                            activeRequests[index].patientLabel = "\(fName) \(lName)"
+                        }
+
+                        activeRequests[index].patientImageUrl = preview.patient?.profileImageUrl ?? ""
+
+                        activeRequests[index].estimatedPrice = basePrice
+                        activeRequests[index].minPrice = minPrice
+                        activeRequests[index].maxPrice = maxPrice
+                        activeRequests[index].proposedPrice = basePrice
+                        requestsContinuation?.yield(activeRequests)
+                    }
+                } catch {
+                    print("Failed to enrich service request preview \(response.serviceRequestId): \(error)")
                 }
-
-                activeRequests[index].patientImageUrl = preview.patient?.profileImageUrl ?? ""
-
-                activeRequests[index].estimatedPrice = price
-                activeRequests[index].minPrice = price
-                activeRequests[index].maxPrice = price
-                activeRequests[index].proposedPrice = price
-                requestsContinuation?.yield(activeRequests)
             }
-        } catch {
-            print("Failed to enrich service request preview \(response.serviceRequestId): \(error)")
-        }
-    }
 
     func fetchServiceRequestPreview(serviceRequestId: String) async throws -> ServiceRequestPreviewResponseDTO {
         try await networkClient.request(HomeEndpoint.getServiceRequestPreview(serviceRequestId: serviceRequestId))
     }
+    func observeSocketErrors() -> AsyncStream<SocketErrorPayload> {
+            AsyncStream { continuation in
+                hubService.subscribeToErrors { errorPayload in
+                    continuation.yield(errorPayload)
+                }
+            }
+        }
 
     func submitOffer(for request: JobRequest, proposedPrice: Decimal) async throws {
         guard tokenStore.getNurseId() != nil else { throw URLError(.userAuthenticationRequired) }

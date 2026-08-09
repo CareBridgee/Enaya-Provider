@@ -17,24 +17,32 @@ final class OfferDetailsViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var showPhoneAlert = false
        @Published var phoneAlertMessage = ""
+    @Published var showPatientCancelledAlert = false
     private let reservationId: String
     private let coordinator: OfferCoordinator
     private let fetchDetailsUseCase: FetchServiceRequestDetailsUseCase
     private let fetchProfileUseCase: FetchServiceRequestProfileUseCase 
-
+    private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+    private var socketTask: Task<Void, Never>?
     init(
         reservationId: String,
         coordinator: OfferCoordinator,
         fetchDetailsUseCase: FetchServiceRequestDetailsUseCase,
-        fetchProfileUseCase: FetchServiceRequestProfileUseCase
+        fetchProfileUseCase: FetchServiceRequestProfileUseCase,
+        observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+
     ) {
         self.reservationId = reservationId
         self.coordinator = coordinator
         self.fetchDetailsUseCase = fetchDetailsUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
+        self.observeReservationEventsUseCase = observeReservationEventsUseCase
+
     }
 
     func fetchData() async {
+        startObservingSocket()
+
             isLoading = true
             errorMessage = nil
             do {
@@ -56,6 +64,17 @@ final class OfferDetailsViewModel: ObservableObject {
             }
             isLoading = false
         }
+    private func startObservingSocket() {
+        socketTask?.cancel()
+        socketTask = Task { @MainActor in
+            for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
+                if event.type.uppercased() == "REQUEST_CANCELLED" {
+                    if !self.coordinator.isNurseCancelling {
+                        self.showPatientCancelledAlert = true
+                    }
+                }
+            }
+        }}
 
         var scheduledDateText: String {
             let dateStr = requestDetails?.preferredDate ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedDate ?? ""
@@ -164,4 +183,19 @@ final class OfferDetailsViewModel: ObservableObject {
         mapItem.name = fullAddressText
         mapItem.openInMaps()
     }
+    func handlePatientCancellationAcknowledged() {
+            coordinator.dismissEntireFlow()
+        }
+    func openChatTapped() {
+            let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
+            coordinator.openChat(
+                patientName: patientFullName,
+                imageUrl: patientImageUrl,
+                phone: phone
+            )
+        }
+
+        deinit {
+            socketTask?.cancel() 
+        }
 }

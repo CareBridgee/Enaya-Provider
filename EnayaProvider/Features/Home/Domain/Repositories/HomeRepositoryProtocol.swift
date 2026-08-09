@@ -17,4 +17,5 @@ protocol HomeRepositoryProtocol {
     func cancelOffer(offerId: String) async throws
     func observeReservationEvents(reservationId: String) -> AsyncStream<ReservationEventResponse>
     func fetchServiceRequestPreview(serviceRequestId: String) async throws -> ServiceRequestPreviewResponseDTO
+    func observeSocketErrors() -> AsyncStream<SocketErrorPayload> 
 }

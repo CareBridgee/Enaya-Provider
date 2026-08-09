@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+
 @MainActor
 final class OfferConfirmedViewModel: ObservableObject {
     @Published private(set) var isProcessing = false
@@ -20,28 +21,34 @@ final class OfferConfirmedViewModel: ObservableObject {
     
     @Published var showPhoneAlert = false
     @Published var phoneAlertMessage = ""
-
+    @Published var showPatientCancelledAlert = false
+    
     private let reservationId: String
     private let coordinator: OfferCoordinator
     private let fetchDetailsUseCase: FetchServiceRequestDetailsUseCase
     private let fetchProfileUseCase: FetchServiceRequestProfileUseCaseProtocol
     private let completeVisitUseCase: CompleteVisitUseCaseProtocol
-
+    private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+    private var socketTask: Task<Void, Never>?
+    
     init(
         reservationId: String,
         coordinator: OfferCoordinator,
         fetchDetailsUseCase: FetchServiceRequestDetailsUseCase,
         fetchProfileUseCase: FetchServiceRequestProfileUseCaseProtocol,
-        completeVisitUseCase: CompleteVisitUseCaseProtocol
+        completeVisitUseCase: CompleteVisitUseCaseProtocol,
+        observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     ) {
         self.reservationId = reservationId
         self.coordinator = coordinator
         self.fetchDetailsUseCase = fetchDetailsUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
         self.completeVisitUseCase = completeVisitUseCase
+        self.observeReservationEventsUseCase = observeReservationEventsUseCase
     }
 
     func loadDetails() async {
+        startObservingSocket()
         isLoading = true
         do {
             async let details = fetchDetailsUseCase.execute(requestId: reservationId)
@@ -53,7 +60,20 @@ final class OfferConfirmedViewModel: ObservableObject {
         }
         isLoading = false
     }
-
+    
+    private func startObservingSocket() {
+        socketTask?.cancel()
+        socketTask = Task { @MainActor in
+            for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
+                if event.type.uppercased() == "REQUEST_CANCELLED" {
+                    if !self.coordinator.isNurseCancelling {
+                        self.showPatientCancelledAlert = true
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - View Data Properties
     var patientName: String {
         guard let p = liveDetails?.profile else { return "Loading..." }
@@ -93,6 +113,15 @@ final class OfferConfirmedViewModel: ObservableObject {
 
     func openDetails() { coordinator.openDetails() }
     func presentCancelSheet() { coordinator.presentCancelSheet() }
+    
+    func openChatTapped() {
+         let phone = requestProfile?.patientPhoneNumber ?? liveDetails?.profile.phoneNumber ?? ""
+         coordinator.openChat(
+             patientName: patientName,
+             imageUrl: patientImageUrl,
+             phone: phone
+         )
+     }
     
     func callPatientTapped() {
         let phone = requestProfile?.patientPhoneNumber ?? liveDetails?.profile.phoneNumber ?? ""
@@ -146,5 +175,12 @@ final class OfferConfirmedViewModel: ObservableObject {
             isProcessing = false
         }
     }
-}
+    
+    func handlePatientCancellationAcknowledged() {
+        coordinator.dismissEntireFlow()
+    }
 
+    deinit {
+        socketTask?.cancel()
+    }
+}

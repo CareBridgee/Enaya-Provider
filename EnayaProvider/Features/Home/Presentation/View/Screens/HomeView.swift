@@ -50,10 +50,10 @@ struct HomeView: View {
             .presentationBackground(.clear)
         }
         .task { await viewModel.load() }
-        .alert("Notice", isPresented: errorBinding) {
+        .alert("Notice", isPresented: $viewModel.showErrorAlert) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text(viewModel.errorMessage ?? "")
+            Text(viewModel.alertMessage)
         }
     }
 
@@ -73,7 +73,7 @@ struct HomeView: View {
                 Text("AVAILABLE REQUESTS")
                     .carelyText(style: .caption, weight: .bold)
                     .foregroundColor(.secondaryFont)
-                Spacer()
+                Spacer(minLength: Spacing.s0)
             }
             .padding(.top, Spacing.s8)
 
@@ -101,12 +101,5 @@ struct HomeView: View {
                 }
             }
         }
-    }
-
-    private var errorBinding: Binding<Bool> {
-        Binding(
-            get: { viewModel.errorMessage != nil },
-            set: { if !$0 { viewModel.errorMessage = nil } }
-        )
     }
 }

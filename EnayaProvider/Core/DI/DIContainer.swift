@@ -258,18 +258,23 @@ final class DIContainer {
     private func makeRefreshJobRequestsUseCase() -> RefreshJobRequestsUseCaseProtocol {
         RefreshJobRequestsUseCase(repository: homeRepository)
     }
+    private func makeObserveSocketErrorsUseCase() -> ObserveSocketErrorsUseCase {
+           ObserveSocketErrorsUseCase(repository: homeRepository)
+       }
+    
+        func makeHomeViewModel() -> HomeViewModel {
+            HomeViewModel(
+                fetchSummary: makeFetchHomeSummaryUseCase(),
+                toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
+                observeJobRequests: makeObserveJobRequestsUseCase(),
+                refreshJobRequestsUseCase: makeRefreshJobRequestsUseCase(),
+                submitOfferUseCase: makeSubmitOfferUseCase(),
+                cancelOfferUseCase: makeCancelWaitingOfferUseCase(),
+                observeSocketErrorsUseCase: makeObserveSocketErrorsUseCase(),
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+            )
+        }
 
-    func makeHomeViewModel() -> HomeViewModel {
-        HomeViewModel(
-            fetchSummary: makeFetchHomeSummaryUseCase(),
-            toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
-            observeJobRequests: makeObserveJobRequestsUseCase(),
-            refreshJobRequestsUseCase: makeRefreshJobRequestsUseCase(),
-            submitOfferUseCase: makeSubmitOfferUseCase(),
-            cancelOfferUseCase: makeCancelWaitingOfferUseCase(),
-            observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
-        )
-    }
 
         
         private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl(
@@ -299,24 +304,26 @@ final class DIContainer {
             OfferCoordinator(reservationId: reservationId)
         }
 
-        func makeOfferConfirmedViewModel(coordinator: OfferCoordinator) -> OfferConfirmedViewModel {
-            OfferConfirmedViewModel(
-                reservationId: coordinator.reservationId,
-                coordinator: coordinator,
-                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
-                fetchProfileUseCase: makeFetchServiceRequestProfileUseCase(),
-                completeVisitUseCase: makeCompleteVisitUseCase()
-            )
-        }
+    func makeOfferConfirmedViewModel(coordinator: OfferCoordinator) -> OfferConfirmedViewModel {
+                OfferConfirmedViewModel(
+                    reservationId: coordinator.reservationId,
+                    coordinator: coordinator,
+                    fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                    fetchProfileUseCase: makeFetchServiceRequestProfileUseCase(),
+                    completeVisitUseCase: makeCompleteVisitUseCase(),
+                    observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+                )
+            }
 
-        func makeOfferDetailsViewModel(reservationId: String, coordinator: OfferCoordinator) -> OfferDetailsViewModel {
-            OfferDetailsViewModel(
-                reservationId: reservationId,
-                coordinator: coordinator,
-                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
-                fetchProfileUseCase: makeFetchServiceRequestProfileUseCase()
-            )
-        }
+            func makeOfferDetailsViewModel(reservationId: String, coordinator: OfferCoordinator) -> OfferDetailsViewModel {
+                OfferDetailsViewModel(
+                    reservationId: reservationId,
+                    coordinator: coordinator,
+                    fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                    fetchProfileUseCase: makeFetchServiceRequestProfileUseCase(),
+                    observeReservationEventsUseCase: makeObserveReservationEventsUseCase() 
+                )
+            }
 
         func makeCancelOfferViewModel(reservationId: String, serviceName: String, coordinator: OfferCoordinator, onCancelled: @escaping () -> Void) -> CancelOfferViewModel {
             CancelOfferViewModel(
@@ -327,6 +334,7 @@ final class DIContainer {
                 onCancelled: onCancelled
             )
         }
+    
 
     func makeVisitCompletedViewModel(coordinator: OfferCoordinator, onReturnHome: @escaping () -> Void) -> VisitCompletedViewModel {
             VisitCompletedViewModel(
@@ -340,6 +348,37 @@ final class DIContainer {
          ObserveReservationEventsUseCase(repository: homeRepository)
      }
    
+    private lazy var chatRepository: ChatRepositoryProtocol = ChatRepositoryImpl(
+        networkClient: networkClient,
+        socketClient: sharedSocketClient
+    )
+
+    private func currentUserId() -> String {
+            guard let token = tokenStore.getAccessToken(), let userId = JWTDecoder.userId(fromToken: token) else {
+                return ""
+            }
+            return userId
+        }
+
+    func makeOfferChatViewModel(
+         reservationId: String,
+         patientName: String,
+         imageUrl: String?,
+         phone: String,
+         coordinator: OfferCoordinator
+     ) -> OfferChatViewModel {
+         OfferChatViewModel(
+             reservationId: reservationId,
+             patientName: patientName,
+             patientImageUrl: imageUrl,
+             patientPhone: phone,
+             currentUserId: currentUserId(),
+             chatRepository: chatRepository,
+             observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
+             coordinator: coordinator
+         )
+     }
+          
 
 
     

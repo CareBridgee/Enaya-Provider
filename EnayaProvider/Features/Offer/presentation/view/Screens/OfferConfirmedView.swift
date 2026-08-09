@@ -38,7 +38,7 @@ struct OfferConfirmedView: View {
                     captionValue: viewModel.estimatedArrivalText,
                     imageUrl: viewModel.patientImageUrl,
                     onCall: viewModel.callPatientTapped,
-                    onMessage: {}
+                    onMessage: viewModel.openChatTapped
                 )
                 
                 HStack(spacing: Spacing.s12) {
@@ -99,6 +99,13 @@ struct OfferConfirmedView: View {
         } message: {
             Text(viewModel.phoneAlertMessage)
         }
+        .alert("Request Cancelled", isPresented: $viewModel.showPatientCancelledAlert) {
+                    Button("OK", role: .cancel) {
+                        viewModel.handlePatientCancellationAcknowledged()
+                    }
+                } message: {
+                    Text("We're sorry, the patient has cancelled this request. We are investigating the reason to ensure your compensation. You will now be redirected to the home screen.")
+                }
     }
 
     private var statusHero: some View {

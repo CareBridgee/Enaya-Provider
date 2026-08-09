@@ -6,8 +6,13 @@
 //
 
 
+// MARK: - OfferRoute.swift
 import Foundation
 
 enum OfferRoute: Hashable {
     case details
+    case chat(patientName: String, imageUrl: String?, phone: String)
 }
+
+    
+  

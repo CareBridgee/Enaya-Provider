@@ -13,7 +13,8 @@ final class HomeViewModel: ObservableObject {
 
     @Published private(set) var isWaitingForPatient: Bool = false
     @Published private(set) var isLoading = false
-    @Published var errorMessage: String?
+    @Published var showErrorAlert = false
+    @Published var alertMessage = ""
 
     @Published var acceptedRequestId: String?
 
@@ -28,6 +29,10 @@ final class HomeViewModel: ObservableObject {
     private let submitOfferUseCase: SubmitOfferUseCase
     private let cancelOfferUseCase: CancelJobRequestUseCase
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+    private let observeSocketErrorsUseCase: ObserveSocketErrorsUseCase
+    
+    private var errorObservationTask: Task<Void, Never>?
+    private var isOfferFailed = false
 
     init(
         fetchSummary: FetchHomeSummaryUseCase,
@@ -36,6 +41,7 @@ final class HomeViewModel: ObservableObject {
         refreshJobRequestsUseCase: RefreshJobRequestsUseCaseProtocol,
         submitOfferUseCase: SubmitOfferUseCase,
         cancelOfferUseCase: CancelJobRequestUseCase,
+        observeSocketErrorsUseCase: ObserveSocketErrorsUseCase,
         observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     ) {
         self.fetchSummary = fetchSummary
@@ -45,6 +51,7 @@ final class HomeViewModel: ObservableObject {
         self.submitOfferUseCase = submitOfferUseCase
         self.cancelOfferUseCase = cancelOfferUseCase
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
+        self.observeSocketErrorsUseCase = observeSocketErrorsUseCase
     }
 
     var isOnline: Bool { availability == .online }
@@ -59,7 +66,6 @@ final class HomeViewModel: ObservableObject {
 
     func load() async {
         isLoading = true
-        errorMessage = nil
         do {
             summary = try await fetchSummary.execute()
 
@@ -76,7 +82,8 @@ final class HomeViewModel: ObservableObject {
                 }
             }
         } catch {
-            errorMessage = "Couldn't load dashboard data."
+            alertMessage = "Couldn't load dashboard data."
+            showErrorAlert = true
         }
         isLoading = false
     }
@@ -97,7 +104,8 @@ final class HomeViewModel: ObservableObject {
                 }
             } catch {
                 availability = .offline
-                errorMessage = "Cannot go online without location access. Please check permissions."
+                alertMessage = "Cannot go online without location access. Please check permissions."
+                showErrorAlert = true
             }
             isLoading = false
         }
@@ -112,10 +120,37 @@ final class HomeViewModel: ObservableObject {
                 }
             }
         }
+        
+        errorObservationTask?.cancel()
+        errorObservationTask = Task { @MainActor in
+            for await errorPayload in observeSocketErrorsUseCase.execute() {
+                self.handleSocketError(errorPayload)
+            }
+        }
     }
-
+    
+    private func handleSocketError(_ error: SocketErrorPayload) {
+        let msg = error.message ?? "An unexpected error occurred."
+        
+        if isWaitingForPatient {
+            isOfferFailed = true
+            reservationTask?.cancel()
+            withAnimation { isWaitingForPatient = false }
+            
+            Task {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                self.alertMessage = msg
+                self.showErrorAlert = true
+            }
+        } else {
+            alertMessage = msg
+            showErrorAlert = true
+        }
+    }
+      
     private func stopObservingRequests() {
         hubConnectionTask?.cancel()
+        errorObservationTask?.cancel()
         withAnimation { jobRequests.removeAll() }
     }
 
@@ -162,15 +197,26 @@ final class HomeViewModel: ObservableObject {
         cancelEditing()
 
         withAnimation { isWaitingForPatient = true }
+        isOfferFailed = false
 
         Task {
             do {
                 try await submitOfferUseCase.execute(request: request, price: price)
+                
                 try? await Task.sleep(nanoseconds: 500_000_000)
-                self.observeReservation(for: request)
+                
+                if !self.isOfferFailed {
+                    self.observeReservation(for: request)
+                }
             } catch let error {
                 withAnimation { isWaitingForPatient = false }
-                self.errorMessage = error.localizedDescription
+                
+                // التأخير هنا أيضاً لنفس السبب
+                Task {
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                    self.alertMessage = error.localizedDescription
+                    self.showErrorAlert = true
+                }
             }
         }
     }
@@ -182,7 +228,6 @@ final class HomeViewModel: ObservableObject {
         reservationTask = Task { @MainActor in
             for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
                 switch event.type.uppercased() {
-
                 case "OFFER_CREATED":
                     if let newOfferId = event.data?.id {
                         self.activeOfferId = newOfferId
@@ -198,14 +243,24 @@ final class HomeViewModel: ObservableObject {
                 case "OFFER_REJECTED", "OFFER_WITHDRAWN":
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
-                    self.errorMessage = "The patient declined your offer."
+                    
+                    Task {
+                        try? await Task.sleep(nanoseconds: 500_000_000)
+                        self.alertMessage = "The patient declined your offer."
+                        self.showErrorAlert = true
+                    }
                     reservationTask?.cancel()
                     return
 
                 case "REQUEST_CANCELLED":
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
-                    self.errorMessage = "The patient cancelled the request."
+                    
+                    Task {
+                        try? await Task.sleep(nanoseconds: 500_000_000)
+                        self.alertMessage = "The patient cancelled the request."
+                        self.showErrorAlert = true
+                    }
                     reservationTask?.cancel()
                     return
 
@@ -240,7 +295,8 @@ final class HomeViewModel: ObservableObject {
 
                 withAnimation { isWaitingForPatient = false }
             } catch {
-                errorMessage = "Failed to cancel offer."
+                alertMessage = "Failed to cancel offer."
+                showErrorAlert = true
             }
             isLoading = false
         }
