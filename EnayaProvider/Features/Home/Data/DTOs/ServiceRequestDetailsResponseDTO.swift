@@ -10,14 +10,15 @@
 
 import Foundation
 
-struct ServiceRequestDetailsResponseDTO: Decodable {
+
+struct ServiceRequestDetailsResponseDTO: Decodable, Hashable, Equatable {
     let serviceRequestId: String
     let serviceType: ServiceTypeDetailsDTO
     let profile: ProfileDetailsDTO
     let nurse: NurseDetailsDTO?
     let serviceDescription: String?
     let preferredDate: String?
-    let preferredTime: String? 
+    let preferredTime: String?
     let durationMinutes: Int?
     let status: String
     let latitude: Double
@@ -27,14 +28,14 @@ struct ServiceRequestDetailsResponseDTO: Decodable {
     let offers: [OfferDetailsDTO]?
 }
 
-struct ServiceTypeDetailsDTO: Decodable {
+struct ServiceTypeDetailsDTO: Decodable, Hashable, Equatable {
     let id: String
     let name: String
     let basePrice: Double
     let estimatedDurationMinutes: Int
 }
 
-struct ProfileDetailsDTO: Decodable {
+struct ProfileDetailsDTO: Decodable, Hashable, Equatable {
     let id: String
     let firstName: String?
     let lastName: String?
@@ -42,7 +43,7 @@ struct ProfileDetailsDTO: Decodable {
     let profileImageUrl: String?
 }
 
-struct NurseDetailsDTO: Decodable {
+struct NurseDetailsDTO: Decodable, Hashable, Equatable {
     let id: String
     let firstName: String?
     let lastName: String?
@@ -52,16 +53,17 @@ struct NurseDetailsDTO: Decodable {
     let totalReviews: Int?
 }
 
-struct OfferDetailsDTO: Decodable {
+struct OfferDetailsDTO: Decodable, Hashable, Equatable {
     let id: String
     let serviceRequestId: String
     let proposedPrice: Double
     let proposedDate: String?
-    let proposedTime: String? // 👈 String
+    let proposedTime: String?
     let message: String?
     let status: String
 }
-struct ServiceRequestProfileResponseDTO: Decodable {
+
+struct ServiceRequestProfileResponseDTO: Decodable, Hashable, Equatable {
     let serviceRequestId: String
     let serviceTypeId: String
     let serviceName: String
@@ -76,18 +78,43 @@ struct ServiceRequestProfileResponseDTO: Decodable {
     let address: ServiceAddressDTO?
 }
 
-
-
-struct PatientProfileDTO: Decodable {
+struct PatientProfileDTO: Decodable, Hashable, Equatable {
     let profileId: String
     let firstName: String
     let lastName: String
     let profileImageUrl: String?
     let dateOfBirth: String?
     let gender: String?
+    let bloodType: String?
+    let height: Int?
+    let weight: Int?
+    let mobilityStatus: String?
+    let mobilityNotes: String?
+    let previousSurgeries: String?
+    let previousHospitalizations: String?
+    let allergies: [String]?
+    let medicalConditions: [String]?
+    let medications: [String]?
+    let medicalHistory: [MedicalHistoryDTO]?
+    let emergencyContacts: [EmergencyContactDTO]?
 }
 
-struct ServiceAddressDTO: Decodable {
+struct MedicalHistoryDTO: Decodable, Hashable, Equatable, Identifiable {
+    var id: String { type ?? UUID().uuidString }
+    let type: String?
+    let description: String?
+}
+
+struct EmergencyContactDTO: Decodable, Hashable, Equatable, Identifiable {
+    var id: String { phoneNumber ?? UUID().uuidString }
+    let name: String?
+    let relationship: String?
+    let phoneNumber: String?
+}
+
+
+
+struct ServiceAddressDTO: Decodable, Hashable, Equatable {
     let country: String?
     let city: String?
     let area: String?
@@ -112,6 +139,7 @@ struct ServiceAddressDTO: Decodable {
 
 
 
+
 // MARK: - Address DTO
 struct RequestAddressDTO: Decodable {
     let country: String?
@@ -121,7 +149,6 @@ struct RequestAddressDTO: Decodable {
     let buildingNumber: String?
     let apartmentNumber: String?
 
-    // Helpers للـ UI عشان نجمع العنوان بشكل شيك
     var fullAddressText: String {
         let components = [street, area, city, country].compactMap { $0 }.filter { !$0.isEmpty }
         return components.isEmpty ? "Address details unavailable" : components.joined(separator: ", ")

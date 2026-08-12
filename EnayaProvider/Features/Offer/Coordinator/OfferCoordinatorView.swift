@@ -30,25 +30,34 @@ struct OfferCoordinatorView: View {
                 }
             }
             .navigationDestination(for: OfferRoute.self) { route in
-                           switch route {
-                           case .details:
-                               OfferDetailsView(
-                                   coordinator: coordinator,
-                                   viewModel: container.makeOfferDetailsViewModel(reservationId: coordinator.reservationId, coordinator: coordinator)
-                               )
-                           case .chat(let name, let image, let phone):
-                                               OfferChatView(
-                                                   viewModel: container.makeOfferChatViewModel(
-                                                       reservationId: coordinator.reservationId,
-                                                       patientName: name,
-                                                       imageUrl: image,
-                                                       phone: phone,
-                                                       coordinator: coordinator 
-                                                   )
-                                               )
-                           }
-                       }
-        } .onAppear {
+                switch route {
+                case .details:
+                    OfferDetailsView(
+                        coordinator: coordinator,
+                        viewModel: container.makeOfferDetailsViewModel(reservationId: coordinator.reservationId, coordinator: coordinator)
+                    )
+                case .chat(let name, let image, let phone):
+                    OfferChatView(
+                        viewModel: container.makeOfferChatViewModel(
+                            reservationId: coordinator.reservationId,
+                            patientName: name,
+                            imageUrl: image,
+                            phone: phone,
+                            coordinator: coordinator
+                        )
+                    )
+                case .patientSummary(let profile):
+                    PatientSummaryView(
+                        viewModel: container.makePatientSummaryViewModel(
+                            reservationId: coordinator.reservationId,
+                            profile: profile,
+                            coordinator: coordinator
+                        )
+                    )
+                }
+            }
+        }
+        .onAppear {
             coordinator.onFinishFlow = onFinished
         }
         .sheet(isPresented: $coordinator.isShowingCancelSheet) {
@@ -63,7 +72,6 @@ struct OfferCoordinatorView: View {
             )
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)
-           
         }
     }
 }

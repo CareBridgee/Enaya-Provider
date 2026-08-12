@@ -8,17 +8,15 @@
 
 import Foundation
 
-struct NurseOfferRequestDTO: Encodable {
+struct NurseOfferRequestDTO: Codable {
     let serviceRequestId: String
-    let nurseId: String
     let proposedPrice: Double
     let proposedDate: String
     let proposedTime: String
-    let message: String?
-    
+    let message: String
 }
-// MARK: - POST /nurse-offers (Response)
-struct NurseOfferResponseDTO: Decodable {
+
+struct NurseOfferResponseDTO: Codable {
     let id: String
     let serviceRequestId: String
     let status: String

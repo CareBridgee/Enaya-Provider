@@ -19,7 +19,7 @@ final class OfferCoordinator: ObservableObject {
     @Published var path = NavigationPath()
     @Published var phase: OfferPhase = .active
     @Published var isShowingCancelSheet = false
-    @Published var isNurseCancelling = false 
+    @Published var isNurseCancelling = false
     
     let reservationId: String
     var onFinishFlow: (() -> Void)?
@@ -32,9 +32,12 @@ final class OfferCoordinator: ObservableObject {
         path.append(OfferRoute.details)
     }
     
-    // Pass the parameters directly into the route
     func openChat(patientName: String, imageUrl: String?, phone: String) {
         path.append(OfferRoute.chat(patientName: patientName, imageUrl: imageUrl, phone: phone))
+    }
+    
+    func openPatientSummary(profile: ServiceRequestProfileResponseDTO) {
+        path.append(OfferRoute.patientSummary(profile: profile))
     }
     
     func presentCancelSheet() {
@@ -50,7 +53,6 @@ final class OfferCoordinator: ObservableObject {
     }
     
     func markCancelled() {
-        // Handled via onFinishFlow
     }
     
     func markVisitStarted() {

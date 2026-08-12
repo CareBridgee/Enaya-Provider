@@ -28,16 +28,17 @@ struct OfferPatientCard: View {
                         ProgressView()
                     }
                 case .success(let image):
-                    image.resizable().scaledToFill()
+                    image
+                        .resizable()
+                        .scaledToFill()
                 case .failure:
                     fallbackImage
                 @unknown default:
-                    EmptyView()
+                    fallbackImage
                 }
             }
             .frame(width: Spacing.s48, height: Spacing.s48)
             .background(Color.surfaceVariant)
-            .clipShape(RoundedRectangle.carely(Radius.r12)) 
             .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.s4) {
@@ -69,9 +70,9 @@ struct OfferPatientCard: View {
     }
 
     private var fallbackImage: some View {
-        Image("mock_avatar") // Fallback asset
+        Image(systemName: "person.circle.fill")
             .resizable()
-            .scaledToFill()
+            .scaledToFit()
             .foregroundColor(.hint)
     }
 

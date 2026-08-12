@@ -21,18 +21,19 @@ final class HomeViewModel: ObservableObject {
     private var activeOfferId: String?
     private var hubConnectionTask: Task<Void, Never>?
     private var reservationTask: Task<Void, Never>?
+    private var waitingTimerTask: Task<Void, Never>?
+    private var offerSubmissionTask: Task<Void, Never>?
 
     private let fetchSummary: FetchHomeSummaryUseCase
     private let toggleAvailabilityUseCase: ToggleAvailabilityUseCase
     private let observeJobRequests: ObserveJobRequestsUseCase
     private let refreshJobRequestsUseCase: RefreshJobRequestsUseCaseProtocol
     private let submitOfferUseCase: SubmitOfferUseCase
-    private let cancelOfferUseCase: CancelJobRequestUseCase
+    private let withdrawOfferUseCase: WithdrawOfferUseCaseProtocol
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     private let observeSocketErrorsUseCase: ObserveSocketErrorsUseCase
     
     private var errorObservationTask: Task<Void, Never>?
-    private var isOfferFailed = false
 
     init(
         fetchSummary: FetchHomeSummaryUseCase,
@@ -40,7 +41,7 @@ final class HomeViewModel: ObservableObject {
         observeJobRequests: ObserveJobRequestsUseCase,
         refreshJobRequestsUseCase: RefreshJobRequestsUseCaseProtocol,
         submitOfferUseCase: SubmitOfferUseCase,
-        cancelOfferUseCase: CancelJobRequestUseCase,
+        withdrawOfferUseCase: WithdrawOfferUseCaseProtocol,
         observeSocketErrorsUseCase: ObserveSocketErrorsUseCase,
         observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     ) {
@@ -49,7 +50,7 @@ final class HomeViewModel: ObservableObject {
         self.observeJobRequests = observeJobRequests
         self.refreshJobRequestsUseCase = refreshJobRequestsUseCase
         self.submitOfferUseCase = submitOfferUseCase
-        self.cancelOfferUseCase = cancelOfferUseCase
+        self.withdrawOfferUseCase = withdrawOfferUseCase
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
         self.observeSocketErrorsUseCase = observeSocketErrorsUseCase
     }
@@ -133,8 +134,8 @@ final class HomeViewModel: ObservableObject {
         let msg = error.message ?? "An unexpected error occurred."
         
         if isWaitingForPatient {
-            isOfferFailed = true
             reservationTask?.cancel()
+            waitingTimerTask?.cancel()
             withAnimation { isWaitingForPatient = false }
             
             Task {
@@ -160,7 +161,6 @@ final class HomeViewModel: ObservableObject {
             let updated = try await refreshJobRequestsUseCase.execute()
             withAnimation { jobRequests = updated }
         } catch {
-            print("Failed to refresh job requests: \(error)")
         }
     }
 
@@ -197,27 +197,42 @@ final class HomeViewModel: ObservableObject {
         cancelEditing()
 
         withAnimation { isWaitingForPatient = true }
-        isOfferFailed = false
+        activeOfferId = nil
 
-        Task {
+        offerSubmissionTask = Task {
             do {
-                try await submitOfferUseCase.execute(request: request, price: price)
+                let offerId = try await submitOfferUseCase.execute(request: request, price: price)
                 
-                try? await Task.sleep(nanoseconds: 500_000_000)
+                guard !Task.isCancelled else { return }
                 
-                if !self.isOfferFailed {
-                    self.observeReservation(for: request)
-                }
-            } catch let error {
+                self.activeOfferId = offerId
+                self.observeReservation(for: request)
+                self.startWaitingTimer()
+                
+            } catch {
+                guard !Task.isCancelled else { return }
+                
                 withAnimation { isWaitingForPatient = false }
                 
-                // التأخير هنا أيضاً لنفس السبب
                 Task {
                     try? await Task.sleep(nanoseconds: 500_000_000)
-                    self.alertMessage = error.localizedDescription
+                    self.alertMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
                     self.showErrorAlert = true
                 }
             }
+        }
+    }
+
+    private func startWaitingTimer() {
+        waitingTimerTask?.cancel()
+        waitingTimerTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 30_000_000_000)
+            
+            guard !Task.isCancelled, isWaitingForPatient else { return }
+            
+            self.alertMessage = "No response from the patient. Offer has been automatically deleted."
+            self.showErrorAlert = true
+            self.cancelWaitingOffer()
         }
     }
 
@@ -228,19 +243,16 @@ final class HomeViewModel: ObservableObject {
         reservationTask = Task { @MainActor in
             for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
                 switch event.type.uppercased() {
-                case "OFFER_CREATED":
-                    if let newOfferId = event.data?.id {
-                        self.activeOfferId = newOfferId
-                    }
-
                 case "OFFER_ACCEPTED":
                     reservationTask?.cancel()
+                    waitingTimerTask?.cancel()
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
                     self.acceptedRequestId = reservationId
                     return
 
                 case "OFFER_REJECTED", "OFFER_WITHDRAWN":
+                    waitingTimerTask?.cancel()
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
                     
@@ -253,6 +265,7 @@ final class HomeViewModel: ObservableObject {
                     return
 
                 case "REQUEST_CANCELLED":
+                    waitingTimerTask?.cancel()
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
                     
@@ -272,18 +285,22 @@ final class HomeViewModel: ObservableObject {
     }
 
     func cancelWaitingOffer() {
+        offerSubmissionTask?.cancel()
         reservationTask?.cancel()
         reservationTask = nil
+        waitingTimerTask?.cancel()
 
         guard let offerId = activeOfferId else {
             withAnimation { isWaitingForPatient = false }
+            Task { await refreshJobRequests() }
             return
         }
+        
+        withAnimation { isWaitingForPatient = false }
 
         Task {
-            isLoading = true
             do {
-                try await cancelOfferUseCase.execute(offerId: offerId)
+                try await withdrawOfferUseCase.execute(offerId: offerId)
                 self.activeOfferId = nil
 
                 if let editingId = editingJobRequest?.id,
@@ -292,13 +309,11 @@ final class HomeViewModel: ObservableObject {
                 } else if let firstIndex = jobRequests.indices.first {
                     jobRequests[firstIndex].status = .cancelled
                 }
-
-                withAnimation { isWaitingForPatient = false }
             } catch {
-                alertMessage = "Failed to cancel offer."
-                showErrorAlert = true
+                self.alertMessage = "Failed to withdraw offer."
+                self.showErrorAlert = true
             }
-            isLoading = false
+            await self.refreshJobRequests()
         }
     }
 }

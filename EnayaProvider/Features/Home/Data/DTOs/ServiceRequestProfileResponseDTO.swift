@@ -41,15 +41,15 @@ struct PreviewPatientDTO: Decodable {
     let medicalHistory: [MedicalHistoryItemDTO]?
     let emergencyContacts: [EmergencyContactDTO]?
 }
-
+//
 struct MedicalHistoryItemDTO: Decodable {
     let type: String?
     let description: String?
 }
-
-struct EmergencyContactDTO: Decodable {
-    let name: String?
-    let relationship: String?
-    let phoneNumber: String?
-}
-
+//
+//struct EmergencyContactDTO: Decodable {
+//    let name: String?
+//    let relationship: String?
+//    let phoneNumber: String?
+//}
+//

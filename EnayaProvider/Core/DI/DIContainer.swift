@@ -251,8 +251,8 @@ final class DIContainer {
 
     // MARK: - Home Feature
         
-        private func makeCancelWaitingOfferUseCase() -> CancelJobRequestUseCase {
-            CancelJobRequestUseCase(repo: homeRepository)
+    private func makeCancelWaitingOfferUseCase() -> WithdrawOfferUseCaseProtocol {
+        WithdrawOfferUseCase(repo: homeRepository)
         }
 
     private func makeRefreshJobRequestsUseCase() -> RefreshJobRequestsUseCaseProtocol {
@@ -269,7 +269,7 @@ final class DIContainer {
                 observeJobRequests: makeObserveJobRequestsUseCase(),
                 refreshJobRequestsUseCase: makeRefreshJobRequestsUseCase(),
                 submitOfferUseCase: makeSubmitOfferUseCase(),
-                cancelOfferUseCase: makeCancelWaitingOfferUseCase(),
+                withdrawOfferUseCase: makeCancelWaitingOfferUseCase(),
                 observeSocketErrorsUseCase: makeObserveSocketErrorsUseCase(),
                 observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
             )
@@ -352,7 +352,18 @@ final class DIContainer {
         networkClient: networkClient,
         socketClient: sharedSocketClient
     )
-
+    func makePatientSummaryViewModel(
+            reservationId: String,
+            profile: ServiceRequestProfileResponseDTO,
+            coordinator: OfferCoordinator
+        ) -> PatientSummaryViewModel {
+            return PatientSummaryViewModel(
+                reservationId: reservationId,
+                profile: profile,
+                coordinator: coordinator,
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+            )
+        }
     private func currentUserId() -> String {
             guard let token = tokenStore.getAccessToken(), let userId = JWTDecoder.userId(fromToken: token) else {
                 return ""

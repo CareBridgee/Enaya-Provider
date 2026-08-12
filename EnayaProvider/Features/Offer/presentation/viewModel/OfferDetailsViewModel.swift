@@ -16,54 +16,47 @@ final class OfferDetailsViewModel: ObservableObject {
     @Published var requestProfile: ServiceRequestProfileResponseDTO?
     @Published var errorMessage: String?
     @Published var showPhoneAlert = false
-       @Published var phoneAlertMessage = ""
+    @Published var phoneAlertMessage = ""
     @Published var showPatientCancelledAlert = false
+    
     private let reservationId: String
     private let coordinator: OfferCoordinator
     private let fetchDetailsUseCase: FetchServiceRequestDetailsUseCase
-    private let fetchProfileUseCase: FetchServiceRequestProfileUseCase 
+    private let fetchProfileUseCase: FetchServiceRequestProfileUseCase
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     private var socketTask: Task<Void, Never>?
+    
     init(
         reservationId: String,
         coordinator: OfferCoordinator,
         fetchDetailsUseCase: FetchServiceRequestDetailsUseCase,
         fetchProfileUseCase: FetchServiceRequestProfileUseCase,
         observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
-
     ) {
         self.reservationId = reservationId
         self.coordinator = coordinator
         self.fetchDetailsUseCase = fetchDetailsUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
-
     }
 
     func fetchData() async {
         startObservingSocket()
 
-            isLoading = true
-            errorMessage = nil
-            do {
-                async let details = fetchDetailsUseCase.execute(requestId: reservationId)
-                async let profile = fetchProfileUseCase.execute(serviceRequestId: reservationId)
-                
-                self.requestDetails = try await details
-                self.requestProfile = try await profile
-                
-                print("✅ [OfferDetailsVM] Details Fetched Successfully!")
-                print("🟢 [Details] Preferred Date: \(String(describing: requestDetails?.preferredDate)) | Time: \(String(describing: requestDetails?.preferredTime))")
-                print("🟢 [Details] Accepted Offer Date: \(String(describing: requestDetails?.offers?.first?.proposedDate))")
-                print("🔵 [Profile] DOB (for age): \(String(describing: requestProfile?.patient.dateOfBirth))")
-                print("🔵 [Profile] Address Object: \(String(describing: requestProfile?.address))")
-                
-            } catch {
-                print("🔴 [OfferDetailsVM] Parsing Error: \(error)")
-                errorMessage = "Failed to load live details: \(error.localizedDescription)"
-            }
-            isLoading = false
+        isLoading = true
+        errorMessage = nil
+        do {
+            async let details = fetchDetailsUseCase.execute(requestId: reservationId)
+            async let profile = fetchProfileUseCase.execute(serviceRequestId: reservationId)
+            
+            self.requestDetails = try await details
+            self.requestProfile = try await profile
+        } catch {
+            errorMessage = "Failed to load live details: \(error.localizedDescription)"
         }
+        isLoading = false
+    }
+    
     private func startObservingSocket() {
         socketTask?.cancel()
         socketTask = Task { @MainActor in
@@ -74,39 +67,39 @@ final class OfferDetailsViewModel: ObservableObject {
                     }
                 }
             }
-        }}
-
-        var scheduledDateText: String {
-            let dateStr = requestDetails?.preferredDate ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedDate ?? ""
-            guard !dateStr.isEmpty else { return "TBD" }
-            
-            let inputFormatter = DateFormatter()
-            inputFormatter.dateFormat = "yyyy-MM-dd"
-            guard let date = inputFormatter.date(from: dateStr) else { return dateStr }
-            
-            let outputFormatter = DateFormatter()
-            if Calendar.current.isDateInToday(date) {
-                outputFormatter.dateFormat = "'Today', MMM d"
-            } else {
-                outputFormatter.dateFormat = "MMM d"
-            }
-            return outputFormatter.string(from: date)
         }
+    }
+
+    var scheduledDateText: String {
+        let dateStr = requestDetails?.preferredDate ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedDate ?? ""
+        guard !dateStr.isEmpty else { return "TBD" }
         
-        var scheduledTimeText: String {
-            let timeStr = requestDetails?.preferredTime ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedTime ?? ""
-            guard !timeStr.isEmpty else { return "TBD" }
-            
-            let inputFormatter = DateFormatter()
-            inputFormatter.dateFormat = timeStr.count > 5 ? "HH:mm:ss" : "HH:mm"
-            guard let date = inputFormatter.date(from: timeStr) else { return timeStr }
-            
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "h:mm a"
-            return outputFormatter.string(from: date)
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = inputFormatter.date(from: dateStr) else { return dateStr }
+        
+        let outputFormatter = DateFormatter()
+        if Calendar.current.isDateInToday(date) {
+            outputFormatter.dateFormat = "'Today', MMM d"
+        } else {
+            outputFormatter.dateFormat = "MMM d"
         }
+        return outputFormatter.string(from: date)
+    }
+    
+    var scheduledTimeText: String {
+        let timeStr = requestDetails?.preferredTime ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedTime ?? ""
+        guard !timeStr.isEmpty else { return "TBD" }
+        
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = timeStr.count > 5 ? "HH:mm:ss" : "HH:mm"
+        guard let date = inputFormatter.date(from: timeStr) else { return timeStr }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "h:mm a"
+        return outputFormatter.string(from: date)
+    }
 
-    // MARK: - Computed Properties
     var patientFullName: String {
         guard let p = requestProfile?.patient else { return "Unknown Patient" }
         return "\(p.firstName) \(p.lastName)".trimmingCharacters(in: .whitespaces)
@@ -133,8 +126,6 @@ final class OfferDetailsViewModel: ObservableObject {
         requestDetails?.durationMinutes ?? requestDetails?.serviceType.estimatedDurationMinutes ?? 0
     }
     
-    
-    
     var totalAmount: Double {
         requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedPrice ?? 0.0
     }
@@ -155,26 +146,28 @@ final class OfferDetailsViewModel: ObservableObject {
         UIPasteboard.general.string = fullAddressText
     }
 
-    func viewPatientSummaryTapped() {}
+    func viewPatientSummaryTapped() {
+        guard let profile = requestProfile else { return }
+        coordinator.openPatientSummary(profile: profile)
+    }
 
     func callPatientTapped() {
-           let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
-           
-           guard !phone.isEmpty, let url = URL(string: "tel://\(phone)") else {
-               phoneAlertMessage = "Phone number is not available."
-               showPhoneAlert = true
-               return
-           }
-           
-           if UIApplication.shared.canOpenURL(url) {
-               UIApplication.shared.open(url)
-           } else {
-               UIPasteboard.general.string = phone
-               phoneAlertMessage = "Calls not supported here. Patient's number \(phone) copied to clipboard."
-               showPhoneAlert = true
-           }
-       }
-
+        let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
+        
+        guard !phone.isEmpty, let url = URL(string: "tel://\(phone)") else {
+            phoneAlertMessage = "Phone number is not available."
+            showPhoneAlert = true
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else {
+            UIPasteboard.general.string = phone
+            phoneAlertMessage = "Calls not supported here. Patient's number \(phone) copied to clipboard."
+            showPhoneAlert = true
+        }
+    }
 
     func openInMapsTapped() {
         guard let lat = requestDetails?.latitude, let lng = requestDetails?.longitude else { return }
@@ -183,19 +176,21 @@ final class OfferDetailsViewModel: ObservableObject {
         mapItem.name = fullAddressText
         mapItem.openInMaps()
     }
+    
     func handlePatientCancellationAcknowledged() {
-            coordinator.dismissEntireFlow()
-        }
+        coordinator.dismissEntireFlow()
+    }
+    
     func openChatTapped() {
-            let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
-            coordinator.openChat(
-                patientName: patientFullName,
-                imageUrl: patientImageUrl,
-                phone: phone
-            )
-        }
+        let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
+        coordinator.openChat(
+            patientName: patientFullName,
+            imageUrl: patientImageUrl,
+            phone: phone
+        )
+    }
 
-        deinit {
-            socketTask?.cancel() 
-        }
+    deinit {
+        socketTask?.cancel()
+    }
 }
