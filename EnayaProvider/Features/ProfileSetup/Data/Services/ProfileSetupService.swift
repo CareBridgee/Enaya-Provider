@@ -10,7 +10,15 @@ import Alamofire
 
 protocol ProfileSetupServiceProtocol {
     func getServiceTypes() async throws -> [ServiceTypeDTO]
-    func updateUserProfile(request: UpdateProfileRequestDTO) async throws -> UserDTO
+    func updateUserProfile(
+        firstName: String,
+        lastName: String,
+        email: String?,
+        dateOfBirth: String?,
+        gender: String?,
+        profileImageUrl: String?,
+        profileImage: UploadedDocument?
+    ) async throws -> UserDTO
     func registerNurse(
         bio: String?,
         licenseNumber: String?,
@@ -20,9 +28,10 @@ protocol ProfileSetupServiceProtocol {
         professionalCertificate: UploadedDocument?,
         nationalIdBack: UploadedDocument?,
         licenseImage: UploadedDocument?,
-        nationalIdFront: UploadedDocument?
+        nationalIdFront: UploadedDocument?,
+        profileImage: UploadedDocument?
     ) async throws -> NurseRegistrationResponseDTO
-    func addNurseService(nurseId: String, request: NurseServiceRequestDTO) async throws -> NurseServiceResponseDTO
+    func addNurseService(nurseId: String, request: [NurseServiceRequestDTO]) async throws -> NurseServiceBulkResponseDTO
     func uploadDocument(data: Data, fileName: String, mimeType: String) async throws -> UploadResponseDTO
 }
 
@@ -37,8 +46,32 @@ final class ProfileSetupServiceImpl: ProfileSetupServiceProtocol {
         return try await networkClient.request(ProfileSetupEndpoint.getServiceTypes)
     }
     
-    func updateUserProfile(request: UpdateProfileRequestDTO) async throws -> UserDTO {
-        return try await networkClient.request(ProfileSetupEndpoint.updateUserProfile(request: request))
+    func updateUserProfile(
+        firstName: String,
+        lastName: String,
+        email: String?,
+        dateOfBirth: String?,
+        gender: String?,
+        profileImageUrl: String?,
+        profileImage: UploadedDocument?
+    ) async throws -> UserDTO {
+        return try await networkClient.upload(ProfileSetupEndpoint.updateUserProfile) { multipartFormData in
+            if let data = firstName.data(using: .utf8) { multipartFormData.append(data, withName: "firstName") }
+            if let data = lastName.data(using: .utf8) { multipartFormData.append(data, withName: "lastName") }
+            if let email = email, let data = email.data(using: .utf8) { multipartFormData.append(data, withName: "email") }
+            if let dob = dateOfBirth, let data = dob.data(using: .utf8) { multipartFormData.append(data, withName: "dateOfBirth") }
+            if let gender = gender, let data = gender.data(using: .utf8) { multipartFormData.append(data, withName: "gender") }
+            if let url = profileImageUrl, let data = url.data(using: .utf8) { multipartFormData.append(data, withName: "profileImageUrl") }
+            
+            if let document = profileImage {
+                multipartFormData.append(
+                    document.data,
+                    withName: "profileImage",
+                    fileName: document.fileName,
+                    mimeType: self.mimeType(for: document.fileName)
+                )
+            }
+        }
     }
     
     func registerNurse(
@@ -50,7 +83,8 @@ final class ProfileSetupServiceImpl: ProfileSetupServiceProtocol {
         professionalCertificate: UploadedDocument?,
         nationalIdBack: UploadedDocument?,
         licenseImage: UploadedDocument?,
-        nationalIdFront: UploadedDocument?
+        nationalIdFront: UploadedDocument?,
+        profileImage: UploadedDocument?
     ) async throws -> NurseRegistrationResponseDTO {
         
         return try await networkClient.upload(ProfileSetupEndpoint.registerNurse) { multipartFormData in
@@ -106,11 +140,20 @@ final class ProfileSetupServiceImpl: ProfileSetupServiceProtocol {
                     mimeType: self.mimeType(for: document.fileName)
                 )
             }
+
+            if let document = profileImage {
+                multipartFormData.append(
+                    document.data,
+                    withName: "profileImage",
+                    fileName: document.fileName,
+                    mimeType: self.mimeType(for: document.fileName)
+                )
+            }
         }
     }
     
-    func addNurseService(nurseId: String, request: NurseServiceRequestDTO) async throws -> NurseServiceResponseDTO {
-        return try await networkClient.request(ProfileSetupEndpoint.addNurseService(nurseId: nurseId, request: request))
+    func addNurseService(nurseId: String, request: [NurseServiceRequestDTO]) async throws -> NurseServiceBulkResponseDTO {
+        return try await networkClient.requestWithBody(ProfileSetupEndpoint.addNurseService(nurseId: nurseId), body: request)
     }
     
     func uploadDocument(data: Data, fileName: String, mimeType: String) async throws -> UploadResponseDTO {

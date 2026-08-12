@@ -46,7 +46,7 @@ final class AuthRepositoryImpl: AuthRepositoryProtocol {
             let actualStatus = ApplicationStatus(rawValue: rawStatus) ?? .incomplete
             
             return OTPVerificationEntity(
-                isNewUser: response.user.firstName == "Nurse" || response.user.lastName?.isEmpty == true,
+                isNewUser: response.user.firstName == "Nurse" && response.user.lastName?.isEmpty == true,
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 userId: response.user.id,

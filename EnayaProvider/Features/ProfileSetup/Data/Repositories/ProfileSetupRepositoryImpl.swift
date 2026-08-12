@@ -55,30 +55,29 @@ final class ProfileSetupRepositoryImpl: ProfileSetupRepositoryProtocol {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
-        let updateProfileReq = UpdateProfileRequestDTO(
-            firstName: data.personalInfo.firstName,
-            lastName: data.personalInfo.lastName,
-            email: nil,
-            dateOfBirth: data.personalInfo.dateOfBirth.map { formatter.string(from: $0) } ?? "",
-            gender: data.personalInfo.gender?.rawValue,
-            profileImageUrl: profilePhotoUrl
-        )
-        _ = try await profileService.updateUserProfile(request: updateProfileReq)
-        
         let nurseResponse = try await profileService.registerNurse(
             bio: nil,
-            licenseNumber: "N/A",
+            licenseNumber: data.personalInfo.licenseNumber,
             specialization: data.professionalInfo.primarySpecialty?.rawValue,
             nationalId: data.personalInfo.nationalId,
             yearsOfExperience: 1,
             professionalCertificate: data.professionalInfo.professionalCertificateDocument,
             nationalIdBack: data.professionalInfo.nationalIdBack,
             licenseImage: data.professionalInfo.nursingLicenseDocument,
-            nationalIdFront: data.professionalInfo.nationalIdFront
+            nationalIdFront: data.professionalInfo.nationalIdFront,
+            profileImage: data.personalInfo.profilePhotoData != nil ? UploadedDocument(fileName: "profile_image.jpg", data: data.personalInfo.profilePhotoData!) : nil
         )
-        for service in data.providedServices.selectedServices {
-            let req = NurseServiceRequestDTO(serviceTypeId: service.id)
-            _ = try await profileService.addNurseService(nurseId: nurseResponse.id, request: req)
-        }
+
+        _ = try await profileService.updateUserProfile(
+            firstName: data.personalInfo.firstName,
+            lastName: data.personalInfo.lastName,
+            email: nil,
+            dateOfBirth: data.personalInfo.dateOfBirth.map { formatter.string(from: $0) },
+            gender: data.personalInfo.gender?.rawValue,
+            profileImageUrl: profilePhotoUrl,
+            profileImage: data.personalInfo.profilePhotoData != nil ? UploadedDocument(fileName: "profile_image.jpg", data: data.personalInfo.profilePhotoData!) : nil
+        )
+        let requests = data.providedServices.selectedServices.map { NurseServiceRequestDTO(serviceTypeId: $0.id) }
+        _ = try await profileService.addNurseService(nurseId: nurseResponse.id, request: requests)
     }
 }

@@ -21,6 +21,7 @@ final class PersonalInfoViewModel: ObservableObject {
     @Published var lastName: String
     @Published var dateOfBirth: Date?
     @Published var nationalId: String
+    @Published var licenseNumber: String
     @Published var gender: Gender?
     @Published var errorMessage: String?
 
@@ -34,6 +35,7 @@ final class PersonalInfoViewModel: ObservableObject {
         self.lastName = info.lastName
         self.dateOfBirth = info.dateOfBirth
         self.nationalId = info.nationalId
+        self.licenseNumber = info.licenseNumber
         self.gender = info.gender
     }
 
@@ -42,6 +44,7 @@ final class PersonalInfoViewModel: ObservableObject {
         !lastName.trimmingCharacters(in: .whitespaces).isEmpty &&
         dateOfBirth != nil &&
         !nationalId.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !licenseNumber.trimmingCharacters(in: .whitespaces).isEmpty &&
         gender != nil
     }
 
@@ -58,6 +61,7 @@ final class PersonalInfoViewModel: ObservableObject {
                 lastName: lastName.trimmingCharacters(in: .whitespaces),
                 dateOfBirth: dateOfBirth,
                 nationalId: nationalId.trimmingCharacters(in: .whitespaces),
+                licenseNumber: licenseNumber.trimmingCharacters(in: .whitespaces),
                 gender: gender
             )
         )
