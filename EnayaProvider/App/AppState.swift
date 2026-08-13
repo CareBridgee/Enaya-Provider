@@ -30,7 +30,8 @@ final class AppState: ObservableObject {
            let rawStatus = appSettings.applicationStatus,
            let status = ApplicationStatus(rawValue: rawStatus) {
             // Already-approved nurses skip the one-time celebration screen on relaunch.
-            self.flow = status == .approved ? .home : Self.flow(for: status)
+           // self.flow = status == .approved ? .home : Self.flow(for: status)
+            self.flow = .auth
         } else {
             self.flow = .auth
         }

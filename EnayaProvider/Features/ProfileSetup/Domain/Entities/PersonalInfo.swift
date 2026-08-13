@@ -20,5 +20,6 @@ struct PersonalInfo {
     var lastName = ""
     var dateOfBirth: Date? = nil
     var nationalId = ""
+    var licenseNumber = ""
     var gender: Gender? = nil
 }

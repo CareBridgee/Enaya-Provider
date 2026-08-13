@@ -62,18 +62,19 @@ struct EnayaProviderApp: App {
 
                     case .home:
                         MainTabCoordinatorView(container: diContainer, appState: appState)
+
                     }
                 }
                 .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("SessionExpired"))) { _ in
                     appState.signOut()
                 }
-                .task {
-                    // Run the startup verification check
-                    await appState.checkVerificationStatus(
-                        getNurseUseCase: diContainer.makeGetNurseUseCase(),
-                        tokenStore: diContainer.tokenStore
-                    )
-                }
+//                .task {
+//                    // Run the startup verification check
+//                    await appState.checkVerificationStatus(
+//                        getNurseUseCase: diContainer.makeGetNurseUseCase(),
+//                        tokenStore: diContainer.tokenStore
+//                    )
+//                }
             }
         }
 }

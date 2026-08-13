@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct NurseServiceBulkResponseDTO: Decodable {
+    let added: [NurseServiceResponseDTO]
+}
+
 struct NurseServiceResponseDTO: Decodable {
     let id: String
     let serviceTypeId: String
