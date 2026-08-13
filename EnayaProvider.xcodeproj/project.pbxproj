@@ -79,6 +79,7 @@
 		B3A648103025E58F00F2BA4B /* NotificationBannerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */; };
 		B3A648123025E60600F2BA4B /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A648113025E60600F2BA4B /* NotificationBannerView.swift */; };
 		B3A85CCA30276091005C153A /* SocketErrorPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A85CC930276091005C153A /* SocketErrorPayload.swift */; };
+		B3A925DE302E051800301B9F /* ActiveJobsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A925DD302E051800301B9F /* ActiveJobsView.swift */; };
 		B3ADB4F130287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADB4F030287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift */; };
 		B3ADB4F330288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADB4F230288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift */; };
 		B3ADB4F53028A06800EF846A /* QRDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADB4F43028A06800EF846A /* QRDecoder.swift */; };
@@ -356,6 +357,7 @@
 		B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerModifier.swift; sourceTree = "<group>"; };
 		B3A648113025E60600F2BA4B /* NotificationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerView.swift; sourceTree = "<group>"; };
 		B3A85CC930276091005C153A /* SocketErrorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketErrorPayload.swift; sourceTree = "<group>"; };
+		B3A925DD302E051800301B9F /* ActiveJobsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveJobsView.swift; sourceTree = "<group>"; };
 		B3ADB4F030287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshJobRequestsUseCaseProtocol.swift; sourceTree = "<group>"; };
 		B3ADB4F230288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchServiceRequestProfileUseCaseProtocol.swift; sourceTree = "<group>"; };
 		B3ADB4F43028A06800EF846A /* QRDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRDecoder.swift; sourceTree = "<group>"; };
@@ -1053,6 +1055,7 @@
 		B3C57E813010EA0D005C1BE8 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				B3A925DD302E051800301B9F /* ActiveJobsView.swift */,
 				B3C57EC43010EB37005C1BE8 /* HomeView.swift */,
 			);
 			path = Screens;
@@ -1931,6 +1934,7 @@
 				B39AFF0A3028FAD70093C19B /* ChatEndpoint.swift in Sources */,
 				C6267A7030239B0F003484E6 /* SelectionField.swift in Sources */,
 				C6267A7130239B0F003484E6 /* NurseResponseDTO.swift in Sources */,
+				B3A925DE302E051800301B9F /* ActiveJobsView.swift in Sources */,
 				C6267A7230239B0F003484E6 /* ReviewPrivacyBanner.swift in Sources */,
 				C6267A7330239B0F003484E6 /* DocumentUploadCard.swift in Sources */,
 				C6267A7430239B0F003484E6 /* ProfileSetupService.swift in Sources */,

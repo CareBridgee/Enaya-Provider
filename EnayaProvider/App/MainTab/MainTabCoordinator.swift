@@ -10,12 +10,10 @@ import Foundation
 @MainActor
 final class MainTabCoordinator: ObservableObject {
 
-    @Published var selectedTab: AppTab = .hub
+    @Published var selectedTab: AppTab = .home
     @Published var currentNotification: NotificationData?
 
     let homeCoordinator: HomeCoordinator
-//    let trackerCoordinator: TrackerCoordinator
-//    let availabilityCoordinator: AvailabilityCoordinator
     let earningsCoordinator: EarningsCoordinator
     
     private var notificationsHubService: NotificationsHubServiceProtocol
@@ -30,18 +28,11 @@ final class MainTabCoordinator: ObservableObject {
         setupNotifications()
     }
 
-    // MARK: - Cross-Tab Wiring
-
-    private func wireCrossTabNavigation() {
-        // Wire Home's cross-tab actions here once Tracker/Availability/Earnings exist, e.g.:
-        // homeCoordinator.onOpenTracker = { [weak self] in self?.select(.tracker) }
-    }
+    private func wireCrossTabNavigation() {}
 
     func select(_ tab: AppTab) {
         selectedTab = tab
     }
-    
-    // MARK: - Notifications Setup
     
     private func setupNotifications() {
         notificationsHubService.onNotificationReceived = { [weak self] response in
@@ -60,7 +51,7 @@ final class MainTabCoordinator: ObservableObject {
     func handleNotificationTap() {
         guard let notif = currentNotification else { return }
         if notif.type == "MESSAGE" {
-            // self.select(.tracker)
+            // self.select(.activeJobs)
         }
     }
 }

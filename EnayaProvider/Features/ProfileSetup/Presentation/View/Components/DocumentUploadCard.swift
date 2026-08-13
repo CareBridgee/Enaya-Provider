@@ -14,7 +14,9 @@ struct DocumentUploadCard: View {
     let subtitle: String
     @Binding var document: UploadedDocument?
 
-    @State private var isImporterPresented = false
+    @State private var showSourceDialog = false
+    @State private var showFileImporter = false
+    @State private var showImagePicker = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.s12) {
@@ -49,11 +51,25 @@ struct DocumentUploadCard: View {
         .padding(Spacing.s16)
         .background(Color.surface)
         .clipShape(RoundedRectangle.carely(Radius.r16))
+        .confirmationDialog("Select Document Source", isPresented: $showSourceDialog, titleVisibility: .visible) {
+            Button("Photo Gallery") {
+                showImagePicker = true
+            }
+            Button("Browse Files") {
+                showFileImporter = true
+            }
+            Button("Cancel", role: .cancel) { }
+        }
         .fileImporter(
-            isPresented: $isImporterPresented,
+            isPresented: $showFileImporter,
             allowedContentTypes: [.pdf, .png, .jpeg],
-            onCompletion: handleImport
+            onCompletion: handleFileImport
         )
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(sourceType: .photoLibrary) { image in
+                handleImagePicked(image)
+            }
+        }
     }
 
     @ViewBuilder
@@ -76,7 +92,7 @@ struct DocumentUploadCard: View {
             .background(Color.surfaceVariant)
             .clipShape(RoundedRectangle.carely(Radius.r12))
         } else {
-            Button(action: { isImporterPresented = true }) {
+            Button(action: { showSourceDialog = true }) {
                 VStack(spacing: Spacing.s4) {
                     Image(systemName: "icloud.and.arrow.up")
                         .foregroundColor(.brandPrimary)
@@ -97,11 +113,18 @@ struct DocumentUploadCard: View {
         }
     }
 
-    private func handleImport(_ result: Result<URL, Error>) {
+    private func handleFileImport(_ result: Result<URL, Error>) {
         guard let url = try? result.get() else { return }
         guard url.startAccessingSecurityScopedResource() else { return }
         defer { url.stopAccessingSecurityScopedResource() }
         guard let data = try? Data(contentsOf: url) else { return }
         document = UploadedDocument(fileName: url.lastPathComponent, data: data)
+    }
+
+    private func handleImagePicked(_ image: UIImage) {
+        if let data = image.jpegData(compressionQuality: 0.8) {
+            let fileName = "Image_\(UUID().uuidString.prefix(8)).jpg"
+            document = UploadedDocument(fileName: fileName, data: data)
+        }
     }
 }
