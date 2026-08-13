@@ -10,9 +10,9 @@ import Alamofire
 
 enum ProfileSetupEndpoint: Endpoint {
     case getServiceTypes
-    case updateUserProfile(request: UpdateProfileRequestDTO)
+    case updateUserProfile
     case registerNurse
-    case addNurseService(nurseId: String, request: NurseServiceRequestDTO)
+    case addNurseService(nurseId: String)
     case uploadDocument
     
     var path: String {
@@ -23,7 +23,7 @@ enum ProfileSetupEndpoint: Endpoint {
             return "/api/v1/users/me"
         case .registerNurse:
             return "/api/v1/nurses/register"
-        case .addNurseService(let nurseId, _):
+        case .addNurseService(let nurseId):
             return "/api/v1/nurses/\(nurseId)/services"
         case .uploadDocument:
             return "/api/v1/upload"
@@ -45,20 +45,8 @@ enum ProfileSetupEndpoint: Endpoint {
     
     var parameters: Parameters? {
         switch self {
-        case .getServiceTypes, .registerNurse, .uploadDocument:
+        case .getServiceTypes, .registerNurse, .uploadDocument, .updateUserProfile, .addNurseService:
             return nil
-        case .updateUserProfile(let request):
-            var params: [String: Any] = [
-                "firstName": request.firstName,
-                "lastName": request.lastName
-            ]
-            if let email = request.email { params["email"] = email }
-            if let dob = request.dateOfBirth { params["dateOfBirth"] = dob }
-            if let gender = request.gender { params["gender"] = gender }
-            if let url = request.profileImageUrl { params["profileImageUrl"] = url }
-            return params
-        case .addNurseService(_, let request):
-            return ["serviceTypeId": request.serviceTypeId]
         }
     }
     

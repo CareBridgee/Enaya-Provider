@@ -8,27 +8,31 @@
 
 import Foundation
 
+
+
 final class OfferRepositoryImpl: OfferRepositoryProtocol {
-    private let simulatedDelayNanoseconds: UInt64 = 900_000_000
-
-    func startVisit(offerId: UUID) async throws -> ConfirmedOffer {
-        try await Task.sleep(nanoseconds: simulatedDelayNanoseconds)
-        // Mocked: the real API call will update and return the offer's new status.
-        throw OfferRepositoryMockError.useLocalUpdate
+    private let networkClient: NetworkClientProtocol
+    
+    init(networkClient: NetworkClientProtocol) {
+        self.networkClient = networkClient
     }
-
-    func completeVisit(offerId: UUID) async throws -> ConfirmedOffer {
-        try await Task.sleep(nanoseconds: simulatedDelayNanoseconds)
-        throw OfferRepositoryMockError.useLocalUpdate
+    
+    func fetchRequestDetails(requestId: String) async throws -> ServiceRequestDetailsResponseDTO {
+        return try await networkClient.request(OfferEndpoint.getRequestDetails(serviceRequestId: requestId))
     }
-
-    func cancelOffer(offerId: UUID, reason: CancellationReason, detail: String?) async throws {
-        try await Task.sleep(nanoseconds: simulatedDelayNanoseconds)
+    
+    func cancelServiceRequest(requestId: String) async throws {
+        try await networkClient.requestWithoutResponse(OfferEndpoint.cancelServiceRequest(serviceRequestId: requestId))
     }
-}
-
-/// Marks paths where there's no real backend response to shape yet — the caller
-/// applies the status transition locally instead of trusting a mocked payload.
-enum OfferRepositoryMockError: Error {
-    case useLocalUpdate
+    
+    func startVisit(requestId: String) async throws {
+        try await networkClient.requestWithoutResponse(OfferEndpoint.startVisit(serviceRequestId: requestId))
+    }
+    
+    func completeVisit(requestId: String, visitCode: String) async throws {
+        try await networkClient.requestWithoutResponse(OfferEndpoint.completeVisit(serviceRequestId: requestId, visitCode: visitCode))
+    }
+    func fetchRequestProfile(requestId: String) async throws -> ServiceRequestProfileResponseDTO {
+            return try await networkClient.request(OfferEndpoint.getServiceRequestProfile(serviceRequestId: requestId))
+        }
 }

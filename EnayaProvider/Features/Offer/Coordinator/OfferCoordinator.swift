@@ -9,45 +9,56 @@
 import Foundation
 import SwiftUI
 
+enum OfferPhase {
+    case active
+    case completed
+}
+
 @MainActor
 final class OfferCoordinator: ObservableObject {
-
-    enum Phase {
-        case active
-        case completed
-    }
-
-    @Published private(set) var offer: ConfirmedOffer
-    @Published var phase: Phase = .active
     @Published var path = NavigationPath()
+    @Published var phase: OfferPhase = .active
     @Published var isShowingCancelSheet = false
-
-    init(offer: ConfirmedOffer) {
-        self.offer = offer
+    @Published var isNurseCancelling = false
+    
+    let reservationId: String
+    var onFinishFlow: (() -> Void)?
+    
+    init(reservationId: String) {
+        self.reservationId = reservationId
     }
-
+    
     func openDetails() {
         path.append(OfferRoute.details)
     }
-
-    func markVisitStarted() {
-        offer.status = .visitStarted
+    
+    func openChat(patientName: String, imageUrl: String?, phone: String) {
+        path.append(OfferRoute.chat(patientName: patientName, imageUrl: imageUrl, phone: phone))
     }
-
-    func markVisitCompleted() {
-        offer.status = .completed
-        phase = .completed
+    
+    func openPatientSummary(profile: ServiceRequestProfileResponseDTO) {
+        path.append(OfferRoute.patientSummary(profile: profile))
     }
-
+    
     func presentCancelSheet() {
         isShowingCancelSheet = true
     }
-
+    
     func dismissCancelSheet() {
         isShowingCancelSheet = false
     }
-
+    
+    func dismissEntireFlow() {
+        onFinishFlow?()
+    }
+    
     func markCancelled() {
-        offer.status = .cancelled
+    }
+    
+    func markVisitStarted() {
+    }
+    
+    func markVisitCompleted() {
+        phase = .completed
     }
 }

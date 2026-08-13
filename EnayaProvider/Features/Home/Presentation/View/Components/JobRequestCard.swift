@@ -2,74 +2,128 @@ import SwiftUI
 
 struct JobRequestCard: View {
     let jobRequest: JobRequest
+    let isActionsDisabled: Bool
     let onEditOffer: () -> Void
     let onMakeOffer: () -> Void
 
+    @State private var isExpanded: Bool = false
     private var isPending: Bool { jobRequest.status == .pending }
+    private var isCancelled: Bool { jobRequest.status == .cancelled }
 
     var body: some View {
         VStack(spacing: Spacing.s16) {
             header
             serviceRow
             
-            if !isPending {
+            if isExpanded {
                 actionButtons
+                    .transition(.opacity.combined(with: .move(edge: .top)))
             }
         }
         .padding(Spacing.s16)
         .background(Color.surface)
         .clipShape(RoundedRectangle.carely(Radius.r16))
-        .shadow(color: .black.opacity(0.06), radius: Radius.r12, y: Spacing.s4)
-    }
-
-    private var header: some View {
-        HStack(alignment: .top, spacing: Spacing.s12) {
-            Circle()
-                .fill(Color.surfaceVariant)
-                .frame(width: Spacing.s48, height: Spacing.s48)
-                .overlay(Image(systemName: "person.fill").foregroundColor(.hint))
-
-            VStack(alignment: .leading, spacing: Spacing.s4) {
-                Text(jobRequest.patientLabel)
-                    .carelyText(style: .bodyLarge, weight: .semiBold)
-                    .foregroundColor(.primaryFont)
-
-                HStack(spacing: Spacing.s4) {
-                    Image(systemName: "mappin.and.ellipse")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: IconSize.s12, height: IconSize.s12)
-                    Text(jobRequest.distanceText)
-                        .carelyText(style: .caption, weight: .regular)
-                }
-                .foregroundColor(.secondaryFont)
+        .shadow(color: .black.opacity(isExpanded ? 0.12 : 0.06), radius: Radius.r12, y: Spacing.s4)
+        .scaleEffect(isExpanded ? 1.02 : 1.0)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            withAnimation(.spring(response: 0.4, dampingFraction: 0.7, blendDuration: 0)) {
+                isExpanded.toggle()
             }
+        }
+    }
+    private var header: some View {
+            HStack(alignment: .top, spacing: Spacing.s12) {
+                
+                let urlString = jobRequest.patientImageUrl.trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                AsyncImage(url: URL(string: urlString)) { phase in
+                    switch phase {
+                    case .empty:
+                        if urlString.isEmpty {
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.hint)
+                                .padding(12)
+                        } else {
+                            ProgressView()
+                        }
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    case .failure:
+                        Image(systemName: "person.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.hint)
+                            .padding(12)
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+                .frame(width: Spacing.s48, height: Spacing.s48)
+                .background(Color.surfaceVariant)
+                .clipShape(Circle())
 
-            Spacer()
+                VStack(alignment: .leading, spacing: Spacing.s4) {
+                    Text(jobRequest.patientLabel)
+                        .carelyText(style: .bodyLarge, weight: .semiBold)
+                        .foregroundColor(.primaryFont)
 
-            HStack(spacing: Spacing.s8) {
-                VStack(alignment: .trailing, spacing: Spacing.s2) {
-                    Text("$\(String(format: "%.2f", jobRequest.proposedPrice.doubleValue))")
-                        .carelyText(style: .bodyLarge, weight: .bold)
-                        .foregroundColor(.brandPrimary)
-                    
-                    if !isPending {
-                        Text("Estimated")
+                    HStack(spacing: Spacing.s4) {
+                        Image(systemName: "mappin.and.ellipse")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: IconSize.s12, height: IconSize.s12)
+                        Text(jobRequest.distanceText)
                             .carelyText(style: .caption, weight: .regular)
-                            .foregroundColor(.secondaryFont)
-                    } else {
-                        Text("Pending")
-                            .carelyText(style: .caption, weight: .semiBold)
-                            .foregroundColor(.onWarningContainer)
-                            .padding(.horizontal, Spacing.s8)
-                            .padding(.vertical, Spacing.s2)
-                            .background(Color.warningContainer)
-                            .clipShape(Capsule())
+                    }
+                    .foregroundColor(.secondaryFont)
+                }
+
+                Spacer()
+
+                HStack(spacing: Spacing.s8) {
+                    VStack(alignment: .trailing, spacing: Spacing.s2) {
+                        HStack(spacing: Spacing.s8) {
+                            Text("$\(String(format: "%.2f", jobRequest.proposedPrice.doubleValue))")
+                                .carelyText(style: .bodyLarge, weight: .bold)
+                                .foregroundColor(.brandPrimary)
+                            
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.secondaryFont)
+                                .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        }
+                        
+                        if isCancelled {
+                            Text("Cancelled")
+                                .carelyText(style: .caption, weight: .semiBold)
+                                .foregroundColor(.red)
+                                .padding(.horizontal, Spacing.s8)
+                                .padding(.vertical, Spacing.s2)
+                                .background(Color.red.opacity(0.1))
+                                .clipShape(Capsule())
+                        } else if !isPending {
+                            Text("Estimated")
+                                .carelyText(style: .caption, weight: .regular)
+                                .foregroundColor(.secondaryFont)
+                        } else {
+                            Text("Pending")
+                                .carelyText(style: .caption, weight: .semiBold)
+                                .foregroundColor(.onWarningContainer)
+                                .padding(.horizontal, Spacing.s8)
+                                .padding(.vertical, Spacing.s2)
+                                .background(Color.warningContainer)
+                                .clipShape(Capsule())
+                        }
                     }
                 }
             }
         }
-    }
+
 
     private var serviceRow: some View {
         HStack(spacing: Spacing.s12) {
@@ -95,7 +149,12 @@ struct JobRequestCard: View {
     private var actionButtons: some View {
         HStack(spacing: Spacing.s12) {
             SecondaryButton(title: "Edit offer", action: onEditOffer)
+                .disabled(isActionsDisabled)
+                .opacity(isActionsDisabled ? 0.5 : 1.0)
             PrimaryButton(title: "Make Offer", action: onMakeOffer)
+                .disabled(isActionsDisabled)
+                .opacity(isActionsDisabled ? 0.5 : 1.0)
         }
+        .padding(.top, Spacing.s8)
     }
 }

@@ -9,7 +9,9 @@
 import Foundation
 
 protocol OfferRepositoryProtocol {
-    func startVisit(offerId: UUID) async throws -> ConfirmedOffer
-    func completeVisit(offerId: UUID) async throws -> ConfirmedOffer
-    func cancelOffer(offerId: UUID, reason: CancellationReason, detail: String?) async throws
+    func fetchRequestDetails(requestId: String) async throws -> ServiceRequestDetailsResponseDTO
+    func cancelServiceRequest(requestId: String) async throws
+    func startVisit(requestId: String) async throws
+    func completeVisit(requestId: String, visitCode: String) async throws
+    func fetchRequestProfile(requestId: String) async throws -> ServiceRequestProfileResponseDTO
 }

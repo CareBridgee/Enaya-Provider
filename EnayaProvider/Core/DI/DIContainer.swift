@@ -5,7 +5,6 @@
 //  Created by Mona Zarea on 15/07/2026.
 //
 
-// I will instantiate it once at the absolute highest pointz
 import Foundation
 import Alamofire
 @MainActor
@@ -31,6 +30,40 @@ final class DIContainer {
         
         self.appState = AppState(sessionManager: sessionManager)
     }
+    private lazy var sharedSocketClient: SocketClientProtocol = {
+        guard let url = URL(string: NetworkConfiguration.socketURL) else {
+            fatalError("Invalid socket URL")
+        }
+
+        let client = StompSocketClient(url: url, tokenStore: tokenStore)
+        client.onSessionExpired = {
+          
+            NotificationCenter.default.post(name: NSNotification.Name("SessionExpired"), object: nil)
+        }
+        client.onTokenExpiredOrFailed = { [weak self] in
+            guard let self = self else { return false }
+
+            guard let refreshToken = self.tokenStore.getRefreshToken(), !refreshToken.isEmpty else {
+                return false
+            }
+
+            do {
+                let authResponse = try await self.authService.refresh(refreshToken: refreshToken)
+
+                self.tokenStore.saveTokens(
+                    access: authResponse.accessToken,
+                    refresh: authResponse.refreshToken
+                )
+
+                return true
+            } catch {
+                print("[Socket] Direct token refresh failed: \(error)")
+                return false
+            }
+        }
+
+        return client
+    }()
     private lazy var session: Session = Session(interceptor: authInterceptor)
     
     private lazy var networkClient: NetworkClientProtocol = NetworkClient(session: session)
@@ -78,7 +111,14 @@ final class DIContainer {
     
     private lazy var cloudinaryService: CloudinaryUploadServiceProtocol = CloudinaryUploadService(session: .shared)
     private lazy var profileSetupService: ProfileSetupServiceProtocol = ProfileSetupServiceImpl(networkClient: networkClient)
-
+    // MARK: - Notifications
+        private lazy var notificationsHubService: NotificationsHubServiceProtocol = {
+            return NotificationsSocketDataSource(socketClient: sharedSocketClient)
+        }()
+        
+        func getNotificationsHubService() -> NotificationsHubServiceProtocol {
+            return notificationsHubService
+        }
     private lazy var profileSetupRepository: ProfileSetupRepositoryProtocol = ProfileSetupRepositoryImpl(
         profileService: profileSetupService,
         cloudinaryService: cloudinaryService
@@ -171,47 +211,91 @@ final class DIContainer {
 
     // MARK: - Home
 
-        private lazy var homeRepository: HomeRepositoryProtocol = HomeRepositoryImpl()
+    // MARK: - Location Service
+        private lazy var currentLocationService: CurrentLocationServiceProtocol = {
+            return CurrentLocationService()
+        }()
 
-        private func makeFetchHomeSummaryUseCase() -> FetchHomeSummaryUseCaseProtocol {
+        // MARK: - Hub Services
+        private lazy var nurseHomeHubService: NurseHomeHubServiceProtocol = {
+            return NurseHomeSocketDataSource(socketClient: sharedSocketClient)
+        }()
+        
+        // MARK: - Repository
+        private lazy var homeRepository: HomeRepositoryProtocol = {
+            return HomeRepositoryImpl(
+                networkClient: networkClient,
+                hubService: nurseHomeHubService,
+                locationService: currentLocationService,
+                tokenStore: tokenStore
+            )
+        }()
+
+        // MARK: - Use Cases
+        private func makeFetchHomeSummaryUseCase() -> FetchHomeSummaryUseCase {
             FetchHomeSummaryUseCase(repository: homeRepository)
         }
 
-        private func makeFetchAvailabilityUseCase() -> FetchAvailabilityUseCaseProtocol {
-            FetchAvailabilityUseCase(repository: homeRepository)
+        private func makeToggleAvailabilityUseCase() -> ToggleAvailabilityUseCase {
+            ToggleAvailabilityUseCase(repo: homeRepository)
         }
 
-        private func makeSetAvailabilityUseCase() -> SetAvailabilityUseCaseProtocol {
-            SetAvailabilityUseCase(repository: homeRepository)
-        }
-
-        private func makeFetchActiveJobRequestUseCase() -> FetchActiveJobRequestUseCaseProtocol {
-            FetchActiveJobRequestUseCase(repository: homeRepository)
-        }
-
-        private func makeConfirmJobRequestUseCase() -> ConfirmJobRequestUseCaseProtocol {
-            ConfirmJobRequestUseCase(repository: homeRepository)
-        }
-
-        private func makeCancelJobRequestUseCase() -> CancelJobRequestUseCaseProtocol {
-            CancelJobRequestUseCase(repository: homeRepository)
-        }
-    private func makeObserveJobRequestsUseCase() -> ObserveJobRequestsUseCaseProtocol {
+        private func makeObserveJobRequestsUseCase() -> ObserveJobRequestsUseCase {
             ObserveJobRequestsUseCase(repository: homeRepository)
         }
-    func makeHomeViewModel() -> HomeViewModel {
+
+        private func makeSubmitOfferUseCase() -> SubmitOfferUseCase {
+            SubmitOfferUseCase(repo: homeRepository)
+        }
+
+    // MARK: - Home Feature
+        
+    private func makeCancelWaitingOfferUseCase() -> WithdrawOfferUseCaseProtocol {
+        WithdrawOfferUseCase(repo: homeRepository)
+        }
+
+    private func makeRefreshJobRequestsUseCase() -> RefreshJobRequestsUseCaseProtocol {
+        RefreshJobRequestsUseCase(repository: homeRepository)
+    }
+    private func makeObserveSocketErrorsUseCase() -> ObserveSocketErrorsUseCase {
+           ObserveSocketErrorsUseCase(repository: homeRepository)
+       }
+    
+    func makeFetchCurrentActiveVisitUseCase() -> FetchCurrentActiveVisitUseCaseProtocol {
+            FetchCurrentActiveVisitUseCase(repository: homeRepository)
+        }
+        
+        func makeHomeViewModel() -> HomeViewModel {
             HomeViewModel(
-                fetchSummaryUseCase: makeFetchHomeSummaryUseCase(),
-                fetchAvailabilityUseCase: makeFetchAvailabilityUseCase(),
-                setAvailabilityUseCase: makeSetAvailabilityUseCase(),
-                observeJobRequestsUseCase: makeObserveJobRequestsUseCase(), 
-                confirmJobRequestUseCase: makeConfirmJobRequestUseCase(),
-                cancelJobRequestUseCase: makeCancelJobRequestUseCase()
+                fetchSummary: makeFetchHomeSummaryUseCase(),
+                toggleAvailabilityUseCase: makeToggleAvailabilityUseCase(),
+                observeJobRequests: makeObserveJobRequestsUseCase(),
+                refreshJobRequestsUseCase: makeRefreshJobRequestsUseCase(),
+                submitOfferUseCase: makeSubmitOfferUseCase(),
+                withdrawOfferUseCase: makeCancelWaitingOfferUseCase(),
+                observeSocketErrorsUseCase: makeObserveSocketErrorsUseCase(),
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
+                fetchCurrentActiveVisitUseCase: makeFetchCurrentActiveVisitUseCase()
             )
         }
-    // MARK: - Offer
+    
 
-        private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl()
+
+        
+        private lazy var offerRepository: OfferRepositoryProtocol = OfferRepositoryImpl(
+            networkClient: networkClient
+        )
+
+        func makeFetchServiceRequestDetailsUseCase() -> FetchServiceRequestDetailsUseCase {
+            FetchServiceRequestDetailsUseCase(repo: offerRepository)
+        }
+    func makeFetchServiceRequestProfileUseCase() -> FetchServiceRequestProfileUseCase {
+        FetchServiceRequestProfileUseCase(repository: offerRepository)
+    }
+
+        func makeCancelServiceRequestUseCase() -> CancelServiceRequestUseCase {
+            CancelServiceRequestUseCase(repo: offerRepository)
+        }
 
         private func makeStartVisitUseCase() -> StartVisitUseCaseProtocol {
             StartVisitUseCase(repository: offerRepository)
@@ -221,37 +305,101 @@ final class DIContainer {
             CompleteVisitUseCase(repository: offerRepository)
         }
 
-        private func makeCancelOfferUseCase() -> CancelOfferUseCaseProtocol {
-            CancelOfferUseCase(repository: offerRepository)
+        func makeOfferCoordinator(reservationId: String) -> OfferCoordinator {
+            OfferCoordinator(reservationId: reservationId)
         }
 
-        func makeOfferCoordinator(offer: ConfirmedOffer) -> OfferCoordinator {
-            OfferCoordinator(offer: offer)
-        }
+    func makeOfferConfirmedViewModel(coordinator: OfferCoordinator) -> OfferConfirmedViewModel {
+                OfferConfirmedViewModel(
+                    reservationId: coordinator.reservationId,
+                    coordinator: coordinator,
+                    fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                    fetchProfileUseCase: makeFetchServiceRequestProfileUseCase(),
+                    completeVisitUseCase: makeCompleteVisitUseCase(),
+                    observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+                )
+            }
 
-        func makeOfferConfirmedViewModel(coordinator: OfferCoordinator) -> OfferConfirmedViewModel {
-            OfferConfirmedViewModel(
-                coordinator: coordinator,
-                startVisitUseCase: makeStartVisitUseCase(),
-                completeVisitUseCase: makeCompleteVisitUseCase()
-            )
-        }
+            func makeOfferDetailsViewModel(reservationId: String, coordinator: OfferCoordinator) -> OfferDetailsViewModel {
+                OfferDetailsViewModel(
+                    reservationId: reservationId,
+                    coordinator: coordinator,
+                    fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                    fetchProfileUseCase: makeFetchServiceRequestProfileUseCase(),
+                    observeReservationEventsUseCase: makeObserveReservationEventsUseCase() 
+                )
+            }
 
-        func makeOfferDetailsViewModel(coordinator: OfferCoordinator) -> OfferDetailsViewModel {
-            OfferDetailsViewModel(coordinator: coordinator)
-        }
-
-        func makeVisitCompletedViewModel(coordinator: OfferCoordinator, onReturnHome: @escaping () -> Void) -> VisitCompletedViewModel {
-            VisitCompletedViewModel(coordinator: coordinator, onReturnHome: onReturnHome)
-        }
-
-        func makeCancelOfferViewModel(coordinator: OfferCoordinator, onCancelled: @escaping () -> Void) -> CancelOfferViewModel {
+        func makeCancelOfferViewModel(reservationId: String, serviceName: String, coordinator: OfferCoordinator, onCancelled: @escaping () -> Void) -> CancelOfferViewModel {
             CancelOfferViewModel(
+                reservationId: reservationId,
+                serviceName: serviceName,
                 coordinator: coordinator,
-                cancelOfferUseCase: makeCancelOfferUseCase(),
+                cancelRequestUseCase: makeCancelServiceRequestUseCase(),
                 onCancelled: onCancelled
             )
         }
+    
+
+    func makeVisitCompletedViewModel(coordinator: OfferCoordinator, onReturnHome: @escaping () -> Void) -> VisitCompletedViewModel {
+            VisitCompletedViewModel(
+                reservationId: coordinator.reservationId,
+                coordinator: coordinator,
+                fetchDetailsUseCase: makeFetchServiceRequestDetailsUseCase(),
+                onReturnHome: onReturnHome
+            )
+        }
+    private func makeObserveReservationEventsUseCase() -> ObserveReservationEventsUseCaseProtocol {
+         ObserveReservationEventsUseCase(repository: homeRepository)
+     }
+   
+    private lazy var chatRepository: ChatRepositoryProtocol = ChatRepositoryImpl(
+        networkClient: networkClient,
+        socketClient: sharedSocketClient
+    )
+    func makePatientSummaryViewModel(
+            reservationId: String,
+            profile: ServiceRequestProfileResponseDTO,
+            coordinator: OfferCoordinator
+        ) -> PatientSummaryViewModel {
+            return PatientSummaryViewModel(
+                reservationId: reservationId,
+                profile: profile,
+                coordinator: coordinator,
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+            )
+        }
+    private func currentUserId() -> String {
+            guard let token = tokenStore.getAccessToken(), let userId = JWTDecoder.userId(fromToken: token) else {
+                return ""
+            }
+            return userId
+        }
+
+    func makeOfferChatViewModel(
+         reservationId: String,
+         patientName: String,
+         imageUrl: String?,
+         phone: String,
+         coordinator: OfferCoordinator
+     ) -> OfferChatViewModel {
+         OfferChatViewModel(
+             reservationId: reservationId,
+             patientName: patientName,
+             patientImageUrl: imageUrl,
+             patientPhone: phone,
+             currentUserId: currentUserId(),
+             chatRepository: chatRepository,
+             observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
+             coordinator: coordinator
+         )
+     }
+          
+
+
+    
+
+      
     // MARK: - Earnings
 
         private lazy var earningsRepository: EarningsRepositoryProtocol = EarningsRepositoryImpl()

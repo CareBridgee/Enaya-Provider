@@ -24,6 +24,26 @@
 		0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E342301A250000B2BC3F /* AuthResponse.swift */; };
 		0CF5E346301A254500B2BC3F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E345301A254500B2BC3F /* AuthService.swift */; };
 		A53D6965B6B4AF21EE0A694F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0B81D17F4FF2D7C0E3CB0B16 /* Alamofire */; };
+		B364D4A73026778400837667 /* ServiceRequestProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */; };
+		B39A96FB302CAD0900A76D1A /* NurseOfferResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A96FA302CAD0900A76D1A /* NurseOfferResponseDTO.swift */; };
+		B39A96FF302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A96FE302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift */; };
+		B39AFF083028FA180093C19B /* ChatMessageResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF073028FA180093C19B /* ChatMessageResponseDTO.swift */; };
+		B39AFF0A3028FAD70093C19B /* ChatEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF093028FAD70093C19B /* ChatEndpoint.swift */; };
+		B39AFF0C3028FAF00093C19B /* ChatRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF0B3028FAF00093C19B /* ChatRepositoryProtocol.swift */; };
+		B39AFF0E3028FAF60093C19B /* ChatRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF0D3028FAF60093C19B /* ChatRepositoryImpl.swift */; };
+		B39AFF103028FB000093C19B /* OfferChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF0F3028FB000093C19B /* OfferChatViewModel.swift */; };
+		B39AFF123028FB0B0093C19B /* OfferChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF113028FB0B0093C19B /* OfferChatView.swift */; };
+		B39AFF143029033D0093C19B /* ObserveSocketErrorsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF133029033D0093C19B /* ObserveSocketErrorsUseCase.swift */; };
+		B39AFF163029193A0093C19B /* JWTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF153029193A0093C19B /* JWTDecoder.swift */; };
+		B39AFF18302919C00093C19B /* ChatMessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF17302919C00093C19B /* ChatMessageBubble.swift */; };
+		B39AFF1A302919CD0093C19B /* ChatInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39AFF19302919CD0093C19B /* ChatInputBar.swift */; };
+		B39DA9773027C2BC00CB65C7 /* ServiceRequestDetailsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */; };
+		B39DA9793027C2FE00CB65C7 /* OfferEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */; };
+		B39DA97B3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */; };
+		B39F66BE302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39F66BD302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift */; };
+		B3A08AE43026281A00FF712D /* ProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */; };
+		B3A08AEA302651C700FF712D /* ReservationEventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */; };
+		B3A08AEC30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */; };
 		B3A3BEB4301F27E200F31E3D /* OfferStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB3301F27E200F31E3D /* OfferStatus.swift */; };
 		B3A3BEB6301F27F100F31E3D /* OfferRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB5301F27F100F31E3D /* OfferRepositoryProtocol.swift */; };
 		B3A3BEB8301F280E00F31E3D /* OfferRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEB7301F280E00F31E3D /* OfferRepositoryImpl.swift */; };
@@ -45,6 +65,26 @@
 		B3A3BEDD301F28D900F31E3D /* OfferDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEDC301F28D900F31E3D /* OfferDetailsView.swift */; };
 		B3A3BEDF301F28E500F31E3D /* VisitCompletedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEDE301F28E500F31E3D /* VisitCompletedView.swift */; };
 		B3A3BEE1301F28F300F31E3D /* CancelOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A3BEE0301F28F300F31E3D /* CancelOfferView.swift */; };
+		B3A647F93025DE1C00F2BA4B /* ReconnectScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647F53025DE1C00F2BA4B /* ReconnectScheduler.swift */; };
+		B3A647FA3025DE1C00F2BA4B /* SocketClientProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647F63025DE1C00F2BA4B /* SocketClientProtocol.swift */; };
+		B3A647FB3025DE1C00F2BA4B /* StompSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647F73025DE1C00F2BA4B /* StompSocketClient.swift */; };
+		B3A648013025DE4A00F2BA4B /* NurseHomeHubServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647FF3025DE4A00F2BA4B /* NurseHomeHubServiceProtocol.swift */; };
+		B3A648023025DE4A00F2BA4B /* HomeEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647FD3025DE4A00F2BA4B /* HomeEndpoint.swift */; };
+		B3A648033025DE4A00F2BA4B /* NotificationsHubServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647FE3025DE4A00F2BA4B /* NotificationsHubServiceProtocol.swift */; };
+		B3A648043025DE4A00F2BA4B /* CurrentLocationServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A647FC3025DE4A00F2BA4B /* CurrentLocationServiceProtocol.swift */; };
+		B3A648093025DE5200F2BA4B /* NearbyNurseServiceRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A648053025DE5200F2BA4B /* NearbyNurseServiceRequestResponse.swift */; };
+		B3A6480A3025DE5200F2BA4B /* UserMeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A648073025DE5200F2BA4B /* UserMeDTO.swift */; };
+		B3A6480B3025DE5200F2BA4B /* NotificationResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A648063025DE5200F2BA4B /* NotificationResponseDTO.swift */; };
+		B3A6480E3025DE9800F2BA4B /* SwiftStomp in Frameworks */ = {isa = PBXBuildFile; productRef = B3A6480D3025DE9800F2BA4B /* SwiftStomp */; };
+		B3A648103025E58F00F2BA4B /* NotificationBannerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */; };
+		B3A648123025E60600F2BA4B /* NotificationBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A648113025E60600F2BA4B /* NotificationBannerView.swift */; };
+		B3A85CCA30276091005C153A /* SocketErrorPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A85CC930276091005C153A /* SocketErrorPayload.swift */; };
+		B3ADB4F130287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADB4F030287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift */; };
+		B3ADB4F330288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADB4F230288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift */; };
+		B3ADB4F53028A06800EF846A /* QRDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ADB4F43028A06800EF846A /* QRDecoder.swift */; };
+		B3B2916C302D097600E46E22 /* PatientSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B2916B302D097600E46E22 /* PatientSummaryViewModel.swift */; };
+		B3B2916E302D098C00E46E22 /* PatientSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B2916D302D098C00E46E22 /* PatientSummaryView.swift */; };
+		B3B29170302D0C8100E46E22 /* CarelyAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B2916F302D0C8100E46E22 /* CarelyAsyncImage.swift */; };
 		B3B6A5C3301F3758004772C8 /* JobEarningStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */; };
 		B3B6A5C5301F3763004772C8 /* EarningsRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */; };
 		B3B6A5C7301F376E004772C8 /* EarningsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */; };
@@ -262,6 +302,26 @@
 		0CF5E340301A24F300B2BC3F /* DevOTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevOTPResponse.swift; sourceTree = "<group>"; };
 		0CF5E342301A250000B2BC3F /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		0CF5E345301A254500B2BC3F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRequestProfileResponseDTO.swift; sourceTree = "<group>"; };
+		B39A96FA302CAD0900A76D1A /* NurseOfferResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferResponseDTO.swift; sourceTree = "<group>"; };
+		B39A96FE302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawOfferUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B39AFF073028FA180093C19B /* ChatMessageResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageResponseDTO.swift; sourceTree = "<group>"; };
+		B39AFF093028FAD70093C19B /* ChatEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEndpoint.swift; sourceTree = "<group>"; };
+		B39AFF0B3028FAF00093C19B /* ChatRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepositoryProtocol.swift; sourceTree = "<group>"; };
+		B39AFF0D3028FAF60093C19B /* ChatRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepositoryImpl.swift; sourceTree = "<group>"; };
+		B39AFF0F3028FB000093C19B /* OfferChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferChatViewModel.swift; sourceTree = "<group>"; };
+		B39AFF113028FB0B0093C19B /* OfferChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferChatView.swift; sourceTree = "<group>"; };
+		B39AFF133029033D0093C19B /* ObserveSocketErrorsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveSocketErrorsUseCase.swift; sourceTree = "<group>"; };
+		B39AFF153029193A0093C19B /* JWTDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTDecoder.swift; sourceTree = "<group>"; };
+		B39AFF17302919C00093C19B /* ChatMessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageBubble.swift; sourceTree = "<group>"; };
+		B39AFF19302919CD0093C19B /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
+		B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRequestDetailsResponseDTO.swift; sourceTree = "<group>"; };
+		B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferEndpoint.swift; sourceTree = "<group>"; };
+		B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchServiceRequestDetailsUseCase.swift; sourceTree = "<group>"; };
+		B39F66BD302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCurrentActiveVisitUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResponseDTO.swift; sourceTree = "<group>"; };
+		B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationEventResponse.swift; sourceTree = "<group>"; };
+		B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveReservationEventsUseCaseProtocol.swift; sourceTree = "<group>"; };
 		B3A3BEB3301F27E200F31E3D /* OfferStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferStatus.swift; sourceTree = "<group>"; };
 		B3A3BEB5301F27F100F31E3D /* OfferRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRepositoryProtocol.swift; sourceTree = "<group>"; };
 		B3A3BEB7301F280E00F31E3D /* OfferRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -283,6 +343,25 @@
 		B3A3BEDC301F28D900F31E3D /* OfferDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferDetailsView.swift; sourceTree = "<group>"; };
 		B3A3BEDE301F28E500F31E3D /* VisitCompletedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCompletedView.swift; sourceTree = "<group>"; };
 		B3A3BEE0301F28F300F31E3D /* CancelOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOfferView.swift; sourceTree = "<group>"; };
+		B3A647F53025DE1C00F2BA4B /* ReconnectScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReconnectScheduler.swift; sourceTree = "<group>"; };
+		B3A647F63025DE1C00F2BA4B /* SocketClientProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketClientProtocol.swift; sourceTree = "<group>"; };
+		B3A647F73025DE1C00F2BA4B /* StompSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StompSocketClient.swift; sourceTree = "<group>"; };
+		B3A647FC3025DE4A00F2BA4B /* CurrentLocationServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentLocationServiceProtocol.swift; sourceTree = "<group>"; };
+		B3A647FD3025DE4A00F2BA4B /* HomeEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeEndpoint.swift; sourceTree = "<group>"; };
+		B3A647FE3025DE4A00F2BA4B /* NotificationsHubServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsHubServiceProtocol.swift; sourceTree = "<group>"; };
+		B3A647FF3025DE4A00F2BA4B /* NurseHomeHubServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseHomeHubServiceProtocol.swift; sourceTree = "<group>"; };
+		B3A648053025DE5200F2BA4B /* NearbyNurseServiceRequestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyNurseServiceRequestResponse.swift; sourceTree = "<group>"; };
+		B3A648063025DE5200F2BA4B /* NotificationResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationResponseDTO.swift; sourceTree = "<group>"; };
+		B3A648073025DE5200F2BA4B /* UserMeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMeDTO.swift; sourceTree = "<group>"; };
+		B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerModifier.swift; sourceTree = "<group>"; };
+		B3A648113025E60600F2BA4B /* NotificationBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerView.swift; sourceTree = "<group>"; };
+		B3A85CC930276091005C153A /* SocketErrorPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketErrorPayload.swift; sourceTree = "<group>"; };
+		B3ADB4F030287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshJobRequestsUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B3ADB4F230288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchServiceRequestProfileUseCaseProtocol.swift; sourceTree = "<group>"; };
+		B3ADB4F43028A06800EF846A /* QRDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRDecoder.swift; sourceTree = "<group>"; };
+		B3B2916B302D097600E46E22 /* PatientSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientSummaryViewModel.swift; sourceTree = "<group>"; };
+		B3B2916D302D098C00E46E22 /* PatientSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientSummaryView.swift; sourceTree = "<group>"; };
+		B3B2916F302D0C8100E46E22 /* CarelyAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarelyAsyncImage.swift; sourceTree = "<group>"; };
 		B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JobEarningStatus.swift; sourceTree = "<group>"; };
 		B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRepositoryProtocol.swift; sourceTree = "<group>"; };
 		B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -469,6 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3A6480E3025DE9800F2BA4B /* SwiftStomp in Frameworks */,
 				A53D6965B6B4AF21EE0A694F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,6 +576,7 @@
 				0CE50DC43009BFAE001B34AA /* EnayaProvider */,
 				0CE50DD53009BFB0001B34AA /* EnayaProviderTests */,
 				0CE50DDF3009BFB0001B34AA /* EnayaProviderUITests */,
+				B3A6480C3025DE9800F2BA4B /* Frameworks */,
 				0CE50DC33009BFAE001B34AA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -599,6 +680,8 @@
 		B3A3BEAA301F273900F31E3D /* viewModel */ = {
 			isa = PBXGroup;
 			children = (
+				B3B2916B302D097600E46E22 /* PatientSummaryViewModel.swift */,
+				B39AFF0F3028FB000093C19B /* OfferChatViewModel.swift */,
 				B3A3BED8301F28C700F31E3D /* CancelOfferViewModel.swift */,
 				B3A3BED6301F28C100F31E3D /* VisitCompletedViewModel.swift */,
 				B3A3BED4301F28B700F31E3D /* OfferDetailsViewModel.swift */,
@@ -610,6 +693,7 @@
 		B3A3BEAB301F274700F31E3D /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
+				B39AFF073028FA180093C19B /* ChatMessageResponseDTO.swift */,
 			);
 			path = DTOs;
 			sourceTree = "<group>";
@@ -617,6 +701,7 @@
 		B3A3BEAC301F275100F31E3D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				B39AFF0D3028FAF60093C19B /* ChatRepositoryImpl.swift */,
 				B3A3BEB7301F280E00F31E3D /* OfferRepositoryImpl.swift */,
 			);
 			path = Repositories;
@@ -625,6 +710,8 @@
 		B3A3BEAD301F277700F31E3D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B39AFF093028FAD70093C19B /* ChatEndpoint.swift */,
+				B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -640,6 +727,8 @@
 		B3A3BEAF301F278D00F31E3D /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				B3ADB4F230288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift */,
+				B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */,
 				B3A3BEB9301F281A00F31E3D /* StartVisitUseCaseProtocol.swift */,
 			);
 			path = UseCases;
@@ -648,6 +737,7 @@
 		B3A3BEB0301F27A200F31E3D /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				B39AFF0B3028FAF00093C19B /* ChatRepositoryProtocol.swift */,
 				B3A3BEB5301F27F100F31E3D /* OfferRepositoryProtocol.swift */,
 			);
 			path = Repositories;
@@ -656,6 +746,8 @@
 		B3A3BEB1301F27B900F31E3D /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				B3B2916D302D098C00E46E22 /* PatientSummaryView.swift */,
+				B39AFF113028FB0B0093C19B /* OfferChatView.swift */,
 				B3A3BEE0301F28F300F31E3D /* CancelOfferView.swift */,
 				B3A3BEDE301F28E500F31E3D /* VisitCompletedView.swift */,
 				B3A3BEDC301F28D900F31E3D /* OfferDetailsView.swift */,
@@ -667,6 +759,9 @@
 		B3A3BEB2301F27C100F31E3D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				B3B2916F302D0C8100E46E22 /* CarelyAsyncImage.swift */,
+				B39AFF19302919CD0093C19B /* ChatInputBar.swift */,
+				B39AFF17302919C00093C19B /* ChatMessageBubble.swift */,
 				B3A3BED0301F28A500F31E3D /* CancellationReasonRow.swift */,
 				B3A3BECE301F28A000F31E3D /* OfferSummaryDetailGrid.swift */,
 				B3A3BECC301F289A00F31E3D /* OfferMapAddressCard.swift */,
@@ -685,6 +780,50 @@
 				B3A3BEC0301F284F00F31E3D /* OfferRoute.swift */,
 			);
 			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		B3A647F83025DE1C00F2BA4B /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				B3A647F53025DE1C00F2BA4B /* ReconnectScheduler.swift */,
+				B3A647F63025DE1C00F2BA4B /* SocketClientProtocol.swift */,
+				B3A647F73025DE1C00F2BA4B /* StompSocketClient.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
+		B3A648003025DE4A00F2BA4B /* services  */ = {
+			isa = PBXGroup;
+			children = (
+				B3A647FC3025DE4A00F2BA4B /* CurrentLocationServiceProtocol.swift */,
+				B3A647FD3025DE4A00F2BA4B /* HomeEndpoint.swift */,
+				B3A647FE3025DE4A00F2BA4B /* NotificationsHubServiceProtocol.swift */,
+				B3A647FF3025DE4A00F2BA4B /* NurseHomeHubServiceProtocol.swift */,
+			);
+			path = "services ";
+			sourceTree = "<group>";
+		};
+		B3A648083025DE5200F2BA4B /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				B39A96FA302CAD0900A76D1A /* NurseOfferResponseDTO.swift */,
+				B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */,
+				B3A85CC930276091005C153A /* SocketErrorPayload.swift */,
+				B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */,
+				B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */,
+				B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */,
+				B3A648053025DE5200F2BA4B /* NearbyNurseServiceRequestResponse.swift */,
+				B3A648063025DE5200F2BA4B /* NotificationResponseDTO.swift */,
+				B3A648073025DE5200F2BA4B /* UserMeDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		B3A6480C3025DE9800F2BA4B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		B3B6A5B4301F3694004772C8 /* Eranings */ = {
@@ -833,6 +972,8 @@
 			isa = PBXGroup;
 			children = (
 				B3C57E623010EA0D005C1BE8 /* Repositories */,
+				B3A648083025DE5200F2BA4B /* DTOs */,
+				B3A648003025DE4A00F2BA4B /* services  */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -859,6 +1000,11 @@
 		B3C57E6F3010EA0D005C1BE8 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				B39F66BD302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift */,
+				B39A96FE302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift */,
+				B39AFF133029033D0093C19B /* ObserveSocketErrorsUseCase.swift */,
+				B3ADB4F030287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift */,
+				B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */,
 				B3C57ED630111D55005C1BE8 /* ObserveJobRequestsUseCaseProtocol.swift */,
 				B3C57EBC3010EAD4005C1BE8 /* CancelJobRequestUseCaseProtocol.swift */,
 				B3C57EBA3010EACE005C1BE8 /* ConfirmJobRequestUseCaseProtocol.swift */,
@@ -1330,6 +1476,8 @@
 		C6C3BE65300A7CA300C5FC25 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				B39AFF153029193A0093C19B /* JWTDecoder.swift */,
+				B3ADB4F43028A06800EF846A /* QRDecoder.swift */,
 				C6C3BE64300A7CA300C5FC25 /* UtilityFile.swift */,
 				0C5D9E13301BB4B900961737 /* AppConstants.swift */,
 				0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */,
@@ -1530,6 +1678,8 @@
 		C6C3BEBF300A7EEE00C5FC25 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				B3A648113025E60600F2BA4B /* NotificationBannerView.swift */,
+				B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */,
 				C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */,
 				C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */,
 				B3CAF25F300E8EB2006A9F5F /* CarelyTextField.swift */,
@@ -1575,6 +1725,7 @@
 				C6F021A33022F224009004B5 /* RefreshState.swift */,
 				C6F021A43022F224009004B5 /* SessionManager.swift */,
 				C6F021A53022F224009004B5 /* UserSession.swift */,
+				B3A647F83025DE1C00F2BA4B /* Socket */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1597,6 +1748,7 @@
 			name = EnayaProvider;
 			packageProductDependencies = (
 				0B81D17F4FF2D7C0E3CB0B16 /* Alamofire */,
+				B3A6480D3025DE9800F2BA4B /* SwiftStomp */,
 			);
 			productName = EnayaProvider;
 			productReference = 0CE50DC23009BFAE001B34AA /* EnayaProvider.app */;
@@ -1740,7 +1892,9 @@
 				C6267A5130239B0F003484E6 /* ProvidedServices.swift in Sources */,
 				C6267A5230239B0F003484E6 /* NurseRegistrationResponseDTO.swift in Sources */,
 				C6267A5330239B0F003484E6 /* NurseEntity.swift in Sources */,
+				B39DA97B3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift in Sources */,
 				C6267A5430239B0F003484E6 /* NurseService.swift in Sources */,
+				B39AFF0C3028FAF00093C19B /* ChatRepositoryProtocol.swift in Sources */,
 				C6267A5530239B0F003484E6 /* ProvidedServicesView.swift in Sources */,
 				C6267A5630239B0F003484E6 /* ProfessionalInfoView.swift in Sources */,
 				C666B7463023F917008A3CE0 /* AccountVerifiedViewModel.swift in Sources */,
@@ -1764,23 +1918,35 @@
 				C6267A6930239B0F003484E6 /* GetNurseUseCase.swift in Sources */,
 				C6267A6A30239B0F003484E6 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
 				C6267A6B30239B0F003484E6 /* UploadResponseDTO.swift in Sources */,
+				B3A648013025DE4A00F2BA4B /* NurseHomeHubServiceProtocol.swift in Sources */,
+				B39A96FF302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift in Sources */,
+				B3A648023025DE4A00F2BA4B /* HomeEndpoint.swift in Sources */,
+				B3A648033025DE4A00F2BA4B /* NotificationsHubServiceProtocol.swift in Sources */,
+				B3A648043025DE4A00F2BA4B /* CurrentLocationServiceProtocol.swift in Sources */,
 				C6267A6C30239B0F003484E6 /* ReviewProfessionalInfoCard.swift in Sources */,
 				C6267A6D30239B0F003484E6 /* ProfessionalInfoViewModel.swift in Sources */,
+				B39AFF0E3028FAF60093C19B /* ChatRepositoryImpl.swift in Sources */,
 				C6267A6E30239B0F003484E6 /* ProfileSetupEndpoint.swift in Sources */,
 				C6267A6F30239B0F003484E6 /* VerificationReviewViewModel.swift in Sources */,
+				B39AFF0A3028FAD70093C19B /* ChatEndpoint.swift in Sources */,
 				C6267A7030239B0F003484E6 /* SelectionField.swift in Sources */,
 				C6267A7130239B0F003484E6 /* NurseResponseDTO.swift in Sources */,
 				C6267A7230239B0F003484E6 /* ReviewPrivacyBanner.swift in Sources */,
 				C6267A7330239B0F003484E6 /* DocumentUploadCard.swift in Sources */,
 				C6267A7430239B0F003484E6 /* ProfileSetupService.swift in Sources */,
 				C6267A7530239B0F003484E6 /* ReviewInfoRow.swift in Sources */,
+				B3A647F93025DE1C00F2BA4B /* ReconnectScheduler.swift in Sources */,
+				B3A647FA3025DE1C00F2BA4B /* SocketClientProtocol.swift in Sources */,
+				B3A647FB3025DE1C00F2BA4B /* StompSocketClient.swift in Sources */,
 				C6267A7630239B0F003484E6 /* PersonalInfoView.swift in Sources */,
 				C6267A7730239B0F003484E6 /* NurseServiceResponseDTO.swift in Sources */,
 				C6267A7830239B0F003484E6 /* ServiceTypeDTO.swift in Sources */,
 				C6267A7930239B0F003484E6 /* ProfileSetupHeaderBar.swift in Sources */,
+				B3A08AEC30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift in Sources */,
 				C6267A7A30239B0F003484E6 /* NurseEndpoint.swift in Sources */,
 				C6267A7B30239B0F003484E6 /* ReviewCustomHeader.swift in Sources */,
 				C6267A7C30239B0F003484E6 /* NurseRepositoryImpl.swift in Sources */,
+				B3ADB4F53028A06800EF846A /* QRDecoder.swift in Sources */,
 				C6267A7D30239B0F003484E6 /* ReviewDocumentsCard.swift in Sources */,
 				C6267A7E30239B0F003484E6 /* ProvidedServicesViewModel.swift in Sources */,
 				C6267A7F30239B0F003484E6 /* VerificationReviewView.swift in Sources */,
@@ -1788,10 +1954,13 @@
 				B3B6A5DC301F3C70004772C8 /* PayoutsViewModel.swift in Sources */,
 				B3C57EC93010EB4B005C1BE8 /* AvailabilityStatusCard.swift in Sources */,
 				B3C57EB53010EAB1005C1BE8 /* FetchAvailabilityUseCaseProtocol.swift in Sources */,
+				B39AFF1A302919CD0093C19B /* ChatInputBar.swift in Sources */,
 				B3C57ED13010EB6D005C1BE8 /* JobRequestCard.swift in Sources */,
+				B3A648123025E60600F2BA4B /* NotificationBannerView.swift in Sources */,
 				C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */,
 				0C5D9E14301BB4B900961737 /* AppConstants.swift in Sources */,
 				C6C3BE6C300A7CA300C5FC25 /* IconSize.swift in Sources */,
+				B3B2916E302D098C00E46E22 /* PatientSummaryView.swift in Sources */,
 				B3C57ECD3010EB5D005C1BE8 /* StatCard.swift in Sources */,
 				C6C3BE85300A7EBD00C5FC25 /* AppState.swift in Sources */,
 				C6C3BE86300A7EBD00C5FC25 /* AuthRouter.swift in Sources */,
@@ -1799,17 +1968,21 @@
 				B3C57EB93010EAC3005C1BE8 /* FetchActiveJobRequestUseCaseProtocol.swift in Sources */,
 				C6C3BE87300A7EBD00C5FC25 /* AuthCoordinator.swift in Sources */,
 				B3C57EAF3010EA87005C1BE8 /* HomeError.swift in Sources */,
+				B39AFF143029033D0093C19B /* ObserveSocketErrorsUseCase.swift in Sources */,
 				C6C3BE88300A7EBD00C5FC25 /* AuthRoute.swift in Sources */,
 				0CF5E341301A24F300B2BC3F /* DevOTPResponse.swift in Sources */,
+				B3B2916C302D097600E46E22 /* PatientSummaryViewModel.swift in Sources */,
 				C6C3BE6D300A7CA300C5FC25 /* DIContainer.swift in Sources */,
 				0CF5E33F301A24E000B2BC3F /* Gender.swift in Sources */,
 				C666B7423023F7F6008A3CE0 /* StatusHeroBadge.swift in Sources */,
 				C666B7433023F7F6008A3CE0 /* ChecklistItemState.swift in Sources */,
 				C666B7443023F7F6008A3CE0 /* ApplicationStatusHeader.swift in Sources */,
+				B39AFF083028FA180093C19B /* ChatMessageResponseDTO.swift in Sources */,
 				B3A3BED1301F28A500F31E3D /* CancellationReasonRow.swift in Sources */,
 				C6C3BE6E300A7CA300C5FC25 /* UtilityFile.swift in Sources */,
 				B3C57ECB3010EB55005C1BE8 /* EarningsSummaryCard.swift in Sources */,
 				B3C57EA93010EA6C005C1BE8 /* ProviderHomeSummary.swift in Sources */,
+				B364D4A73026778400837667 /* ServiceRequestProfileResponseDTO.swift in Sources */,
 				B3A3BECF301F28A000F31E3D /* OfferSummaryDetailGrid.swift in Sources */,
 				B3A3BEB4301F27E200F31E3D /* OfferStatus.swift in Sources */,
 				B3B6A5C5301F3763004772C8 /* EarningsRepositoryProtocol.swift in Sources */,
@@ -1818,6 +1991,7 @@
 				0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */,
 				B3B6A5DE301F3C8F004772C8 /* StatusBadgeView.swift in Sources */,
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
+				B3ADB4F130287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift in Sources */,
 				B3A3BEDB301F28CE00F31E3D /* OfferConfirmedView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* AuthErrorMapper.swift in Sources */,
 				B3A3BEC7301F288800F31E3D /* OfferPatientCard.swift in Sources */,
@@ -1830,6 +2004,8 @@
 				C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */,
 				B3A3BEDF301F28E500F31E3D /* VisitCompletedView.swift in Sources */,
 				0C5D9E10301BB0E500961737 /* LogoutUseCase.swift in Sources */,
+				B3A648103025E58F00F2BA4B /* NotificationBannerModifier.swift in Sources */,
+				B39DA9773027C2BC00CB65C7 /* ServiceRequestDetailsResponseDTO.swift in Sources */,
 				B3C57EAB3010EA75005C1BE8 /* ProviderAvailability.swift in Sources */,
 				B3B6A5D5301F37B2004772C8 /* PayoutsView.swift in Sources */,
 				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
@@ -1840,6 +2016,7 @@
 				C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */,
 				B3A3BED5301F28B700F31E3D /* OfferDetailsViewModel.swift in Sources */,
 				B3C57E5A3010E901005C1BE8 /* AppTab.swift in Sources */,
+				B3A08AEA302651C700FF712D /* ReservationEventResponse.swift in Sources */,
 				C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */,
 				B3B6A5D3301F37A6004772C8 /* EarningsHistoryView.swift in Sources */,
 				B3C57EC13010EAF2005C1BE8 /* HomeViewModel.swift in Sources */,
@@ -1855,15 +2032,21 @@
 				B3CAF268300E8EB2006A9F5F /* SecondaryChip.swift in Sources */,
 				B3C57EA53010EA59005C1BE8 /* HomeCoordinatorView.swift in Sources */,
 				0CF5E346301A254500B2BC3F /* AuthService.swift in Sources */,
+				B3A648093025DE5200F2BA4B /* NearbyNurseServiceRequestResponse.swift in Sources */,
+				B3A6480A3025DE5200F2BA4B /* UserMeDTO.swift in Sources */,
+				B3A6480B3025DE5200F2BA4B /* NotificationResponseDTO.swift in Sources */,
 				B3B6A5C7301F376E004772C8 /* EarningsRepositoryImpl.swift in Sources */,
 				B3A3BEC5301F287100F31E3D /* OfferCoordinatorView.swift in Sources */,
 				B3CAF269300E8EB2006A9F5F /* StepProgressHeader.swift in Sources */,
+				B39AFF18302919C00093C19B /* ChatMessageBubble.swift in Sources */,
 				B3C57EB73010EAB8005C1BE8 /* SetAvailabilityUseCaseProtocol.swift in Sources */,
 				B3CAF26A300E8EB2006A9F5F /* CarelyTextFieldSize.swift in Sources */,
 				B3CAF26B300E8EB2006A9F5F /* CustomTextAreaView.swift in Sources */,
 				B3CAF26C300E8EB2006A9F5F /* CarelyTextField.swift in Sources */,
 				B3CAF26D300E8EB2006A9F5F /* SecondaryButton.swift in Sources */,
 				B3CAF26E300E8EB2006A9F5F /* PrimaryChip.swift in Sources */,
+				B3A85CCA30276091005C153A /* SocketErrorPayload.swift in Sources */,
+				B39DA9793027C2FE00CB65C7 /* OfferEndpoint.swift in Sources */,
 				B3CAF26F300E8EB2006A9F5F /* InfoBannerView.swift in Sources */,
 				B3C57EA73010EA63005C1BE8 /* HomeCoordinator.swift in Sources */,
 				B3CAF270300E8EB2006A9F5F /* PrimaryButton.swift in Sources */,
@@ -1889,11 +2072,15 @@
 				C6F021A73022F224009004B5 /* AuthorizationType.swift in Sources */,
 				C6F021A83022F224009004B5 /* RefreshState.swift in Sources */,
 				C6F021A93022F224009004B5 /* CloudinaryUploadService.swift in Sources */,
+				B39AFF123028FB0B0093C19B /* OfferChatView.swift in Sources */,
+				B39F66BE302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift in Sources */,
+				B39AFF103028FB000093C19B /* OfferChatViewModel.swift in Sources */,
 				C6F021AA3022F224009004B5 /* NetworkClient.swift in Sources */,
 				C6F021AB3022F224009004B5 /* KeychainTokenStore.swift in Sources */,
 				C6F021AC3022F224009004B5 /* NetworkConfiguration.swift in Sources */,
 				C6F021AD3022F224009004B5 /* NetworkError.swift in Sources */,
 				C6F021AE3022F224009004B5 /* SessionManager.swift in Sources */,
+				B3ADB4F330288F3800EF846A /* FetchServiceRequestProfileUseCaseProtocol.swift in Sources */,
 				C6F021AF3022F224009004B5 /* UserSession.swift in Sources */,
 				C6F021B03022F224009004B5 /* JSONDecoder+Default.swift in Sources */,
 				C6F021B13022F224009004B5 /* Endpoint.swift in Sources */,
@@ -1904,14 +2091,17 @@
 				B3B6A5CF301F3793004772C8 /* TabCustomHeader.swift in Sources */,
 				C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */,
 				B3A3BED9301F28C700F31E3D /* CancelOfferViewModel.swift in Sources */,
+				B3B29170302D0C8100E46E22 /* CarelyAsyncImage.swift in Sources */,
 				B3A3BED7301F28C100F31E3D /* VisitCompletedViewModel.swift in Sources */,
 				B3C57EC53010EB37005C1BE8 /* HomeView.swift in Sources */,
 				0C5D9E16301BB88700961737 /* NetworkErrorMapper.swift in Sources */,
+				B39A96FB302CAD0900A76D1A /* NurseOfferResponseDTO.swift in Sources */,
 				0C113018301C605E007193BB /* AppSettings.swift in Sources */,
 				B3B6A5CB301F377F004772C8 /* EarningsRoute.swift in Sources */,
 				C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */,
 				C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */,
 				C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */,
+				B39AFF163029193A0093C19B /* JWTDecoder.swift in Sources */,
 				B3C57ED53010FCDC005C1BE8 /* EditOfferPopupView.swift in Sources */,
 				B3B6A5C9301F3775004772C8 /* FetchEarningsDataUseCase.swift in Sources */,
 				B3C57ED930111E60005C1BE8 /* PatientResponseWaitingView.swift in Sources */,
@@ -1925,6 +2115,7 @@
 				B3C57EB33010EAA0005C1BE8 /* FetchHomeSummaryUseCase.swift in Sources */,
 				B3A3BEB6301F27F100F31E3D /* OfferRepositoryProtocol.swift in Sources */,
 				0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */,
+				B3A08AE43026281A00FF712D /* ProfileResponseDTO.swift in Sources */,
 				0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2092,6 +2283,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnayaProvider/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to find nearby patient requests.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -2121,6 +2313,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = EnayaProvider/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to find nearby patient requests.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -2276,6 +2469,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0CE50DEF3009BFF4001B34AA /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		B3A6480D3025DE9800F2BA4B /* SwiftStomp */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0CBA6366301E1A2900E1258F /* XCRemoteSwiftPackageReference "SwiftStomp" */;
+			productName = SwiftStomp;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

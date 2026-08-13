@@ -11,90 +11,126 @@ import SwiftUI
 struct OfferConfirmedView: View {
     @ObservedObject var coordinator: OfferCoordinator
     @StateObject var viewModel: OfferConfirmedViewModel
+    
+    @State private var showingImageSourceDialog = false
+    @State private var showingImagePicker = false
+    @State private var pickerSourceType: ImagePicker.SourceType = .photoLibrary
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: Spacing.s20) {
+            VStack(spacing: Spacing.s16) {
                 statusHero
-                patientCard
-                statsRow
-                InfoBannerView(text: "You can cancel within 2 minutes after the visit starts. After that, a cancellation fee will apply.")
-
-                SecondaryButton(title: "View Offer Details", icon: "doc.text", action: viewModel.openDetails)
-
-                PrimaryButton(
-                    title: viewModel.actionButtonTitle,
-                    icon: "qrcode",
-                    isLoading: viewModel.isProcessing,
-                    action: viewModel.primaryActionTapped
-                )
-
-                if viewModel.canCancel {
-                    cancelButton
+                
+                if let error = viewModel.errorMessage {
+                    AlertBanner(style: .error, message: error)
+                        .transition(.move(edge: .top).combined(with: .opacity))
                 }
+                
+                AlertBanner(
+                    style: .info,
+                    message: "You can cancel within 2 minutes after the visit starts. After that, a cancellation fee will apply."
+                )
+                
+                OfferPatientCard(
+                    name: viewModel.patientName,
+                    ageText: viewModel.patientAge,
+                    caption: "Estimated Arrival",
+                    captionValue: viewModel.estimatedArrivalText,
+                    imageUrl: viewModel.patientImageUrl,
+                    onCall: viewModel.callPatientTapped,
+                    onMessage: viewModel.openChatTapped
+                )
+                
+                HStack(spacing: Spacing.s12) {
+                    OfferStatChip(icon: "location.fill", title: "Distance", value: viewModel.distanceText)
+                    OfferStatChip(icon: "briefcase.fill", title: "Service", value: viewModel.serviceName)
+                }
+
+                VStack(spacing: Spacing.s12) {
+                    SecondaryButton(title: "View Offer Details", icon: "doc.text", action: viewModel.openDetails)
+
+                    PrimaryButton(
+                        title: "Scan QR to Complete",
+                        icon: "qrcode.viewfinder",
+                        isLoading: viewModel.isProcessing,
+                        action: { showingImageSourceDialog = true }
+                    )
+
+                    Button(action: viewModel.presentCancelSheet) {
+                        Text("Cancel")
+                            .carelyText(style: .button, weight: .semiBold)
+                            .foregroundColor(.onErrorContainer)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: CarelyButtonSize.medium.height)
+                            .background(Color.errorContainer)
+                            .clipShape(RoundedRectangle.carely(Radius.r12))
+                    }
+                }
+                .padding(.top, Spacing.s8)
             }
             .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s24)
+            .padding(.top, Spacing.s24)
+            .padding(.bottom, Spacing.s32)
         }
         .background(Color.backGround.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
-        .safeAreaInset(edge: .top) {
-            AppHeader(title: AppConstants.appName, showBackButton: false)
-                .padding(.horizontal, Spacing.s16)
-                .background(Color.backGround)
+        .task {
+            await viewModel.loadDetails()
         }
+        .confirmationDialog("Select QR Code Source", isPresented: $showingImageSourceDialog, titleVisibility: .visible) {
+            Button("Take Photo (Camera)") {
+                pickerSourceType = .camera
+                showingImagePicker = true
+            }
+            Button("Choose from Gallery") {
+                pickerSourceType = .photoLibrary
+                showingImagePicker = true
+            }
+            Button("Cancel", role: .cancel) { }
+        }
+        .sheet(isPresented: $showingImagePicker) {
+            ImagePicker(sourceType: pickerSourceType) { image in
+                viewModel.processScannedImage(image)
+            }
+        }
+        .alert("Notice", isPresented: $viewModel.showPhoneAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(viewModel.phoneAlertMessage)
+        }
+        .alert("Request Cancelled", isPresented: $viewModel.showPatientCancelledAlert) {
+                    Button("OK", role: .cancel) {
+                        viewModel.handlePatientCancellationAcknowledged()
+                    }
+                } message: {
+                    Text("We're sorry, the patient has cancelled this request. We are investigating the reason to ensure your compensation. You will now be redirected to the home screen.")
+                }
     }
 
     private var statusHero: some View {
         VStack(spacing: Spacing.s12) {
             ZStack {
-                Circle().fill(Color.mintSurface).frame(width: Spacing.s64, height: Spacing.s64)
-                Image(systemName: "checkmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: IconSize.s32, height: IconSize.s32)
-                    .foregroundColor(.success)
+                Circle()
+                    .fill(Color.brandPrimary.opacity(0.1))
+                    .frame(width: 80, height: 80)
+                Circle()
+                    .fill(Color.brandPrimary)
+                    .frame(width: 60, height: 60)
+                Image(systemName: "checkmark")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(.white)
             }
 
-            Text(viewModel.titleText)
+            Text("Offer Confirmed!")
                 .carelyText(style: .heading2, weight: .bold)
                 .foregroundColor(.primaryFont)
 
-            Text(viewModel.subtitleText)
+            Text("Your patient is waiting for you")
                 .carelyText(style: .bodyRegular, weight: .regular)
                 .foregroundColor(.secondaryFont)
         }
-    }
-
-    private var patientCard: some View {
-        OfferPatientCard(
-            name: coordinator.offer.patient.name,
-            ageText: nil,
-            caption: "Estimated Arrival",
-            captionValue: coordinator.offer.estimatedArrivalText,
-            onCall: {},
-            onMessage: {}
-        )
-    }
-
-    private var statsRow: some View {
-        HStack(spacing: Spacing.s12) {
-            OfferStatChip(icon: "location.fill", title: "Distance", value: coordinator.offer.distanceText)
-            OfferStatChip(icon: "briefcase.fill", title: "Service", value: coordinator.offer.serviceName)
-        }
-    }
-
-    private var cancelButton: some View {
-        Button(action: viewModel.presentCancelSheet) {
-            Text("Cancel")
-                .carelyText(style: .button, weight: .semiBold)
-                .foregroundColor(.onErrorContainer)
-                .frame(maxWidth: .infinity)
-                .frame(height: CarelyButtonSize.medium.height)
-                .background(Color.errorContainer)
-                .clipShape(RoundedRectangle.carely(Radius.r12))
-        }
+        .padding(.bottom, Spacing.s8)
     }
 }
+

@@ -34,15 +34,41 @@ struct OfferCoordinatorView: View {
                 case .details:
                     OfferDetailsView(
                         coordinator: coordinator,
-                        viewModel: container.makeOfferDetailsViewModel(coordinator: coordinator)
+                        viewModel: container.makeOfferDetailsViewModel(reservationId: coordinator.reservationId, coordinator: coordinator)
+                    )
+                case .chat(let name, let image, let phone):
+                    OfferChatView(
+                        viewModel: container.makeOfferChatViewModel(
+                            reservationId: coordinator.reservationId,
+                            patientName: name,
+                            imageUrl: image,
+                            phone: phone,
+                            coordinator: coordinator
+                        )
+                    )
+                case .patientSummary(let profile):
+                    PatientSummaryView(
+                        viewModel: container.makePatientSummaryViewModel(
+                            reservationId: coordinator.reservationId,
+                            profile: profile,
+                            coordinator: coordinator
+                        )
                     )
                 }
             }
         }
+        .onAppear {
+            coordinator.onFinishFlow = onFinished
+        }
         .sheet(isPresented: $coordinator.isShowingCancelSheet) {
             CancelOfferView(
                 coordinator: coordinator,
-                viewModel: container.makeCancelOfferViewModel(coordinator: coordinator, onCancelled: onFinished)
+                viewModel: container.makeCancelOfferViewModel(
+                    reservationId: coordinator.reservationId,
+                    serviceName: "Service Request",
+                    coordinator: coordinator,
+                    onCancelled: onFinished
+                )
             )
             .presentationDetents([.large])
             .presentationDragIndicator(.visible)

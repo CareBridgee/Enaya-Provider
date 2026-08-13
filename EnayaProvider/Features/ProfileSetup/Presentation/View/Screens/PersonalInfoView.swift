@@ -58,6 +58,13 @@ struct PersonalInfoView: View {
                         keyboardType: .numberPad
                     )
 
+                    CarelyTextField(
+                        label: "License Number",
+                        isRequired: false,
+                        placeholder: "Enter License Number",
+                        text: $viewModel.licenseNumber
+                    )
+
                     SelectionField(
                         label: "Gender Identity",
                         placeholder: "Select Gender",

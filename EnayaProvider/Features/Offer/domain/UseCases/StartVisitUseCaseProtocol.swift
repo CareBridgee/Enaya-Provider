@@ -9,34 +9,26 @@
 import Foundation
 
 protocol StartVisitUseCaseProtocol {
-    func execute(offerId: UUID) async throws
+    func execute(requestId: String) async throws
 }
 
 struct StartVisitUseCase: StartVisitUseCaseProtocol {
     let repository: OfferRepositoryProtocol
-    func execute(offerId: UUID) async throws {
-        _ = try? await repository.startVisit(offerId: offerId)
+    
+    func execute(requestId: String) async throws {
+        try await repository.startVisit(requestId: requestId)
     }
 }
 
 protocol CompleteVisitUseCaseProtocol {
-    func execute(offerId: UUID) async throws
+    func execute(requestId: String, visitCode: String) async throws
 }
 
 struct CompleteVisitUseCase: CompleteVisitUseCaseProtocol {
     let repository: OfferRepositoryProtocol
-    func execute(offerId: UUID) async throws {
-        _ = try? await repository.completeVisit(offerId: offerId)
+    
+    func execute(requestId: String, visitCode: String) async throws {
+        try await repository.completeVisit(requestId: requestId, visitCode: visitCode)
     }
 }
 
-protocol CancelOfferUseCaseProtocol {
-    func execute(offerId: UUID, reason: CancellationReason, detail: String?) async throws
-}
-
-struct CancelOfferUseCase: CancelOfferUseCaseProtocol {
-    let repository: OfferRepositoryProtocol
-    func execute(offerId: UUID, reason: CancellationReason, detail: String?) async throws {
-        try await repository.cancelOffer(offerId: offerId, reason: reason, detail: detail)
-    }
-}

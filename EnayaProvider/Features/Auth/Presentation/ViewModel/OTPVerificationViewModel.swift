@@ -72,7 +72,9 @@ final class OTPVerificationViewModel: ObservableObject {
             let result = try await verifyOTPUseCase.execute(phoneNumber: phoneNumber, otp: otpCode)
             state = .success("Phone verified successfully!")
             try await Task.sleep(nanoseconds: 1_200_000_000)
-            onAuthFinished(result.applicationStatus)
+            
+            let finalStatus = result.isNewUser ? .incomplete : result.applicationStatus
+            onAuthFinished(finalStatus)
         } catch let error as AuthError {
             state = .error(error.errorDescription ?? AuthError.unknown.errorDescription!)
         } catch {

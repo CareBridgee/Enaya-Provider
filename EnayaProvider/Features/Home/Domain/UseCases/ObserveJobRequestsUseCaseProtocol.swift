@@ -19,7 +19,12 @@ struct ObserveJobRequestsUseCase: ObserveJobRequestsUseCaseProtocol {
         self.repository = repository
     }
 
-    func execute() -> AsyncStream<[JobRequest]> {
-        repository.observeJobRequests()
-    }
+    func execute() -> AsyncStream<[JobRequest]> { repository.observeJobRequests() }
 }
+
+
+
+
+
+
+

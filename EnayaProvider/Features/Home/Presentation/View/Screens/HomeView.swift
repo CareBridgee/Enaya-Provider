@@ -4,71 +4,112 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
 
     var body: some View {
-        ZStack {
-            Color.backGround.ignoresSafeArea()
-            
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: Spacing.s20) {
-                    HomeHeaderView(providerName: viewModel.summary?.providerName ?? "", greeting: viewModel.greeting)
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: Spacing.s20) {
+                HomeHeaderView(
+                    providerName: viewModel.summary?.providerName ?? "",
+                    profileImageUrl: viewModel.summary?.profileImageUrl,
+                    greeting: viewModel.greeting
+                )
 
-                    AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: viewModel.toggleAvailability)
+                AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: { viewModel.toggleAvailability() })
 
-                    // ALWAYS VISIBLE: Earnings and Stats are now outside the online check
-                    EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
+                EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
 
-                    HStack(spacing: Spacing.s12) {
-                        StatCard(title: "Today's Jobs", value: viewModel.jobsCountText)
-                        StatCard(title: "Rating", value: viewModel.ratingText, valueTrailingIcon: "star.fill", valueTrailingIconColor: .amber)
-                    }
+                HStack(spacing: Spacing.s12) {
+                    StatCard(title: "Today's Jobs", value: viewModel.jobsCountText)
+                    StatCard(title: "Rating", value: viewModel.ratingText, valueTrailingIcon: "star.fill", valueTrailingIconColor: .amber)
+                }
 
-                    if viewModel.isOnline {
-                        onlineRequestsSection
-                    } else {
-                        OfflineStateView(onGoOnline: viewModel.toggleAvailability)
-                            .padding(.top, Spacing.s16) // Slightly reduced padding to look better below stats
+                if viewModel.isOnline {
+                    
+                    onlineRequestsSection
+                } else {
+                    OfflineStateView(onGoOnline: { viewModel.toggleAvailability() })
+                        .padding(.top, Spacing.s16)
+                }
+            }
+            .padding(.horizontal, Spacing.s16)
+            .padding(.bottom, Spacing.s24)
+        }
+        .safeAreaInset(edge: .bottom) {
+                    if viewModel.isOnline && viewModel.currentActiveVisitId != nil {
+                        activeVisitBanner
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
-                .padding(.horizontal, Spacing.s16)
-                .padding(.bottom, Spacing.s24)
+                .background(Color.backGround.ignoresSafeArea())
+        .sheet(item: $viewModel.editingJobRequest) { request in
+            EditOfferPopupView(
+                jobRequest: request,
+                proposedPriceValue: $viewModel.proposedPriceValue,
+                onCancel: { viewModel.cancelEditing() },
+                onSave: { viewModel.saveEditedOffer() }
+            )
+            .presentationDetents([.fraction(0.55), .medium])
+            .presentationDragIndicator(.visible)
+        }
+        .fullScreenCover(isPresented: waitingBinding) {
+            ZStack {
+                Color.black.opacity(0.6).ignoresSafeArea()
+                PatientResponseWaitingView(onCancel: { viewModel.cancelWaitingOffer() })
             }
-            .blur(radius: (viewModel.editingJobRequest != nil || viewModel.isWaitingForPatient) ? 3 : 0)
-
-            // Edit Popup Overlay
-            if let request = viewModel.editingJobRequest {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture { viewModel.cancelEditing() }
-                    .transition(.opacity)
-                
-                EditOfferPopupView(
-                    jobRequest: request,
-                    proposedPriceValue: $viewModel.proposedPriceValue,
-                    onCancel: viewModel.cancelEditing,
-                    onSave: viewModel.saveEditedOffer
-                )
-                .padding(.horizontal, Spacing.s24)
-                .transition(.scale(scale: 0.9).combined(with: .opacity))
-                .zIndex(1)
-            }
-            
-            // Waiting for Patient Overlay
-            if viewModel.isWaitingForPatient {
-                Color.black.opacity(0.6)
-                    .ignoresSafeArea()
-                    .transition(.opacity)
-                
-                PatientResponseWaitingView(onCancel: viewModel.cancelWaitingOffer)
-                    .transition(.scale(scale: 0.95).combined(with: .opacity))
-                    .zIndex(2)
-            }
+            .presentationBackground(.clear)
         }
         .task { await viewModel.load() }
-        .alert("Request Cancelled", isPresented: errorBinding) {
+        .alert("Notice", isPresented: $viewModel.showErrorAlert) {
             Button("OK", role: .cancel) {}
         } message: {
-            Text(viewModel.errorMessage ?? "")
+            Text(viewModel.alertMessage)
         }
     }
+
+    private var waitingBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.isWaitingForPatient },
+            set: { newValue in
+                if !newValue { viewModel.cancelWaitingOffer() }
+            }
+        )
+    }
+
+    private var activeVisitBanner: some View {
+            Button(action: viewModel.returnToActiveVisit) {
+                HStack(spacing: Spacing.s16) {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .brandPrimary))
+                        .scaleEffect(1.2)
+                    
+                    VStack(alignment: .leading, spacing: Spacing.s4) {
+                        Text("Active visit in progress...")
+                            .carelyText(style: .bodyLarge, weight: .bold)
+                            .foregroundColor(.brandPrimary)
+                        
+                        Text("Tap to view current patient details.")
+                            .carelyText(style: .caption, weight: .medium)
+                            .foregroundColor(.brandPrimary.opacity(0.7))
+                    }
+                    
+                    Spacer(minLength: .zero)
+                    
+                    ZStack {
+                        Circle()
+                            .fill(Color.brandPrimary)
+                            .frame(width: 32, height: 32)
+                        
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                }
+                .padding(Spacing.s16)
+                .background(Color.mintSurface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+                .shadow(color: Color.black.opacity(0.08), radius: 10, y: -4)
+            }
+            .padding(.horizontal, Spacing.s16)
+            .padding(.bottom, Spacing.s16)
+        }
 
     @ViewBuilder
     private var onlineRequestsSection: some View {
@@ -77,7 +118,7 @@ struct HomeView: View {
                 Text("AVAILABLE REQUESTS")
                     .carelyText(style: .caption, weight: .bold)
                     .foregroundColor(.secondaryFont)
-                Spacer()
+                Spacer(minLength: Spacing.s0)
             }
             .padding(.top, Spacing.s8)
 
@@ -94,6 +135,7 @@ struct HomeView: View {
                     ForEach(viewModel.jobRequests) { request in
                         JobRequestCard(
                             jobRequest: request,
+                            isActionsDisabled: viewModel.currentActiveVisitId != nil,
                             onEditOffer: { viewModel.startEditingOffer(for: request) },
                             onMakeOffer: { viewModel.submitOffer(for: request) }
                         )
@@ -105,9 +147,5 @@ struct HomeView: View {
                 }
             }
         }
-    }
-    
-    private var errorBinding: Binding<Bool> {
-        Binding(get: { viewModel.errorMessage != nil }, set: { if !$0 { viewModel.errorMessage = nil } })
     }
 }

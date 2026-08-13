@@ -13,24 +13,34 @@ struct VisitCompletedView: View {
     @StateObject var viewModel: VisitCompletedViewModel
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: Spacing.s20) {
-                statusHero
-                summaryCard
-                payoutCard
-                PrimaryButton(title: "Return Home", action: viewModel.returnHomeTapped)
+        ZStack {
+            Color.backGround.ignoresSafeArea()
+            
+            if viewModel.isLoading {
+                ProgressView("Finalizing visit details...")
+            } else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: Spacing.s20) {
+                        statusHero
+                        summaryCard
+                        payoutCard
+                        PrimaryButton(title: "Return Home", action: viewModel.returnHomeTapped)
+                    }
+                    .padding(.horizontal, Spacing.s16)
+                    .padding(.top, Spacing.s16)
+                    .padding(.bottom, Spacing.s24)
+                }
             }
-            .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s16)
-            .padding(.bottom, Spacing.s24)
         }
-        .background(Color.backGround.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         .safeAreaInset(edge: .top) {
             AppHeader(title: AppConstants.appName, showBackButton: false)
                 .padding(.horizontal, Spacing.s16)
                 .background(Color.backGround)
+        }
+        .task {
+            await viewModel.loadDetails()
         }
     }
 
@@ -71,10 +81,10 @@ struct VisitCompletedView: View {
             }
 
             OfferSummaryDetailGrid(items: [
-                .init(icon: "person.fill", label: "Patient", value: coordinator.offer.patient.name),
-                .init(icon: "cross.case.fill", label: "Service Type", value: coordinator.offer.serviceName),
-                .init(icon: "clock.fill", label: "Visit Duration", value: "\(coordinator.offer.durationMinutes) mins"),
-                .init(icon: "calendar", label: "Completed Date", value: coordinator.offer.completedDateText)
+                .init(icon: "person.fill", label: "Patient", value: viewModel.patientName),
+                .init(icon: "cross.case.fill", label: "Service Type", value: viewModel.serviceName),
+                .init(icon: "clock.fill", label: "Visit Duration", value: "\(viewModel.durationMinutes) mins"),
+                .init(icon: "calendar", label: "Completed Date", value: viewModel.completedDateText)
             ])
         }
         .padding(Spacing.s16)
@@ -88,7 +98,7 @@ struct VisitCompletedView: View {
                 .carelyText(style: .caption, weight: .bold)
                 .foregroundColor(.secondaryFont)
             Spacer()
-            Text("$\(String(format: "%.2f", NSDecimalNumber(decimal: coordinator.offer.providerPayoutAmount).doubleValue))")
+            Text("$\(String(format: "%.2f", viewModel.providerPayoutAmount))")
                 .carelyText(style: .bodyLarge, weight: .bold)
                 .foregroundColor(.brandPrimary)
         }

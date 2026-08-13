@@ -5,34 +5,192 @@
 //  Created by Mahmoud Raafat Mustafa on 02/08/2026.
 //
 
-
 import Foundation
 import UIKit
 import MapKit
 
 @MainActor
 final class OfferDetailsViewModel: ObservableObject {
-
+    @Published private(set) var isLoading = true
+    @Published var requestDetails: ServiceRequestDetailsResponseDTO?
+    @Published var requestProfile: ServiceRequestProfileResponseDTO?
+    @Published var errorMessage: String?
+    @Published var showPhoneAlert = false
+    @Published var phoneAlertMessage = ""
+    @Published var showPatientCancelledAlert = false
+    
+    private let reservationId: String
     private let coordinator: OfferCoordinator
-
-    init(coordinator: OfferCoordinator) {
+    private let fetchDetailsUseCase: FetchServiceRequestDetailsUseCase
+    private let fetchProfileUseCase: FetchServiceRequestProfileUseCase
+    private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+    private var socketTask: Task<Void, Never>?
+    
+    init(
+        reservationId: String,
+        coordinator: OfferCoordinator,
+        fetchDetailsUseCase: FetchServiceRequestDetailsUseCase,
+        fetchProfileUseCase: FetchServiceRequestProfileUseCase,
+        observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+    ) {
+        self.reservationId = reservationId
         self.coordinator = coordinator
+        self.fetchDetailsUseCase = fetchDetailsUseCase
+        self.fetchProfileUseCase = fetchProfileUseCase
+        self.observeReservationEventsUseCase = observeReservationEventsUseCase
     }
 
-    var offer: ConfirmedOffer { coordinator.offer }
+    func fetchData() async {
+        startObservingSocket()
+
+        isLoading = true
+        errorMessage = nil
+        do {
+            async let details = fetchDetailsUseCase.execute(requestId: reservationId)
+            async let profile = fetchProfileUseCase.execute(serviceRequestId: reservationId)
+            
+            self.requestDetails = try await details
+            self.requestProfile = try await profile
+        } catch {
+            errorMessage = "Failed to load live details: \(error.localizedDescription)"
+        }
+        isLoading = false
+    }
+    
+    private func startObservingSocket() {
+        socketTask?.cancel()
+        socketTask = Task { @MainActor in
+            for await event in observeReservationEventsUseCase.execute(reservationId: reservationId) {
+                if event.type.uppercased() == "REQUEST_CANCELLED" {
+                    if !self.coordinator.isNurseCancelling {
+                        self.showPatientCancelledAlert = true
+                    }
+                }
+            }
+        }
+    }
+
+    var scheduledDateText: String {
+        let dateStr = requestDetails?.preferredDate ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedDate ?? ""
+        guard !dateStr.isEmpty else { return "TBD" }
+        
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd"
+        guard let date = inputFormatter.date(from: dateStr) else { return dateStr }
+        
+        let outputFormatter = DateFormatter()
+        if Calendar.current.isDateInToday(date) {
+            outputFormatter.dateFormat = "'Today', MMM d"
+        } else {
+            outputFormatter.dateFormat = "MMM d"
+        }
+        return outputFormatter.string(from: date)
+    }
+    
+    var scheduledTimeText: String {
+        let timeStr = requestDetails?.preferredTime ?? requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedTime ?? ""
+        guard !timeStr.isEmpty else { return "TBD" }
+        
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = timeStr.count > 5 ? "HH:mm:ss" : "HH:mm"
+        guard let date = inputFormatter.date(from: timeStr) else { return timeStr }
+        
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "h:mm a"
+        return outputFormatter.string(from: date)
+    }
+
+    var patientFullName: String {
+        guard let p = requestProfile?.patient else { return "Unknown Patient" }
+        return "\(p.firstName) \(p.lastName)".trimmingCharacters(in: .whitespaces)
+    }
+    
+    var patientAge: String? {
+        guard let dobString = requestProfile?.patient.dateOfBirth else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        guard let dob = formatter.date(from: dobString) else { return nil }
+        let age = Calendar.current.dateComponents([.year], from: dob, to: Date()).year
+        return age != nil ? "\(age!)" : nil
+    }
+    
+    var patientImageUrl: String? {
+        requestProfile?.patient.profileImageUrl ?? requestDetails?.profile.profileImageUrl
+    }
+    
+    var serviceName: String {
+        requestDetails?.serviceType.name ?? "Service"
+    }
+    
+    var durationMinutes: Int {
+        requestDetails?.durationMinutes ?? requestDetails?.serviceType.estimatedDurationMinutes ?? 0
+    }
+    
+    var totalAmount: Double {
+        requestDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedPrice ?? 0.0
+    }
+    
+    var fullAddressText: String {
+        requestProfile?.address?.fullAddressText ?? "Address details unavailable"
+    }
+    
+    var addressLine: String {
+        requestProfile?.address?.formattedLine ?? "Address unavailable"
+    }
+    
+    var addressDetail: String {
+        requestProfile?.address?.formattedDetail ?? ""
+    }
 
     func copyAddressTapped() {
-        UIPasteboard.general.string = offer.address.fullText
+        UIPasteboard.general.string = fullAddressText
     }
 
     func viewPatientSummaryTapped() {
-        // No patient-summary destination yet.
+        guard let profile = requestProfile else { return }
+        coordinator.openPatientSummary(profile: profile)
+    }
+
+    func callPatientTapped() {
+        let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
+        
+        guard !phone.isEmpty, let url = URL(string: "tel://\(phone)") else {
+            phoneAlertMessage = "Phone number is not available."
+            showPhoneAlert = true
+            return
+        }
+        
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else {
+            UIPasteboard.general.string = phone
+            phoneAlertMessage = "Calls not supported here. Patient's number \(phone) copied to clipboard."
+            showPhoneAlert = true
+        }
     }
 
     func openInMapsTapped() {
-        let coordinate = CLLocationCoordinate2D(latitude: offer.address.latitude, longitude: offer.address.longitude)
+        guard let lat = requestDetails?.latitude, let lng = requestDetails?.longitude else { return }
+        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
         let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coordinate))
-        mapItem.name = offer.address.line
+        mapItem.name = fullAddressText
         mapItem.openInMaps()
+    }
+    
+    func handlePatientCancellationAcknowledged() {
+        coordinator.dismissEntireFlow()
+    }
+    
+    func openChatTapped() {
+        let phone = requestProfile?.patientPhoneNumber ?? requestDetails?.profile.phoneNumber ?? ""
+        coordinator.openChat(
+            patientName: patientFullName,
+            imageUrl: patientImageUrl,
+            phone: phone
+        )
+    }
+
+    deinit {
+        socketTask?.cancel()
     }
 }

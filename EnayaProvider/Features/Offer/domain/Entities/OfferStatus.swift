@@ -18,17 +18,17 @@ enum OfferStatus: Equatable {
 struct OfferPatient: Equatable {
     let name: String
     let ageText: String?
+    let phoneNumber: String?
+    let imageUrl: String?
 }
 
 struct OfferAddress: Equatable {
     let line: String
     let detail: String
-    let latitude: Double
-    let longitude: Double
+    let addressText: String
 
-    var fullText: String { "\(line), \(detail)" }
+    var fullText: String { addressText }
 }
-
 struct ConfirmedOffer: Identifiable, Equatable {
     let id: UUID
     var patient: OfferPatient

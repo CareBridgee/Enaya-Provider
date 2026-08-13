@@ -10,6 +10,7 @@ import Alamofire
 
 protocol NetworkClientProtocol {
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T
+    func requestWithBody<T: Decodable, Body: Encodable>(_ endpoint: Endpoint, body: Body) async throws -> T
     func requestWithoutResponse(_ endpoint: Endpoint) async throws
     func upload<T: Decodable>(_ endpoint: Endpoint, multipartBuilder: @escaping (MultipartFormData) -> Void) async throws -> T
 }
@@ -43,10 +44,45 @@ final class NetworkClient: NetworkClientProtocol {
             if useLogs { print("NetworkClient: request success for \(endpoint.url)") }
             return value
         case .failure(let error):
-            if useLogs { print("NetworkClient: request failure for \(endpoint.url) with error: \(error)") }
+            if useLogs {
+                print("NetworkClient: request failure for \(endpoint.url) with error: \(error)")
+                if let data = response.data, let bodyString = String(data: data, encoding: .utf8) {
+                    print("Backend Error Body: \(bodyString)")
+                }
+            }
             throw NetworkErrorMapper.map(error, data: response.data, decoder: decoder)
         }
     }
+
+    func requestWithBody<T: Decodable, Body: Encodable>(_ endpoint: Endpoint, body: Body) async throws -> T {
+        if useLogs { print("NetworkClient: requesting \(endpoint.method.rawValue) \(endpoint.url) with body") }
+        let task = session.request(
+            endpoint.url,
+            method: endpoint.method,
+            parameters: body,
+            encoder: JSONParameterEncoder.default,
+            headers: buildHeaders(for: endpoint)
+        )
+        .validate()
+        .serializingDecodable(T.self, decoder: decoder)
+
+        let response = await task.response
+        
+        switch response.result {
+        case .success(let value):
+            if useLogs { print("NetworkClient: request success for \(endpoint.url)") }
+            return value
+        case .failure(let error):
+            if useLogs {
+                print("NetworkClient: request failure for \(endpoint.url) with error: \(error)")
+                if let data = response.data, let bodyString = String(data: data, encoding: .utf8) {
+                    print("Backend Error Body: \(bodyString)")
+                }
+            }
+            throw NetworkErrorMapper.map(error, data: response.data, decoder: decoder)
+        }
+    }
+
 
     func requestWithoutResponse(_ endpoint: Endpoint) async throws {
         if useLogs { print("NetworkClient: requesting (no response) \(endpoint.method.rawValue) \(endpoint.url)") }
@@ -63,7 +99,12 @@ final class NetworkClient: NetworkClientProtocol {
         let response = await task.response
         
         if let error = response.error {
-            if useLogs { print("NetworkClient: request failure for \(endpoint.url) with error: \(error)") }
+            if useLogs {
+                print("NetworkClient: request failure for \(endpoint.url) with error: \(error)")
+                if let data = response.data, let bodyString = String(data: data, encoding: .utf8) {
+                    print("Backend Error Body: \(bodyString)")
+                }
+            }
             throw NetworkErrorMapper.map(error, data: response.data, decoder: decoder)
         } else {
             if useLogs { print("NetworkClient: request success for \(endpoint.url)") }
