@@ -17,6 +17,7 @@ enum HomeEndpoint: Endpoint {
     case getNearbyServiceRequests
     case getServiceRequestPreview(serviceRequestId: String)
     case getServiceRequestProfile(serviceRequestId: String)
+    case getCurrentActiveVisit
 
     var path: String {
         switch self {
@@ -27,12 +28,13 @@ enum HomeEndpoint: Endpoint {
         case .getNearbyServiceRequests: return "/api/v1/service-requests/nearby"
         case .getServiceRequestPreview(let id): return "/api/v1/service-requests/\(id)/preview"
         case .getServiceRequestProfile(let id): return "/api/v1/service-requests/\(id)/profile"
+        case .getCurrentActiveVisit: return "/api/v1/service-requests/current"
         }
     }
 
     var method: HTTPMethod {
         switch self {
-        case .getNurseInfo, .getUserMe, .getNearbyServiceRequests, .getServiceRequestPreview, .getServiceRequestProfile:
+        case .getNurseInfo, .getUserMe, .getNearbyServiceRequests, .getServiceRequestPreview, .getServiceRequestProfile, .getCurrentActiveVisit:
             return .get
         case .submitOffer:
             return .post

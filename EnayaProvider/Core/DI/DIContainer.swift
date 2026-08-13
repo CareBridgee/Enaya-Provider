@@ -5,7 +5,6 @@
 //  Created by Mona Zarea on 15/07/2026.
 //
 
-// I will instantiate it once at the absolute highest pointz
 import Foundation
 import Alamofire
 @MainActor
@@ -262,6 +261,10 @@ final class DIContainer {
            ObserveSocketErrorsUseCase(repository: homeRepository)
        }
     
+    func makeFetchCurrentActiveVisitUseCase() -> FetchCurrentActiveVisitUseCaseProtocol {
+            FetchCurrentActiveVisitUseCase(repository: homeRepository)
+        }
+        
         func makeHomeViewModel() -> HomeViewModel {
             HomeViewModel(
                 fetchSummary: makeFetchHomeSummaryUseCase(),
@@ -271,9 +274,11 @@ final class DIContainer {
                 submitOfferUseCase: makeSubmitOfferUseCase(),
                 withdrawOfferUseCase: makeCancelWaitingOfferUseCase(),
                 observeSocketErrorsUseCase: makeObserveSocketErrorsUseCase(),
-                observeReservationEventsUseCase: makeObserveReservationEventsUseCase()
+                observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
+                fetchCurrentActiveVisitUseCase: makeFetchCurrentActiveVisitUseCase()
             )
         }
+    
 
 
         

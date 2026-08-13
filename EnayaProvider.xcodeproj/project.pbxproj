@@ -40,6 +40,7 @@
 		B39DA9773027C2BC00CB65C7 /* ServiceRequestDetailsResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */; };
 		B39DA9793027C2FE00CB65C7 /* OfferEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */; };
 		B39DA97B3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */; };
+		B39F66BE302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39F66BD302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift */; };
 		B3A08AE43026281A00FF712D /* ProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */; };
 		B3A08AEA302651C700FF712D /* ReservationEventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */; };
 		B3A08AEC30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */; };
@@ -317,6 +318,7 @@
 		B39DA9763027C2BB00CB65C7 /* ServiceRequestDetailsResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRequestDetailsResponseDTO.swift; sourceTree = "<group>"; };
 		B39DA9783027C2FE00CB65C7 /* OfferEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferEndpoint.swift; sourceTree = "<group>"; };
 		B39DA97A3027C35900CB65C7 /* FetchServiceRequestDetailsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchServiceRequestDetailsUseCase.swift; sourceTree = "<group>"; };
+		B39F66BD302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCurrentActiveVisitUseCaseProtocol.swift; sourceTree = "<group>"; };
 		B3A08AE33026281A00FF712D /* ProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResponseDTO.swift; sourceTree = "<group>"; };
 		B3A08AE9302651C700FF712D /* ReservationEventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationEventResponse.swift; sourceTree = "<group>"; };
 		B3A08AEB30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveReservationEventsUseCaseProtocol.swift; sourceTree = "<group>"; };
@@ -998,6 +1000,7 @@
 		B3C57E6F3010EA0D005C1BE8 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				B39F66BD302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift */,
 				B39A96FE302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift */,
 				B39AFF133029033D0093C19B /* ObserveSocketErrorsUseCase.swift */,
 				B3ADB4F030287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift */,
@@ -2070,6 +2073,7 @@
 				C6F021A83022F224009004B5 /* RefreshState.swift in Sources */,
 				C6F021A93022F224009004B5 /* CloudinaryUploadService.swift in Sources */,
 				B39AFF123028FB0B0093C19B /* OfferChatView.swift in Sources */,
+				B39F66BE302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift in Sources */,
 				B39AFF103028FB000093C19B /* OfferChatViewModel.swift in Sources */,
 				C6F021AA3022F224009004B5 /* NetworkClient.swift in Sources */,
 				C6F021AB3022F224009004B5 /* KeychainTokenStore.swift in Sources */,

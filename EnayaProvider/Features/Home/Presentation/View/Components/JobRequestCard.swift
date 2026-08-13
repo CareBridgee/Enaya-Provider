@@ -2,6 +2,7 @@ import SwiftUI
 
 struct JobRequestCard: View {
     let jobRequest: JobRequest
+    let isActionsDisabled: Bool
     let onEditOffer: () -> Void
     let onMakeOffer: () -> Void
 
@@ -148,7 +149,11 @@ struct JobRequestCard: View {
     private var actionButtons: some View {
         HStack(spacing: Spacing.s12) {
             SecondaryButton(title: "Edit offer", action: onEditOffer)
+                .disabled(isActionsDisabled)
+                .opacity(isActionsDisabled ? 0.5 : 1.0)
             PrimaryButton(title: "Make Offer", action: onMakeOffer)
+                .disabled(isActionsDisabled)
+                .opacity(isActionsDisabled ? 0.5 : 1.0)
         }
         .padding(.top, Spacing.s8)
     }

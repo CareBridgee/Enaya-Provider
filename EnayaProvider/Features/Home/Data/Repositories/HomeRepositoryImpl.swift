@@ -228,5 +228,13 @@ final class HomeRepositoryImpl: HomeRepositoryProtocol {
             }
         }
     }
-}
 
+    func fetchCurrentActiveVisit() async throws -> ServiceRequestDetailsResponseDTO? {
+        do {
+            let response: ServiceRequestDetailsResponseDTO = try await networkClient.request(HomeEndpoint.getCurrentActiveVisit)
+            return response
+        } catch {
+            return nil
+        }
+    }
+}

@@ -7,6 +7,8 @@ final class HomeViewModel: ObservableObject {
     @Published private(set) var summary: ProviderHomeSummary?
     @Published private(set) var availability: ProviderAvailability = .offline
     @Published private(set) var jobRequests: [JobRequest] = []
+    
+    @Published private(set) var currentActiveVisitId: String?
 
     @Published var editingJobRequest: JobRequest?
     @Published var proposedPriceValue: Double = 0
@@ -32,6 +34,7 @@ final class HomeViewModel: ObservableObject {
     private let withdrawOfferUseCase: WithdrawOfferUseCaseProtocol
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     private let observeSocketErrorsUseCase: ObserveSocketErrorsUseCase
+    private let fetchCurrentActiveVisitUseCase: FetchCurrentActiveVisitUseCaseProtocol
     
     private var errorObservationTask: Task<Void, Never>?
 
@@ -43,7 +46,8 @@ final class HomeViewModel: ObservableObject {
         submitOfferUseCase: SubmitOfferUseCase,
         withdrawOfferUseCase: WithdrawOfferUseCaseProtocol,
         observeSocketErrorsUseCase: ObserveSocketErrorsUseCase,
-        observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
+        observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol,
+        fetchCurrentActiveVisitUseCase: FetchCurrentActiveVisitUseCaseProtocol
     ) {
         self.fetchSummary = fetchSummary
         self.toggleAvailabilityUseCase = toggleAvailabilityUseCase
@@ -53,6 +57,7 @@ final class HomeViewModel: ObservableObject {
         self.withdrawOfferUseCase = withdrawOfferUseCase
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
         self.observeSocketErrorsUseCase = observeSocketErrorsUseCase
+        self.fetchCurrentActiveVisitUseCase = fetchCurrentActiveVisitUseCase
     }
 
     var isOnline: Bool { availability == .online }
@@ -69,6 +74,7 @@ final class HomeViewModel: ObservableObject {
         isLoading = true
         do {
             summary = try await fetchSummary.execute()
+            await checkCurrentVisit()
 
             let rawStatus = UserDefaults.standard.string(forKey: "providerAvailability")
             availability = ProviderAvailability(rawValue: rawStatus ?? "") ?? .offline
@@ -87,6 +93,18 @@ final class HomeViewModel: ObservableObject {
             showErrorAlert = true
         }
         isLoading = false
+    }
+    
+    func checkCurrentVisit() async {
+        do {
+            if let visit = try await fetchCurrentActiveVisitUseCase.execute() {
+                currentActiveVisitId = visit.serviceRequestId
+            } else {
+                currentActiveVisitId = nil
+            }
+        } catch {
+            currentActiveVisitId = nil
+        }
     }
 
     func toggleAvailability() {
@@ -157,6 +175,7 @@ final class HomeViewModel: ObservableObject {
 
     func refreshJobRequests() async {
         guard isOnline else { return }
+        await checkCurrentVisit()
         do {
             let updated = try await refreshJobRequestsUseCase.execute()
             withAnimation { jobRequests = updated }
@@ -190,6 +209,11 @@ final class HomeViewModel: ObservableObject {
         }
 
         cancelEditing()
+    }
+    
+    func returnToActiveVisit() {
+        guard let id = currentActiveVisitId else { return }
+        acceptedRequestId = id
     }
 
     func submitOffer(for request: JobRequest) {
@@ -248,6 +272,7 @@ final class HomeViewModel: ObservableObject {
                     waitingTimerTask?.cancel()
                     withAnimation { isWaitingForPatient = false }
                     self.activeOfferId = nil
+                    self.currentActiveVisitId = reservationId
                     self.acceptedRequestId = reservationId
                     return
 

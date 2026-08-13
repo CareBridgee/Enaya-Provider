@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 protocol HomeRepositoryProtocol {
     func fetchSummary() async throws -> ProviderHomeSummary
     func setAvailability(isOnline: Bool) async throws
@@ -16,4 +17,5 @@ protocol HomeRepositoryProtocol {
     func observeReservationEvents(reservationId: String) -> AsyncStream<ReservationEventResponse>
     func fetchServiceRequestPreview(serviceRequestId: String) async throws -> ServiceRequestPreviewResponseDTO
     func observeSocketErrors() -> AsyncStream<SocketErrorPayload>
+    func fetchCurrentActiveVisit() async throws -> ServiceRequestDetailsResponseDTO?
 }
