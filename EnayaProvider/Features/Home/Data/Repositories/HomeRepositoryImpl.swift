@@ -136,45 +136,66 @@ final class HomeRepositoryImpl: HomeRepositoryProtocol {
 
     @MainActor
     private func ingestNearbyRequest(_ response: NearbyNurseServiceRequestResponse) async {
-        let placeholder = JobRequest(
-            id: UUID(uuidString: response.serviceRequestId) ?? UUID(),
-            patientLabel: "Patient #\(response.profileId.prefix(4))",
-            patientImageUrl: "",
-            distanceText: String(format: "%.1f km", response.distanceKm),
-            serviceName: response.serviceName,
-            estimatedPrice: 100,
-            minPrice: 100,
-            maxPrice: 100,
-            proposedPrice: 100,
-            status: .pending
-        )
-
-        if !activeRequests.contains(where: { $0.id == placeholder.id }) {
-            activeRequests.insert(placeholder, at: 0)
-            requestsContinuation?.yield(activeRequests)
-        }
-
+        let requestId = UUID(uuidString: response.serviceRequestId) ?? UUID()
+        
         do {
             let preview = try await fetchServiceRequestPreview(serviceRequestId: response.serviceRequestId)
-            let basePrice = Decimal(preview.estimatedPrice ?? 100)
+            let basePrice = Decimal(preview.estimatedPrice ?? response.estimatedPrice ?? 100)
             
             let minPrice = basePrice * 0.8
             let maxPrice = basePrice * 1.5
 
-            if let index = activeRequests.firstIndex(where: { $0.id == placeholder.id }) {
-                if let fName = preview.patient?.firstName, let lName = preview.patient?.lastName {
-                    activeRequests[index].patientLabel = "\(fName) \(lName)"
-                }
-
-                activeRequests[index].patientImageUrl = preview.patient?.profileImageUrl ?? ""
-
-                activeRequests[index].estimatedPrice = basePrice
-                activeRequests[index].minPrice = minPrice
-                activeRequests[index].maxPrice = maxPrice
-                activeRequests[index].proposedPrice = basePrice
-                requestsContinuation?.yield(activeRequests)
+            let patientName: String
+            if let fName = preview.patient?.firstName, let lName = preview.patient?.lastName {
+                patientName = "\(fName) \(lName)".trimmingCharacters(in: .whitespaces)
+            } else {
+                patientName = "Patient #\(response.profileId.prefix(4))"
             }
+
+            let jobRequest = JobRequest(
+                id: requestId,
+                patientLabel: patientName,
+                patientImageUrl: preview.patient?.profileImageUrl ?? "",
+                distanceText: String(format: "%.1f km", response.distanceKm),
+                serviceName: response.serviceName,
+                estimatedPrice: basePrice,
+                minPrice: minPrice,
+                maxPrice: maxPrice,
+                proposedPrice: basePrice,
+                status: .pending
+            )
+
+            if let index = activeRequests.firstIndex(where: { $0.id == requestId }) {
+                activeRequests[index] = jobRequest
+            } else {
+                activeRequests.insert(jobRequest, at: 0)
+            }
+            requestsContinuation?.yield(activeRequests)
+            
         } catch {
+            let basePrice = Decimal(response.estimatedPrice ?? 100)
+            let minPrice = basePrice * 0.8
+            let maxPrice = basePrice * 1.5
+            
+            let jobRequest = JobRequest(
+                id: requestId,
+                patientLabel: "Patient #\(response.profileId.prefix(4))",
+                patientImageUrl: "",
+                distanceText: String(format: "%.1f km", response.distanceKm),
+                serviceName: response.serviceName,
+                estimatedPrice: basePrice,
+                minPrice: minPrice,
+                maxPrice: maxPrice,
+                proposedPrice: basePrice,
+                status: .pending
+            )
+            
+            if let index = activeRequests.firstIndex(where: { $0.id == requestId }) {
+                activeRequests[index] = jobRequest
+            } else {
+                activeRequests.insert(jobRequest, at: 0)
+            }
+            requestsContinuation?.yield(activeRequests)
         }
     }
 

@@ -19,22 +19,15 @@ struct HomeHeaderView: View {
 
             VStack(alignment: .leading, spacing: Spacing.s2) {
                 Text(providerName)
-                    .carelyText(style: .heading3, weight: .bold)
-                    .foregroundColor(.primaryFont)
+                    .carelyText(style: .heading2, weight: .bold)
+                    .foregroundColor(.brandPrimary)
+
                 Text(greeting)
                     .carelyText(style: .bodySmall, weight: .regular)
                     .foregroundColor(.secondaryFont)
             }
 
             Spacer()
-
-            Circle()
-                .fill(Color.surfaceVariant)
-                .frame(width: Spacing.s40, height: Spacing.s40)
-                .overlay(
-                    Image(systemName: "bell.fill")
-                        .foregroundColor(.secondaryFont)
-                )
         }
         .padding(.top, Spacing.s16)
     }
@@ -53,11 +46,13 @@ struct HomeHeaderView: View {
             .frame(width: Spacing.s48, height: Spacing.s48)
             .background(Color.surfaceVariant)
             .clipShape(Circle())
+            .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 2))
         } else {
             placeholderIcon
                 .frame(width: Spacing.s48, height: Spacing.s48)
                 .background(Color.surfaceVariant)
                 .clipShape(Circle())
+                .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 2))
         }
     }
 

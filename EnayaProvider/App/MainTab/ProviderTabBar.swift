@@ -9,9 +9,7 @@
 import SwiftUI
 
 struct ProviderTabBar: View {
-
     @Binding var selectedTab: AppTab
-
     private let hapticGenerator = UIImpactFeedbackGenerator(style: .light)
 
     var body: some View {
@@ -38,17 +36,16 @@ struct ProviderTabBar: View {
                 Image(systemName: tab.iconName)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: IconSize.s20, height: IconSize.s20)
-                    .foregroundColor(isSelected ? .onPrimary : .hint)
-                    .padding(Spacing.s8)
-                    .background(isSelected ? Color.brandPrimary : Color.clear)
-                    .clipShape(RoundedRectangle.carely(Radius.r12))
+                    .frame(width: IconSize.s24, height: IconSize.s24)
 
                 Text(tab.title)
-                    .carelyText(style: .caption, weight: isSelected ? .semiBold : .regular)
-                    .foregroundColor(isSelected ? .brandPrimary : .hint)
+                    .carelyText(style: .caption, weight: isSelected ? .bold : .medium)
             }
-            .padding(.bottom, Spacing.s8)
+            .foregroundColor(isSelected ? .brandPrimary : .secondaryFont)
+            .padding(.vertical, Spacing.s8)
+            .padding(.horizontal, Spacing.s16)
+            .background(isSelected ? Color.mintSurface : Color.clear)
+            .clipShape(Capsule())
         }
         .buttonStyle(PlainButtonStyle())
     }

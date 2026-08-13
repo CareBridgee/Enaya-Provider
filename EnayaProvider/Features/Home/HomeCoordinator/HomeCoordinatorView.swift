@@ -10,16 +10,11 @@ import SwiftUI
 struct HomeCoordinatorView: View {
     let container: DIContainer
     @ObservedObject var coordinator: HomeCoordinator
-    @StateObject private var viewModel: HomeViewModel
-
-    init(container: DIContainer, coordinator: HomeCoordinator) {
-        self.container = container
-        self.coordinator = coordinator
-        _viewModel = StateObject(wrappedValue: container.makeHomeViewModel())
-    }
+    @ObservedObject var viewModel: HomeViewModel
+    let onViewAll: () -> Void
 
     var body: some View {
-        HomeView(viewModel: viewModel)
+        HomeView(viewModel: viewModel, onViewAll: onViewAll)
             .fullScreenCover(
                 isPresented: Binding(
                     get: { viewModel.acceptedRequestId != nil },
