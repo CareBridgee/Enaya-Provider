@@ -8,7 +8,8 @@ import Foundation
 protocol AuthServiceProtocol {
     func login(phoneNumber: String) async throws
     func requestOTPDev(phoneNumber: String) async throws -> DevOTPResponse
-    func verifyOTP(phoneNumber: String, otp: String) async throws -> AuthResponse
+    func verifyOTP(phoneNumber: String, otp: String, pendingToken: String?) async throws -> AuthResponse
+    func googleNurseLogin(idToken: String) async throws -> GoogleAuthResponse
     func getProfile(phoneNumber: String) async throws -> UserDTO
     func refresh(refreshToken: String) async throws -> AuthResponse
     func logout(refreshToken: String) async throws
@@ -23,10 +24,7 @@ final class AuthServiceImpl: AuthServiceProtocol {
     }
 
     func login(phoneNumber: String) async throws {
-        if useLogs { print("AuthService: login with phoneNumber: \(phoneNumber)") }
-        try await networkClient.requestWithoutResponse(
-            AuthEndpoint.login(phoneNumber: phoneNumber)
-        )
+        try await networkClient.requestWithoutResponse(AuthEndpoint.login(phoneNumber: phoneNumber))
     }
 
     func requestOTPDev(phoneNumber: String) async throws -> DevOTPResponse {
@@ -36,11 +34,17 @@ final class AuthServiceImpl: AuthServiceProtocol {
         )
     }
 
-    func verifyOTP(phoneNumber: String, otp: String) async throws -> AuthResponse {
-        if useLogs { print("AuthService: verifyOTP with phoneNumber: \(phoneNumber), otp: \(otp)") }
-        return try await networkClient.request(
-            AuthEndpoint.verifyOTP(phoneNumber: phoneNumber, otp: otp)
-        )
+    func verifyOTP(phoneNumber: String, otp: String, pendingToken: String? = nil) async throws -> AuthResponse {
+            if useLogs {
+                print("🟢 [Auth Flow 4]: AuthService request - verifyOTP with phoneNumber: \(phoneNumber), otp: \(otp), pendingToken: \(pendingToken ?? "nil")")
+            }
+            return try await networkClient.request(AuthEndpoint.verifyOTP(phoneNumber: phoneNumber, otp: otp, pendingToken: pendingToken))
+        }
+
+    func googleNurseLogin(idToken: String) async throws -> GoogleAuthResponse {
+        if useLogs { print("AuthService: login with google:") }
+
+        return try await networkClient.request(AuthEndpoint.googleNurseLogin(idToken: idToken))
     }
 
     func getProfile(phoneNumber: String) async throws -> UserDTO {

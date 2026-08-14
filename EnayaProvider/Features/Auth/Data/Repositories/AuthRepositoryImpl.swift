@@ -38,21 +38,29 @@ final class AuthRepositoryImpl: AuthRepositoryProtocol {
         }
     }
     
-    func verifyOTP(phoneNumber: String, otp: String) async throws -> OTPVerificationEntity {
+    func verifyOTP(phoneNumber: String, otp: String, pendingToken: String? = nil) async throws -> OTPVerificationEntity {
         do {
-            let response = try await authService.verifyOTP(phoneNumber: phoneNumber, otp: otp)
+            let response = try await authService.verifyOTP(phoneNumber: phoneNumber, otp: otp, pendingToken: pendingToken)
             
             let rawStatus = response.user.nurse?.verificationStatus ?? "INCOMPLETE"
             let actualStatus = ApplicationStatus(rawValue: rawStatus) ?? .incomplete
             
             return OTPVerificationEntity(
-                isNewUser: response.user.firstName == "Nurse" && response.user.lastName?.isEmpty == true,
+                isNewUser: response.user.firstName == "Nurse" && (response.user.lastName?.isEmpty ?? true),
                 accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 userId: response.user.id,
                 nurseId: response.user.nurse?.id,
                 applicationStatus: actualStatus
             )
+        } catch {
+            throw error.toAuthError()
+        }
+    }
+    
+    func googleNurseLogin(idToken: String) async throws -> GoogleAuthResponse {
+        do {
+            return try await authService.googleNurseLogin(idToken: idToken)
         } catch {
             throw error.toAuthError()
         }
@@ -73,6 +81,4 @@ final class AuthRepositoryImpl: AuthRepositoryProtocol {
             print("Failed to logout on server: \(error)")
         }
     }
-    
-    
 }
