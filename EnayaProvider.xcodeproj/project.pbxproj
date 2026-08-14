@@ -107,6 +107,8 @@
 		B3B6A5D8301F37C5004772C8 /* EarningsCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5D7301F37C5004772C8 /* EarningsCoordinatorView.swift */; };
 		B3B6A5DC301F3C70004772C8 /* PayoutsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5DB301F3C70004772C8 /* PayoutsViewModel.swift */; };
 		B3B6A5DE301F3C8F004772C8 /* StatusBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B6A5DD301F3C8F004772C8 /* StatusBadgeView.swift */; };
+		B3BA35F1302E903D00C6B4EA /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = B3BA35F0302E903D00C6B4EA /* GoogleSignIn */; };
+		B3BA35F3302E903D00C6B4EA /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B3BA35F2302E903D00C6B4EA /* GoogleSignInSwift */; };
 		B3C57E5A3010E901005C1BE8 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C57E593010E901005C1BE8 /* AppTab.swift */; };
 		B3C57E5C3010E90F005C1BE8 /* MainTabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C57E5B3010E90F005C1BE8 /* MainTabCoordinator.swift */; };
 		B3C57E5E3010E91F005C1BE8 /* MainTabCoordinatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C57E5D3010E91F005C1BE8 /* MainTabCoordinatorView.swift */; };
@@ -570,6 +572,8 @@
 			files = (
 				B3A6480E3025DE9800F2BA4B /* SwiftStomp in Frameworks */,
 				A53D6965B6B4AF21EE0A694F /* Alamofire in Frameworks */,
+				B3BA35F1302E903D00C6B4EA /* GoogleSignIn in Frameworks */,
+				B3BA35F3302E903D00C6B4EA /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1795,6 +1799,8 @@
 			packageProductDependencies = (
 				0B81D17F4FF2D7C0E3CB0B16 /* Alamofire */,
 				B3A6480D3025DE9800F2BA4B /* SwiftStomp */,
+				B3BA35F0302E903D00C6B4EA /* GoogleSignIn */,
+				B3BA35F2302E903D00C6B4EA /* GoogleSignInSwift */,
 			);
 			productName = EnayaProvider;
 			productReference = 0CE50DC23009BFAE001B34AA /* EnayaProvider.app */;
@@ -1871,6 +1877,7 @@
 			packageReferences = (
 				0CE50DEF3009BFF4001B34AA /* XCRemoteSwiftPackageReference "Alamofire" */,
 				0CBA6366301E1A2900E1258F /* XCRemoteSwiftPackageReference "SwiftStomp" */,
+				B3BA35EF302E903D00C6B4EA /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 0CE50DC33009BFAE001B34AA /* Products */;
 			projectDirPath = "";
@@ -2518,6 +2525,14 @@
 				minimumVersion = 5.10.0;
 			};
 		};
+		B3BA35EF302E903D00C6B4EA /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 7.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2530,6 +2545,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0CBA6366301E1A2900E1258F /* XCRemoteSwiftPackageReference "SwiftStomp" */;
 			productName = SwiftStomp;
+		};
+		B3BA35F0302E903D00C6B4EA /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3BA35EF302E903D00C6B4EA /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		B3BA35F2302E903D00C6B4EA /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B3BA35EF302E903D00C6B4EA /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -19,14 +19,16 @@ final class PhoneNumberViewModel: ObservableObject {
 
     private let unfocusTrigger = PassthroughSubject<String, Never>()
     private var cancellables = Set<AnyCancellable>()
-
+    let pendingToken: String?
     private static let validPrefixes = ["10", "11", "12", "15"]
     private static let requiredDigitCount = 10
 
     init(
+        pendingToken: String?,
         loginUseCase: LoginUseCaseProtocol,
         router: AuthRouter
     ) {
+        self.pendingToken = pendingToken
         self.loginUseCase = loginUseCase
         self.router = router
         setupValidation()
@@ -49,21 +51,25 @@ final class PhoneNumberViewModel: ObservableObject {
     }
 
     func nextButtonPressed() {
-        let fullPhone = "+20" + phoneNumber
-        Task {
-            do {
-                let response = try await loginUseCase.execute(phoneNumber: fullPhone)
-                print("Dev OTP: \(response.otp)")
-                
-                await MainActor.run {
-                    router.push(to: .OTPVerification(phoneNumber: fullPhone))
+            let fullPhone = "+20" + phoneNumber
+            Task {
+                do {
+                    let response = try await loginUseCase.execute(phoneNumber: fullPhone)
+                    
+                    await MainActor.run {
+                        print("🟢 [Auth Flow 2]: Phone screen pushing to OTP. Pending Token passing forward: \(self.pendingToken ?? "nil")")
+                        
+                        router.push(to: .OTPVerification(
+                            phoneNumber: fullPhone,
+                            devOTP: response.otp,
+                            pendingToken: self.pendingToken
+                        ))
+                    }
+                } catch {
+                    print("Failed to get dev OTP: \(error)")
                 }
-            } catch {
-                print("Failed to get dev OTP: \(error)")
-                // show error to user
             }
         }
-    }
 
     private func setupValidation() {
         unfocusTrigger

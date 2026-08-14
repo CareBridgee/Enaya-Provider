@@ -19,6 +19,7 @@ final class OTPVerificationViewModel: ObservableObject {
     private let verifyOTPUseCase: VerifyOTPUseCaseProtocol
     private let router: AuthRouter
     let phoneNumber: String
+    let pendingToken: String?
     let otpLength = 6
     private let onAuthFinished: (ApplicationStatus) -> Void
 
@@ -38,7 +39,8 @@ final class OTPVerificationViewModel: ObservableObject {
     @Published private(set) var state: OTPVerificationViewState = .idle
 
     var isOTPComplete: Bool {
-        otpCode.count == otpLength &&  otpCode.allSatisfy(\.isNumber)}
+        otpCode.count == otpLength && otpCode.allSatisfy(\.isNumber)
+    }
     var isLoading: Bool { state == .loading }
 
     var isVerifyEnabled: Bool {
@@ -53,34 +55,43 @@ final class OTPVerificationViewModel: ObservableObject {
 
     init(
         phoneNumber: String,
+        devOTP: String? = nil,
+        pendingToken: String? = nil,
         verifyOTPUseCase: VerifyOTPUseCaseProtocol,
         router: AuthRouter,
         onAuthFinished: @escaping (ApplicationStatus) -> Void = { _ in }
     ) {
         self.phoneNumber = phoneNumber
+        self.pendingToken = pendingToken
         self.verifyOTPUseCase = verifyOTPUseCase
         self.router = router
         self.onAuthFinished = onAuthFinished
+        
+        if let devOTP = devOTP, !devOTP.isEmpty {
+            self.otpCode = devOTP
+        }
     }
 
     func verifyOTP() async {
-        guard isOTPComplete, !isLoading else { return }
+            guard isOTPComplete, !isLoading else { return }
 
-        state = .loading
+            state = .loading
 
-        do {
-            let result = try await verifyOTPUseCase.execute(phoneNumber: phoneNumber, otp: otpCode)
-            state = .success("Phone verified successfully!")
-            try await Task.sleep(nanoseconds: 1_200_000_000)
-            
-            let finalStatus = result.isNewUser ? .incomplete : result.applicationStatus
-            onAuthFinished(finalStatus)
-        } catch let error as AuthError {
-            state = .error(error.errorDescription ?? AuthError.unknown.errorDescription!)
-        } catch {
-            state = .error(AuthError.unknown.errorDescription!)
+            print("🟢 [Auth Flow 3]: Calling Verify OTP UseCase. Phone: \(phoneNumber), OTP: \(otpCode), Pending Token: \(pendingToken ?? "nil")")
+
+            do {
+                let result = try await verifyOTPUseCase.execute(phoneNumber: phoneNumber, otp: otpCode, pendingToken: pendingToken)
+                state = .success("Phone verified successfully!")
+                try await Task.sleep(nanoseconds: 1_200_000_000)
+                
+                let finalStatus = result.isNewUser ? .incomplete : result.applicationStatus
+                onAuthFinished(finalStatus)
+            } catch let error as AuthError {
+                state = .error(error.errorDescription ?? AuthError.unknown.errorDescription!)
+            } catch {
+                state = .error(AuthError.unknown.errorDescription!)
+            }
         }
-    }
 
     func goBack() {
         router.pop()

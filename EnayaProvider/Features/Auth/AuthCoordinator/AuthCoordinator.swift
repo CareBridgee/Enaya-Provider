@@ -15,10 +15,17 @@ struct AuthCoordinator: View {
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            WelcomeView(viewModel: container.makeWelcomeViewModel(router: router))
-                .navigationDestination(for: AuthRoute.self) { route in
-                    destination(for: route)
-                }
+            WelcomeView(
+                viewModel: container.makeWelcomeViewModel(
+                    router: router,
+                    onAuthFinished: { status in
+                        appState.completeAuth(with: status)
+                    }
+                )
+            )
+            .navigationDestination(for: AuthRoute.self) { route in
+                destination(for: route)
+            }
         }
     }
 
@@ -26,13 +33,19 @@ struct AuthCoordinator: View {
     private func destination(for route: AuthRoute) -> some View {
         switch route {
 
-        case .PhoneNumber:
-            PhoneNumberView(viewModel: container.makePhoneNumberViewModel(router: router))
-
-        case .OTPVerification(let phoneNumber):
+        case .PhoneNumber(let pendingToken):
+                    PhoneNumberView(
+                        viewModel: container.makePhoneNumberViewModel(
+                            pendingToken: pendingToken,
+                            router: router
+                        )
+                    )
+        case .OTPVerification(let phoneNumber, let devOTP, let pendingToken):
             OTPVerificationView(
                 viewModel: container.makeOTPVerificationViewModel(
                     phoneNumber: phoneNumber,
+                    devOTP: devOTP,
+                    pendingToken: pendingToken,
                     router: router,
                     onAuthFinished: { status in
                         appState.completeAuth(with: status)
