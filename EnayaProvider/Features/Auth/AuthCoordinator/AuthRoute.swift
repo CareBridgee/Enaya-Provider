@@ -8,6 +8,6 @@
 import Foundation
 
 enum AuthRoute: Hashable {
-    case PhoneNumber
-      case OTPVerification(phoneNumber: String)
+    case PhoneNumber(pendingToken: String?) 
+    case OTPVerification(phoneNumber: String, devOTP: String?, pendingToken: String?)
 }

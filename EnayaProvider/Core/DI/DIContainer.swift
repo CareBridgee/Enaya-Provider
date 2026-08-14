@@ -83,29 +83,46 @@ final class DIContainer {
         VerifyOTPUseCase(repository: authRepository, tokenStore: tokenStore, sessionManager: sessionManager)
     }
 
-    func makeWelcomeViewModel(router: AuthRouter) -> WelcomeViewModel {
-        WelcomeViewModel(router: router)
-    }
+    func makeWelcomeViewModel(
+            router: AuthRouter,
+            onAuthFinished: @escaping (ApplicationStatus) -> Void
+        ) -> WelcomeViewModel {
+            WelcomeViewModel(
+                router: router,
+                repository: authRepository,
+                tokenStore: tokenStore,
+                sessionManager: sessionManager,
+                onAuthFinished: onAuthFinished
+            )
+        }
 
-    func makePhoneNumberViewModel(router: AuthRouter) -> PhoneNumberViewModel {
-        PhoneNumberViewModel(
-            loginUseCase: makeLoginUseCase(),
-            router: router
-        )
-    }
+    func makePhoneNumberViewModel(
+            pendingToken: String?,
+            router: AuthRouter
+        ) -> PhoneNumberViewModel {
+            PhoneNumberViewModel(
+                pendingToken: pendingToken,
+                loginUseCase: makeLoginUseCase(),
+                router: router
+            )
+        }
 
     func makeOTPVerificationViewModel(
-        phoneNumber: String,
-        router: AuthRouter,
-        onAuthFinished: @escaping (ApplicationStatus) -> Void
-    ) -> OTPVerificationViewModel {
-        OTPVerificationViewModel(
-            phoneNumber: phoneNumber,
-            verifyOTPUseCase: makeVerifyOTPUseCase(),
-            router: router,
-            onAuthFinished: onAuthFinished
-        )
-    }
+            phoneNumber: String,
+            devOTP: String? = nil,
+            pendingToken: String? = nil,
+            router: AuthRouter,
+            onAuthFinished: @escaping (ApplicationStatus) -> Void
+        ) -> OTPVerificationViewModel {
+            OTPVerificationViewModel(
+                phoneNumber: phoneNumber,
+                devOTP: devOTP,
+                pendingToken: pendingToken,
+                verifyOTPUseCase: makeVerifyOTPUseCase(),
+                router: router,
+                onAuthFinished: onAuthFinished
+            )
+        }
 
     // MARK: - ProfileSetup
     
