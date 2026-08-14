@@ -14,13 +14,11 @@ public struct EarningsHistoryView: View {
     public var body: some View {
         VStack(spacing: Spacing.s0) {
             TabCustomHeader(title: "Serene Care")
-            
+
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: Spacing.s24) {
-                    if let summary = viewModel.summary {
-                        earningsSummaryCard(summary)
-                    }
-                    
+                    earningsSummaryCard
+
                     serviceEarningsSection
                 }
                 .padding(Spacing.s16)
@@ -31,22 +29,22 @@ public struct EarningsHistoryView: View {
         .onAppear { viewModel.loadData() }
     }
 
-    private func earningsSummaryCard(_ summary: EarningsSummary) -> some View {
+    private var earningsSummaryCard: some View {
         VStack(alignment: .leading, spacing: Spacing.s16) {
             VStack(alignment: .leading, spacing: Spacing.s4) {
-                Text("Total Earnings (This Month)")
+                Text("Total Earnings")
                     .carelyText(style: .bodySmall, weight: .medium)
                     .foregroundColor(.onPrimary.opacity(0.9))
-                
-                Text("$\(NSDecimalNumber(decimal: summary.totalThisMonth).doubleValue, specifier: "%.2f")")
+
+                Text("$\(NSDecimalNumber(decimal: viewModel.totalEarnings).doubleValue, specifier: "%.2f")")
                     .carelyText(style: .heading1, weight: .bold)
                     .foregroundColor(.onPrimary)
             }
-            
+
             HStack(spacing: Spacing.s12) {
                 HStack(spacing: Spacing.s4) {
                     Image(systemName: "checkmark.circle")
-                    Text("\(summary.jobsCount) Jobs")
+                    Text("\(viewModel.jobsCount) Jobs")
                 }
                 .carelyText(style: .bodySmall, weight: .medium)
                 .foregroundColor(.onPrimary)
@@ -58,32 +56,17 @@ public struct EarningsHistoryView: View {
                 Spacer()
             }
 
-            HStack(spacing: Spacing.s8) {
-                Button(action: viewModel.viewHistoryTapped) {
-                    HStack(spacing: Spacing.s4) {
-                        Image(systemName: "clock.arrow.circlepath")
-                        Text("History")
-                    }
-                    .carelyText(style: .bodySmall, weight: .bold)
-                    .foregroundColor(.brandPrimary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, Spacing.s8)
-                    .background(Color.surface)
-                    .clipShape(Capsule())
+            Button(action: viewModel.viewPayoutsTapped) {
+                HStack(spacing: Spacing.s4) {
+                    Image(systemName: "wallet.pass")
+                    Text("View Payouts")
                 }
-
-                Button(action: viewModel.viewPayoutsTapped) {
-                    HStack(spacing: Spacing.s4) {
-                        Image(systemName: "wallet.pass")
-                        Text("View Payouts")
-                    }
-                    .carelyText(style: .bodySmall, weight: .bold)
-                    .foregroundColor(.brandPrimary)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, Spacing.s8)
-                    .background(Color.surface)
-                    .clipShape(Capsule())
-                }
+                .carelyText(style: .bodySmall, weight: .bold)
+                .foregroundColor(.brandPrimary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, Spacing.s8)
+                .background(Color.surface)
+                .clipShape(Capsule())
             }
         }
         .padding(Spacing.s20)
@@ -96,77 +79,226 @@ public struct EarningsHistoryView: View {
             Text("Service Earnings")
                 .carelyText(style: .heading3, weight: .bold)
                 .foregroundColor(.primaryFont)
-            
+
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Spacing.s8) {
-                    EarningsFilterChip(title: "All Services", icon: "briefcase.fill", isSelected: true)
-                    EarningsFilterChip(title: "This Month", icon: "calendar", isSelected: false)
-                    EarningsFilterChip(title: "Sort", icon: "line.3.horizontal.decrease", isSelected: false)
+                    serviceFilterMenu
+                    thisMonthChip
+                    sortMenu
                 }
             }
-            
-            VStack(spacing: Spacing.s12) {
-                ForEach(viewModel.jobs) { job in
-                    jobRow(job)
+
+            if viewModel.isLoading && viewModel.items.isEmpty {
+                ProgressView("Loading earnings...")
+                    .frame(maxWidth: .infinity)
+                    .padding(Spacing.s24)
+            } else if let errorMessage = viewModel.errorMessage, viewModel.items.isEmpty {
+                errorState(errorMessage)
+            } else if viewModel.items.isEmpty {
+                viewModel.isFiltering ? AnyView(noFilterResultsState) : AnyView(emptyState)
+            } else {
+                VStack(spacing: Spacing.s12) {
+                    ForEach(viewModel.items) { item in
+                        jobRow(item)
+                    }
                 }
             }
         }
     }
 
-    private func jobRow(_ job: JobEarning) -> some View {
-        Button(action: { viewModel.offerHistoryTapped(for: job) }) {
-            HStack(alignment: .top, spacing: Spacing.s12) {
-                Circle()
-                    .fill(Color.mintSurface)
-                    .frame(width: Spacing.s48, height: Spacing.s48)
-                    .overlay(
-                        Image(systemName: job.iconName)
-                            .foregroundColor(.brandPrimary)
-                            .font(.system(size: IconSize.s20))
-                    )
-                
-                VStack(alignment: .leading, spacing: Spacing.s4) {
-                    Text("\(job.serviceName) from \(job.patientName)")
-                        .carelyText(style: .bodySmall, weight: .bold)
-                        .foregroundColor(.primaryFont)
-                        .lineLimit(3)
-                        .multilineTextAlignment(.leading)
-                        .minimumScaleFactor(0.9)
-                        .fixedSize(horizontal: false, vertical: true)
-                    
-                    Text(job.dateText)
-                        .carelyText(style: .caption, weight: .regular)
-                        .foregroundColor(.hint)
-                        .padding(.top, Spacing.s2)
-                }
-                
-                Spacer(minLength: Spacing.s8)
-                
-                VStack(alignment: .trailing, spacing: Spacing.s4) {
-                    Text("$\(NSDecimalNumber(decimal: job.amount).doubleValue, specifier: "%.2f")")
+    private func jobRow(_ item: NurseServiceRequestHistoryItem) -> some View {
+        HStack(alignment: .top, spacing: Spacing.s12) {
+            Circle()
+                .fill(Color.mintSurface)
+                .frame(width: Spacing.s48, height: Spacing.s48)
+                .overlay(
+                    Image(systemName: "briefcase.fill")
+                        .foregroundColor(.brandPrimary)
+                        .font(.system(size: IconSize.s20))
+                )
+
+            VStack(alignment: .leading, spacing: Spacing.s4) {
+                Text("\(item.serviceName.capitalized) from \(item.patientFullName)")
+                    .carelyText(style: .bodySmall, weight: .bold)
+                    .foregroundColor(.primaryFont)
+                    .lineLimit(3)
+                    .multilineTextAlignment(.leading)
+                    .minimumScaleFactor(0.9)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text(item.dateText)
+                    .carelyText(style: .caption, weight: .regular)
+                    .foregroundColor(.hint)
+                    .padding(.top, Spacing.s2)
+            }
+
+            Spacer(minLength: Spacing.s8)
+
+            VStack(alignment: .trailing, spacing: Spacing.s4) {
+                if let price = item.estimatedPrice {
+                    Text("$\(NSDecimalNumber(decimal: price).doubleValue, specifier: "%.2f")")
                         .carelyText(style: .bodyRegular, weight: .bold)
                         .foregroundColor(.brandPrimary)
-                    
-                    let (textColor, bgColor) = badgeColors(for: job.status)
-                    StatusBadgeView(text: job.status.rawValue, statusColor: textColor, bgColor: bgColor)
                 }
 
-                Image(systemName: "chevron.right")
-                    .font(.system(size: IconSize.s12))
-                    .foregroundColor(.hint)
+                let (textColor, bgColor) = badgeColors(for: item.status)
+                StatusBadgeView(text: item.status.displayText, statusColor: textColor, bgColor: bgColor)
             }
-            .padding(Spacing.s16)
-            .background(Color.surface)
-            .clipShape(RoundedRectangle.carely(Radius.r16))
         }
-        .buttonStyle(.plain)
+        .padding(Spacing.s16)
+        .background(Color.surface)
+        .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 
-    private func badgeColors(for status: JobEarningStatus) -> (Color, Color) {
+    private func badgeColors(for status: NurseServiceRequestStatus) -> (Color, Color) {
         switch status {
-        case .completed: return (.onSuccessContainer, .successContainer)
-        case .processing: return (.onProcessingContainer, .processingContainer)
-        case .canceled: return (.onErrorContainer, .errorContainer)
+        case .completed, .accepted:
+            return (.onSuccessContainer, .successContainer)
+        case .pending, .inProgress:
+            return (.onWarningContainer, .warningContainer)
+        case .rejected, .expired, .cancelled:
+            return (.onErrorContainer, .errorContainer)
+        case .unknown:
+            return (.hint, .surfaceVariant)
         }
+    }
+
+    private var serviceFilterMenu: some View {
+        Menu {
+            Button {
+                viewModel.selectService(nil)
+            } label: {
+                if viewModel.selectedService == nil {
+                    Label("All Services", systemImage: "checkmark")
+                } else {
+                    Text("All Services")
+                }
+            }
+
+            ForEach(viewModel.availableServices, id: \.self) { service in
+                Button {
+                    viewModel.selectService(service)
+                } label: {
+                    if viewModel.selectedService == service {
+                        Label(service.capitalized, systemImage: "checkmark")
+                    } else {
+                        Text(service.capitalized)
+                    }
+                }
+            }
+        } label: {
+            EarningsFilterChip(
+                title: viewModel.selectedService?.capitalized ?? "All Services",
+                icon: "briefcase.fill",
+                isSelected: viewModel.selectedService != nil
+            )
+        }
+    }
+
+    private var thisMonthChip: some View {
+        Button {
+            viewModel.setTimeFilter(viewModel.timeFilter == .thisMonth ? .all : .thisMonth)
+        } label: {
+            EarningsFilterChip(
+                title: "This Month",
+                icon: "calendar",
+                isSelected: viewModel.timeFilter == .thisMonth
+            )
+        }
+    }
+
+    private var sortMenu: some View {
+        Menu {
+            ForEach(EarningsSortOption.allCases) { option in
+                Button {
+                    viewModel.setSortOption(option)
+                } label: {
+                    if viewModel.sortOption == option {
+                        Label(option.rawValue, systemImage: "checkmark")
+                    } else {
+                        Text(option.rawValue)
+                    }
+                }
+            }
+        } label: {
+            EarningsFilterChip(
+                title: viewModel.sortOption == .newest ? "Sort" : viewModel.sortOption.rawValue,
+                icon: "line.3.horizontal.decrease",
+                isSelected: viewModel.sortOption != .newest
+            )
+        }
+    }
+
+    private var noFilterResultsState: some View {
+        VStack(spacing: Spacing.s12) {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+                .font(.system(size: 40))
+                .foregroundColor(.hint)
+            Text("No matching earnings")
+                .carelyText(style: .bodyRegular, weight: .semiBold)
+                .foregroundColor(.primaryFont)
+            Text("Try a different service or time range.")
+                .carelyText(style: .bodySmall, weight: .regular)
+                .foregroundColor(.secondaryFont)
+                .multilineTextAlignment(.center)
+
+            Button(action: viewModel.clearFilters) {
+                Text("Clear Filters")
+                    .carelyText(style: .bodySmall, weight: .bold)
+                    .foregroundColor(.onPrimary)
+                    .padding(.horizontal, Spacing.s24)
+                    .padding(.vertical, Spacing.s12)
+                    .background(Color.brandPrimary)
+                    .clipShape(Capsule())
+            }
+            .padding(.top, Spacing.s8)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(Spacing.s24)
+    }
+
+    private var emptyState: some View {
+        VStack(spacing: Spacing.s12) {
+            Image(systemName: "tray")
+                .font(.system(size: 40))
+                .foregroundColor(.hint)
+            Text("No earnings yet")
+                .carelyText(style: .bodyRegular, weight: .semiBold)
+                .foregroundColor(.primaryFont)
+            Text("Your completed service requests will show up here.")
+                .carelyText(style: .bodySmall, weight: .regular)
+                .foregroundColor(.secondaryFont)
+                .multilineTextAlignment(.center)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(Spacing.s24)
+    }
+
+    private func errorState(_ message: String) -> some View {
+        VStack(spacing: Spacing.s12) {
+            Image(systemName: "exclamationmark.triangle")
+                .font(.system(size: 40))
+                .foregroundColor(.error)
+            Text("Couldn't load earnings")
+                .carelyText(style: .bodyRegular, weight: .semiBold)
+                .foregroundColor(.primaryFont)
+            Text(message)
+                .carelyText(style: .bodySmall, weight: .regular)
+                .foregroundColor(.secondaryFont)
+                .multilineTextAlignment(.center)
+
+            Button(action: viewModel.retryTapped) {
+                Text("Retry")
+                    .carelyText(style: .bodySmall, weight: .bold)
+                    .foregroundColor(.onPrimary)
+                    .padding(.horizontal, Spacing.s24)
+                    .padding(.vertical, Spacing.s12)
+                    .background(Color.brandPrimary)
+                    .clipShape(Capsule())
+            }
+            .padding(.top, Spacing.s8)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(Spacing.s24)
     }
 }
