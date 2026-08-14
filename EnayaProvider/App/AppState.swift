@@ -6,6 +6,7 @@
 //
 import SwiftUI
 import Foundation
+import Combine
 
 enum AppFlow: Equatable {
     case auth
@@ -22,6 +23,7 @@ final class AppState: ObservableObject {
 
     private let sessionManager: SessionManager
     private var appSettings: AppSettingsProtocol
+    private var cancellables = Set<AnyCancellable>()
     
     init(sessionManager: SessionManager, appSettings: AppSettingsProtocol = AppSettings.shared) {
         self.sessionManager = sessionManager
@@ -30,11 +32,21 @@ final class AppState: ObservableObject {
            let rawStatus = appSettings.applicationStatus,
            let status = ApplicationStatus(rawValue: rawStatus) {
             // Already-approved nurses skip the one-time celebration screen on relaunch.
-           // self.flow = status == .approved ? .home : Self.flow(for: status)
-            self.flow = .auth
+            self.flow = status == .approved ? .home : Self.flow(for: status)
+           // self.flow = .auth
         } else {
             self.flow = .auth
         }
+        
+        sessionManager.$state
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] state in
+                if state == .loggedOut || state == .expired {
+                    self?.signOut()
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func completeAuth(with status: ApplicationStatus) {
