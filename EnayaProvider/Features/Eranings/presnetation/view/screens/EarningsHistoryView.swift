@@ -54,9 +54,24 @@ public struct EarningsHistoryView: View {
                 .padding(.vertical, Spacing.s8)
                 .background(Color.white.opacity(0.2))
                 .clipShape(Capsule())
-                
+
                 Spacer()
-                
+            }
+
+            HStack(spacing: Spacing.s8) {
+                Button(action: viewModel.viewHistoryTapped) {
+                    HStack(spacing: Spacing.s4) {
+                        Image(systemName: "clock.arrow.circlepath")
+                        Text("History")
+                    }
+                    .carelyText(style: .bodySmall, weight: .bold)
+                    .foregroundColor(.brandPrimary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, Spacing.s8)
+                    .background(Color.surface)
+                    .clipShape(Capsule())
+                }
+
                 Button(action: viewModel.viewPayoutsTapped) {
                     HStack(spacing: Spacing.s4) {
                         Image(systemName: "wallet.pass")
@@ -64,7 +79,7 @@ public struct EarningsHistoryView: View {
                     }
                     .carelyText(style: .bodySmall, weight: .bold)
                     .foregroundColor(.brandPrimary)
-                    .padding(.horizontal, Spacing.s16)
+                    .frame(maxWidth: .infinity)
                     .padding(.vertical, Spacing.s8)
                     .background(Color.surface)
                     .clipShape(Capsule())
@@ -99,6 +114,7 @@ public struct EarningsHistoryView: View {
     }
 
     private func jobRow(_ job: JobEarning) -> some View {
+        Button(action: { viewModel.offerHistoryTapped(for: job) }) {
             HStack(alignment: .top, spacing: Spacing.s12) {
                 Circle()
                     .fill(Color.mintSurface)
@@ -116,7 +132,7 @@ public struct EarningsHistoryView: View {
                         .lineLimit(3)
                         .multilineTextAlignment(.leading)
                         .minimumScaleFactor(0.9)
-                        .fixedSize(horizontal: false, vertical: true) 
+                        .fixedSize(horizontal: false, vertical: true)
                     
                     Text(job.dateText)
                         .carelyText(style: .caption, weight: .regular)
@@ -134,11 +150,17 @@ public struct EarningsHistoryView: View {
                     let (textColor, bgColor) = badgeColors(for: job.status)
                     StatusBadgeView(text: job.status.rawValue, statusColor: textColor, bgColor: bgColor)
                 }
+
+                Image(systemName: "chevron.right")
+                    .font(.system(size: IconSize.s12))
+                    .foregroundColor(.hint)
             }
             .padding(Spacing.s16)
             .background(Color.surface)
             .clipShape(RoundedRectangle.carely(Radius.r16))
         }
+        .buttonStyle(.plain)
+    }
 
     private func badgeColors(for status: JobEarningStatus) -> (Color, Color) {
         switch status {

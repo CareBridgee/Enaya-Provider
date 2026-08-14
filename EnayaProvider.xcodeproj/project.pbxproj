@@ -23,6 +23,15 @@
 		0CF5E341301A24F300B2BC3F /* DevOTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E340301A24F300B2BC3F /* DevOTPResponse.swift */; };
 		0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E342301A250000B2BC3F /* AuthResponse.swift */; };
 		0CF5E346301A254500B2BC3F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E345301A254500B2BC3F /* AuthService.swift */; };
+		39132865302EB55200270CDB /* NurseOfferHistoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132863302EB55200270CDB /* NurseOfferHistoryDTO.swift */; };
+		39132868302EB56800270CDB /* NurseOfferHistoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132866302EB56800270CDB /* NurseOfferHistoryMapper.swift */; };
+		3913286A302EB58300270CDB /* OfferHistoryRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132869302EB58300270CDB /* OfferHistoryRepositoryImpl.swift */; };
+		3913286D302EB59900270CDB /* OfferHistoryEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913286B302EB59900270CDB /* OfferHistoryEndpoint.swift */; };
+		3913286F302EB5C200270CDB /* NurseOfferHistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3913286E302EB5C200270CDB /* NurseOfferHistoryItem.swift */; };
+		39132871302EB5E800270CDB /* OfferHistoryRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132870302EB5E800270CDB /* OfferHistoryRepositoryProtocol.swift */; };
+		39132873302EB5F800270CDB /* FetchOfferHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132872302EB5F800270CDB /* FetchOfferHistoryUseCase.swift */; };
+		39132875302EB61D00270CDB /* OfferHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132874302EB61D00270CDB /* OfferHistoryView.swift */; };
+		39132877302EB66500270CDB /* OfferHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132876302EB66500270CDB /* OfferHistoryViewModel.swift */; };
 		A53D6965B6B4AF21EE0A694F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0B81D17F4FF2D7C0E3CB0B16 /* Alamofire */; };
 		B364D4A73026778400837667 /* ServiceRequestProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */; };
 		B39A96FB302CAD0900A76D1A /* NurseOfferResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = B39A96FA302CAD0900A76D1A /* NurseOfferResponseDTO.swift */; };
@@ -303,6 +312,15 @@
 		0CF5E340301A24F300B2BC3F /* DevOTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevOTPResponse.swift; sourceTree = "<group>"; };
 		0CF5E342301A250000B2BC3F /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		0CF5E345301A254500B2BC3F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		39132863302EB55200270CDB /* NurseOfferHistoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferHistoryDTO.swift; sourceTree = "<group>"; };
+		39132866302EB56800270CDB /* NurseOfferHistoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferHistoryMapper.swift; sourceTree = "<group>"; };
+		39132869302EB58300270CDB /* OfferHistoryRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryRepositoryImpl.swift; sourceTree = "<group>"; };
+		3913286B302EB59900270CDB /* OfferHistoryEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryEndpoint.swift; sourceTree = "<group>"; };
+		3913286E302EB5C200270CDB /* NurseOfferHistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferHistoryItem.swift; sourceTree = "<group>"; };
+		39132870302EB5E800270CDB /* OfferHistoryRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryRepositoryProtocol.swift; sourceTree = "<group>"; };
+		39132872302EB5F800270CDB /* FetchOfferHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchOfferHistoryUseCase.swift; sourceTree = "<group>"; };
+		39132874302EB61D00270CDB /* OfferHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryView.swift; sourceTree = "<group>"; };
+		39132876302EB66500270CDB /* OfferHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryViewModel.swift; sourceTree = "<group>"; };
 		B364D4A63026778400837667 /* ServiceRequestProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRequestProfileResponseDTO.swift; sourceTree = "<group>"; };
 		B39A96FA302CAD0900A76D1A /* NurseOfferResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferResponseDTO.swift; sourceTree = "<group>"; };
 		B39A96FE302CD33E00A76D1A /* WithdrawOfferUseCaseProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawOfferUseCaseProtocol.swift; sourceTree = "<group>"; };
@@ -630,6 +648,30 @@
 			path = EnayaProviderUITests;
 			sourceTree = "<group>";
 		};
+		39132864302EB55200270CDB /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				39132863302EB55200270CDB /* NurseOfferHistoryDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		39132867302EB56800270CDB /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				39132866302EB56800270CDB /* NurseOfferHistoryMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		3913286C302EB59900270CDB /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				3913286B302EB59900270CDB /* OfferHistoryEndpoint.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		B3A3BEA5301F26DB00F31E3D /* Offer */ = {
 			isa = PBXGroup;
 			children = (
@@ -851,7 +893,9 @@
 		B3B6A5B6301F36A8004772C8 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				B3B6A5C1301F373D004772C8 /* DTOs */,
+				3913286C302EB59900270CDB /* Services */,
+				39132867302EB56800270CDB /* Mappers */,
+				39132864302EB55200270CDB /* DTOs */,
 				B3B6A5BC301F3705004772C8 /* Repositories */,
 			);
 			path = data;
@@ -870,6 +914,7 @@
 		B3B6A5B9301F36C6004772C8 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				3913286E302EB5C200270CDB /* NurseOfferHistoryItem.swift */,
 				B3B6A5C2301F3758004772C8 /* JobEarningStatus.swift */,
 			);
 			path = Entities;
@@ -878,6 +923,7 @@
 		B3B6A5BA301F36D5004772C8 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				39132870302EB5E800270CDB /* OfferHistoryRepositoryProtocol.swift */,
 				B3B6A5C4301F3763004772C8 /* EarningsRepositoryProtocol.swift */,
 			);
 			path = Repositories;
@@ -886,6 +932,7 @@
 		B3B6A5BB301F36FC004772C8 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				39132872302EB5F800270CDB /* FetchOfferHistoryUseCase.swift */,
 				B3B6A5C8301F3775004772C8 /* FetchEarningsDataUseCase.swift */,
 			);
 			path = UseCases;
@@ -894,6 +941,7 @@
 		B3B6A5BC301F3705004772C8 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				39132869302EB58300270CDB /* OfferHistoryRepositoryImpl.swift */,
 				B3B6A5C6301F376E004772C8 /* EarningsRepositoryImpl.swift */,
 			);
 			path = Repositories;
@@ -911,6 +959,7 @@
 		B3B6A5BE301F371B004772C8 /* viewModel */ = {
 			isa = PBXGroup;
 			children = (
+				39132876302EB66500270CDB /* OfferHistoryViewModel.swift */,
 				B3B6A5DB301F3C70004772C8 /* PayoutsViewModel.swift */,
 				B3B6A5CC301F3788004772C8 /* EarningsHistoryViewModel.swift */,
 			);
@@ -920,6 +969,7 @@
 		B3B6A5BF301F3726004772C8 /* screens */ = {
 			isa = PBXGroup;
 			children = (
+				39132874302EB61D00270CDB /* OfferHistoryView.swift */,
 				B3B6A5D4301F37B2004772C8 /* PayoutsView.swift */,
 				B3B6A5D2301F37A6004772C8 /* EarningsHistoryView.swift */,
 			);
@@ -933,13 +983,6 @@
 				B3B6A5CE301F3793004772C8 /* TabCustomHeader.swift */,
 			);
 			path = components;
-			sourceTree = "<group>";
-		};
-		B3B6A5C1301F373D004772C8 /* DTOs */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DTOs;
 			sourceTree = "<group>";
 		};
 		B3B6A5D6301F37B6004772C8 /* EarningsCoordinator */ = {
@@ -1918,6 +1961,7 @@
 				C6267A6630239B0F003484E6 /* ProfileContinueFooter.swift in Sources */,
 				C6267A6730239B0F003484E6 /* NurseServiceRequestDTO.swift in Sources */,
 				C6267A6830239B0F003484E6 /* ReviewApplicationViewModel.swift in Sources */,
+				3913286D302EB59900270CDB /* OfferHistoryEndpoint.swift in Sources */,
 				C6267A6930239B0F003484E6 /* GetNurseUseCase.swift in Sources */,
 				C6267A6A30239B0F003484E6 /* SubmitProfileApplicationUseCaseProtocol.swift in Sources */,
 				C6267A6B30239B0F003484E6 /* UploadResponseDTO.swift in Sources */,
@@ -1949,6 +1993,7 @@
 				B3A08AEC30265CCA00FF712D /* ObserveReservationEventsUseCaseProtocol.swift in Sources */,
 				C6267A7A30239B0F003484E6 /* NurseEndpoint.swift in Sources */,
 				C6267A7B30239B0F003484E6 /* ReviewCustomHeader.swift in Sources */,
+				39132868302EB56800270CDB /* NurseOfferHistoryMapper.swift in Sources */,
 				C6267A7C30239B0F003484E6 /* NurseRepositoryImpl.swift in Sources */,
 				B3ADB4F53028A06800EF846A /* QRDecoder.swift in Sources */,
 				C6267A7D30239B0F003484E6 /* ReviewDocumentsCard.swift in Sources */,
@@ -1996,6 +2041,7 @@
 				B3B6A5DE301F3C8F004772C8 /* StatusBadgeView.swift in Sources */,
 				C6C3BEC2300A7EEE00C5FC25 /* AuthHeaderView.swift in Sources */,
 				B3ADB4F130287DB900EF846A /* RefreshJobRequestsUseCaseProtocol.swift in Sources */,
+				39132871302EB5E800270CDB /* OfferHistoryRepositoryProtocol.swift in Sources */,
 				B3A3BEDB301F28CE00F31E3D /* OfferConfirmedView.swift in Sources */,
 				C6C3BEC3300A7EEE00C5FC25 /* AuthErrorMapper.swift in Sources */,
 				B3A3BEC7301F288800F31E3D /* OfferPatientCard.swift in Sources */,
@@ -2015,6 +2061,7 @@
 				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
 				C666B7483023F923008A3CE0 /* AccountVerifiedView.swift in Sources */,
 				B3C57ED730111D55005C1BE8 /* ObserveJobRequestsUseCaseProtocol.swift in Sources */,
+				39132875302EB61D00270CDB /* OfferHistoryView.swift in Sources */,
 				B3C57E5E3010E91F005C1BE8 /* MainTabCoordinatorView.swift in Sources */,
 				C6C3BECA300A7EEE00C5FC25 /* AuthEndpoint.swift in Sources */,
 				C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */,
@@ -2037,6 +2084,7 @@
 				B3C57EA53010EA59005C1BE8 /* HomeCoordinatorView.swift in Sources */,
 				0CF5E346301A254500B2BC3F /* AuthService.swift in Sources */,
 				B3A648093025DE5200F2BA4B /* NearbyNurseServiceRequestResponse.swift in Sources */,
+				39132873302EB5F800270CDB /* FetchOfferHistoryUseCase.swift in Sources */,
 				B3A6480A3025DE5200F2BA4B /* UserMeDTO.swift in Sources */,
 				B3A6480B3025DE5200F2BA4B /* NotificationResponseDTO.swift in Sources */,
 				B3B6A5C7301F376E004772C8 /* EarningsRepositoryImpl.swift in Sources */,
@@ -2070,6 +2118,7 @@
 				C6C3BED5300A7EEE00C5FC25 /* PhoneNumberField.swift in Sources */,
 				C6C3BED7300A7EEE00C5FC25 /* OTPVerificationView.swift in Sources */,
 				C6C3BED9300A7EEE00C5FC25 /* OTPVerificationCardView.swift in Sources */,
+				3913286F302EB5C200270CDB /* NurseOfferHistoryItem.swift in Sources */,
 				C6C3BEDA300A7EEE00C5FC25 /* AuthError.swift in Sources */,
 				B3C57EB13010EA91005C1BE8 /* HomeRepositoryProtocol.swift in Sources */,
 				C6C3BEDC300A7EEE00C5FC25 /* UserDTO.swift in Sources */,
@@ -2095,6 +2144,7 @@
 				B3B6A5CF301F3793004772C8 /* TabCustomHeader.swift in Sources */,
 				C6C3BEDF300A7EEE00C5FC25 /* loginButton.swift in Sources */,
 				B3A3BED9301F28C700F31E3D /* CancelOfferViewModel.swift in Sources */,
+				3913286A302EB58300270CDB /* OfferHistoryRepositoryImpl.swift in Sources */,
 				B3B29170302D0C8100E46E22 /* CarelyAsyncImage.swift in Sources */,
 				B3A3BED7301F28C100F31E3D /* VisitCompletedViewModel.swift in Sources */,
 				B3C57EC53010EB37005C1BE8 /* HomeView.swift in Sources */,
@@ -2103,6 +2153,7 @@
 				0C113018301C605E007193BB /* AppSettings.swift in Sources */,
 				B3B6A5CB301F377F004772C8 /* EarningsRoute.swift in Sources */,
 				C6C3BEE0300A7EEE00C5FC25 /* SecurityCard.swift in Sources */,
+				39132865302EB55200270CDB /* NurseOfferHistoryDTO.swift in Sources */,
 				C6C3BEE1300A7EEE00C5FC25 /* PhoneNumberView.swift in Sources */,
 				C6C3BEE2300A7EEE00C5FC25 /* CustomDatePickerView.swift in Sources */,
 				B39AFF163029193A0093C19B /* JWTDecoder.swift in Sources */,
@@ -2120,6 +2171,7 @@
 				B3A3BEB6301F27F100F31E3D /* OfferRepositoryProtocol.swift in Sources */,
 				0CE50DC83009BFAE001B34AA /* ContentView.swift in Sources */,
 				B3A08AE43026281A00FF712D /* ProfileResponseDTO.swift in Sources */,
+				39132877302EB66500270CDB /* OfferHistoryViewModel.swift in Sources */,
 				0CE50DC63009BFAE001B34AA /* EnayaProviderApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

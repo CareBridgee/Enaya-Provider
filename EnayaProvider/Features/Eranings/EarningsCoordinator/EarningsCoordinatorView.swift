@@ -28,6 +28,10 @@ struct EarningsCoordinatorView: View {
                     PayoutsView(
                         viewModel: container.makePayoutsViewModel(coordinator: coordinator)
                     )
+                case .history:
+                    HistoryView(
+                        viewModel: container.makeHistoryViewModel(coordinator: coordinator)
+                    )
                 }
             }
         }

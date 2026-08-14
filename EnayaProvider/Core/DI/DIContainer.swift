@@ -421,4 +421,20 @@ final class DIContainer {
                 useCase: makeFetchEarningsDataUseCase()
             )
         }
+    // MARK: - History (real API: GET /api/v1/service-requests/nurse/history)
+
+    private lazy var nurseHistoryRepository: NurseHistoryRepositoryProtocol = NurseHistoryRepositoryImpl(
+        networkClient: networkClient
+    )
+
+    private func makeFetchNurseHistoryUseCase() -> FetchNurseHistoryUseCase {
+        FetchNurseHistoryUseCase(repository: nurseHistoryRepository)
+    }
+
+    func makeHistoryViewModel(coordinator: EarningsCoordinator) -> HistoryViewModel {
+        HistoryViewModel(
+            coordinator: coordinator,
+            useCase: makeFetchNurseHistoryUseCase()
+        )
+    }
 }

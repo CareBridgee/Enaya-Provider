@@ -31,4 +31,12 @@ final class EarningsHistoryViewModel: ObservableObject {
     func viewPayoutsTapped() {
         coordinator.goToPayouts()
     }
+
+    func viewHistoryTapped() {
+        coordinator.goToHistory()
+    }
+
+    func offerHistoryTapped(for job: JobEarning) {
+        coordinator.goToHistory()
+    }
 }
