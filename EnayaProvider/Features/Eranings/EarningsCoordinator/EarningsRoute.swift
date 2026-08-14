@@ -11,6 +11,7 @@ import SwiftUI
 
 public enum EarningsRoute: Hashable {
     case payouts
+    case history
 }
 
 @MainActor
@@ -21,6 +22,10 @@ public final class EarningsCoordinator: ObservableObject {
 
     public func goToPayouts() {
         path.append(EarningsRoute.payouts)
+    }
+
+    public func goToHistory() {
+        path.append(EarningsRoute.history)
     }
 
     public func goBack() {

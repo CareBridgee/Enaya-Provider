@@ -75,9 +75,13 @@ struct MainTabCoordinatorView: View {
                 .opacity(coordinator.selectedTab == .activeJobs ? 1 : 0)
                 .allowsHitTesting(coordinator.selectedTab == .activeJobs)
             
-            EarningsCoordinatorView(container: container, coordinator: coordinator.earningsCoordinator)
-                .opacity(coordinator.selectedTab == .wallet ? 1 : 0)
-                .allowsHitTesting(coordinator.selectedTab == .wallet)
+            EarningsCoordinatorView(
+                container: container,
+                coordinator: coordinator.earningsCoordinator,
+                isActive: coordinator.selectedTab == .wallet
+            )
+            .opacity(coordinator.selectedTab == .wallet ? 1 : 0)
+            .allowsHitTesting(coordinator.selectedTab == .wallet)
             
             ProfileCoordinatorView(container: container, coordinator: coordinator.profileCoordinator)
                 .opacity(coordinator.selectedTab == .profile ? 1 : 0)

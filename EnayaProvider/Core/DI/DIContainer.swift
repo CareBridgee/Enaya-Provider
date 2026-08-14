@@ -469,23 +469,39 @@ final class DIContainer {
 
     // MARK: - Earnings
 
-        private lazy var earningsRepository: EarningsRepositoryProtocol = EarningsRepositoryImpl()
+            private lazy var earningsRepository: EarningsRepositoryProtocol = EarningsRepositoryImpl()
 
-        private func makeFetchEarningsDataUseCase() -> FetchEarningsDataUseCase {
-            FetchEarningsDataUseCase(repository: earningsRepository)
+            private func makeFetchEarningsDataUseCase() -> FetchEarningsDataUseCase {
+                FetchEarningsDataUseCase(repository: earningsRepository)
+            }
+
+            func makePayoutsViewModel(coordinator: EarningsCoordinator) -> PayoutsViewModel {
+                PayoutsViewModel(
+                    coordinator: coordinator,
+                    useCase: makeFetchEarningsDataUseCase()
+                )
+            }
+        // MARK: - History (real API: GET /api/v1/service-requests/nurse/history)
+
+        private lazy var nurseHistoryRepository: NurseHistoryRepositoryProtocol = NurseHistoryRepositoryImpl(
+            networkClient: networkClient
+        )
+
+        private func makeFetchNurseHistoryUseCase() -> FetchNurseHistoryUseCase {
+            FetchNurseHistoryUseCase(repository: nurseHistoryRepository)
+        }
+
+        func makeHistoryViewModel(coordinator: EarningsCoordinator) -> HistoryViewModel {
+            HistoryViewModel(
+                coordinator: coordinator,
+                useCase: makeFetchNurseHistoryUseCase()
+            )
         }
 
         func makeEarningsHistoryViewModel(coordinator: EarningsCoordinator) -> EarningsHistoryViewModel {
             EarningsHistoryViewModel(
                 coordinator: coordinator,
-                useCase: makeFetchEarningsDataUseCase()
-            )
-        }
-
-        func makePayoutsViewModel(coordinator: EarningsCoordinator) -> PayoutsViewModel {
-            PayoutsViewModel(
-                coordinator: coordinator,
-                useCase: makeFetchEarningsDataUseCase()
+                historyUseCase: makeFetchNurseHistoryUseCase()
             )
         }
 }
