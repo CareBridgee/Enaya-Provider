@@ -21,8 +21,7 @@ final class WelcomeViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
 
-    private let webClientID = "588669996312-j7mtte5q10a1lcsu4jfn4g18n9gri40e.apps.googleusercontent.com"
-    private let iosClientID = "588669996312-4jm91t591o9ej3q045d7a0adbdk29vdr.apps.googleusercontent.com"
+   
 
     init(
         router: AuthRouter,
@@ -44,32 +43,39 @@ final class WelcomeViewModel: ObservableObject {
 
         
     func continueWithGoogle(presentingWindow: UIViewController) {
-        isLoading = true
-        errorMessage = nil
+           isLoading = true
+           errorMessage = nil
 
-        let config = GIDConfiguration(clientID: iosClientID, serverClientID: webClientID)
-        GIDSignIn.sharedInstance.configuration = config
+           guard let iosClientID = Bundle.main.object(forInfoDictionaryKey: "GIDClientID") as? String,
+                 let webClientID = Bundle.main.object(forInfoDictionaryKey: "GIDServerClientID") as? String else {
+               self.isLoading = false
+               self.errorMessage = "Google Client IDs are missing in Info.plist"
+               return
+           }
 
-        GIDSignIn.sharedInstance.signIn(withPresenting: presentingWindow) { [weak self] result, error in
-            guard let self = self else { return }
+           let config = GIDConfiguration(clientID: iosClientID, serverClientID: webClientID)
+           GIDSignIn.sharedInstance.configuration = config
 
-            if let error = error {
-                self.isLoading = false
-                self.errorMessage = error.localizedDescription
-                return
-            }
+           GIDSignIn.sharedInstance.signIn(withPresenting: presentingWindow) { [weak self] result, error in
+               guard let self = self else { return }
 
-            guard let user = result?.user, let idToken = user.idToken?.tokenString else {
-                self.isLoading = false
-                self.errorMessage = "Failed to obtain ID token from Google."
-                return
-            }
+               if let error = error {
+                   self.isLoading = false
+                   self.errorMessage = error.localizedDescription
+                   return
+               }
 
-            Task {
-                await self.authenticateWithBackend(idToken: idToken)
-            }
-        }
-    }
+               guard let user = result?.user, let idToken = user.idToken?.tokenString else {
+                   self.isLoading = false
+                   self.errorMessage = "Failed to obtain ID token from Google."
+                   return
+               }
+
+               Task {
+                   await self.authenticateWithBackend(idToken: idToken)
+               }
+           }
+       }
 
     private func authenticateWithBackend(idToken: String) async {
             do {
