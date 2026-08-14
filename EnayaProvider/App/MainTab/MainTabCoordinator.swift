@@ -15,12 +15,14 @@ final class MainTabCoordinator: ObservableObject {
 
     let homeCoordinator: HomeCoordinator
     let earningsCoordinator: EarningsCoordinator
+    let profileCoordinator: ProfileCoordinator
     
     private var notificationsHubService: NotificationsHubServiceProtocol
 
     init(appState: AppState, container: DIContainer) {
         self.homeCoordinator = HomeCoordinator()
         self.earningsCoordinator = EarningsCoordinator()
+        self.profileCoordinator = container.makeProfileCoordinator()
         
         self.notificationsHubService = container.getNotificationsHubService()
         
