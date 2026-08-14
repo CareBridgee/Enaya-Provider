@@ -58,6 +58,14 @@ final class HomeViewModel: ObservableObject {
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
         self.observeSocketErrorsUseCase = observeSocketErrorsUseCase
         self.fetchCurrentActiveVisitUseCase = fetchCurrentActiveVisitUseCase
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("ProfileImageUpdated"), object: nil, queue: .main) { [weak self] notification in
+            if let newUrl = notification.object as? String {
+                Task { @MainActor [weak self] in
+                    self?.summary?.profileImageUrl = newUrl
+                }
+            }
+        }
     }
 
     var isOnline: Bool { availability == .online }

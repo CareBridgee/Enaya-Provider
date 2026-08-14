@@ -415,8 +415,75 @@ final class DIContainer {
 
 
     
+    // MARK: - Profile
 
-      
+    private lazy var profileService: ProfileServiceProtocol = ProfileServiceImpl(networkClient: networkClient)
+    private lazy var profileRepository: ProfileRepositoryProtocol = ProfileRepositoryImpl(profileService: profileService)
+
+    private func makeGetProfileUseCase() -> GetProfileUseCaseProtocol {
+        GetProfileUseCase(repository: profileRepository)
+    }
+
+    private func makeUpdateProfileUseCase() -> UpdateProfileUseCaseProtocol {
+        UpdateProfileUseCase(repository: profileRepository)
+    }
+    
+    private func makeUpdateProfileImageUseCase() -> UpdateProfileImageUseCaseProtocol {
+        UpdateProfileImageUseCase(repository: profileRepository)
+    }
+
+    private func makeUpdateDocumentUseCase() -> UpdateDocumentUseCaseProtocol {
+        UpdateDocumentUseCase(repository: profileRepository)
+    }
+
+    func makeProfileViewModel(coordinator: ProfileCoordinator) -> ProfileViewModel {
+        ProfileViewModel(
+            getProfileUseCase: makeGetProfileUseCase(),
+            updateProfileImageUseCase: makeUpdateProfileImageUseCase(),
+            updateDocumentUseCase: makeUpdateDocumentUseCase(),
+            logoutUseCase: makeLogoutUseCase(),
+            tokenStore: tokenStore,
+            coordinator: coordinator
+        )
+    }
+    
+    private func makeGetNurseReviewsUseCase() -> GetNurseReviewsUseCaseProtocol {
+        GetNurseReviewsUseCase(repository: profileRepository)
+    }
+    
+    func makeProfileReviewsViewModel(nurseId: String) -> ProfileReviewsViewModel {
+        ProfileReviewsViewModel(
+            nurseId: nurseId,
+            getReviewsUseCase: makeGetNurseReviewsUseCase()
+        )
+    }
+    
+    func makeEditBioViewModel(
+        profileId: String,
+        initialBio: String?,
+        initialSpecialization: String?,
+        initialYearsOfExperience: Int,
+        onSuccess: @escaping (ProfileEntity) -> Void
+    ) -> EditBioViewModel {
+        EditBioViewModel(
+            profileId: profileId,
+            initialBio: initialBio,
+            initialSpecialization: initialSpecialization,
+            initialYearsOfExperience: initialYearsOfExperience,
+            updateProfileUseCase: makeUpdateProfileUseCase(),
+            onSuccess: onSuccess
+        )
+    }
+    
+    func uploadProfileImage(profileId: String, imageData: Data) async throws -> ProfileEntity {
+        let useCase = makeUpdateProfileImageUseCase()
+        return try await useCase.execute(id: profileId, imageData: imageData)
+    }
+
+    func makeProfileCoordinator() -> ProfileCoordinator {
+        ProfileCoordinator()
+    }
+
     // MARK: - Earnings
 
             private lazy var earningsRepository: EarningsRepositoryProtocol = EarningsRepositoryImpl()
