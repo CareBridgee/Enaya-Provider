@@ -39,7 +39,14 @@ struct HomeView: View {
             }
         }
         .background(Color.backGround.ignoresSafeArea())
-        .task { await viewModel.load() }
+        .task {
+            await viewModel.load()
+        }
+        .onAppear {
+            Task {
+                await viewModel.checkCurrentVisit()
+            }
+        }
     }
 
     private var activeVisitBanner: some View {

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct OfferCoordinatorView: View {
     let container: DIContainer
-    @ObservedObject var coordinator: OfferCoordinator
+    @StateObject var coordinator: OfferCoordinator
     let onFinished: () -> Void
 
     var body: some View {
