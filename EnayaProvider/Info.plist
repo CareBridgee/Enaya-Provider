@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.588669996312-4jm91t591o9ej3q045d7a0adbdk29vdr</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>588669996312-4jm91t591o9ej3q045d7a0adbdk29vdr.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>588669996312-j7mtte5q10a1lcsu4jfn4g18n9gri40e.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Poppins-Light.ttf</string>
@@ -15,20 +30,10 @@
 		<string>Cairo-Bold.ttf</string>
 		<string>Cairo-Light.ttf</string>
 	</array>
-	<key>GIDClientID</key>
-	<string>588669996312-4jm91t591o9ej3q045d7a0adbdk29vdr.apps.googleusercontent.com</string>
-	<key>GIDServerClientID</key>
-	<string>588669996312-j7mtte5q10a1lcsu4jfn4g18n9gri40e.apps.googleusercontent.com</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.588669996312-4jm91t591o9ej3q045d7a0adbdk29vdr</string>
-			</array>
-		</dict>
-	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>primary</string>
+	</dict>
 </dict>
 </plist>

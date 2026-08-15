@@ -106,12 +106,18 @@ final class HomeViewModel: ObservableObject {
     func checkCurrentVisit() async {
         do {
             if let visit = try await fetchCurrentActiveVisitUseCase.execute() {
-                currentActiveVisitId = visit.serviceRequestId
+                withAnimation {
+                    self.currentActiveVisitId = visit.serviceRequestId
+                }
             } else {
-                currentActiveVisitId = nil
+                withAnimation {
+                    self.currentActiveVisitId = nil
+                }
             }
         } catch {
-            currentActiveVisitId = nil
+            withAnimation {
+                self.currentActiveVisitId = nil
+            }
         }
     }
 
@@ -193,10 +199,18 @@ final class HomeViewModel: ObservableObject {
 
     func handleOfferFlowFinished(reservationId: String) {
         acceptedRequestId = nil
-        if let uuid = UUID(uuidString: reservationId) {
-            withAnimation { jobRequests.removeAll { $0.id == uuid } }
+        withAnimation {
+            if currentActiveVisitId?.caseInsensitiveCompare(reservationId) == .orderedSame {
+                currentActiveVisitId = nil
+            }
+            if let uuid = UUID(uuidString: reservationId) {
+                jobRequests.removeAll { $0.id == uuid }
+            }
         }
-        Task { await refreshJobRequests() }
+        Task {
+            await checkCurrentVisit()
+            await refreshJobRequests()
+        }
     }
 
     func startEditingOffer(for request: JobRequest) {

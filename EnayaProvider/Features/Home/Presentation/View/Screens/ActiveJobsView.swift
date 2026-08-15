@@ -61,6 +61,11 @@ struct ActiveJobsView: View {
             }
         }
         .background(Color.backGround.ignoresSafeArea())
+        .onAppear {
+            Task {
+                await viewModel.checkCurrentVisit()
+            }
+        }
     }
     
     private var requestsSummaryCard: some View {
