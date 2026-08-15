@@ -36,6 +36,7 @@
 		0CF5E341301A24F300B2BC3F /* DevOTPResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E340301A24F300B2BC3F /* DevOTPResponse.swift */; };
 		0CF5E343301A250000B2BC3F /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E342301A250000B2BC3F /* AuthResponse.swift */; };
 		0CF5E346301A254500B2BC3F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF5E345301A254500B2BC3F /* AuthService.swift */; };
+		273A579744ACFD5DF1447401 /* ProfilePersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B8E7336CA20A91A07E961F /* ProfilePersonalInfoView.swift */; };
 		39132865302EB55200270CDB /* NurseOfferHistoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132863302EB55200270CDB /* NurseOfferHistoryDTO.swift */; };
 		39132868302EB56800270CDB /* NurseOfferHistoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132866302EB56800270CDB /* NurseOfferHistoryMapper.swift */; };
 		3913286A302EB58300270CDB /* OfferHistoryRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132869302EB58300270CDB /* OfferHistoryRepositoryImpl.swift */; };
@@ -45,7 +46,6 @@
 		39132873302EB5F800270CDB /* FetchOfferHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132872302EB5F800270CDB /* FetchOfferHistoryUseCase.swift */; };
 		39132875302EB61D00270CDB /* OfferHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132874302EB61D00270CDB /* OfferHistoryView.swift */; };
 		39132877302EB66500270CDB /* OfferHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39132876302EB66500270CDB /* OfferHistoryViewModel.swift */; };
-		273A579744ACFD5DF1447401 /* ProfilePersonalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44B8E7336CA20A91A07E961F /* ProfilePersonalInfoView.swift */; };
 		3F500AE08AE51E3457CF98B0 /* ProfileReviewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CE26242F460EBE91B6E402 /* ProfileReviewsViewModel.swift */; };
 		432266BDDF73857927A62CDC /* EditBioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F6CD9C9161DED1D50D32B4 /* EditBioView.swift */; };
 		57556FB993B54D7D94001BAD /* UpdateProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67B7ECD52A948848C518748 /* UpdateProfileUseCase.swift */; };
@@ -352,6 +352,8 @@
 		0CF5E340301A24F300B2BC3F /* DevOTPResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevOTPResponse.swift; sourceTree = "<group>"; };
 		0CF5E342301A250000B2BC3F /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		0CF5E345301A254500B2BC3F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		16F6CD9C9161DED1D50D32B4 /* EditBioView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditBioView.swift; sourceTree = "<group>"; };
+		2992CBAFCBDEDC804DACDCFD /* ProfileReviewsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileReviewsView.swift; sourceTree = "<group>"; };
 		39132863302EB55200270CDB /* NurseOfferHistoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferHistoryDTO.swift; sourceTree = "<group>"; };
 		39132866302EB56800270CDB /* NurseOfferHistoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NurseOfferHistoryMapper.swift; sourceTree = "<group>"; };
 		39132869302EB58300270CDB /* OfferHistoryRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryRepositoryImpl.swift; sourceTree = "<group>"; };
@@ -361,8 +363,6 @@
 		39132872302EB5F800270CDB /* FetchOfferHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchOfferHistoryUseCase.swift; sourceTree = "<group>"; };
 		39132874302EB61D00270CDB /* OfferHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryView.swift; sourceTree = "<group>"; };
 		39132876302EB66500270CDB /* OfferHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferHistoryViewModel.swift; sourceTree = "<group>"; };
-		16F6CD9C9161DED1D50D32B4 /* EditBioView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EditBioView.swift; sourceTree = "<group>"; };
-		2992CBAFCBDEDC804DACDCFD /* ProfileReviewsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfileReviewsView.swift; sourceTree = "<group>"; };
 		44B8E7336CA20A91A07E961F /* ProfilePersonalInfoView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProfilePersonalInfoView.swift; sourceTree = "<group>"; };
 		5A55CF32E788EACDDEE79E3A /* ReviewEntity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ReviewEntity.swift; sourceTree = "<group>"; };
 		6A62A86C5040EA3FB8DE15F6 /* UpdateProfileImageUseCase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UpdateProfileImageUseCase.swift; sourceTree = "<group>"; };
@@ -2541,7 +2541,6 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to find nearby patient requests.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2571,7 +2570,6 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your location to find nearby patient requests.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
