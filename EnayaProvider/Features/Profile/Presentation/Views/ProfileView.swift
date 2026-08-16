@@ -26,18 +26,20 @@ struct ProfileView: View {
                     headerSection(profile)
                     
                     VStack(spacing: Spacing.s12) {
-                        menuItem(icon: "person.crop.rectangle", title: "Professional Info", subtitle: "Specialties, bio, and education") {
+                        menuItem(icon: "person.crop.rectangle.fill", title: "Professional Info", subtitle: "Specialties, bio, and education") {
                             viewModel.navigateToPersonalInfo()
                         }
-                        menuItem(icon: "doc.plaintext", title: "Documents", subtitle: "Verified", showBadge: true) {
+                        menuItem(icon: "doc.plaintext.fill", title: "Documents", subtitle: "Verified", showBadge: true) {
                             viewModel.navigateToDocuments()
                         }
-                        menuItem(icon: "calendar", title: "Availability Settings", subtitle: "Working hours & block dates")
-                        menuItem(icon: "text.bubble", title: "Reviews", subtitle: "\(profile.totalReviews ?? 0) patient testimonials") {
+                        menuItem(icon: "gearshape.fill", title: "Settings", subtitle: "App preferences & privacy") {
+                            viewModel.navigateToSettings()
+                        }
+                        menuItem(icon: "text.bubble.fill", title: "Reviews", subtitle: "\(profile.totalReviews ?? 0) patient testimonials") {
                             viewModel.navigateToReviews()
                         }
-                        menuItem(icon: "wallet.pass", title: "Wallet", subtitle: "payment method")
-                        menuItem(icon: "questionmark.circle", title: "Support", subtitle: "Help center and live chat")
+                        menuItem(icon: "wallet.pass.fill", title: "Wallet", subtitle: "payment method")
+                        menuItem(icon: "questionmark.circle.fill", title: "Support", subtitle: "Help center and live chat")
                     }
                     
                     Button(action: {
@@ -69,8 +71,7 @@ struct ProfileView: View {
             .padding(.top, Spacing.s16)
         }
         .background(Color.backGround.ignoresSafeArea())
-        .navigationTitle("Profile")
-        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarHidden(true)
         .alert("Logout", isPresented: $showLogoutAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Logout", role: .destructive) {
@@ -78,36 +79,6 @@ struct ProfileView: View {
             }
         } message: {
             Text("Are you sure you want to log out?")
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    if let imageUrl = viewModel.profile?.profileImageUrl, let url = URL(string: imageUrl) {
-                        AsyncImage(url: url) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            Color.surfaceVariant
-                        }
-                        .frame(width: 32, height: 32)
-                        .clipShape(Circle())
-                    } else {
-                        Circle().fill(Color.surfaceVariant)
-                            .frame(width: 32, height: 32)
-                    }
-                    
-                    Text(viewModel.profile?.firstName ?? "Profile")
-                        .font(.headline)
-                        .foregroundColor(.primaryFont)
-                }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    viewModel.navigateToSettings()
-                }) {
-                    Image(systemName: "gearshape")
-                        .foregroundColor(.brandPrimary)
-                }
-            }
         }
         .onAppear {
             viewModel.loadProfile()
@@ -140,19 +111,13 @@ struct ProfileView: View {
                 } else {
                     Circle().fill(Color.surfaceVariant)
                         .frame(width: 100, height: 100)
+                        .overlay(
+                            Image(systemName: "person.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(.brandPrimary)
+                        )
+                        .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 3))
                 }
-                
-                // Edit Pin
-                PhotosPicker(selection: $selectedImageItem, matching: .images) {
-                    Image(systemName: "pencil")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.onPrimary)
-                        .padding(6)
-                        .background(Color.brandPrimary)
-                        .clipShape(Circle())
-                        .shadow(radius: 2)
-                }
-                .offset(x: 5, y: -5)
                 
                 if viewModel.isUploadingImage {
                     ZStack {
@@ -170,9 +135,10 @@ struct ProfileView: View {
                     .font(.title2).bold()
                     .foregroundColor(.primaryFont)
                 
-                HStack {
+                HStack(spacing: Spacing.s4) {
                     Image(systemName: "cross.case.fill")
                         .foregroundColor(.brandPrimary)
+                        .font(.caption)
                     Text(profile.specialization ?? "General")
                         .font(.subheadline)
                         .foregroundColor(.brandPrimary)
@@ -187,19 +153,17 @@ struct ProfileView: View {
     private func menuItem(icon: String, title: String, subtitle: String, showBadge: Bool = false, action: @escaping () -> Void = {}) -> some View {
         Button(action: action) {
             HStack(spacing: Spacing.s16) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: Radius.r12)
-                        .fill(Color.mintSurface)
-                        .frame(width: 48, height: 48)
-                    Image(systemName: icon)
-                        .foregroundColor(.brandPrimary)
-                        .font(.system(size: 20))
-                }
-                
-                VStack(alignment: .leading, spacing: 2) {
+                Image(systemName: icon)
+                    .carelyText(style: .bodyRegular)
+                    .foregroundColor(.brandPrimary)
+                    .frame(width: 44, height: 44)
+                    .background(Color.primaryContainer.opacity(0.5))
+                    .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                VStack(alignment: .leading, spacing: Spacing.s4) {
                     HStack {
                         Text(title)
-                            .font(.headline)
+                            .carelyText(style: .bodyRegular, weight: .semiBold)
                             .foregroundColor(.primaryFont)
                         if showBadge {
                             Circle()
@@ -208,18 +172,19 @@ struct ProfileView: View {
                         }
                     }
                     Text(subtitle)
-                        .font(.caption)
+                        .carelyText(style: .caption)
                         .foregroundColor(.secondaryFont)
                 }
                 
-                Spacer()
+                Spacer(minLength: Spacing.s8)
                 
                 Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(.hint)
             }
-            .padding()
+            .padding(Spacing.s16)
             .background(Color.surface)
-            .cornerRadius(Radius.r16)
+            .clipShape(RoundedRectangle.carely(Radius.r20))
         }
         .buttonStyle(PlainButtonStyle())
     }
