@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileSettingsView: View {
-    @State private var isDarkModeEnabled = false
+    @ObservedObject var appState: AppState
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -49,7 +49,7 @@ struct ProfileSettingsView: View {
                                 HStack(spacing: Spacing.s16) {
                                     Image(systemName: "globe")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.secondaryFont)
+                                        .foregroundColor(.brandPrimary)
                                     
                                     Text("Language")
                                         .carelyText(style: .bodyRegular, weight: .regular)
@@ -72,27 +72,48 @@ struct ProfileSettingsView: View {
                             Divider()
                                 .padding(.leading, Spacing.s56)
                             
-                            // Dark Mode Row
+                            // Appearance Row
                             HStack(spacing: Spacing.s16) {
-                                Image(systemName: "moon")
+                                Image(systemName: "moon.fill")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.secondaryFont)
+                                    .foregroundColor(.brandPrimary)
                                 
-                                Text("Dark Mode")
+                                Text("Appearance")
                                     .carelyText(style: .bodyRegular, weight: .regular)
                                     .foregroundColor(.primaryFont)
                                 
                                 Spacer()
                                 
-                                Toggle("", isOn: $isDarkModeEnabled)
-                                    .labelsHidden()
+                                Menu {
+                                    ForEach(AppAppearance.allCases) { option in
+                                        Button(action: {
+                                            appState.setAppearance(option)
+                                        }) {
+                                            HStack {
+                                                Text(option.rawValue)
+                                                if appState.appearance == option {
+                                                    Image(systemName: "checkmark")
+                                                }
+                                            }
+                                        }
+                                    }
+                                } label: {
+                                    HStack(spacing: Spacing.s4) {
+                                        Text(appState.appearance.rawValue)
+                                            .carelyText(style: .bodySmall)
+                                            .foregroundColor(.secondaryFont)
+                                        Image(systemName: "chevron.up.chevron.down")
+                                            .font(.system(size: 11, weight: .semibold))
+                                            .foregroundColor(.hint)
+                                    }
+                                }
                             }
                             .padding(.vertical, Spacing.s16)
                             .padding(.horizontal, Spacing.s20)
                         }
-                        .background(Color.white)
+                        .background(Color.surface)
                         .cornerRadius(Radius.r24)
-                        .shadow(color: .black.opacity(0.03), radius: 10, y: 5)
+                        .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
                     }
                     
                     // Security & Privacy Section
@@ -108,9 +129,9 @@ struct ProfileSettingsView: View {
                                 // Action for Privacy Policy
                             }) {
                                 HStack(spacing: Spacing.s16) {
-                                    Image(systemName: "shield")
+                                    Image(systemName: "shield.fill")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.secondaryFont)
+                                        .foregroundColor(.brandPrimary)
                                     
                                     Text("Privacy Policy")
                                         .carelyText(style: .bodyRegular, weight: .regular)
@@ -126,9 +147,9 @@ struct ProfileSettingsView: View {
                                 .padding(.horizontal, Spacing.s20)
                             }
                         }
-                        .background(Color.white)
+                        .background(Color.surface)
                         .cornerRadius(Radius.r24)
-                        .shadow(color: .black.opacity(0.03), radius: 10, y: 5)
+                        .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
                     }
                     
                 }
@@ -136,7 +157,7 @@ struct ProfileSettingsView: View {
                 .padding(.bottom, Spacing.s40)
             }
         }
-        .background(Color.surface.ignoresSafeArea())
+        .background(Color.backGround.ignoresSafeArea())
         .navigationBarHidden(true)
     }
 }

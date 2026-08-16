@@ -35,7 +35,7 @@ struct NotificationBannerView: View {
         .padding(12)
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color(UIColor.systemBackground))
+                .fill(Color.surface)
                 .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
         )
         .padding(.horizontal, 16)

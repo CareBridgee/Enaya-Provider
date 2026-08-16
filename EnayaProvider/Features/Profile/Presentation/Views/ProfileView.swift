@@ -21,7 +21,7 @@ struct ProfileView: View {
                         .padding(.top, 50)
                 } else if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
-                        .foregroundColor(.red)
+                        .foregroundColor(.error)
                         .padding()
                 } else if let profile = viewModel.profile {
                     headerSection(profile)
@@ -49,27 +49,27 @@ struct ProfileView: View {
                             Text("Logout")
                         }
                         .font(.headline)
-                        .foregroundColor(.red)
+                        .foregroundColor(.error)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Spacing.s16)
                         .background(
                             RoundedRectangle(cornerRadius: Radius.r12)
-                                .stroke(Color.red.opacity(0.3), lineWidth: 1)
-                                .background(Color.white.cornerRadius(Radius.r12))
+                                .stroke(Color.error.opacity(0.3), lineWidth: 1)
+                                .background(Color.surface.cornerRadius(Radius.r12))
                         )
                     }
                     .padding(.top, Spacing.s16)
                     
                     Text("Version 1.0.0")
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.hint)
                         .padding(.bottom, Spacing.s24)
                 }
             }
             .padding(.horizontal, Spacing.s20)
             .padding(.top, Spacing.s16)
         }
-        .background(Color.surface.ignoresSafeArea())
+        .background(Color.backGround.ignoresSafeArea())
         .navigationTitle("Profile")
         .navigationBarTitleDisplayMode(.inline)
         .alert("Logout", isPresented: $showLogoutAlert) {
@@ -87,17 +87,18 @@ struct ProfileView: View {
                         AsyncImage(url: url) { image in
                             image.resizable().scaledToFill()
                         } placeholder: {
-                            Color.gray.opacity(0.3)
+                            Color.surfaceVariant
                         }
                         .frame(width: 32, height: 32)
                         .clipShape(Circle())
                     } else {
-                        Circle().fill(Color.gray.opacity(0.3))
+                        Circle().fill(Color.surfaceVariant)
                             .frame(width: 32, height: 32)
                     }
                     
                     Text(viewModel.profile?.firstName ?? "Profile")
                         .font(.headline)
+                        .foregroundColor(.primaryFont)
                 }
             }
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -132,13 +133,13 @@ struct ProfileView: View {
                     AsyncImage(url: url) { image in
                         image.resizable().scaledToFill()
                     } placeholder: {
-                        Color.gray.opacity(0.3)
+                        Color.surfaceVariant
                     }
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 3))
                 } else {
-                    Circle().fill(Color.gray.opacity(0.3))
+                    Circle().fill(Color.surfaceVariant)
                         .frame(width: 100, height: 100)
                 }
                 
@@ -146,13 +147,13 @@ struct ProfileView: View {
                 PhotosPicker(selection: $selectedImageItem, matching: .images) {
                     Image(systemName: "pencil")
                         .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundColor(.onPrimary)
                         .padding(6)
                         .background(Color.brandPrimary)
                         .clipShape(Circle())
                         .shadow(radius: 2)
                 }
-                .offset(x: 5, y: -5) // Adjusted offset to be more up
+                .offset(x: 5, y: -5)
                 
                 if viewModel.isUploadingImage {
                     ZStack {
@@ -160,16 +161,15 @@ struct ProfileView: View {
                             .fill(Color.black.opacity(0.5))
                             .frame(width: 100, height: 100)
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .progressViewStyle(CircularProgressViewStyle(tint: .onPrimary))
                     }
                 }
-                
-
             }
             
             VStack(spacing: Spacing.s4) {
                 Text(profile.fullName)
                     .font(.title2).bold()
+                    .foregroundColor(.primaryFont)
                 
                 HStack {
                     Image(systemName: "cross.case.fill")
@@ -182,9 +182,9 @@ struct ProfileView: View {
         }
         .padding(Spacing.s24)
         .frame(maxWidth: .infinity)
-        .background(Color.white)
+        .background(Color.surface)
         .cornerRadius(Radius.r24)
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 5)
+        .shadow(color: Color.black.opacity(0.05), radius: 10, y: 5)
     }
     
     @ViewBuilder
@@ -207,7 +207,7 @@ struct ProfileView: View {
                             .foregroundColor(.primaryFont)
                         if showBadge {
                             Circle()
-                                .fill(Color.green)
+                                .fill(Color.success)
                                 .frame(width: 8, height: 8)
                         }
                     }
@@ -219,10 +219,10 @@ struct ProfileView: View {
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.gray.opacity(0.5))
+                    .foregroundColor(.hint)
             }
             .padding()
-            .background(Color.white)
+            .background(Color.surface)
             .cornerRadius(Radius.r16)
         }
         .buttonStyle(PlainButtonStyle())
@@ -241,7 +241,6 @@ struct ProfileView_Previews: PreviewProvider {
             coordinator: ProfileCoordinator()
         )
         
-        // Mock data to render immediately
         viewModel.profile = ProfileEntity(
             id: "1",
             firstName: "Nurse",

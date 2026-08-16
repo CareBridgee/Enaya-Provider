@@ -1,5 +1,5 @@
 //
-//  PersonalInfoView.swift
+//  ProfilePersonalInfoView.swift
 //  EnayaProvider
 //
 //  Created by AI.
@@ -8,59 +8,38 @@
 import SwiftUI
 
 struct ProfilePersonalInfoView: View {
-    @State private var profile: ProfileEntity
+    @State var profile: ProfileEntity
+    var makeEditBioViewModel: ((@escaping (ProfileEntity) -> Void) -> EditBioViewModel)?
     @State private var showEditBio = false
     
-    // Using a closure or an injected view model factory would be cleaner,
-    // but we can create the ViewModel here with the container for simplicity,
-    // or better, pass the factory from Coordinator.
-    var makeEditBioViewModel: ((@escaping (ProfileEntity) -> Void) -> EditBioViewModel)?
-
-    init(
-        profile: ProfileEntity,
-        makeEditBioViewModel: ((@escaping (ProfileEntity) -> Void) -> EditBioViewModel)? = nil
-    ) {
-        _profile = State(initialValue: profile)
-        self.makeEditBioViewModel = makeEditBioViewModel
-    }
-    
     var body: some View {
-        VStack(spacing: 0) {
+        VStack(alignment: .leading, spacing: 0) {
             AppHeader(
-                title: "Professional Info",
+                title: "NurseConnect",
                 showBackButton: true,
-                trailingIcon: "gearshape",
-                onTrailingIconTapped: {}
+                trailingIcon: nil
             )
             .padding(.horizontal, Spacing.s20)
             
             ScrollView {
-                VStack(spacing: Spacing.s24) {
-                    // Header Card
+                VStack(spacing: Spacing.s20) {
                     headerCard
                     
-                    // Action Buttons
                     HStack(spacing: Spacing.s12) {
-                        actionButton(title: "Edit Bio", icon: "pencil", action: {
+                        actionButton(title: "Edit Bio", icon: "pencil") {
                             showEditBio = true
-                        })
-                        actionButton(title: "Share Profile", icon: "square.and.arrow.up", backgroundColor: .gray.opacity(0.2), foregroundColor: .primaryFont, action: {})
+                        }
                     }
                     
-                    // About Me
                     aboutMeSection
-                    
-                    // Reviews Section
-                    if profile.totalReviews > 0 {
-                        reviewsSection
-                    }
+                    reviewsSection
                 }
                 .padding(.horizontal, Spacing.s20)
                 .padding(.top, Spacing.s16)
-                .padding(.bottom, 80) // for tab bar
+                .padding(.bottom, Spacing.s40)
             }
         }
-        .background(Color.surface.ignoresSafeArea())
+        .background(Color.backGround.ignoresSafeArea())
         .navigationBarHidden(true)
         .sheet(isPresented: $showEditBio) {
             if let factory = makeEditBioViewModel {
@@ -79,21 +58,21 @@ struct ProfilePersonalInfoView: View {
                     AsyncImage(url: url) { image in
                         image.resizable().scaledToFill()
                     } placeholder: {
-                        Color.gray.opacity(0.3)
+                        Color.surfaceVariant
                     }
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                    .shadow(color: .black.opacity(0.1), radius: 5, y: 5)
+                    .overlay(Circle().stroke(Color.surface, lineWidth: 4))
+                    .shadow(color: Color.black.opacity(0.1), radius: 5, y: 5)
                 } else {
-                    Circle().fill(Color.gray.opacity(0.3))
+                    Circle().fill(Color.surfaceVariant)
                         .frame(width: 90, height: 90)
-                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .overlay(Circle().stroke(Color.surface, lineWidth: 4))
                 }
                 
                 Image(systemName: "checkmark.seal.fill")
                     .foregroundColor(.brandPrimary)
-                    .background(Color.white)
+                    .background(Color.surface)
                     .clipShape(Circle())
                     .offset(x: -5, y: -5)
             }
@@ -101,6 +80,7 @@ struct ProfilePersonalInfoView: View {
             VStack(spacing: 4) {
                 Text(profile.fullName)
                     .font(.title2).bold()
+                    .foregroundColor(.primaryFont)
                 
                 HStack(spacing: 4) {
                     Image(systemName: "cross.case.fill")
@@ -115,13 +95,13 @@ struct ProfilePersonalInfoView: View {
             HStack(spacing: Spacing.s12) {
                 statBox(value: String(format: "%.1f", profile.ratingAvg), label: "\(profile.totalReviews) Reviews")
                 statBox(value: "\(profile.yearsOfExperience) yrs", label: "Experience")
-                statBox(value: "1.2k+", label: "Visits") // Hardcoded visits for now based on UI
+                statBox(value: "1.2k+", label: "Visits")
             }
         }
         .padding(Spacing.s24)
         .frame(maxWidth: .infinity)
         .background(
-            LinearGradient(gradient: Gradient(colors: [Color.mintSurface, Color.white]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color.mintSurface, Color.surface]), startPoint: .top, endPoint: .bottom)
         )
         .cornerRadius(Radius.r24)
     }
@@ -137,12 +117,12 @@ struct ProfilePersonalInfoView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, Spacing.s12)
-        .background(Color.white)
+        .background(Color.surface)
         .cornerRadius(Radius.r12)
-        .shadow(color: .black.opacity(0.03), radius: 4, y: 2)
+        .shadow(color: Color.black.opacity(0.03), radius: 4, y: 2)
     }
     
-    private func actionButton(title: String, icon: String, backgroundColor: Color = .brandPrimary, foregroundColor: Color = .white, action: @escaping () -> Void) -> some View {
+    private func actionButton(title: String, icon: String, backgroundColor: Color = .brandPrimary, foregroundColor: Color = .onPrimary, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             HStack {
                 Image(systemName: icon)
@@ -164,6 +144,7 @@ struct ProfilePersonalInfoView: View {
                     .foregroundColor(.brandPrimary)
                 Text("About Me")
                     .font(.headline)
+                    .foregroundColor(.primaryFont)
             }
             
             Divider()
@@ -188,7 +169,7 @@ struct ProfilePersonalInfoView: View {
             }
         }
         .padding(Spacing.s24)
-        .background(Color.white)
+        .background(Color.surface)
         .cornerRadius(Radius.r24)
     }
     
@@ -196,13 +177,14 @@ struct ProfilePersonalInfoView: View {
         VStack(alignment: .leading, spacing: Spacing.s16) {
             HStack {
                 Circle()
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(Color.surfaceVariant)
                     .frame(width: 40, height: 40)
                     .overlay(Text("JD").font(.caption).bold().foregroundColor(.brandPrimary))
                 
                 VStack(alignment: .leading) {
                     Text("James D.")
                         .font(.subheadline).bold()
+                        .foregroundColor(.primaryFont)
                     Text("2 days ago")
                         .font(.caption2)
                         .foregroundColor(.secondaryFont)
@@ -211,7 +193,7 @@ struct ProfilePersonalInfoView: View {
                 HStack(spacing: 2) {
                     ForEach(0..<5) { _ in
                         Image(systemName: "star.fill")
-                            .foregroundColor(.brandPrimary)
+                            .foregroundColor(.amber)
                             .font(.caption2)
                     }
                 }
@@ -223,7 +205,7 @@ struct ProfilePersonalInfoView: View {
                 .italic()
         }
         .padding(Spacing.s24)
-        .background(Color.white)
+        .background(Color.surface)
         .cornerRadius(Radius.r24)
     }
 }

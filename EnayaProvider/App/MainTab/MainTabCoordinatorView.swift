@@ -83,9 +83,13 @@ struct MainTabCoordinatorView: View {
             .opacity(coordinator.selectedTab == .wallet ? 1 : 0)
             .allowsHitTesting(coordinator.selectedTab == .wallet)
             
-            ProfileCoordinatorView(container: container, coordinator: coordinator.profileCoordinator)
-                .opacity(coordinator.selectedTab == .profile ? 1 : 0)
-                .allowsHitTesting(coordinator.selectedTab == .profile)
+            ProfileCoordinatorView(
+                container: container,
+                appState: appState,
+                coordinator: coordinator.profileCoordinator
+            )
+            .opacity(coordinator.selectedTab == .profile ? 1 : 0)
+            .allowsHitTesting(coordinator.selectedTab == .profile)
         }
         .animation(.easeInOut(duration: 0.15), value: coordinator.selectedTab)
     }

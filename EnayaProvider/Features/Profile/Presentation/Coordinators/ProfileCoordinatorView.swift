@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProfileCoordinatorView: View {
     let container: DIContainer
+    let appState: AppState
     @StateObject var coordinator: ProfileCoordinator
 
     var body: some View {
@@ -41,7 +42,7 @@ struct ProfileCoordinatorView: View {
                             totalReviews: totalReviews
                         )
                     case .settings:
-                        ProfileSettingsView()
+                        ProfileSettingsView(appState: appState)
                     }
                 }
         }
