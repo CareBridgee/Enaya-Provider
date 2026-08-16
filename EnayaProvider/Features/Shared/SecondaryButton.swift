@@ -47,11 +47,15 @@ public struct SecondaryButton: View {
     }
     
     private var backgroundColor: Color {
-        isEnabled ? .mintSurface : .disable
+        isEnabled ? .surface : .disable
     }
     
     private var foregroundColor: Color {
         isEnabled ? .brandPrimary : .onDisable
+    }
+
+    private var borderColor: Color {
+        isEnabled ? .brandPrimary.opacity(0.35) : .divider
     }
     
     public var body: some View {
@@ -80,6 +84,10 @@ public struct SecondaryButton: View {
             .frame(height: size.height)
             .padding(.horizontal, size.horizontalPadding)
             .background(backgroundColor)
+            .overlay(
+                RoundedRectangle.carely(radius)
+                    .stroke(borderColor, lineWidth: 1.2)
+            )
             .clipShape(RoundedRectangle.carely(radius))
         }
         .buttonStyle(SecondaryButtonPressStyle())
