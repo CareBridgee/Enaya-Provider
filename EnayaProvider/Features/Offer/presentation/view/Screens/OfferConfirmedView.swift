@@ -53,7 +53,10 @@ struct OfferConfirmedView: View {
                         title: "Scan QR to Complete",
                         icon: "qrcode.viewfinder",
                         isLoading: viewModel.isProcessing,
-                        action: { showingImageSourceDialog = true }
+                        action: {
+                            print("[OfferConfirmedView] Scan QR to Complete button tapped")
+                            showingImageSourceDialog = true
+                        }
                     )
 
                     Button(action: viewModel.presentCancelSheet) {
@@ -80,14 +83,18 @@ struct OfferConfirmedView: View {
         }
         .confirmationDialog("Select QR Code Source", isPresented: $showingImageSourceDialog, titleVisibility: .visible) {
             Button("Take Photo (Camera)") {
+                print("[OfferConfirmedView] QR Source selected: Take Photo (Camera)")
                 pickerSourceType = .camera
                 showingImagePicker = true
             }
             Button("Choose from Gallery") {
+                print("[OfferConfirmedView] QR Source selected: Choose from Gallery")
                 pickerSourceType = .photoLibrary
                 showingImagePicker = true
             }
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {
+                print("[OfferConfirmedView] QR Source selection cancelled")
+            }
         }
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(sourceType: pickerSourceType) { image in
