@@ -111,30 +111,42 @@ final class OfferConfirmedViewModel: ObservableObject {
         return outputFormatter.string(from: date)
     }
 
-    func openDetails() { coordinator.openDetails() }
-    func presentCancelSheet() { coordinator.presentCancelSheet() }
+    func openDetails() {
+        print("[OfferConfirmedViewModel] View Offer Details tapped")
+        coordinator.openDetails()
+    }
+
+    func presentCancelSheet() {
+        print("[OfferConfirmedViewModel] Cancel Visit button tapped")
+        coordinator.presentCancelSheet()
+    }
     
     func openChatTapped() {
-         let phone = requestProfile?.patientPhoneNumber ?? liveDetails?.profile.phoneNumber ?? ""
-         coordinator.openChat(
-             patientName: patientName,
-             imageUrl: patientImageUrl,
-             phone: phone
-         )
-     }
+        let phone = requestProfile?.patientPhoneNumber ?? liveDetails?.profile.phoneNumber ?? ""
+        print("[OfferConfirmedViewModel] Open Chat tapped for patient: '\(patientName)', phone: '\(phone)'")
+        coordinator.openChat(
+            patientName: patientName,
+            imageUrl: patientImageUrl,
+            phone: phone
+        )
+    }
     
     func callPatientTapped() {
         let phone = requestProfile?.patientPhoneNumber ?? liveDetails?.profile.phoneNumber ?? ""
+        print("[OfferConfirmedViewModel] Call Patient tapped for patient: '\(patientName)', phone: '\(phone)'")
         
         guard !phone.isEmpty, let url = URL(string: "tel://\(phone)") else {
+            print("[OfferConfirmedViewModel] Error: Phone number is empty or invalid ('\(phone)')")
             phoneAlertMessage = "Phone number is not available."
             showPhoneAlert = true
             return
         }
         
         if UIApplication.shared.canOpenURL(url) {
+            print("[OfferConfirmedViewModel] Initiating phone call to '\(phone)'")
             UIApplication.shared.open(url)
         } else {
+            print("[OfferConfirmedViewModel] Phone calls not supported on this device. Copying '\(phone)' to clipboard")
             UIPasteboard.general.string = phone
             phoneAlertMessage = "Calls are not supported on this device. Patient's number \(phone) has been copied to your clipboard."
             showPhoneAlert = true
@@ -153,23 +165,32 @@ final class OfferConfirmedViewModel: ObservableObject {
     }
 
     func processScannedImage(_ image: UIImage) {
+        print("[OfferConfirmedViewModel] Processing scanned QR image...")
         guard let code = QRDecoder.decode(image: image) else {
+            print("[OfferConfirmedViewModel] Error: Failed to decode QR code from image")
             displayTemporaryError("No valid QR code found in the image. Please ensure the QR is clear and try again.")
             return
         }
         
+        print("[OfferConfirmedViewModel] QR code successfully decoded: '\(code)'")
         errorMessage = nil
         completeVisit(with: code)
     }
     
     private func completeVisit(with code: String) {
-        guard !isProcessing else { return }
+        guard !isProcessing else {
+            print("[OfferConfirmedViewModel] Complete visit already in progress, skipping request")
+            return
+        }
         isProcessing = true
+        print("[OfferConfirmedViewModel] Executing completeVisitUseCase with code: '\(code)'...")
         Task {
             do {
                 try await completeVisitUseCase.execute(requestId: reservationId, visitCode: code)
+                print("[OfferConfirmedViewModel] Visit completed successfully for reservationId: \(reservationId)")
                 coordinator.markVisitCompleted()
             } catch {
+                print("[OfferConfirmedViewModel] Error completing visit: \(error)")
                 displayTemporaryError("Failed to complete visit: \(error.localizedDescription)")
             }
             isProcessing = false
@@ -177,6 +198,7 @@ final class OfferConfirmedViewModel: ObservableObject {
     }
     
     func handlePatientCancellationAcknowledged() {
+        print("[OfferConfirmedViewModel] Patient cancellation alert acknowledged by user")
         coordinator.dismissEntireFlow()
     }
 

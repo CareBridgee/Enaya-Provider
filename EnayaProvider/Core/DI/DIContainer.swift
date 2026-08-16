@@ -83,6 +83,15 @@ final class DIContainer {
         VerifyOTPUseCase(repository: authRepository, tokenStore: tokenStore, sessionManager: sessionManager)
     }
 
+    // MARK: - Splash & Onboarding
+    func makeSplashViewModel() -> SplashViewModel {
+        SplashViewModel(sessionManager: sessionManager)
+    }
+
+    func makeOnboardingViewModel(onNavigate: @escaping () -> Void) -> OnboardingViewModel {
+        OnboardingViewModel(onNavigate: onNavigate)
+    }
+
     func makeWelcomeViewModel(
             router: AuthRouter,
             onAuthFinished: @escaping (ApplicationStatus) -> Void
