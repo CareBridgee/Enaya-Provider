@@ -24,6 +24,20 @@ struct EnayaProviderApp: App {
             WindowGroup {
                 Group {
                     switch appState.flow {
+                    case .splash:
+                        SplashView(
+                            viewModel: diContainer.makeSplashViewModel(),
+                            onSplashFinished: {
+                                appState.splashDidFinish()
+                            }
+                        )
+                    case .onboarding:
+                        OnboardingView(
+                            viewModel: diContainer.makeOnboardingViewModel( onNavigate: {
+                                appState.completeOnboarding()
+                            })
+                            
+                        )
                     case .auth:
                         AuthCoordinator(container: diContainer, appState: appState)
 

@@ -13,6 +13,13 @@
 		0C5D9E12301BB48C00961737 /* CareConnectNavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E11301BB48C00961737 /* CareConnectNavigationBarModifier.swift */; };
 		0C5D9E14301BB4B900961737 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E13301BB4B900961737 /* AppConstants.swift */; };
 		0C5D9E16301BB88700961737 /* NetworkErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */; };
+		0C8F83793031FA2700E7C915 /* OnboardingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F83783031FA2700E7C915 /* OnboardingCard.swift */; };
+		0C8F837B3031FA6000E7C915 /* OnboardingPageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F837A3031FA6000E7C915 /* OnboardingPageIndicator.swift */; };
+		0C8F837D3031FA7600E7C915 /* SwipingCardStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F837C3031FA7600E7C915 /* SwipingCardStack.swift */; };
+		0C8F83803031FA9D00E7C915 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F837F3031FA9D00E7C915 /* OnboardingView.swift */; };
+		0C8F83833031FAD800E7C915 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F83823031FAD800E7C915 /* OnboardingViewModel.swift */; };
+		0C8F83863031FB1300E7C915 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F83853031FB1300E7C915 /* SplashView.swift */; };
+		0C8F83883031FB2A00E7C915 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8F83873031FB2A00E7C915 /* SplashViewModel.swift */; };
 		0CD3C973302E8DC100D91D04 /* NurseProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3C95B302E8DC100D91D04 /* NurseProfileResponseDTO.swift */; };
 		0CD3C974302E8DC100D91D04 /* ProfileRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3C95D302E8DC100D91D04 /* ProfileRepositoryImpl.swift */; };
 		0CD3C975302E8DC100D91D04 /* ProfileEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3C95F302E8DC100D91D04 /* ProfileEndpoint.swift */; };
@@ -326,6 +333,13 @@
 		0C5D9E11301BB48C00961737 /* CareConnectNavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareConnectNavigationBarModifier.swift; sourceTree = "<group>"; };
 		0C5D9E13301BB4B900961737 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		0C5D9E15301BB88700961737 /* NetworkErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorMapper.swift; sourceTree = "<group>"; };
+		0C8F83783031FA2700E7C915 /* OnboardingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCard.swift; sourceTree = "<group>"; };
+		0C8F837A3031FA6000E7C915 /* OnboardingPageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageIndicator.swift; sourceTree = "<group>"; };
+		0C8F837C3031FA7600E7C915 /* SwipingCardStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingCardStack.swift; sourceTree = "<group>"; };
+		0C8F837F3031FA9D00E7C915 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		0C8F83823031FAD800E7C915 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		0C8F83853031FB1300E7C915 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		0C8F83873031FB2A00E7C915 /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
 		0CD3C95B302E8DC100D91D04 /* NurseProfileResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NurseProfileResponseDTO.swift; sourceTree = "<group>"; };
 		0CD3C95D302E8DC100D91D04 /* ProfileRepositoryImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileRepositoryImpl.swift; sourceTree = "<group>"; };
 		0CD3C95F302E8DC100D91D04 /* ProfileEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileEndpoint.swift; sourceTree = "<group>"; };
@@ -642,6 +656,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C8F83743031F9F900E7C915 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F83753031FA0200E7C915 /* Presentation */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		0C8F83753031FA0200E7C915 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F83813031FABF00E7C915 /* ViewModel */,
+				0C8F83763031FA0F00E7C915 /* View */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		0C8F83763031FA0F00E7C915 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F837E3031FA8E00E7C915 /* Screens */,
+				0C8F83773031FA1400E7C915 /* Components */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0C8F83773031FA1400E7C915 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F83783031FA2700E7C915 /* OnboardingCard.swift */,
+				0C8F837A3031FA6000E7C915 /* OnboardingPageIndicator.swift */,
+				0C8F837C3031FA7600E7C915 /* SwipingCardStack.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		0C8F837E3031FA8E00E7C915 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F837F3031FA9D00E7C915 /* OnboardingView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		0C8F83813031FABF00E7C915 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F83823031FAD800E7C915 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0C8F83843031FAF900E7C915 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				0C8F83853031FB1300E7C915 /* SplashView.swift */,
+				0C8F83873031FB2A00E7C915 /* SplashViewModel.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
 		0CD3C95C302E8DC100D91D04 /* DTOs */ = {
 			isa = PBXGroup;
 			children = (
@@ -1916,6 +1991,8 @@
 		C6C3BEC0300A7EEE00C5FC25 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				0C8F83843031FAF900E7C915 /* Splash */,
+				0C8F83743031F9F900E7C915 /* Onboarding */,
 				0CD3C972302E8DC100D91D04 /* Profile */,
 				C6267A4530239B0F003484E6 /* ProfileSetup */,
 				C6267A4B30239B0F003484E6 /* VerificationReview */,
@@ -2121,6 +2198,7 @@
 				C666B7463023F917008A3CE0 /* AccountVerifiedViewModel.swift in Sources */,
 				C6267A5730239B0F003484E6 /* ProfessionalInfo.swift in Sources */,
 				C6267A5830239B0F003484E6 /* ReviewSectionCard.swift in Sources */,
+				0C8F83803031FA9D00E7C915 /* OnboardingView.swift in Sources */,
 				C6267A5930239B0F003484E6 /* PersonalInfo.swift in Sources */,
 				C6267A5A30239B0F003484E6 /* ServiceSelectionGrid.swift in Sources */,
 				C6267A5C30239B0F003484E6 /* ProfileSetupCoordinatorView.swift in Sources */,
@@ -2129,6 +2207,7 @@
 				C6267A5F30239B0F003484E6 /* ProfileSetupRepositoryImpl.swift in Sources */,
 				C6267A6030239B0F003484E6 /* ProfileSetupStep.swift in Sources */,
 				C6267A6130239B0F003484E6 /* ProfileSetupCoordinator.swift in Sources */,
+				0C8F83883031FB2A00E7C915 /* SplashViewModel.swift in Sources */,
 				C6267A6230239B0F003484E6 /* ReviewApplicationView.swift in Sources */,
 				C6267A6330239B0F003484E6 /* UpdateProfileRequestDTO.swift in Sources */,
 				C6267A6430239B0F003484E6 /* ReviewProgressIndicator.swift in Sources */,
@@ -2176,6 +2255,7 @@
 				C6267A7D30239B0F003484E6 /* ReviewDocumentsCard.swift in Sources */,
 				C6267A7E30239B0F003484E6 /* ProvidedServicesViewModel.swift in Sources */,
 				0CD3C981302EB80A00D91D04 /* UpdateDocumentUseCase.swift in Sources */,
+				0C8F83833031FAD800E7C915 /* OnboardingViewModel.swift in Sources */,
 				C6267A7F30239B0F003484E6 /* VerificationReviewView.swift in Sources */,
 				0CD3C979302E8DC100D91D04 /* GetProfileUseCase.swift in Sources */,
 				B3A3BECB301F289400F31E3D /* OfferSectionLabel.swift in Sources */,
@@ -2185,6 +2265,7 @@
 				B3C57EB53010EAB1005C1BE8 /* FetchAvailabilityUseCaseProtocol.swift in Sources */,
 				B39AFF1A302919CD0093C19B /* ChatInputBar.swift in Sources */,
 				B3C57ED13010EB6D005C1BE8 /* JobRequestCard.swift in Sources */,
+				0C8F837B3031FA6000E7C915 /* OnboardingPageIndicator.swift in Sources */,
 				B3A648123025E60600F2BA4B /* NotificationBannerView.swift in Sources */,
 				C6C3BE6B300A7CA300C5FC25 /* AppImages.swift in Sources */,
 				0C5D9E14301BB4B900961737 /* AppConstants.swift in Sources */,
@@ -2232,6 +2313,7 @@
 				C6C3BEC6300A7EEE00C5FC25 /* GenderSelectionView.swift in Sources */,
 				B3B6A5D8301F37C5004772C8 /* EarningsCoordinatorView.swift in Sources */,
 				C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */,
+				0C8F83863031FB1300E7C915 /* SplashView.swift in Sources */,
 				B3A3BEBA301F281A00F31E3D /* StartVisitUseCaseProtocol.swift in Sources */,
 				C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */,
 				B3A3BEDF301F28E500F31E3D /* VisitCompletedView.swift in Sources */,
@@ -2310,6 +2392,7 @@
 				C6C3BEDC300A7EEE00C5FC25 /* UserDTO.swift in Sources */,
 				C6F021A73022F224009004B5 /* AuthorizationType.swift in Sources */,
 				C6F021A83022F224009004B5 /* RefreshState.swift in Sources */,
+				0C8F837D3031FA7600E7C915 /* SwipingCardStack.swift in Sources */,
 				C6F021A93022F224009004B5 /* CloudinaryUploadService.swift in Sources */,
 				B39AFF123028FB0B0093C19B /* OfferChatView.swift in Sources */,
 				B39F66BE302DA1CF006D09C4 /* FetchCurrentActiveVisitUseCaseProtocol.swift in Sources */,
@@ -2323,6 +2406,7 @@
 				C6F021AF3022F224009004B5 /* UserSession.swift in Sources */,
 				C6F021B03022F224009004B5 /* JSONDecoder+Default.swift in Sources */,
 				C6F021B13022F224009004B5 /* Endpoint.swift in Sources */,
+				0C8F83793031FA2700E7C915 /* OnboardingCard.swift in Sources */,
 				C6F021B23022F224009004B5 /* AuthInterceptor.swift in Sources */,
 				B3A3BEDD301F28D900F31E3D /* OfferDetailsView.swift in Sources */,
 				C6C3BEDE300A7EEE00C5FC25 /* OTPVerificationEntity.swift in Sources */,
