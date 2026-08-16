@@ -81,17 +81,23 @@ struct ProfileReviewsView: View {
                     
                     // Reviews List
                     LazyVStack(spacing: Spacing.s16) {
-                        ForEach(viewModel.reviews) { review in
-                            ReviewCard(review: review)
-                        }
-                        
-                        if viewModel.isLoading || viewModel.isFetchingMore {
-                            ProgressView()
-                                .padding()
-                        } else if viewModel.reviews.isEmpty {
-                            Text("No reviews yet.")
-                                .foregroundColor(.secondaryFont)
-                                .padding()
+                        if viewModel.isLoading && viewModel.reviews.isEmpty {
+                            ForEach(0..<3, id: \.self) { _ in
+                                ReviewCardSkeleton()
+                            }
+                        } else {
+                            ForEach(viewModel.reviews) { review in
+                                ReviewCard(review: review)
+                            }
+                            
+                            if viewModel.isFetchingMore {
+                                ProgressView()
+                                    .padding()
+                            } else if viewModel.reviews.isEmpty {
+                                Text("No reviews yet.")
+                                    .foregroundColor(.secondaryFont)
+                                    .padding()
+                            }
                         }
                         
                         // Load More Button (if not last page)
@@ -255,3 +261,33 @@ struct ReviewCard: View {
         return formatter.string(from: date)
     }
 }
+
+// MARK: - Review Card Skeleton
+
+public struct ReviewCardSkeleton: View {
+    public init() {}
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.s12) {
+            HStack {
+                EtmaenSkeletonCircle(size: 40)
+
+                VStack(alignment: .leading, spacing: Spacing.s4) {
+                    EtmaenSkeletonRect(width: 120, height: 14, radius: Radius.r8)
+                    EtmaenSkeletonRect(width: 80, height: 10, radius: Radius.r8)
+                }
+
+                Spacer()
+
+                EtmaenSkeletonRect(width: 60, height: 14, radius: Radius.r8)
+            }
+
+            EtmaenSkeletonText(lines: 2, lineHeight: 12, spacing: Spacing.s4)
+        }
+        .padding(Spacing.s20)
+        .background(Color.surface)
+        .cornerRadius(Radius.r24)
+        .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
+    }
+}
+

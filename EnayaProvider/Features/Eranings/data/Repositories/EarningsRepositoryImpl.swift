@@ -9,17 +9,13 @@
 import Foundation
 
 public final class EarningsRepositoryImpl: EarningsRepositoryProtocol {
-    private let delay: UInt64 = 500_000_000
-
     public init() {}
 
     public func fetchEarningsSummary() async throws -> EarningsSummary {
-        try await Task.sleep(nanoseconds: delay)
         return EarningsSummary(totalThisMonth: 4280.50, jobsCount: 34)
     }
 
     public func fetchJobEarnings() async throws -> [JobEarning] {
-        try await Task.sleep(nanoseconds: delay)
         return [
             JobEarning(id: UUID(), serviceName: "Wound Care", patientName: "Eleanor Rigby", dateText: "Oct 24, 2023 • 2.5 hours", amount: 125.00, status: .completed, iconName: "bandage.fill"),
             JobEarning(id: UUID(), serviceName: "Health Assessment", patientName: "Arthur Dent", dateText: "Oct 23, 2023 • 1.0 hour", amount: 85.00, status: .completed, iconName: "waveform.path.ecg"),
@@ -30,12 +26,10 @@ public final class EarningsRepositoryImpl: EarningsRepositoryProtocol {
     }
 
     public func fetchPayoutSummary() async throws -> PayoutSummary {
-        try await Task.sleep(nanoseconds: delay)
         return PayoutSummary(availableForPayout: 1248.50, pending: 320.00, thisMonth: 4850.00)
     }
 
     public func fetchPayoutHistory() async throws -> [PayoutTransaction] {
-        try await Task.sleep(nanoseconds: delay)
         return [
             PayoutTransaction(id: UUID(), methodType: .bank, dateText: "Oct 24, 2023 • 09:15 AM", amount: 450.00, status: .pending),
             PayoutTransaction(id: UUID(), methodType: .wallet, dateText: "Oct 20, 2023 • 04:30 PM", amount: 1200.00, status: .completed),

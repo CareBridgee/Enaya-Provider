@@ -261,6 +261,8 @@
 		C6C3BEC7300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA1300A7EEE00C5FC25 /* EncryptionNoticeBanner.swift */; };
 		C6C3BEC8300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE96300A7EEE00C5FC25 /* AuthRepositoryProtocol.swift */; };
 		C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */; };
+		B3B700033035000100000001 /* EtmaenShimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B700013035000100000001 /* EtmaenShimmer.swift */; };
+		B3B700043035000200000002 /* EtmaenLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3B700023035000200000002 /* EtmaenLoadingView.swift */; };
 		C6C3BECA300A7EEE00C5FC25 /* AuthEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE89300A7EEE00C5FC25 /* AuthEndpoint.swift */; };
 		C6C3BECB300A7EEE00C5FC25 /* OTPResendSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BEA5300A7EEE00C5FC25 /* OTPResendSectionView.swift */; };
 		C6C3BECC300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C3BE9E300A7EEE00C5FC25 /* CompleteHealthProfileButton.swift */; };
@@ -598,6 +600,8 @@
 		C6C3BEB5300A7EEE00C5FC25 /* OTPVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewModel.swift; sourceTree = "<group>"; };
 		C6C3BEB7300A7EEE00C5FC25 /* PhoneNumberViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewModel.swift; sourceTree = "<group>"; };
 		C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBanner.swift; sourceTree = "<group>"; };
+		B3B700013035000100000001 /* EtmaenShimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtmaenShimmer.swift; sourceTree = "<group>"; };
+		B3B700023035000200000002 /* EtmaenLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtmaenLoadingView.swift; sourceTree = "<group>"; };
 		C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppHeader.swift; sourceTree = "<group>"; };
 		C6F0219A3022F224009004B5 /* AuthInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthInterceptor.swift; sourceTree = "<group>"; };
 		C6F0219B3022F224009004B5 /* AuthorizationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationType.swift; sourceTree = "<group>"; };
@@ -1898,6 +1902,8 @@
 				B3A648113025E60600F2BA4B /* NotificationBannerView.swift */,
 				B3A6480F3025E58F00F2BA4B /* NotificationBannerModifier.swift */,
 				C6C3BEBC300A7EEE00C5FC25 /* AlertBanner.swift */,
+				B3B700013035000100000001 /* EtmaenShimmer.swift */,
+				B3B700023035000200000002 /* EtmaenLoadingView.swift */,
 				C6C3BEBD300A7EEE00C5FC25 /* AppHeader.swift */,
 				B3CAF25F300E8EB2006A9F5F /* CarelyTextField.swift */,
 				B3CAF260300E8EB2006A9F5F /* CarelyTextFieldSize.swift */,
@@ -2241,6 +2247,8 @@
 				B3C57EAB3010EA75005C1BE8 /* ProviderAvailability.swift in Sources */,
 				B3B6A5D5301F37B2004772C8 /* PayoutsView.swift in Sources */,
 				C6C3BEC9300A7EEE00C5FC25 /* AlertBanner.swift in Sources */,
+				B3B700033035000100000001 /* EtmaenShimmer.swift in Sources */,
+				B3B700043035000200000002 /* EtmaenLoadingView.swift in Sources */,
 				C666B7483023F923008A3CE0 /* AccountVerifiedView.swift in Sources */,
 				B3C57ED730111D55005C1BE8 /* ObserveJobRequestsUseCaseProtocol.swift in Sources */,
 				39132875302EB61D00270CDB /* OfferHistoryView.swift in Sources */,

@@ -5,32 +5,38 @@ struct HomeView: View {
     let onViewAll: () -> Void
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: Spacing.s20) {
-                HomeHeaderView(
-                    providerName: viewModel.summary?.providerName ?? "",
-                    profileImageUrl: viewModel.summary?.profileImageUrl,
-                    greeting: viewModel.greeting
-                )
+        Group {
+            if viewModel.summary == nil && viewModel.isLoading {
+                HomeSkeletonView()
+            } else {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: Spacing.s20) {
+                        HomeHeaderView(
+                            providerName: viewModel.summary?.providerName ?? "",
+                            profileImageUrl: viewModel.summary?.profileImageUrl,
+                            greeting: viewModel.greeting
+                        )
 
-                AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: { viewModel.toggleAvailability() })
+                        AvailabilityStatusCard(isOnline: viewModel.isOnline, onToggle: { viewModel.toggleAvailability() })
 
-                EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
+                        EarningsSummaryCard(amountText: viewModel.earningsText, changeText: viewModel.earningsChangeText)
 
-                HStack(spacing: Spacing.s12) {
-                    StatCard(title: "Today's Jobs", value: viewModel.jobsCountText)
-                    StatCard(title: "Rating", value: viewModel.ratingText, valueTrailingIcon: "star.fill", valueTrailingIconColor: .amber)
-                }
+                        HStack(spacing: Spacing.s12) {
+                            StatCard(title: "Today's Jobs", value: viewModel.jobsCountText)
+                            StatCard(title: "Rating", value: viewModel.ratingText, valueTrailingIcon: "star.fill", valueTrailingIconColor: .amber)
+                        }
 
-                if viewModel.isOnline {
-                    onlineRequestsSection
-                } else {
-                    OfflineStateView(onGoOnline: { viewModel.toggleAvailability() })
-                        .padding(.top, Spacing.s16)
+                        if viewModel.isOnline {
+                            onlineRequestsSection
+                        } else {
+                            OfflineStateView(onGoOnline: { viewModel.toggleAvailability() })
+                                .padding(.top, Spacing.s16)
+                        }
+                    }
+                    .padding(.horizontal, Spacing.s16)
+                    .padding(.bottom, Spacing.s24)
                 }
             }
-            .padding(.horizontal, Spacing.s16)
-            .padding(.bottom, Spacing.s24)
         }
         .safeAreaInset(edge: .bottom) {
             if viewModel.isOnline && viewModel.currentActiveVisitId != nil {
@@ -134,3 +140,83 @@ struct HomeView: View {
         }
     }
 }
+
+// MARK: - Home Skeleton View
+
+public struct HomeSkeletonView: View {
+    public init() {}
+
+    public var body: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: Spacing.s20) {
+                // Header Skeleton
+                HStack(spacing: Spacing.s12) {
+                    EtmaenSkeletonCircle(size: Spacing.s48)
+
+                    VStack(alignment: .leading, spacing: Spacing.s4) {
+                        EtmaenSkeletonRect(width: 140, height: 20, radius: Radius.r8)
+                        EtmaenSkeletonRect(width: 90, height: 14, radius: Radius.r8)
+                    }
+
+                    Spacer()
+                }
+                .padding(.top, Spacing.s16)
+
+                // Availability Status Skeleton
+                HStack(spacing: Spacing.s8) {
+                    EtmaenSkeletonCircle(size: Spacing.s8)
+                    EtmaenSkeletonRect(width: 120, height: 16, radius: Radius.r8)
+                    Spacer()
+                    EtmaenSkeletonRect(width: 44, height: 24, radius: Radius.r12)
+                }
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                // Earnings Summary Skeleton
+                VStack(alignment: .leading, spacing: Spacing.s12) {
+                    EtmaenSkeletonRect(width: 130, height: 12, radius: Radius.r8)
+                    EtmaenSkeletonRect(width: 160, height: 28, radius: Radius.r8)
+                    EtmaenSkeletonRect(width: 90, height: 20, radius: Radius.r12)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                // Stats Skeleton
+                HStack(spacing: Spacing.s12) {
+                    VStack(alignment: .leading, spacing: Spacing.s8) {
+                        EtmaenSkeletonRect(width: 80, height: 12, radius: Radius.r8)
+                        EtmaenSkeletonRect(width: 50, height: 16, radius: Radius.r8)
+                    }
+                    .padding(Spacing.s16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.surface)
+                    .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                    VStack(alignment: .leading, spacing: Spacing.s8) {
+                        EtmaenSkeletonRect(width: 60, height: 12, radius: Radius.r8)
+                        EtmaenSkeletonRect(width: 50, height: 16, radius: Radius.r8)
+                    }
+                    .padding(Spacing.s16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.surface)
+                    .clipShape(RoundedRectangle.carely(Radius.r16))
+                }
+
+                // Available Requests Skeleton
+                VStack(alignment: .leading, spacing: Spacing.s12) {
+                    EtmaenSkeletonRect(width: 150, height: 14, radius: Radius.r8)
+                        .padding(.top, Spacing.s8)
+
+                    EtmaenCardSkeleton()
+                    EtmaenCardSkeleton()
+                }
+            }
+            .padding(.horizontal, Spacing.s16)
+            .padding(.bottom, Spacing.s24)
+        }
+    }
+}
+

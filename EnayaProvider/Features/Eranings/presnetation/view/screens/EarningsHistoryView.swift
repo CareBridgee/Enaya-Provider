@@ -89,9 +89,11 @@ public struct EarningsHistoryView: View {
             }
 
             if viewModel.isLoading && viewModel.items.isEmpty {
-                ProgressView("Loading earnings...")
-                    .frame(maxWidth: .infinity)
-                    .padding(Spacing.s24)
+                VStack(spacing: Spacing.s12) {
+                    ForEach(0..<4, id: \.self) { _ in
+                        EarningsHistoryRowSkeleton()
+                    }
+                }
             } else if let errorMessage = viewModel.errorMessage, viewModel.items.isEmpty {
                 errorState(errorMessage)
             } else if viewModel.items.isEmpty {
@@ -302,3 +304,31 @@ public struct EarningsHistoryView: View {
         .padding(Spacing.s24)
     }
 }
+
+// MARK: - Earnings History Row Skeleton
+
+public struct EarningsHistoryRowSkeleton: View {
+    public init() {}
+
+    public var body: some View {
+        HStack(alignment: .top, spacing: Spacing.s12) {
+            EtmaenSkeletonCircle(size: Spacing.s48)
+
+            VStack(alignment: .leading, spacing: Spacing.s4) {
+                EtmaenSkeletonRect(width: 140, height: 14, radius: Radius.r8)
+                EtmaenSkeletonRect(width: 80, height: 10, radius: Radius.r8)
+            }
+
+            Spacer(minLength: Spacing.s8)
+
+            VStack(alignment: .trailing, spacing: Spacing.s4) {
+                EtmaenSkeletonRect(width: 50, height: 14, radius: Radius.r8)
+                EtmaenSkeletonRect(width: 60, height: 16, radius: Radius.r8)
+            }
+        }
+        .padding(Spacing.s16)
+        .background(Color.surface)
+        .clipShape(RoundedRectangle.carely(Radius.r16))
+    }
+}
+

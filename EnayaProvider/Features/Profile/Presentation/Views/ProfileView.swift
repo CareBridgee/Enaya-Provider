@@ -17,8 +17,7 @@ struct ProfileView: View {
         ScrollView {
             VStack(spacing: Spacing.s24) {
                 if viewModel.isLoading && viewModel.profile == nil {
-                    ProgressView()
-                        .padding(.top, 50)
+                    ProfileSkeletonView()
                 } else if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.error)
@@ -180,11 +179,8 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(Spacing.s24)
         .frame(maxWidth: .infinity)
-        .background(Color.surface)
-        .cornerRadius(Radius.r24)
-        .shadow(color: Color.black.opacity(0.05), radius: 10, y: 5)
+        .padding(.top, Spacing.s16)
     }
     
     @ViewBuilder
@@ -226,6 +222,48 @@ struct ProfileView: View {
             .cornerRadius(Radius.r16)
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Profile Skeleton View
+
+public struct ProfileSkeletonView: View {
+    public init() {}
+
+    public var body: some View {
+        VStack(spacing: Spacing.s24) {
+            // Header Section Skeleton
+            VStack(spacing: Spacing.s12) {
+                EtmaenSkeletonCircle(size: 88)
+
+                EtmaenSkeletonRect(width: 150, height: 20, radius: Radius.r8)
+                EtmaenSkeletonRect(width: 100, height: 14, radius: Radius.r8)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, Spacing.s16)
+
+            // Menu Items Skeleton
+            VStack(spacing: Spacing.s12) {
+                ForEach(0..<6, id: \.self) { _ in
+                    HStack(spacing: Spacing.s16) {
+                        EtmaenSkeletonCircle(size: 40)
+
+                        VStack(alignment: .leading, spacing: Spacing.s4) {
+                            EtmaenSkeletonRect(width: 130, height: 16, radius: Radius.r8)
+                            EtmaenSkeletonRect(width: 180, height: 12, radius: Radius.r8)
+                        }
+
+                        Spacer()
+
+                        EtmaenSkeletonCircle(size: 16)
+                    }
+                    .padding(Spacing.s16)
+                    .background(Color.surface)
+                    .cornerRadius(Radius.r16)
+                }
+            }
+        }
+        .padding(.horizontal, Spacing.s16)
     }
 }
 

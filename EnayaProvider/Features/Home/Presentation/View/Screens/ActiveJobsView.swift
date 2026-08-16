@@ -20,7 +20,13 @@ struct ActiveJobsView: View {
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: Spacing.s16) {
                     if viewModel.isOnline {
-                        if viewModel.jobRequests.isEmpty {
+                        if viewModel.isLoading && viewModel.jobRequests.isEmpty {
+                            VStack(spacing: Spacing.s12) {
+                                ActiveJobCardSkeleton()
+                                ActiveJobCardSkeleton()
+                                ActiveJobCardSkeleton()
+                            }
+                        } else if viewModel.jobRequests.isEmpty {
                             VStack(spacing: Spacing.s8) {
                                 Text("No pending requests at the moment.")
                                     .carelyText(style: .bodySmall, weight: .regular)
@@ -134,3 +140,37 @@ struct ActiveJobsView: View {
         .padding(.bottom, Spacing.s16)
     }
 }
+
+// MARK: - Active Job Card Skeleton
+
+public struct ActiveJobCardSkeleton: View {
+    public init() {}
+
+    public var body: some View {
+        VStack(spacing: Spacing.s16) {
+            HStack(alignment: .top, spacing: Spacing.s12) {
+                EtmaenSkeletonCircle(size: Spacing.s48)
+
+                VStack(alignment: .leading, spacing: Spacing.s4) {
+                    EtmaenSkeletonRect(width: 130, height: 16, radius: Radius.r8)
+                    EtmaenSkeletonRect(width: 80, height: 12, radius: Radius.r8)
+                }
+
+                Spacer()
+
+                EtmaenSkeletonRect(width: 60, height: 24, radius: Radius.r12)
+            }
+
+            HStack(spacing: Spacing.s12) {
+                EtmaenSkeletonRect(width: 100, height: 14, radius: Radius.r8)
+                Spacer()
+                EtmaenSkeletonRect(width: 70, height: 14, radius: Radius.r8)
+            }
+        }
+        .padding(Spacing.s16)
+        .background(Color.surface)
+        .clipShape(RoundedRectangle.carely(Radius.r16))
+        .shadow(color: Color.black.opacity(0.04), radius: Radius.r8, y: Spacing.s2)
+    }
+}
+

@@ -118,7 +118,6 @@ final class HomeRepositoryImpl: HomeRepositoryProtocol {
     @MainActor
     @discardableResult
     private func fetchAndIngestHistoricalRequests(pruneMissing: Bool = false) async throws -> [JobRequest] {
-        try? await Task.sleep(nanoseconds: 500_000_000)
         let historicalRequests: [NearbyNurseServiceRequestResponse] = try await networkClient.request(HomeEndpoint.getNearbyServiceRequests)
 
         if pruneMissing {

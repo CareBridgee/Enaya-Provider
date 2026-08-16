@@ -17,7 +17,7 @@ struct VisitCompletedView: View {
             Color.backGround.ignoresSafeArea()
             
             if viewModel.isLoading {
-                ProgressView("Finalizing visit details...")
+                VisitCompletedSkeletonView()
             } else {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: Spacing.s20) {
@@ -107,3 +107,62 @@ struct VisitCompletedView: View {
         .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 }
+
+// MARK: - Visit Completed Skeleton View
+
+public struct VisitCompletedSkeletonView: View {
+    public init() {}
+
+    public var body: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: Spacing.s20) {
+                // Status Hero Skeleton
+                VStack(spacing: Spacing.s12) {
+                    EtmaenSkeletonCircle(size: Spacing.s64)
+                    EtmaenSkeletonRect(width: 160, height: 20, radius: Radius.r8)
+                    EtmaenSkeletonRect(width: 220, height: 14, radius: Radius.r8)
+                }
+                .padding(.top, Spacing.s16)
+
+                // Summary Card Skeleton
+                VStack(spacing: Spacing.s16) {
+                    HStack {
+                        EtmaenSkeletonRect(width: 120, height: 16, radius: Radius.r8)
+                        Spacer()
+                        EtmaenSkeletonRect(width: 80, height: 20, radius: Radius.r12)
+                    }
+
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: Spacing.s12) {
+                        ForEach(0..<4, id: \.self) { _ in
+                            VStack(alignment: .leading, spacing: Spacing.s4) {
+                                EtmaenSkeletonRect(width: 60, height: 10, radius: Radius.r8)
+                                EtmaenSkeletonRect(width: 90, height: 14, radius: Radius.r8)
+                            }
+                            .padding(Spacing.s12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.surfaceVariant.opacity(0.4))
+                            .cornerRadius(Radius.r12)
+                        }
+                    }
+                }
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                // Payout Card Skeleton
+                HStack {
+                    EtmaenSkeletonRect(width: 120, height: 14, radius: Radius.r8)
+                    Spacer()
+                    EtmaenSkeletonRect(width: 70, height: 18, radius: Radius.r8)
+                }
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+            }
+            .padding(.horizontal, Spacing.s16)
+            .padding(.top, Spacing.s16)
+            .padding(.bottom, Spacing.s24)
+        }
+    }
+}
+
