@@ -18,8 +18,6 @@ struct ChatInputBar: View {
                 .carelyText(style: .bodyRegular, weight: .regular)
                 .padding(.horizontal, Spacing.s16)
                 .padding(.vertical, Spacing.s12)
-                .background(Color.surfaceVariant)
-                .clipShape(RoundedRectangle.carely(Radius.r24))
                 .lineLimit(1...4)
 
             Button(action: onSend) {
@@ -30,7 +28,14 @@ struct ChatInputBar: View {
             }
             .disabled(text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
         }
-        .padding(Spacing.s16)
-        .background(Color.backGround)
+        .padding(.horizontal, Spacing.s12)
+        .padding(.vertical, Spacing.s8)
+        .background(
+            Capsule()
+                .fill(Color.surface)
+                .shadow(color: Color.black.opacity(0.12), radius: Radius.r16, x: 0, y: 8)
+        )
+        .padding(.horizontal, 20)
+        .padding(.bottom, Spacing.s8)
     }
 }
