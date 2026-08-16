@@ -11,6 +11,7 @@ import Foundation
 final class MainTabCoordinator: ObservableObject {
 
     @Published var selectedTab: AppTab = .home
+    @Published var isTabBarVisible: Bool = true
     @Published var currentNotification: NotificationData?
 
     let homeCoordinator: HomeCoordinator

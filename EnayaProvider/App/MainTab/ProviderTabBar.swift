@@ -1,29 +1,29 @@
-//
-//  ProviderTabBar.swift
-//  EnayaProvider
-//
-//  Created by Mahmoud Raafat Mustafa on 22/07/2026.
-//
-
-
 import SwiftUI
+
+// MARK: - ProviderTabBar
 
 struct ProviderTabBar: View {
     @Binding var selectedTab: AppTab
     private let hapticGenerator = UIImpactFeedbackGenerator(style: .light)
 
     var body: some View {
-        HStack(spacing: Spacing.s0) {
+        HStack(spacing: Spacing.s8) {
             ForEach(AppTab.allCases, id: \.self) { tab in
                 tabButton(for: tab)
-                    .frame(maxWidth: .infinity)
             }
         }
-        .padding(.horizontal, Spacing.s8)
-        .padding(.top, Spacing.s12)
-        .background(Color.surface.ignoresSafeArea(edges: .bottom))
-        .shadow(color: .black.opacity(0.06), radius: Radius.r12, y: -4)
+        .padding(.horizontal, Spacing.s12)
+        .frame(height: 68)
+        .background(
+            Capsule()
+                .fill(Color.surface)
+                .shadow(color: Color.black.opacity(0.12), radius: Radius.r16, x: 0, y: 8)
+        )
+        .padding(.horizontal, 20)
+        .padding(.bottom, 0)
     }
+
+    // MARK: - Tab Button
 
     @ViewBuilder
     private func tabButton(for tab: AppTab) -> some View {
@@ -32,23 +32,32 @@ struct ProviderTabBar: View {
         Button {
             select(tab)
         } label: {
-            VStack(spacing: Spacing.s4) {
-                Image(systemName: tab.iconName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: IconSize.s24, height: IconSize.s24)
+            HStack(spacing: Spacing.s8) {
+                Image(systemName: tab.iconName(isSelected: isSelected))
+                    .font(.system(size: 20, weight: .semibold))
+                    .scaleEffect(isSelected ? 1.1 : 1.0)
 
-                Text(tab.title)
-                    .carelyText(style: .caption, weight: isSelected ? .bold : .medium)
+                if isSelected {
+                    Text(tab.title)
+                        .carelyText(style: .bodySmall, weight: .bold)
+                        .lineLimit(1)
+                        .transition(.opacity.combined(with: .move(edge: .leading)))
+                }
             }
-            .foregroundColor(isSelected ? .brandPrimary : .secondaryFont)
-            .padding(.vertical, Spacing.s8)
-            .padding(.horizontal, Spacing.s16)
-            .background(isSelected ? Color.mintSurface : Color.clear)
-            .clipShape(Capsule())
+            .foregroundColor(isSelected ? .onPrimary : .secondaryFont)
+            .padding(.horizontal, isSelected ? Spacing.s16 : Spacing.s12)
+            .frame(maxWidth: isSelected ? .infinity : nil)
+            .frame(height: 48)
+            .background(
+                Capsule()
+                    .fill(isSelected ? Color.brandPrimary : Color.clear)
+            )
         }
         .buttonStyle(PlainButtonStyle())
+        .frame(maxWidth: isSelected ? .infinity : nil)
     }
+
+    // MARK: - Selection
 
     private func select(_ tab: AppTab) {
         guard tab != selectedTab else { return }
@@ -58,3 +67,4 @@ struct ProviderTabBar: View {
         }
     }
 }
+
