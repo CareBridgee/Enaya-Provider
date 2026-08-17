@@ -17,23 +17,30 @@ struct WelcomeView : View {
 
     var body: some View {
         VStack {
-            Image.careConnect
-                .resizable()
-                .scaledToFit()
-                .frame(width: 350, height: 350)
-            
             Spacer()
+
+            Image.logo
+                .resizable()
+                .renderingMode(.template)
+                .scaledToFit()
+                .foregroundColor(.brandPrimary)
+                .frame(width: 140, height: 140)
             
-            Text("Care Connect")
-                .carelyText(style: .display, weight: .light)
+            Spacer().frame(height: Spacing.s16)
+            
+            Text("Etmaen - Provider")
+                .carelyText(style: .heading2, weight: .medium)
                 .foregroundColor(.brandPrimary)
                 
-            Text("Reassuring care for you and your loved ones")
-                .carelyText(style: .bodyRegular, weight: .light)
+            Text("Empowering healthcare professionals to deliver trusted care")
+                .carelyText(style: .bodyRegular, weight: .regular)
+                .foregroundColor(.secondaryFont)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, Spacing.s24)
             
-            Spacer()
+            Spacer(minLength: Spacing.s16)
             
-            loginButton(
+            loginButton(    
                 title: "Continue with Google",
                 image: .googleIcon,
                 backgroundColor: .surface,
@@ -75,7 +82,7 @@ struct WelcomeView : View {
                     .padding(.top, 4)
             }
             
-            Spacer()
+            Spacer().frame(height: Spacing.s48)
             
             termsAndPrivacyText
                 .padding(.horizontal, 32)

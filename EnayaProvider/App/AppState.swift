@@ -9,6 +9,8 @@ import Foundation
 import Combine
 
 enum AppFlow: Equatable {
+    case splash
+    case onboarding
     case auth
     case profileSetup
     case underReview
@@ -30,17 +32,20 @@ final class AppState: ObservableObject {
     init(sessionManager: SessionManager, appSettings: AppSettingsProtocol = AppSettings.shared) {
         self.sessionManager = sessionManager
         self.appSettings = appSettings
+
         self.appearance = appSettings.appearance
-        
-        if sessionManager.state == .loggedIn,
-           let rawStatus = appSettings.applicationStatus,
-           let status = ApplicationStatus(rawValue: rawStatus) {
-            // Already-approved nurses skip the one-time celebration screen on relaunch.
-            self.flow = status == .approved ? .home : Self.flow(for: status)
-        } else {
-            self.flow = .auth
-        }
-        
+
+        self.flow = .splash
+//        if sessionManager.state == .loggedIn,
+//           let rawStatus = appSettings.applicationStatus,
+//           let status = ApplicationStatus(rawValue: rawStatus) {
+//            // Already-approved nurses skip the one-time celebration screen on relaunch.
+//            self.flow = status == .approved ? .home : Self.flow(for: status)
+//           // self.flow = .auth
+//        } else {
+//            self.flow = .auth
+//        }
+
         sessionManager.$state
             .dropFirst()
             .receive(on: RunLoop.main)
@@ -50,6 +55,32 @@ final class AppState: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    func splashDidFinish() {
+        if !appSettings.hasSeenOnboarding {
+            flow = .onboarding
+        } else  if sessionManager.state == .loggedIn,
+                   let rawStatus = appSettings.applicationStatus,
+                   let status = ApplicationStatus(rawValue: rawStatus) {
+                    // Already-approved nurses skip the one-time celebration screen on relaunch.
+                    self.flow = status == .approved ? .home : Self.flow(for: status)
+                   // self.flow = .auth
+                } else {
+                    self.flow = .auth
+                }
+            
+    }
+
+    func completeOnboarding() {
+        appSettings.hasSeenOnboarding = true
+        if sessionManager.state == .loggedIn,
+           let rawStatus = appSettings.applicationStatus,
+           let status = ApplicationStatus(rawValue: rawStatus) {
+            self.flow = status == .approved ? .home : Self.flow(for: status)
+        } else {
+            self.flow = .auth
+        }
     }
 
     func setAppearance(_ newAppearance: AppAppearance) {

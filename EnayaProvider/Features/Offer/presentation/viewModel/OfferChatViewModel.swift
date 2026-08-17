@@ -56,6 +56,7 @@ final class OfferChatViewModel: ObservableObject {
         self.chatRepository = chatRepository
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
         self.coordinator = coordinator
+        print("----------OfferChatViewModel initialized with reservationId: \(reservationId), patientName: \(patientName), patientPhone: \(patientPhone)")
     }
 
     func loadChat() {
@@ -65,9 +66,11 @@ final class OfferChatViewModel: ObservableObject {
                 messages = try await chatRepository.fetchHistory(reservationId: reservationId)
             } catch {
                 displayTemporaryError("Failed to load chat history.")
+                print("----------Error fetching chat history for reservationId \(reservationId): \(error)")
             }
             startObservingSocket()
             startObservingReservation()
+            print("----------Started observing socket and reservation events for reservationId: \(reservationId)")
             isLoading = false
         }
     }
@@ -75,9 +78,15 @@ final class OfferChatViewModel: ObservableObject {
     private func startObservingSocket() {
         socketTask?.cancel()
         socketTask = Task { @MainActor in
-            for await newMessage in chatRepository.observeMessages(reservationId: reservationId) {
-                handleIncoming(newMessage)
+            do{
+                for await newMessage in chatRepository.observeMessages(reservationId: reservationId) {
+                    handleIncoming(newMessage)
+                }
+            }catch{
+                displayTemporaryError("Failed to observe.")
+                print("----------Error observing socket messages for reservationId \(reservationId): \(error)")
             }
+            
         }
     }
     
