@@ -17,28 +17,29 @@ struct ProfileView: View {
         ScrollView {
             VStack(spacing: Spacing.s24) {
                 if viewModel.isLoading && viewModel.profile == nil {
-                    ProgressView()
-                        .padding(.top, 50)
+                    ProfileSkeletonView()
                 } else if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
-                        .foregroundColor(.red)
+                        .foregroundColor(.error)
                         .padding()
                 } else if let profile = viewModel.profile {
                     headerSection(profile)
                     
                     VStack(spacing: Spacing.s12) {
-                        menuItem(icon: "person.crop.rectangle", title: "Professional Info", subtitle: "Specialties, bio, and education") {
+                        menuItem(icon: "person.crop.rectangle.fill", title: "Professional Info", subtitle: "Specialties, bio, and education") {
                             viewModel.navigateToPersonalInfo()
                         }
-                        menuItem(icon: "doc.plaintext", title: "Documents", subtitle: "Verified", showBadge: true) {
+                        menuItem(icon: "doc.plaintext.fill", title: "Documents", subtitle: "Verified", showBadge: true) {
                             viewModel.navigateToDocuments()
                         }
-                        menuItem(icon: "calendar", title: "Availability Settings", subtitle: "Working hours & block dates")
-                        menuItem(icon: "text.bubble", title: "Reviews", subtitle: "\(profile.totalReviews ?? 0) patient testimonials") {
+                        menuItem(icon: "gearshape.fill", title: "Settings", subtitle: "App preferences & privacy") {
+                            viewModel.navigateToSettings()
+                        }
+                        menuItem(icon: "text.bubble.fill", title: "Reviews", subtitle: "\(profile.totalReviews ?? 0) patient testimonials") {
                             viewModel.navigateToReviews()
                         }
-                        menuItem(icon: "wallet.pass", title: "Wallet", subtitle: "payment method")
-                        menuItem(icon: "questionmark.circle", title: "Support", subtitle: "Help center and live chat")
+                        menuItem(icon: "wallet.pass.fill", title: "Wallet", subtitle: "payment method")
+                        menuItem(icon: "questionmark.circle.fill", title: "Support", subtitle: "Help center and live chat")
                     }
                     
                     Button(action: {
@@ -49,29 +50,28 @@ struct ProfileView: View {
                             Text("Logout")
                         }
                         .font(.headline)
-                        .foregroundColor(.red)
+                        .foregroundColor(.error)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Spacing.s16)
                         .background(
                             RoundedRectangle(cornerRadius: Radius.r12)
-                                .stroke(Color.red.opacity(0.3), lineWidth: 1)
-                                .background(Color.white.cornerRadius(Radius.r12))
+                                .stroke(Color.error.opacity(0.3), lineWidth: 1)
+                                .background(Color.surface.cornerRadius(Radius.r12))
                         )
                     }
                     .padding(.top, Spacing.s16)
                     
                     Text("Version 1.0.0")
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.hint)
                         .padding(.bottom, Spacing.s24)
                 }
             }
             .padding(.horizontal, Spacing.s20)
             .padding(.top, Spacing.s16)
         }
-        .background(Color.surface.ignoresSafeArea())
-        .navigationTitle("Profile")
-        .navigationBarTitleDisplayMode(.inline)
+        .background(Color.backGround.ignoresSafeArea())
+        .navigationBarHidden(true)
         .alert("Logout", isPresented: $showLogoutAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Logout", role: .destructive) {
@@ -79,35 +79,6 @@ struct ProfileView: View {
             }
         } message: {
             Text("Are you sure you want to log out?")
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                HStack {
-                    if let imageUrl = viewModel.profile?.profileImageUrl, let url = URL(string: imageUrl) {
-                        AsyncImage(url: url) { image in
-                            image.resizable().scaledToFill()
-                        } placeholder: {
-                            Color.gray.opacity(0.3)
-                        }
-                        .frame(width: 32, height: 32)
-                        .clipShape(Circle())
-                    } else {
-                        Circle().fill(Color.gray.opacity(0.3))
-                            .frame(width: 32, height: 32)
-                    }
-                    
-                    Text(viewModel.profile?.firstName ?? "Profile")
-                        .font(.headline)
-                }
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    viewModel.navigateToSettings()
-                }) {
-                    Image(systemName: "gearshape")
-                        .foregroundColor(.brandPrimary)
-                }
-            }
         }
         .onAppear {
             viewModel.loadProfile()
@@ -132,27 +103,21 @@ struct ProfileView: View {
                     AsyncImage(url: url) { image in
                         image.resizable().scaledToFill()
                     } placeholder: {
-                        Color.gray.opacity(0.3)
+                        Color.surfaceVariant
                     }
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 3))
                 } else {
-                    Circle().fill(Color.gray.opacity(0.3))
+                    Circle().fill(Color.surfaceVariant)
                         .frame(width: 100, height: 100)
+                        .overlay(
+                            Image(systemName: "person.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(.brandPrimary)
+                        )
+                        .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 3))
                 }
-                
-                // Edit Pin
-                PhotosPicker(selection: $selectedImageItem, matching: .images) {
-                    Image(systemName: "pencil")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.white)
-                        .padding(6)
-                        .background(Color.brandPrimary)
-                        .clipShape(Circle())
-                        .shadow(radius: 2)
-                }
-                .offset(x: 5, y: -5) // Adjusted offset to be more up
                 
                 if viewModel.isUploadingImage {
                     ZStack {
@@ -160,72 +125,110 @@ struct ProfileView: View {
                             .fill(Color.black.opacity(0.5))
                             .frame(width: 100, height: 100)
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .progressViewStyle(CircularProgressViewStyle(tint: .onPrimary))
                     }
                 }
-                
-
             }
             
             VStack(spacing: Spacing.s4) {
                 Text(profile.fullName)
                     .font(.title2).bold()
+                    .foregroundColor(.primaryFont)
                 
-                HStack {
+                HStack(spacing: Spacing.s4) {
                     Image(systemName: "cross.case.fill")
                         .foregroundColor(.brandPrimary)
+                        .font(.caption)
                     Text(profile.specialization ?? "General")
                         .font(.subheadline)
                         .foregroundColor(.brandPrimary)
                 }
             }
         }
-        .padding(Spacing.s24)
         .frame(maxWidth: .infinity)
-        .background(Color.white)
-        .cornerRadius(Radius.r24)
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 5)
+        .padding(.top, Spacing.s16)
     }
     
     @ViewBuilder
     private func menuItem(icon: String, title: String, subtitle: String, showBadge: Bool = false, action: @escaping () -> Void = {}) -> some View {
         Button(action: action) {
             HStack(spacing: Spacing.s16) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: Radius.r12)
-                        .fill(Color.mintSurface)
-                        .frame(width: 48, height: 48)
-                    Image(systemName: icon)
-                        .foregroundColor(.brandPrimary)
-                        .font(.system(size: 20))
-                }
-                
-                VStack(alignment: .leading, spacing: 2) {
+                Image(systemName: icon)
+                    .carelyText(style: .bodyRegular)
+                    .foregroundColor(.brandPrimary)
+                    .frame(width: 44, height: 44)
+                    .background(Color.primaryContainer.opacity(0.5))
+                    .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                VStack(alignment: .leading, spacing: Spacing.s4) {
                     HStack {
                         Text(title)
-                            .font(.headline)
+                            .carelyText(style: .bodyRegular, weight: .semiBold)
                             .foregroundColor(.primaryFont)
                         if showBadge {
                             Circle()
-                                .fill(Color.green)
+                                .fill(Color.success)
                                 .frame(width: 8, height: 8)
                         }
                     }
                     Text(subtitle)
-                        .font(.caption)
+                        .carelyText(style: .caption)
                         .foregroundColor(.secondaryFont)
                 }
                 
-                Spacer()
+                Spacer(minLength: Spacing.s8)
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.gray.opacity(0.5))
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.hint)
             }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(Radius.r16)
+            .padding(Spacing.s16)
+            .background(Color.surface)
+            .clipShape(RoundedRectangle.carely(Radius.r20))
         }
         .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Profile Skeleton View
+
+public struct ProfileSkeletonView: View {
+    public init() {}
+
+    public var body: some View {
+        VStack(spacing: Spacing.s24) {
+            // Header Section Skeleton
+            VStack(spacing: Spacing.s12) {
+                EtmaenSkeletonCircle(size: 88)
+
+                EtmaenSkeletonRect(width: 150, height: 20, radius: Radius.r8)
+                EtmaenSkeletonRect(width: 100, height: 14, radius: Radius.r8)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, Spacing.s16)
+
+            // Menu Items Skeleton
+            VStack(spacing: Spacing.s12) {
+                ForEach(0..<6, id: \.self) { _ in
+                    HStack(spacing: Spacing.s16) {
+                        EtmaenSkeletonCircle(size: 40)
+
+                        VStack(alignment: .leading, spacing: Spacing.s4) {
+                            EtmaenSkeletonRect(width: 130, height: 16, radius: Radius.r8)
+                            EtmaenSkeletonRect(width: 180, height: 12, radius: Radius.r8)
+                        }
+
+                        Spacer()
+
+                        EtmaenSkeletonCircle(size: 16)
+                    }
+                    .padding(Spacing.s16)
+                    .background(Color.surface)
+                    .cornerRadius(Radius.r16)
+                }
+            }
+        }
+        .padding(.horizontal, Spacing.s16)
     }
 }
 
@@ -241,7 +244,6 @@ struct ProfileView_Previews: PreviewProvider {
             coordinator: ProfileCoordinator()
         )
         
-        // Mock data to render immediately
         viewModel.profile = ProfileEntity(
             id: "1",
             firstName: "Nurse",

@@ -1,6 +1,6 @@
 //
 //  AppState.swift
-//  Carely
+//  EnayaProvider
 //
 //  Created by Mohamed Ayman on 16/07/2026.
 //
@@ -18,10 +18,12 @@ enum AppFlow: Equatable {
     case rejected
     case home
 }
+
 @MainActor
 final class AppState: ObservableObject {
 
     @Published private(set) var flow: AppFlow
+    @Published private(set) var appearance: AppAppearance
 
     private let sessionManager: SessionManager
     private var appSettings: AppSettingsProtocol
@@ -30,6 +32,9 @@ final class AppState: ObservableObject {
     init(sessionManager: SessionManager, appSettings: AppSettingsProtocol = AppSettings.shared) {
         self.sessionManager = sessionManager
         self.appSettings = appSettings
+
+        self.appearance = appSettings.appearance
+
         self.flow = .splash
 //        if sessionManager.state == .loggedIn,
 //           let rawStatus = appSettings.applicationStatus,
@@ -40,7 +45,7 @@ final class AppState: ObservableObject {
 //        } else {
 //            self.flow = .auth
 //        }
-        
+
         sessionManager.$state
             .dropFirst()
             .receive(on: RunLoop.main)
@@ -76,6 +81,11 @@ final class AppState: ObservableObject {
         } else {
             self.flow = .auth
         }
+    }
+
+    func setAppearance(_ newAppearance: AppAppearance) {
+        appSettings.appearance = newAppearance
+        appearance = newAppearance
     }
 
     func completeAuth(with status: ApplicationStatus) {

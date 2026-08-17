@@ -15,7 +15,7 @@ struct ProfileReviewsView: View {
     var body: some View {
         VStack(spacing: 0) {
             AppHeader(
-                title: "NurseConnect",
+                title: "Reviews",
                 showBackButton: true,
                 trailingIcon: nil
             )
@@ -38,7 +38,7 @@ struct ProfileReviewsView: View {
                                 .foregroundColor(.secondaryFont)
                         }
                         
-                        // Mock Rating Distribution
+                        // Rating Distribution
                         VStack(spacing: Spacing.s8) {
                             RatingRow(star: 5, percentage: 92)
                             RatingRow(star: 4, percentage: 6)
@@ -49,9 +49,9 @@ struct ProfileReviewsView: View {
                         .padding(.horizontal, Spacing.s16)
                     }
                     .padding(.vertical, Spacing.s24)
-                    .background(Color.white)
+                    .background(Color.surface)
                     .cornerRadius(Radius.r24)
-                    .shadow(color: .black.opacity(0.05), radius: 10, y: 5)
+                    .shadow(color: Color.black.opacity(0.05), radius: 10, y: 5)
                     .padding(.horizontal, Spacing.s20)
                     .padding(.top, Spacing.s16)
                     
@@ -67,11 +67,11 @@ struct ProfileReviewsView: View {
                                         .padding(.horizontal, Spacing.s16)
                                         .padding(.vertical, Spacing.s8)
                                         .background(viewModel.selectedFilter == filter ? Color.brandPrimary : Color.surface)
-                                        .foregroundColor(viewModel.selectedFilter == filter ? .white : .primaryFont)
+                                        .foregroundColor(viewModel.selectedFilter == filter ? .onPrimary : .primaryFont)
                                         .clipShape(Capsule())
                                         .overlay(
                                             Capsule()
-                                                .stroke(Color.gray.opacity(0.2), lineWidth: viewModel.selectedFilter == filter ? 0 : 1)
+                                                .stroke(Color.divider, lineWidth: viewModel.selectedFilter == filter ? 0 : 1)
                                         )
                                 }
                             }
@@ -81,17 +81,23 @@ struct ProfileReviewsView: View {
                     
                     // Reviews List
                     LazyVStack(spacing: Spacing.s16) {
-                        ForEach(viewModel.reviews) { review in
-                            ReviewCard(review: review)
-                        }
-                        
-                        if viewModel.isLoading || viewModel.isFetchingMore {
-                            ProgressView()
-                                .padding()
-                        } else if viewModel.reviews.isEmpty {
-                            Text("No reviews yet.")
-                                .foregroundColor(.secondaryFont)
-                                .padding()
+                        if viewModel.isLoading && viewModel.reviews.isEmpty {
+                            ForEach(0..<3, id: \.self) { _ in
+                                ReviewCardSkeleton()
+                            }
+                        } else {
+                            ForEach(viewModel.reviews) { review in
+                                ReviewCard(review: review)
+                            }
+                            
+                            if viewModel.isFetchingMore {
+                                ProgressView()
+                                    .padding()
+                            } else if viewModel.reviews.isEmpty {
+                                Text("No reviews yet.")
+                                    .foregroundColor(.secondaryFont)
+                                    .padding()
+                            }
                         }
                         
                         // Load More Button (if not last page)
@@ -104,7 +110,7 @@ struct ProfileReviewsView: View {
                                     .foregroundColor(.brandPrimary)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, Spacing.s12)
-                                    .background(Color.white)
+                                    .background(Color.surface)
                                     .cornerRadius(Radius.r16)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: Radius.r16)
@@ -120,7 +126,7 @@ struct ProfileReviewsView: View {
                 .padding(.bottom, 100)
             }
         }
-        .background(Color.surface.ignoresSafeArea())
+        .background(Color.backGround.ignoresSafeArea())
         .navigationBarHidden(true)
         .onAppear {
             viewModel.fetchReviews(reset: true)
@@ -137,7 +143,7 @@ struct RatingStars: View {
         HStack(spacing: 2) {
             ForEach(0..<5) { i in
                 Image(systemName: getStarName(index: i))
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.amber)
                     .font(.system(size: 14))
             }
         }
@@ -167,7 +173,7 @@ struct RatingRow: View {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     Capsule()
-                        .fill(Color.gray.opacity(0.2))
+                        .fill(Color.surfaceVariant)
                         .frame(height: 8)
                     
                     Capsule()
@@ -234,9 +240,9 @@ struct ReviewCard: View {
             }
         }
         .padding(Spacing.s20)
-        .background(Color.white)
+        .background(Color.surface)
         .cornerRadius(Radius.r24)
-        .shadow(color: .black.opacity(0.03), radius: 10, y: 5)
+        .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
     }
     
     private func getInitials(name: String) -> String {
@@ -255,3 +261,33 @@ struct ReviewCard: View {
         return formatter.string(from: date)
     }
 }
+
+// MARK: - Review Card Skeleton
+
+public struct ReviewCardSkeleton: View {
+    public init() {}
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.s12) {
+            HStack {
+                EtmaenSkeletonCircle(size: 40)
+
+                VStack(alignment: .leading, spacing: Spacing.s4) {
+                    EtmaenSkeletonRect(width: 120, height: 14, radius: Radius.r8)
+                    EtmaenSkeletonRect(width: 80, height: 10, radius: Radius.r8)
+                }
+
+                Spacer()
+
+                EtmaenSkeletonRect(width: 60, height: 14, radius: Radius.r8)
+            }
+
+            EtmaenSkeletonText(lines: 2, lineHeight: 12, spacing: Spacing.s4)
+        }
+        .padding(Spacing.s20)
+        .background(Color.surface)
+        .cornerRadius(Radius.r24)
+        .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
+    }
+}
+

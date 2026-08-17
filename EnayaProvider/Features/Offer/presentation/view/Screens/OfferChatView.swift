@@ -191,8 +191,6 @@ struct OfferChatView: View {
                 .carelyText(style: .bodyRegular, weight: .regular)
                 .padding(.horizontal, Spacing.s16)
                 .padding(.vertical, Spacing.s12)
-                .background(Color.surfaceVariant)
-                .clipShape(Capsule())
                 .lineLimit(1...4)
             
             Button(action: viewModel.sendMessage) {
@@ -208,9 +206,15 @@ struct OfferChatView: View {
             .disabled(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
             .opacity(viewModel.inputText.isEmpty ? 0.6 : 1.0)
         }
-        .padding(.horizontal, Spacing.s16)
-        .padding(.vertical, Spacing.s12)
-        .background(Color.surface)
+        .padding(.horizontal, Spacing.s12)
+        .padding(.vertical, Spacing.s8)
+        .background(
+            Capsule()
+                .fill(Color.surface)
+                .shadow(color: Color.black.opacity(0.12), radius: Radius.r16, x: 0, y: 8)
+        )
+        .padding(.horizontal, 20)
+        .padding(.bottom, Spacing.s8)
     }
     
     // MARK: - Empty State

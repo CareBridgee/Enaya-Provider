@@ -17,7 +17,7 @@ struct OfferDetailsView: View {
             Color.backGround.ignoresSafeArea()
             
             if viewModel.isLoading {
-                ProgressView("Loading live details...")
+                OfferDetailsSkeletonView()
             } else if viewModel.requestDetails != nil {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: Spacing.s16) {
@@ -163,3 +163,84 @@ struct OfferDetailsView: View {
         .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 }
+
+// MARK: - Offer Details Skeleton View
+
+public struct OfferDetailsSkeletonView: View {
+    public init() {}
+
+    public var body: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: Spacing.s16) {
+                // Schedule Card Skeleton
+                HStack {
+                    VStack(alignment: .leading, spacing: Spacing.s4) {
+                        EtmaenSkeletonRect(width: 80, height: 10, radius: Radius.r8)
+                        EtmaenSkeletonRect(width: 140, height: 16, radius: Radius.r8)
+                    }
+                    Spacer()
+                    EtmaenSkeletonRect(width: 70, height: 24, radius: Radius.r12)
+                }
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                // Patient Card Skeleton
+                HStack(spacing: Spacing.s16) {
+                    EtmaenSkeletonCircle(size: 56)
+                    VStack(alignment: .leading, spacing: Spacing.s4) {
+                        EtmaenSkeletonRect(width: 120, height: 16, radius: Radius.r8)
+                        EtmaenSkeletonRect(width: 80, height: 12, radius: Radius.r8)
+                    }
+                    Spacer()
+                    HStack(spacing: Spacing.s8) {
+                        EtmaenSkeletonCircle(size: 36)
+                        EtmaenSkeletonCircle(size: 36)
+                    }
+                }
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                // Service Card Skeleton
+                VStack(alignment: .leading, spacing: Spacing.s12) {
+                    EtmaenSkeletonRect(width: 100, height: 12, radius: Radius.r8)
+                    HStack(spacing: Spacing.s12) {
+                        EtmaenSkeletonCircle(size: 40)
+                        VStack(alignment: .leading, spacing: Spacing.s4) {
+                            EtmaenSkeletonRect(width: 140, height: 16, radius: Radius.r8)
+                            EtmaenSkeletonRect(width: 90, height: 12, radius: Radius.r8)
+                        }
+                    }
+                }
+                .padding(Spacing.s16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+
+                // Location / Map Skeleton
+                VStack(alignment: .leading, spacing: Spacing.s8) {
+                    EtmaenSkeletonRect(width: 80, height: 12, radius: Radius.r8)
+                    EtmaenSkeletonRect(height: 120, radius: Radius.r16)
+                }
+
+                // Payment Summary Skeleton
+                VStack(alignment: .leading, spacing: Spacing.s12) {
+                    EtmaenSkeletonRect(width: 120, height: 12, radius: Radius.r8)
+                    HStack {
+                        EtmaenSkeletonRect(width: 90, height: 14, radius: Radius.r8)
+                        Spacer()
+                        EtmaenSkeletonRect(width: 60, height: 18, radius: Radius.r8)
+                    }
+                }
+                .padding(Spacing.s16)
+                .background(Color.surface)
+                .clipShape(RoundedRectangle.carely(Radius.r16))
+            }
+            .padding(.horizontal, Spacing.s16)
+            .padding(.top, Spacing.s16)
+            .padding(.bottom, Spacing.s24)
+        }
+    }
+}
+

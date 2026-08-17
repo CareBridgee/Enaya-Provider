@@ -26,10 +26,23 @@ struct ProvidedServicesView: View {
                 }
                 .padding(.top, Spacing.s8)
 
-                if viewModel.isLoading {
-                    ProgressView()
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding()
+                if viewModel.isLoading && viewModel.availableServices.isEmpty {
+                    LazyVGrid(
+                        columns: [GridItem(.flexible(), spacing: Spacing.s12), GridItem(.flexible(), spacing: Spacing.s12)],
+                        spacing: Spacing.s12
+                    ) {
+                        ForEach(0..<6, id: \.self) { _ in
+                            HStack(spacing: Spacing.s8) {
+                                EtmaenSkeletonCircle(size: 20)
+                                EtmaenSkeletonRect(width: 80, height: 14, radius: Radius.r8)
+                            }
+                            .padding(.horizontal, Spacing.s16)
+                            .padding(.vertical, Spacing.s12)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color.surface)
+                            .cornerRadius(Radius.r12)
+                        }
+                    }
                 } else {
                     ServiceSelectionGrid(
                         availableServices: viewModel.availableServices,

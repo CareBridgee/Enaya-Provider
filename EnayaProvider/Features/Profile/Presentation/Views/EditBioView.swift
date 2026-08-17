@@ -18,7 +18,7 @@ struct EditBioView: View {
             HStack {
                 Spacer()
                 Capsule()
-                    .fill(Color.gray.opacity(0.5))
+                    .fill(Color.hint.opacity(0.5))
                     .frame(width: 40, height: 5)
                 Spacer()
             }
@@ -42,7 +42,8 @@ struct EditBioView: View {
                         
                         TextField("", text: $viewModel.specialization)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .foregroundColor(.primaryFont)
+                            .background(Color.surfaceVariant)
                             .cornerRadius(Radius.r12)
                     }
                     
@@ -55,7 +56,8 @@ struct EditBioView: View {
                         TextField("", text: $viewModel.yearsOfExperience)
                             .keyboardType(.numberPad)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .foregroundColor(.primaryFont)
+                            .background(Color.surfaceVariant)
                             .cornerRadius(Radius.r12)
                     }
                     
@@ -67,7 +69,9 @@ struct EditBioView: View {
                         
                         TextEditor(text: $viewModel.bio)
                             .padding(Spacing.s8)
-                            .background(Color(UIColor.systemGray6))
+                            .scrollContentBackground(.hidden)
+                            .foregroundColor(.primaryFont)
+                            .background(Color.surfaceVariant)
                             .cornerRadius(Radius.r12)
                             .frame(minHeight: 150)
                     }
@@ -75,7 +79,7 @@ struct EditBioView: View {
                     if let error = viewModel.error {
                         Text(error.localizedDescription)
                             .font(.caption)
-                            .foregroundColor(.red)
+                            .foregroundColor(.error)
                     }
                 }
             }
@@ -91,7 +95,7 @@ struct EditBioView: View {
                         .foregroundColor(.brandPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, Spacing.s16)
-                        .background(Color.white)
+                        .background(Color.surface)
                         .cornerRadius(Radius.r12)
                         .overlay(
                             RoundedRectangle(cornerRadius: Radius.r12)
@@ -105,13 +109,13 @@ struct EditBioView: View {
                 }) {
                     if viewModel.isLoading {
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .progressViewStyle(CircularProgressViewStyle(tint: .onPrimary))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, Spacing.s16)
                     } else {
                         Text("Save")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.onPrimary)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, Spacing.s16)
                     }
@@ -124,7 +128,7 @@ struct EditBioView: View {
             
         }
         .padding(.horizontal, Spacing.s24)
-        .background(Color.white.ignoresSafeArea())
+        .background(Color.surface.ignoresSafeArea())
         .presentationDetents([.fraction(0.75)])
     }
 }

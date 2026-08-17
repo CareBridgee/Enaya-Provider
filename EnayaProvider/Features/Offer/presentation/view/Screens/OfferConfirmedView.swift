@@ -17,39 +17,63 @@ struct OfferConfirmedView: View {
     @State private var pickerSourceType: ImagePicker.SourceType = .photoLibrary
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: Spacing.s16) {
-                statusHero
-                
-                if let error = viewModel.errorMessage {
-                    AlertBanner(style: .error, message: error)
-                        .transition(.move(edge: .top).combined(with: .opacity))
+        ZStack {
+            Color.backGround.ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: Spacing.s24) {
+                        statusHero
+                        
+                        if let error = viewModel.errorMessage {
+                            AlertBanner(style: .error, message: error)
+                                .transition(.move(edge: .top).combined(with: .opacity))
+                        }
+                        
+                        AlertBanner(
+                            style: .info,
+                            message: "You can cancel within 2 minutes after the visit starts. After that, a cancellation fee will apply."
+                        )
+                        
+                        OfferPatientCard(
+                            name: viewModel.patientName,
+                            ageText: viewModel.patientAge,
+                            caption: "Estimated Arrival",
+                            captionValue: viewModel.estimatedArrivalText,
+                            imageUrl: viewModel.patientImageUrl,
+                            onCall: viewModel.callPatientTapped,
+                            onMessage: viewModel.openChatTapped
+                        )
+                        
+                        HStack(spacing: Spacing.s16) {
+                            OfferStatChip(
+                                icon: "mappin.and.ellipse",
+                                title: "Distance",
+                                value: viewModel.distanceText,
+                                isPrimaryStyle: true
+                            )
+                            OfferStatChip(
+                                icon: "cross.case.fill",
+                                title: "Service",
+                                value: viewModel.serviceName,
+                                isPrimaryStyle: false
+                            )
+                        }
+                    }
+                    .padding(.horizontal, Spacing.s20)
+                    .padding(.bottom, Spacing.s24)
+                    .frame(maxWidth: .infinity)
                 }
                 
-                AlertBanner(
-                    style: .info,
-                    message: "You can cancel within 2 minutes after the visit starts. After that, a cancellation fee will apply."
-                )
-                
-                OfferPatientCard(
-                    name: viewModel.patientName,
-                    ageText: viewModel.patientAge,
-                    caption: "Estimated Arrival",
-                    captionValue: viewModel.estimatedArrivalText,
-                    imageUrl: viewModel.patientImageUrl,
-                    onCall: viewModel.callPatientTapped,
-                    onMessage: viewModel.openChatTapped
-                )
-                
-                HStack(spacing: Spacing.s12) {
-                    OfferStatChip(icon: "location.fill", title: "Distance", value: viewModel.distanceText)
-                    OfferStatChip(icon: "briefcase.fill", title: "Service", value: viewModel.serviceName)
-                }
-
+                // Bottom Buttons
                 VStack(spacing: Spacing.s12) {
-                    SecondaryButton(title: "View Offer Details", icon: "doc.text", action: viewModel.openDetails)
+                    SecondaryButton(
+                        title: "View Offer Details",
+                        icon: "doc.text",
+                        action: viewModel.openDetails
+                    )
 
-                    PrimaryButton(
+                    SecondaryButton(
                         title: "Scan QR to Complete",
                         icon: "qrcode.viewfinder",
                         isLoading: viewModel.isProcessing,
@@ -59,23 +83,17 @@ struct OfferConfirmedView: View {
                         }
                     )
 
-                    Button(action: viewModel.presentCancelSheet) {
-                        Text("Cancel")
-                            .carelyText(style: .button, weight: .semiBold)
-                            .foregroundColor(.onErrorContainer)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: CarelyButtonSize.medium.height)
-                            .background(Color.errorContainer)
-                            .clipShape(RoundedRectangle.carely(Radius.r12))
-                    }
+                    PrimaryButton(
+                        title: "Cancel",
+                        action: viewModel.presentCancelSheet
+                    )
                 }
-                .padding(.top, Spacing.s8)
+                .padding(.horizontal, Spacing.s20)
+                .padding(.top, Spacing.s16)
+                .padding(.bottom, Spacing.s24)
+                .background(Color.backGround.ignoresSafeArea(edges: .bottom))
             }
-            .padding(.horizontal, Spacing.s16)
-            .padding(.top, Spacing.s24)
-            .padding(.bottom, Spacing.s32)
         }
-        .background(Color.backGround.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
         .task {
@@ -116,26 +134,29 @@ struct OfferConfirmedView: View {
     }
 
     private var statusHero: some View {
-        VStack(spacing: Spacing.s12) {
+        VStack(spacing: Spacing.s16) {
             ZStack {
                 Circle()
-                    .fill(Color.brandPrimary.opacity(0.1))
+                    .fill(Color.brandPrimary.opacity(0.12))
                     .frame(width: 80, height: 80)
                 Circle()
                     .fill(Color.brandPrimary)
                     .frame(width: 60, height: 60)
+                    .shadow(color: Color.brandPrimary.opacity(0.3), radius: 12, x: 0, y: 6)
                 Image(systemName: "checkmark")
                     .font(.system(size: 24, weight: .bold))
                     .foregroundColor(.white)
             }
 
-            Text("Offer Confirmed!")
-                .carelyText(style: .heading2, weight: .bold)
-                .foregroundColor(.primaryFont)
+            VStack(spacing: Spacing.s8) {
+                Text("Offer Confirmed!")
+                    .carelyText(style: .heading2, weight: .bold)
+                    .foregroundColor(.primaryFont)
 
-            Text("Your patient is waiting for you")
-                .carelyText(style: .bodyRegular, weight: .regular)
-                .foregroundColor(.secondaryFont)
+                Text("Your patient is waiting for you")
+                    .carelyText(style: .bodyRegular, weight: .regular)
+                    .foregroundColor(.secondaryFont)
+            }
         }
         .padding(.bottom, Spacing.s8)
     }

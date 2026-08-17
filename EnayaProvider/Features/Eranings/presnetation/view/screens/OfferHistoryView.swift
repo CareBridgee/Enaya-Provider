@@ -17,7 +17,14 @@ public struct HistoryView: View {
             Color.backGround.ignoresSafeArea()
 
             if viewModel.isLoading && viewModel.items.isEmpty {
-                ProgressView("Loading history...")
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: Spacing.s12) {
+                        ForEach(0..<4, id: \.self) { _ in
+                            EarningsHistoryRowSkeleton()
+                        }
+                    }
+                    .padding(Spacing.s16)
+                }
             } else if let errorMessage = viewModel.errorMessage, viewModel.items.isEmpty {
                 errorState(errorMessage)
             } else if viewModel.items.isEmpty {

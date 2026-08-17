@@ -22,42 +22,52 @@ struct MainTabCoordinatorView: View {
     }
 
     var body: some View {
-        tabContent
-            .safeAreaInset(edge: .bottom, spacing: 0) {
+        ZStack(alignment: .bottom) {
+            Color.backGround
+                .ignoresSafeArea()
+
+            tabContent
+                .padding(.bottom, coordinator.isTabBarVisible ? 50 : Spacing.s0)
+
+            if coordinator.isTabBarVisible {
                 ProviderTabBar(selectedTab: Binding(
                     get: { coordinator.selectedTab },
                     set: { coordinator.select($0) }
                 ))
+                .transition(.move(edge: .bottom).combined(with: .opacity))
             }
-            .notificationBanner(data: $coordinator.currentNotification) {
-                coordinator.handleNotificationTap()
+        }
+        .animation(.easeInOut(duration: 0.2), value: coordinator.isTabBarVisible)
+        .background(Color.backGround.ignoresSafeArea())
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .notificationBanner(data: $coordinator.currentNotification) {
+            coordinator.handleNotificationTap()
+        }
+        .sheet(item: $homeViewModel.editingJobRequest) { request in
+            EditOfferPopupView(
+                jobRequest: request,
+                proposedPriceValue: $homeViewModel.proposedPriceValue,
+                onCancel: { homeViewModel.cancelEditing() },
+                onSave: { homeViewModel.saveEditedOffer() }
+            )
+            .presentationDetents([.fraction(0.55), .medium])
+            .presentationDragIndicator(.visible)
+        }
+        .fullScreenCover(isPresented: Binding(
+            get: { homeViewModel.isWaitingForPatient },
+            set: { if !$0 { homeViewModel.cancelWaitingOffer() } }
+        )) {
+            ZStack {
+                Color.black.opacity(0.6).ignoresSafeArea()
+                PatientResponseWaitingView(onCancel: { homeViewModel.cancelWaitingOffer() })
             }
-            .ignoresSafeArea(.keyboard, edges: .bottom)
-            .sheet(item: $homeViewModel.editingJobRequest) { request in
-                EditOfferPopupView(
-                    jobRequest: request,
-                    proposedPriceValue: $homeViewModel.proposedPriceValue,
-                    onCancel: { homeViewModel.cancelEditing() },
-                    onSave: { homeViewModel.saveEditedOffer() }
-                )
-                .presentationDetents([.fraction(0.55), .medium])
-                .presentationDragIndicator(.visible)
-            }
-            .fullScreenCover(isPresented: Binding(
-                get: { homeViewModel.isWaitingForPatient },
-                set: { if !$0 { homeViewModel.cancelWaitingOffer() } }
-            )) {
-                ZStack {
-                    Color.black.opacity(0.6).ignoresSafeArea()
-                    PatientResponseWaitingView(onCancel: { homeViewModel.cancelWaitingOffer() })
-                }
-                .presentationBackground(.clear)
-            }
-            .alert("Notice", isPresented: $homeViewModel.showErrorAlert) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(homeViewModel.alertMessage)
-            }
+            .presentationBackground(.clear)
+        }
+        .alert("Notice", isPresented: $homeViewModel.showErrorAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(homeViewModel.alertMessage)
+        }
     }
 
     private var tabContent: some View {
@@ -83,9 +93,13 @@ struct MainTabCoordinatorView: View {
             .opacity(coordinator.selectedTab == .wallet ? 1 : 0)
             .allowsHitTesting(coordinator.selectedTab == .wallet)
             
-            ProfileCoordinatorView(container: container, coordinator: coordinator.profileCoordinator)
-                .opacity(coordinator.selectedTab == .profile ? 1 : 0)
-                .allowsHitTesting(coordinator.selectedTab == .profile)
+            ProfileCoordinatorView(
+                container: container,
+                appState: appState,
+                coordinator: coordinator.profileCoordinator
+            )
+            .opacity(coordinator.selectedTab == .profile ? 1 : 0)
+            .allowsHitTesting(coordinator.selectedTab == .profile)
         }
         .animation(.easeInOut(duration: 0.15), value: coordinator.selectedTab)
     }
