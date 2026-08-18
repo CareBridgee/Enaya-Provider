@@ -88,7 +88,7 @@ struct JobRequestCard: View {
                 HStack(spacing: Spacing.s8) {
                     VStack(alignment: .trailing, spacing: Spacing.s2) {
                         HStack(spacing: Spacing.s8) {
-                            Text("$\(String(format: "%.2f", jobRequest.proposedPrice.doubleValue))")
+                            Text("EGP\(String(format: "%.2f", jobRequest.proposedPrice.doubleValue))")
                                 .carelyText(style: .bodyLarge, weight: .bold)
                                 .foregroundColor(.brandPrimary)
                             

@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 20/07/2026.
 //
 
-
 import Foundation
 
 @MainActor
@@ -33,9 +32,14 @@ final class ProfessionalInfoViewModel: ObservableObject {
         self.primarySpecialty = info.primarySpecialty
     }
 
-    var isValid: Bool {
-        nationalIdForntDocument != nil && nursingLicenseDocument != nil &&
-        yearsOfExperience != nil && primarySpecialty != nil
+    var validationError: String? {
+        if nationalIdForntDocument == nil { return "National Front ID document is required." }
+        if nationalIdBackDocument == nil { return "National Back ID document is required." }
+        if nursingLicenseDocument == nil { return "Nursing License document is required." }
+        if professionalCertificateDocument == nil { return "Professional Certificate document is required." }
+        if yearsOfExperience == nil { return "Years of experience is required." }
+        if primarySpecialty == nil { return "Primary specialty is required." }
+        return nil
     }
 
     func backTapped() {
@@ -44,10 +48,11 @@ final class ProfessionalInfoViewModel: ObservableObject {
     }
 
     func continueTapped() {
-        guard isValid else {
-            errorMessage = "Please upload your National ID, Nursing License, and complete the fields above."
+        if let error = validationError {
+            errorMessage = error
             return
         }
+        
         errorMessage = nil
         persist()
         coordinator.next()

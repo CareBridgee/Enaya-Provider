@@ -290,6 +290,7 @@ final class DIContainer {
     func makeFetchCurrentActiveVisitUseCase() -> FetchCurrentActiveVisitUseCaseProtocol {
             FetchCurrentActiveVisitUseCase(repository: homeRepository)
         }
+   
         
         func makeHomeViewModel() -> HomeViewModel {
             HomeViewModel(
@@ -301,7 +302,8 @@ final class DIContainer {
                 withdrawOfferUseCase: makeCancelWaitingOfferUseCase(),
                 observeSocketErrorsUseCase: makeObserveSocketErrorsUseCase(),
                 observeReservationEventsUseCase: makeObserveReservationEventsUseCase(),
-                fetchCurrentActiveVisitUseCase: makeFetchCurrentActiveVisitUseCase()
+                fetchCurrentActiveVisitUseCase: makeFetchCurrentActiveVisitUseCase(),
+                fetchNurseHistoryUseCase: makeFetchNurseHistoryUseCase()
             )
         }
     
@@ -463,7 +465,8 @@ final class DIContainer {
     func makeProfileReviewsViewModel(nurseId: String) -> ProfileReviewsViewModel {
         ProfileReviewsViewModel(
             nurseId: nurseId,
-            getReviewsUseCase: makeGetNurseReviewsUseCase()
+            getReviewsUseCase: makeGetNurseReviewsUseCase(),
+            fetchProfileUseCase: makeFetchServiceRequestProfileUseCase()
         )
     }
     

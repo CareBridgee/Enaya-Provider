@@ -18,10 +18,12 @@ struct PaginatedReviewsEntity: Equatable, Sendable {
 
 struct ReviewEntity: Equatable, Identifiable, Sendable {
     let id: String
+    let serviceRequestId: String   // 👈 ADDED
     let rating: Int
     let reviewText: String?
     let isAnonymous: Bool
     let createdAt: Date
-    let reviewerName: String
+    var reviewerName: String       // 👈 CHANGED to var
+    var reviewerImageUrl: String?  // 👈 ADDED
     let serviceName: String
 }

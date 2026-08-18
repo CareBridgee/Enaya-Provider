@@ -66,19 +66,20 @@ final class ProfileRepositoryImpl: ProfileRepositoryProtocol {
         let reviews = response.content.map { dto -> ReviewEntity in
             let date = formatter.date(from: dto.createdAt) ?? Date()
             
-            // Mocking name and service name as they are not provided by the API
             let name = dto.isAnonymous ? "Anonymous" : "Patient"
             let serviceName = "Completed Service"
             
             return ReviewEntity(
-                id: dto.id,
-                rating: dto.rating,
-                reviewText: dto.reviewText,
-                isAnonymous: dto.isAnonymous,
-                createdAt: date,
-                reviewerName: name,
-                serviceName: serviceName
-            )
+                            id: dto.id,
+                            serviceRequestId: dto.serviceRequestId, // 👈 ADDED
+                            rating: dto.rating,
+                            reviewText: dto.reviewText,
+                            isAnonymous: dto.isAnonymous,
+                            createdAt: date,
+                            reviewerName: name,
+                            reviewerImageUrl: nil,                  // 👈 ADDED
+                            serviceName: serviceName
+                        )
         }
         
         return PaginatedReviewsEntity(

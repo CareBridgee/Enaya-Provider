@@ -1,3 +1,10 @@
+//
+//  HomeViewModel.swift
+//  EnayaProvider
+//
+//  Created by Mahmoud Raafat Mustafa on 22/07/2026.
+//
+
 import Foundation
 import SwiftUI
 
@@ -35,6 +42,7 @@ final class HomeViewModel: ObservableObject {
     private let observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol
     private let observeSocketErrorsUseCase: ObserveSocketErrorsUseCase
     private let fetchCurrentActiveVisitUseCase: FetchCurrentActiveVisitUseCaseProtocol
+    private let fetchNurseHistoryUseCase: FetchNurseHistoryUseCase
     
     private var errorObservationTask: Task<Void, Never>?
 
@@ -47,7 +55,8 @@ final class HomeViewModel: ObservableObject {
         withdrawOfferUseCase: WithdrawOfferUseCaseProtocol,
         observeSocketErrorsUseCase: ObserveSocketErrorsUseCase,
         observeReservationEventsUseCase: ObserveReservationEventsUseCaseProtocol,
-        fetchCurrentActiveVisitUseCase: FetchCurrentActiveVisitUseCaseProtocol
+        fetchCurrentActiveVisitUseCase: FetchCurrentActiveVisitUseCaseProtocol,
+        fetchNurseHistoryUseCase: FetchNurseHistoryUseCase
     ) {
         self.fetchSummary = fetchSummary
         self.toggleAvailabilityUseCase = toggleAvailabilityUseCase
@@ -58,6 +67,7 @@ final class HomeViewModel: ObservableObject {
         self.observeReservationEventsUseCase = observeReservationEventsUseCase
         self.observeSocketErrorsUseCase = observeSocketErrorsUseCase
         self.fetchCurrentActiveVisitUseCase = fetchCurrentActiveVisitUseCase
+        self.fetchNurseHistoryUseCase = fetchNurseHistoryUseCase
         
         NotificationCenter.default.addObserver(forName: NSNotification.Name("ProfileImageUpdated"), object: nil, queue: .main) { [weak self] notification in
             if let newUrl = notification.object as? String {
@@ -82,6 +92,7 @@ final class HomeViewModel: ObservableObject {
         isLoading = true
         do {
             summary = try await fetchSummary.execute()
+            await refreshEarningsAndJobs()
             await checkCurrentVisit()
 
             let rawStatus = UserDefaults.standard.string(forKey: "providerAvailability")
@@ -104,6 +115,12 @@ final class HomeViewModel: ObservableObject {
     }
     
     func checkCurrentVisit() async {
+        if let updatedSummary = try? await fetchSummary.execute() {
+            withAnimation { self.summary = updatedSummary }
+        }
+        
+        await refreshEarningsAndJobs()
+        
         do {
             if let visit = try await fetchCurrentActiveVisitUseCase.execute() {
                 withAnimation {
@@ -120,7 +137,57 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
-
+    
+    // MARK: - Dynamic Earnings & Jobs Calculation
+    private func refreshEarningsAndJobs() async {
+        guard let history = try? await fetchNurseHistoryUseCase.execute() else { return }
+        
+        let calendar = Calendar.current
+        var todayEarnings: Decimal = 0.0
+        var todayJobs = 0
+        var yesterdayEarnings: Decimal = 0.0
+        
+        for item in history {
+            guard item.status == .completed else { continue }
+            
+            let itemDate = item.updatedAt ?? item.createdAt ?? Date()
+            
+            // Calculate exact nurse payout (Price - max 120 or 20%)
+            let rawPrice = NSDecimalNumber(decimal: item.estimatedPrice ?? 0.0).doubleValue
+            let appFee = min(rawPrice * 0.20, 120.0)
+            let nurseEarning = Decimal(rawPrice - appFee)
+            
+            if calendar.isDateInToday(itemDate) {
+                todayEarnings += nurseEarning
+                todayJobs += 1
+            } else if calendar.isDateInYesterday(itemDate) {
+                yesterdayEarnings += nurseEarning
+            }
+        }
+        
+        var percentChange: Double = 0.0
+        let todayDouble = NSDecimalNumber(decimal: todayEarnings).doubleValue
+        let yesterdayDouble = NSDecimalNumber(decimal: yesterdayEarnings).doubleValue
+        
+        if yesterdayDouble > 0 {
+            percentChange = ((todayDouble - yesterdayDouble) / yesterdayDouble) * 100.0
+        } else if todayDouble > 0 {
+            percentChange = 100.0
+        }
+        
+        if let current = summary {
+            withAnimation {
+                self.summary = ProviderHomeSummary(
+                    providerName: current.providerName,
+                    profileImageUrl: current.profileImageUrl,
+                    todaysEarnings: todayEarnings,
+                    earningsChangePercent: percentChange,
+                    todaysJobsCount: todayJobs,
+                    rating: current.rating
+                )
+            }
+        }
+    }
     func toggleAvailability() {
         Task {
             isLoading = true
@@ -258,11 +325,14 @@ final class HomeViewModel: ObservableObject {
             } catch {
                 guard !Task.isCancelled else { return }
                 
-                withAnimation { isWaitingForPatient = false }
+                withAnimation {
+                    isWaitingForPatient = false
+                    self.jobRequests.removeAll { $0.id == request.id }
+                }
                 
                 Task {
                     try? await Task.sleep(nanoseconds: 500_000_000)
-                    self.alertMessage = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+                    self.alertMessage = "This request is no longer available."
                     self.showErrorAlert = true
                 }
             }
@@ -366,8 +436,8 @@ final class HomeViewModel: ObservableObject {
 }
 
 extension HomeViewModel {
-    var earningsText: String { "$" + String(format: "%.2f", summary?.todaysEarnings.doubleValue ?? 0) }
-    var earningsChangeText: String { String(format: "%.0f%% from yesterday", summary?.earningsChangePercent ?? 0) }
+    var earningsText: String {  "EGP "+String(format: "%.2f", summary?.todaysEarnings.doubleValue ?? 0 ) }
+    var earningsChangeText: String { String(format: "%.2f%% from yesterday", summary?.earningsChangePercent ?? 0.0) }
     var jobsCountText: String { "\(summary?.todaysJobsCount ?? 0) Total" }
     var ratingText: String { String(format: "%.1f", summary?.rating ?? 0) }
 }

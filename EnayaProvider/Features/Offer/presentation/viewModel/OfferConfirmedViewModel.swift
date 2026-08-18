@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 02/08/2026.
 //
 
-
 import Foundation
 import UIKit
 import SwiftUI
@@ -57,6 +56,9 @@ final class OfferConfirmedViewModel: ObservableObject {
             self.requestProfile = try await profile
         } catch {
             print("Failed to load details or profile: \(error)")
+            if !self.coordinator.isNurseCancelling {
+                self.showPatientCancelledAlert = true
+            }
         }
         isLoading = false
     }
@@ -109,6 +111,11 @@ final class OfferConfirmedViewModel: ObservableObject {
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = "h:mm a"
         return outputFormatter.string(from: date)
+    }
+
+    func returnHomeTapped() {
+        print("[OfferConfirmedViewModel] Return Home tapped")
+        coordinator.dismissEntireFlow()
     }
 
     func openDetails() {

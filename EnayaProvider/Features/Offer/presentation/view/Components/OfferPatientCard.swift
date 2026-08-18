@@ -47,11 +47,7 @@ struct OfferPatientCard: View {
                     .foregroundColor(.primaryFont)
 
                 if let age = ageText {
-                    Text("\(caption) • Age \(age)")
-                        .carelyText(style: .bodySmall, weight: .regular)
-                        .foregroundColor(.secondaryFont)
-                } else {
-                    Text("\(caption)\n\(captionValue)")
+                    Text("Age \(age)")
                         .carelyText(style: .bodySmall, weight: .regular)
                         .foregroundColor(.secondaryFont)
                 }

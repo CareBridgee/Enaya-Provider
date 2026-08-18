@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 20/07/2026.
 //
 
-
 import Foundation
 import PhotosUI
 import SwiftUI
@@ -39,20 +38,40 @@ final class PersonalInfoViewModel: ObservableObject {
         self.gender = info.gender
     }
 
-    var isValid: Bool {
-        !firstName.trimmingCharacters(in: .whitespaces).isEmpty &&
-        !lastName.trimmingCharacters(in: .whitespaces).isEmpty &&
-        dateOfBirth != nil &&
-        !nationalId.trimmingCharacters(in: .whitespaces).isEmpty &&
-        !licenseNumber.trimmingCharacters(in: .whitespaces).isEmpty &&
-        gender != nil
+    var validationError: String? {
+        if profilePhotoData == nil { return "Please upload a profile photo." }
+        
+        if firstName.trimmingCharacters(in: .whitespaces).isEmpty { return "First Name is required." }
+        if lastName.trimmingCharacters(in: .whitespaces).isEmpty { return "Last Name is required." }
+        
+        // 21+ Age Validation
+        guard let dob = dateOfBirth else { return "Date of Birth is required." }
+        let ageComponents = Calendar.current.dateComponents([.year], from: dob, to: Date())
+        if let age = ageComponents.year, age < 21 {
+            return "You must be at least 21 years old to register."
+        }
+        
+        let nid = nationalId.trimmingCharacters(in: .whitespaces)
+        if nid.isEmpty { return "National ID is required." }
+        if nid.count != 14 || !nid.allSatisfy({ $0.isNumber }) {
+            return "National ID must be exactly 14 numeric digits."
+        }
+        
+        let lic = licenseNumber.trimmingCharacters(in: .whitespaces)
+        if lic.isEmpty { return "License Number is required." }
+        if lic.count < 4 { return "Please enter a valid License Number." }
+        
+        if gender == nil { return "Gender Identity is required." }
+        
+        return nil
     }
 
     func continueTapped() {
-        guard isValid else {
-            errorMessage = "Please fill in all required fields."
+        if let error = validationError {
+            errorMessage = error
             return
         }
+        
         errorMessage = nil
         coordinator.save(
             personalInfo: PersonalInfo(

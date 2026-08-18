@@ -59,12 +59,13 @@ final class VisitCompletedViewModel: ObservableObject {
     var completedDateText: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM d, yyyy"
-        return formatter.string(from: Date()) // تاريخ اليوم لإكمال الزيارة
+        return formatter.string(from: Date())
     }
 
     var providerPayoutAmount: Double {
         let proposedPrice = liveDetails?.offers?.first(where: { $0.status == "ACCEPTED" })?.proposedPrice ?? 0.0
-        return proposedPrice - (proposedPrice * 0.15) // خصم 15% كما كان في الكود القديم
+        let appFee = min(proposedPrice * 0.20, 120.0)
+        return proposedPrice - appFee
     }
 
     func returnHomeTapped() {
