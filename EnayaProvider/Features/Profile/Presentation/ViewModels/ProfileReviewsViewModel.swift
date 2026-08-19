@@ -11,8 +11,18 @@ final class ProfileReviewsViewModel: ObservableObject {
     @Published var isFetchingMore = false
     @Published var errorMessage: String?
     
-    // Dynamically calculated rating distribution
+    // Dynamically calculated rating distribution & summary
     @Published var ratingPercentages: [Int: Int] = [5: 0, 4: 0, 3: 0, 2: 0, 1: 0]
+    
+    var avgRating: Double {
+        guard !allReviews.isEmpty else { return 0.0 }
+        let total = allReviews.reduce(0) { $0 + $1.rating }
+        return Double(total) / Double(allReviews.count)
+    }
+    
+    var totalReviews: Int {
+        allReviews.count
+    }
     
     private let nurseId: String
     private let getReviewsUseCase: GetNurseReviewsUseCaseProtocol
@@ -108,15 +118,20 @@ final class ProfileReviewsViewModel: ObservableObject {
     }
     
     private func applyFilter() {
+        let commentedReviews = allReviews.filter {
+            guard let text = $0.reviewText?.trimmingCharacters(in: .whitespacesAndNewlines) else { return false }
+            return !text.isEmpty
+        }
+        
         switch selectedFilter {
         case "Most Recent":
-            filteredReviews = allReviews.sorted { $0.createdAt > $1.createdAt }
+            filteredReviews = commentedReviews.sorted { $0.createdAt > $1.createdAt }
         case "Top Rated":
-            filteredReviews = allReviews.sorted { $0.rating > $1.rating }
+            filteredReviews = commentedReviews.sorted { $0.rating > $1.rating }
         case "Critical":
-            filteredReviews = allReviews.sorted { $0.rating < $1.rating }
+            filteredReviews = commentedReviews.sorted { $0.rating < $1.rating }
         default:
-            filteredReviews = allReviews
+            filteredReviews = commentedReviews
         }
     }
     
