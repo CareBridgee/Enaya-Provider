@@ -83,7 +83,6 @@ struct VisitCompletedView: View {
             OfferSummaryDetailGrid(items: [
                 .init(icon: "person.fill", label: "Patient", value: viewModel.patientName),
                 .init(icon: "cross.case.fill", label: "Service Type", value: viewModel.serviceName),
-                .init(icon: "clock.fill", label: "Visit Duration", value: "\(viewModel.durationMinutes) mins"),
                 .init(icon: "calendar", label: "Completed Date", value: viewModel.completedDateText)
             ])
         }

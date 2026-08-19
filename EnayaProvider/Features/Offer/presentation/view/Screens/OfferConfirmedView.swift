@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 02/08/2026.
 //
 
-
 import SwiftUI
 
 struct OfferConfirmedView: View {
@@ -21,6 +20,22 @@ struct OfferConfirmedView: View {
             Color.backGround.ignoresSafeArea()
             
             VStack(spacing: 0) {
+                HStack {
+                    Button(action: viewModel.returnHomeTapped) {
+                        HStack(spacing: Spacing.s4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 20, weight: .semibold))
+                            Text("Home")
+                                .carelyText(style: .bodyLarge, weight: .bold)
+                        }
+                        .foregroundColor(.brandPrimary)
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, Spacing.s20)
+                .padding(.top, Spacing.s16)
+                .padding(.bottom, Spacing.s8)
+
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: Spacing.s24) {
                         statusHero
@@ -65,7 +80,7 @@ struct OfferConfirmedView: View {
                     .frame(maxWidth: .infinity)
                 }
                 
-                // Bottom Buttons
+                // Bottom Buttons (Restored to original design)
                 VStack(spacing: Spacing.s12) {
                     SecondaryButton(
                         title: "View Offer Details",
@@ -125,12 +140,12 @@ struct OfferConfirmedView: View {
             Text(viewModel.phoneAlertMessage)
         }
         .alert("Request Cancelled", isPresented: $viewModel.showPatientCancelledAlert) {
-                    Button("OK", role: .cancel) {
-                        viewModel.handlePatientCancellationAcknowledged()
-                    }
-                } message: {
-                    Text("We're sorry, the patient has cancelled this request. We are investigating the reason to ensure your compensation. You will now be redirected to the home screen.")
-                }
+            Button("OK", role: .cancel) {
+                viewModel.handlePatientCancellationAcknowledged()
+            }
+        } message: {
+            Text("We're sorry, the patient has cancelled this request. We are investigating the reason to ensure your compensation. You will now be redirected to the home screen.")
+        }
     }
 
     private var statusHero: some View {
@@ -161,4 +176,3 @@ struct OfferConfirmedView: View {
         .padding(.bottom, Spacing.s8)
     }
 }
-

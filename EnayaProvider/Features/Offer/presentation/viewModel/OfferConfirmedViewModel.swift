@@ -113,6 +113,11 @@ final class OfferConfirmedViewModel: ObservableObject {
         return outputFormatter.string(from: date)
     }
 
+    func returnHomeTapped() {
+        print("[OfferConfirmedViewModel] Return Home tapped")
+        coordinator.dismissEntireFlow()
+    }
+
     func openDetails() {
         print("[OfferConfirmedViewModel] View Offer Details tapped")
         coordinator.openDetails()
