@@ -6,11 +6,21 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfilePersonalInfoView: View {
     @State var profile: ProfileEntity
     var makeEditBioViewModel: ((@escaping (ProfileEntity) -> Void) -> EditBioViewModel)?
+    var onUpdateProfileImage: ((Data) async throws -> ProfileEntity)?
+    var fetchVisitsCount: (() async -> Int)?
+    var fetchFeaturedReview: (() async -> ReviewEntity?)?
+    
     @State private var showEditBio = false
+    @State private var selectedImageItem: PhotosPickerItem?
+    @State private var isUploadingImage = false
+    @State private var uploadErrorMessage: String?
+    @State private var completedVisitsCount: Int = 0
+    @State private var featuredReview: ReviewEntity?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -49,32 +59,108 @@ struct ProfilePersonalInfoView: View {
                 }))
             }
         }
+        .onChange(of: selectedImageItem) {
+            guard let newItem = selectedImageItem else { return }
+            Task {
+                if let data = try? await newItem.loadTransferable(type: Data.self) {
+                    await MainActor.run {
+                        isUploadingImage = true
+                        uploadErrorMessage = nil
+                    }
+                    do {
+                        if let onUpdateProfileImage = onUpdateProfileImage {
+                            let updated = try await onUpdateProfileImage(data)
+                            await MainActor.run {
+                                self.profile = updated
+                                self.isUploadingImage = false
+                                NotificationCenter.default.post(name: NSNotification.Name("ProfileImageUpdated"), object: updated.profileImageUrl)
+                            }
+                        }
+                    } catch {
+                        await MainActor.run {
+                            self.isUploadingImage = false
+                            self.uploadErrorMessage = error.localizedDescription
+                        }
+                    }
+                }
+            }
+        }
+        .task {
+            async let visitsTask: () = {
+                if let fetchVisitsCount = fetchVisitsCount {
+                    let count = await fetchVisitsCount()
+                    await MainActor.run {
+                        self.completedVisitsCount = count
+                    }
+                }
+            }()
+            
+            async let reviewTask: () = {
+                if let fetchFeaturedReview = fetchFeaturedReview {
+                    let review = await fetchFeaturedReview()
+                    await MainActor.run {
+                        self.featuredReview = review
+                    }
+                }
+            }()
+            
+            _ = await (visitsTask, reviewTask)
+        }
     }
     
     private var headerCard: some View {
         VStack(spacing: Spacing.s16) {
             ZStack(alignment: .bottomTrailing) {
                 if let imageUrl = profile.profileImageUrl, let url = URL(string: imageUrl) {
-                    AsyncImage(url: url) { image in
-                        image.resizable().scaledToFill()
-                    } placeholder: {
-                        Color.surfaceVariant
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ZStack {
+                                Circle().fill(Color.surfaceVariant)
+                                ProgressView()
+                                    .tint(.brandPrimary)
+                            }
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        case .failure:
+                            defaultAvatar
+                        @unknown default:
+                            defaultAvatar
+                        }
                     }
                     .frame(width: 90, height: 90)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.surface, lineWidth: 4))
                     .shadow(color: Color.black.opacity(0.1), radius: 5, y: 5)
                 } else {
-                    Circle().fill(Color.surfaceVariant)
-                        .frame(width: 90, height: 90)
-                        .overlay(Circle().stroke(Color.surface, lineWidth: 4))
+                    defaultAvatar
                 }
                 
-                Image(systemName: "checkmark.seal.fill")
-                    .foregroundColor(.brandPrimary)
-                    .background(Color.surface)
-                    .clipShape(Circle())
-                    .offset(x: -5, y: -5)
+                if isUploadingImage {
+                    ZStack {
+                        Circle()
+                            .fill(Color.black.opacity(0.4))
+                            .frame(width: 90, height: 90)
+                        ProgressView()
+                            .tint(.white)
+                    }
+                }
+                
+                PhotosPicker(selection: $selectedImageItem, matching: .images) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.brandPrimary)
+                            .frame(width: 28, height: 28)
+                            .shadow(color: Color.black.opacity(0.15), radius: 3, y: 1)
+                        
+                        Image(systemName: "pencil")
+                            .font(.system(size: 13, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                }
+                .offset(x: 2, y: 2)
             }
             
             VStack(spacing: 4) {
@@ -95,7 +181,7 @@ struct ProfilePersonalInfoView: View {
             HStack(spacing: Spacing.s12) {
                 statBox(value: String(format: "%.1f", profile.ratingAvg), label: "\(profile.totalReviews) Reviews")
                 statBox(value: "\(profile.yearsOfExperience) yrs", label: "Experience")
-                statBox(value: "1.2k+", label: "Visits")
+                statBox(value: formatVisitsCount(completedVisitsCount), label: "Visits")
             }
         }
         .padding(Spacing.s24)
@@ -120,6 +206,13 @@ struct ProfilePersonalInfoView: View {
         .background(Color.surface)
         .cornerRadius(Radius.r12)
         .shadow(color: Color.black.opacity(0.03), radius: 4, y: 2)
+    }
+    
+    private func formatVisitsCount(_ count: Int) -> String {
+        if count >= 1000 {
+            return String(format: "%.1fk+", Double(count) / 1000.0)
+        }
+        return "\(count)"
     }
     
     private func actionButton(title: String, icon: String, backgroundColor: Color = .brandPrimary, foregroundColor: Color = .onPrimary, action: @escaping () -> Void) -> some View {
@@ -173,40 +266,108 @@ struct ProfilePersonalInfoView: View {
         .cornerRadius(Radius.r24)
     }
     
+    private var defaultAvatar: some View {
+        Circle().fill(Color.surfaceVariant)
+            .frame(width: 90, height: 90)
+            .overlay(Circle().stroke(Color.surface, lineWidth: 4))
+            .overlay(
+                Image(systemName: "person.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(.hint)
+            )
+    }
+    
+    @ViewBuilder
     private var reviewsSection: some View {
-        VStack(alignment: .leading, spacing: Spacing.s16) {
-            HStack {
-                Circle()
-                    .fill(Color.surfaceVariant)
-                    .frame(width: 40, height: 40)
-                    .overlay(Text("JD").font(.caption).bold().foregroundColor(.brandPrimary))
-                
-                VStack(alignment: .leading) {
-                    Text("James D.")
-                        .font(.subheadline).bold()
-                        .foregroundColor(.primaryFont)
-                    Text("2 days ago")
-                        .font(.caption2)
-                        .foregroundColor(.secondaryFont)
-                }
-                Spacer()
-                HStack(spacing: 2) {
-                    ForEach(0..<5) { _ in
-                        Image(systemName: "star.fill")
-                            .foregroundColor(.amber)
+        if let review = featuredReview {
+            VStack(alignment: .leading, spacing: Spacing.s16) {
+                HStack(alignment: .center, spacing: Spacing.s12) {
+                    if let urlString = review.reviewerImageUrl, let url = URL(string: urlString) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                ZStack {
+                                    Circle().fill(Color.surfaceVariant)
+                                    ProgressView()
+                                        .scaleEffect(0.7)
+                                        .tint(.brandPrimary)
+                                }
+                                .frame(width: 40, height: 40)
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 40, height: 40)
+                                    .clipShape(Circle())
+                            case .failure:
+                                reviewAvatarPlaceholder(name: review.reviewerName)
+                            @unknown default:
+                                reviewAvatarPlaceholder(name: review.reviewerName)
+                            }
+                        }
+                    } else {
+                        reviewAvatarPlaceholder(name: review.reviewerName)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(review.reviewerName)
+                            .font(.subheadline).bold()
+                            .foregroundColor(.primaryFont)
+                        Text(formatReviewDate(review.createdAt))
                             .font(.caption2)
+                            .foregroundColor(.secondaryFont)
+                    }
+                    
+                    Spacer()
+                    
+                    HStack(spacing: 2) {
+                        ForEach(0..<5, id: \.self) { i in
+                            Image(systemName: i < review.rating ? "star.fill" : "star")
+                                .foregroundColor(.amber)
+                                .font(.caption2)
+                        }
                     }
                 }
+                
+                if let text = review.reviewText, !text.isEmpty {
+                    Text("\"\(text)\"")
+                        .font(.subheadline)
+                        .foregroundColor(.secondaryFont)
+                        .italic()
+                        .lineSpacing(3)
+                }
             }
-            
-            Text("\"Sarah was incredible with my father. Her professionalism and warmth made all the difference in his recovery.\"")
-                .font(.subheadline)
-                .foregroundColor(.secondaryFont)
-                .italic()
+            .padding(Spacing.s24)
+            .background(Color.surface)
+            .cornerRadius(Radius.r24)
         }
-        .padding(Spacing.s24)
-        .background(Color.surface)
-        .cornerRadius(Radius.r24)
+    }
+    
+    private func reviewAvatarPlaceholder(name: String) -> some View {
+        Circle()
+            .fill(Color.brandPrimary.opacity(0.15))
+            .frame(width: 40, height: 40)
+            .overlay(
+                Text(getInitials(name: name))
+                    .font(.caption).bold()
+                    .foregroundColor(.brandPrimary)
+            )
+    }
+    
+    private func getInitials(name: String) -> String {
+        let components = name.components(separatedBy: " ")
+        if components.count > 1, let first = components.first?.first, let last = components.last?.first {
+            return "\(first)\(last)".uppercased()
+        } else if let first = name.first {
+            return "\(first)".uppercased()
+        }
+        return "?"
+    }
+    
+    private func formatReviewDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        return formatter.string(from: date)
     }
 }
 

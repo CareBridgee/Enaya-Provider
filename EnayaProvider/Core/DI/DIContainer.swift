@@ -492,6 +492,45 @@ final class DIContainer {
         return try await useCase.execute(id: profileId, imageData: imageData)
     }
 
+    func fetchCompletedVisitsCount() async -> Int {
+        let useCase = makeFetchNurseHistoryUseCase()
+        guard let history = try? await useCase.execute() else { return 0 }
+        return history.filter { $0.status == .completed }.count
+    }
+
+    func fetchFeaturedReview(nurseId: String) async -> ReviewEntity? {
+        let reviewsUseCase = makeGetNurseReviewsUseCase()
+        guard let paginated = try? await reviewsUseCase.execute(id: nurseId, page: 0, size: 50) else {
+            return nil
+        }
+        
+        let validReviews = paginated.reviews.filter {
+            guard let text = $0.reviewText?.trimmingCharacters(in: .whitespacesAndNewlines) else { return false }
+            return !text.isEmpty
+        }
+        
+        // Find highest rating, and within that the longest comment
+        guard var bestReview = validReviews.max(by: { r1, r2 in
+            if r1.rating != r2.rating {
+                return r1.rating < r2.rating
+            }
+            return (r1.reviewText?.count ?? 0) < (r2.reviewText?.count ?? 0)
+        }) else {
+            return nil
+        }
+        
+        if !bestReview.isAnonymous {
+            let profileUseCase = makeFetchServiceRequestProfileUseCase()
+            if let profileResponse = try? await profileUseCase.execute(serviceRequestId: bestReview.serviceRequestId) {
+                let fullName = "\(profileResponse.patient.firstName) \(profileResponse.patient.lastName)".trimmingCharacters(in: .whitespaces)
+                bestReview.reviewerName = fullName.isEmpty ? "Patient" : fullName
+                bestReview.reviewerImageUrl = profileResponse.patient.profileImageUrl
+            }
+        }
+        
+        return bestReview
+    }
+
     func makeProfileCoordinator() -> ProfileCoordinator {
         ProfileCoordinator()
     }
