@@ -112,11 +112,19 @@ public struct EarningsHistoryView: View {
             
             // Patient Image with Person Fallback
             AsyncImage(url: URL(string: item.patientProfileImageUrl ?? "")) { phase in
-                if let image = phase.image {
+                switch phase {
+                case .empty:
+                    ZStack {
+                        Circle().fill(Color.mintSurface)
+                        ProgressView()
+                            .scaleEffect(0.7)
+                            .tint(.brandPrimary)
+                    }
+                case .success(let image):
                     image
                         .resizable()
                         .scaledToFill()
-                } else {
+                default:
                     Circle()
                         .fill(Color.mintSurface)
                         .overlay(

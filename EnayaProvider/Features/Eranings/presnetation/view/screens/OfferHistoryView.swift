@@ -48,9 +48,17 @@ public struct HistoryView: View {
         VStack(alignment: .leading, spacing: Spacing.s12) {
             HStack(alignment: .top, spacing: Spacing.s12) {
                 AsyncImage(url: URL(string: item.patientProfileImageUrl ?? "")) { phase in
-                    if let image = phase.image {
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Circle().fill(Color.mintSurface)
+                            ProgressView()
+                                .scaleEffect(0.7)
+                                .tint(.brandPrimary)
+                        }
+                    case .success(let image):
                         image.resizable().scaledToFill()
-                    } else {
+                    default:
                         Circle().fill(Color.mintSurface).overlay(
                             Image(systemName: "person.fill")
                                 .foregroundColor(.brandPrimary)

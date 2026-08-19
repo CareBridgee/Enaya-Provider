@@ -37,6 +37,13 @@ struct HomeHeaderView: View {
         if let urlString = profileImageUrl, let url = URL(string: urlString), !urlString.isEmpty {
             AsyncImage(url: url) { phase in
                 switch phase {
+                case .empty:
+                    ZStack {
+                        Color.surfaceVariant
+                        ProgressView()
+                            .scaleEffect(0.7)
+                            .tint(.brandPrimary)
+                    }
                 case .success(let image):
                     image.resizable().scaledToFill()
                 default:

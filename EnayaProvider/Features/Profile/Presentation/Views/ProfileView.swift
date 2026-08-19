@@ -39,7 +39,6 @@ struct ProfileView: View {
                             viewModel.navigateToReviews()
                         }
                         menuItem(icon: "wallet.pass.fill", title: "Wallet", subtitle: "payment method")
-                        menuItem(icon: "questionmark.circle.fill", title: "Support", subtitle: "Help center and live chat")
                     }
                     
                     Button(action: {
@@ -100,22 +99,30 @@ struct ProfileView: View {
         VStack(spacing: Spacing.s16) {
             ZStack(alignment: .bottomTrailing) {
                 if let imageUrl = profile.profileImageUrl, let url = URL(string: imageUrl) {
-                    AsyncImage(url: url) { image in
-                        image.resizable().scaledToFill()
-                    } placeholder: {
-                        Color.surfaceVariant
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ZStack {
+                                Circle().fill(Color.surfaceVariant)
+                                ProgressView()
+                                    .tint(.brandPrimary)
+                            }
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                        case .failure:
+                            avatarPlaceholder
+                        @unknown default:
+                            avatarPlaceholder
+                        }
                     }
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 3))
                 } else {
-                    Circle().fill(Color.surfaceVariant)
+                    avatarPlaceholder
                         .frame(width: 100, height: 100)
-                        .overlay(
-                            Image(systemName: "person.fill")
-                                .font(.system(size: 40))
-                                .foregroundColor(.brandPrimary)
-                        )
                         .overlay(Circle().stroke(Color.brandPrimary, lineWidth: 3))
                 }
                 
@@ -147,6 +154,15 @@ struct ProfileView: View {
         }
         .frame(maxWidth: .infinity)
         .padding(.top, Spacing.s16)
+    }
+    
+    private var avatarPlaceholder: some View {
+        Circle().fill(Color.surfaceVariant)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(.brandPrimary)
+            )
     }
     
     @ViewBuilder
@@ -209,7 +225,7 @@ public struct ProfileSkeletonView: View {
 
             // Menu Items Skeleton
             VStack(spacing: Spacing.s12) {
-                ForEach(0..<6, id: \.self) { _ in
+                ForEach(0..<5, id: \.self) { _ in
                     HStack(spacing: Spacing.s16) {
                         EtmaenSkeletonCircle(size: 40)
 
