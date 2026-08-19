@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 20/07/2026.
 //
 
-
 import SwiftUI
 import PhotosUI
 
@@ -36,14 +35,14 @@ struct PersonalInfoView: View {
 
                     CarelyTextField(
                         label: "First Name",
-                        isRequired: false,
+                        isRequired: true,
                         placeholder: "e.g. Sarah",
                         text: $viewModel.firstName
                     )
 
                     CarelyTextField(
                         label: "Last Name",
-                        isRequired: false,
+                        isRequired: true,
                         placeholder: "e.g. Jenkins",
                         text: $viewModel.lastName
                     )
@@ -52,15 +51,15 @@ struct PersonalInfoView: View {
 
                     CarelyTextField(
                         label: "National ID",
-                        isRequired: false,
-                        placeholder: "0000000000000",
+                        isRequired: true,
+                        placeholder: "00000000000000",
                         text: $viewModel.nationalId,
                         keyboardType: .numberPad
                     )
 
                     CarelyTextField(
                         label: "License Number",
-                        isRequired: false,
+                        isRequired: true,
                         placeholder: "Enter License Number",
                         text: $viewModel.licenseNumber
                     )
@@ -99,6 +98,7 @@ struct PersonalInfoView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .padding(.horizontal, Spacing.s16)
                 .padding(.top, Spacing.s16)
+                
                 hipaaBanner
                     .padding(.horizontal, Spacing.s16)
                     .padding(.top, Spacing.s16)
@@ -109,60 +109,59 @@ struct PersonalInfoView: View {
     }
 
     // MARK: - Subviews
-
     private var photoPicker: some View {
-            let currentPhotoData = viewModel.profilePhotoData
-            
-            return VStack(spacing: Spacing.s12) {
-                PhotosPicker(selection: $viewModel.photoSelection, matching: .images) {
-                    ZStack(alignment: .bottomTrailing) {
-                        ZStack {
-                            Circle()
-                                .fill(Color.surfaceVariant)
-                                .frame(width: 96, height: 96)
-
-                            if let data = currentPhotoData, let uiImage = UIImage(data: data) {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 96, height: 96)
-                                    .clipShape(Circle())
-                            } else {
-                                Image(systemName: "camera")
-                                    .font(.system(size: 28))
-                                    .foregroundColor(.hint)
-                            }
-                        }
-                        .overlay(
-                            Circle()
-                                .strokeBorder(Color.brandPrimary.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
-                        )
-
+        let currentPhotoData = viewModel.profilePhotoData
+        
+        return VStack(spacing: Spacing.s12) {
+            PhotosPicker(selection: $viewModel.photoSelection, matching: .images) {
+                ZStack(alignment: .bottomTrailing) {
+                    ZStack {
                         Circle()
-                            .fill(Color.brandPrimary)
-                            .frame(width: 28, height: 28)
-                            .overlay(
-                                Image(systemName: "pencil")
-                                    .font(.system(size: 14, weight: .bold))
-                                    .foregroundColor(.white)
-                            )
-                            .offset(x: -4, y: -4)
+                            .fill(Color.surfaceVariant)
+                            .frame(width: 96, height: 96)
+
+                        if let data = currentPhotoData, let uiImage = UIImage(data: data) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 96, height: 96)
+                                .clipShape(Circle())
+                        } else {
+                            Image(systemName: "camera")
+                                .font(.system(size: 28))
+                                .foregroundColor(.hint)
+                        }
                     }
+                    .overlay(
+                        Circle()
+                            .strokeBorder(Color.brandPrimary.opacity(0.5), style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                    )
+
+                    Circle()
+                        .fill(Color.brandPrimary)
+                        .frame(width: 28, height: 28)
+                        .overlay(
+                            Image(systemName: "pencil")
+                                .font(.system(size: 14, weight: .bold))
+                                .foregroundColor(.white)
+                        )
+                        .offset(x: -4, y: -4)
                 }
-
-                Text("Upload Profile Photo")
-                    .carelyText(style: .bodySmall, weight: .bold)
-                    .foregroundColor(.brandPrimary)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, Spacing.s4)
-        }
 
-        private var hipaaBanner: some View {
-            HStack(spacing: Spacing.s12) {
-                Image(systemName: "checkmark.shield.fill")
+            Text("Upload Profile Photo")
+                .carelyText(style: .bodySmall, weight: .bold)
                 .foregroundColor(.brandPrimary)
-                .font(.system(size: IconSize.s16))
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, Spacing.s4)
+    }
+
+    private var hipaaBanner: some View {
+        HStack(spacing: Spacing.s12) {
+            Image(systemName: "checkmark.shield.fill")
+            .foregroundColor(.brandPrimary)
+            .font(.system(size: IconSize.s16))
 
             Text("Encrypted & HIPAA Compliant Data\nStorage")
                 .carelyText(style: .caption, weight: .medium)
@@ -172,8 +171,4 @@ struct PersonalInfoView: View {
         .background(Color.surfaceVariant)
         .clipShape(RoundedRectangle.carely(Radius.r12))
     }
-}
-
-#Preview {
-    PersonalInfoView(viewModel: PersonalInfoViewModel(coordinator: ProfileSetupCoordinator(data: ProfileSetupData())))
 }
