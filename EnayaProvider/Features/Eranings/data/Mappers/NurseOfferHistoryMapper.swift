@@ -59,7 +59,6 @@ enum NurseServiceRequestHistoryMapper {
     private static func formattedTime(_ raw: String?) -> String? {
         guard let raw else { return nil }
 
-        // API returns "HH:mm:ss"; fall back to "HH:mm" just in case.
         for format in ["HH:mm:ss", "HH:mm"] {
             let inputFormatter = DateFormatter()
             inputFormatter.dateFormat = format
