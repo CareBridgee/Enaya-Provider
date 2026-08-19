@@ -20,6 +20,10 @@ struct ProfileDocumentsView: View {
         let url: String
     }
     
+    private var currentProfile: ProfileEntity {
+        viewModel.profile ?? profile
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             AppHeader(
@@ -40,11 +44,11 @@ struct ProfileDocumentsView: View {
                     documentCard(
                         iconName: "person.text.rectangle",
                         title: "National ID",
-                        isUploaded: profile.nationalIdFrontUrl != nil && profile.nationalIdBackUrl != nil,
-                        isVerified: profile.verificationStatus == "Verified",
+                        isUploaded: currentProfile.nationalIdFrontUrl != nil && currentProfile.nationalIdBackUrl != nil,
+                        isVerified: currentProfile.verificationStatus == "Verified",
                         rows: [
-                            DocumentRow(label: "Front Side", url: profile.nationalIdFrontUrl, type: .nationalIdFront),
-                            DocumentRow(label: "Back Side", url: profile.nationalIdBackUrl, type: .nationalIdBack)
+                            DocumentRow(label: "Front Side", url: currentProfile.nationalIdFrontUrl, type: .nationalIdFront),
+                            DocumentRow(label: "Back Side", url: currentProfile.nationalIdBackUrl, type: .nationalIdBack)
                         ]
                     )
                     
@@ -52,10 +56,10 @@ struct ProfileDocumentsView: View {
                     documentCard(
                         iconName: "cross.case",
                         title: "Nursing License",
-                        isUploaded: profile.licenseImageUrl != nil,
-                        isVerified: profile.verificationStatus == "Verified",
+                        isUploaded: currentProfile.licenseImageUrl != nil,
+                        isVerified: currentProfile.verificationStatus == "Verified",
                         rows: [
-                            DocumentRow(label: "License Document", url: profile.licenseImageUrl, type: .licenseImage)
+                            DocumentRow(label: "License Document", url: currentProfile.licenseImageUrl, type: .licenseImage)
                         ]
                     )
                     
@@ -63,10 +67,10 @@ struct ProfileDocumentsView: View {
                     documentCard(
                         iconName: "doc.text",
                         title: "Professional Certificate",
-                        isUploaded: profile.professionalCertificateUrl != nil,
-                        isVerified: profile.verificationStatus == "Verified",
+                        isUploaded: currentProfile.professionalCertificateUrl != nil,
+                        isVerified: currentProfile.verificationStatus == "Verified",
                         rows: [
-                            DocumentRow(label: "Certificate Document", url: profile.professionalCertificateUrl, type: .professionalCertificate)
+                            DocumentRow(label: "Certificate Document", url: currentProfile.professionalCertificateUrl, type: .professionalCertificate)
                         ]
                     )
                 }
@@ -86,16 +90,6 @@ struct ProfileDocumentsView: View {
             Button("OK", role: .cancel) { }
         } message: {
             Text(viewModel.errorMessage ?? "An error occurred while uploading the document.")
-        }
-        .overlay {
-            if viewModel.isUploadingDocument {
-                ZStack {
-                    Color.black.opacity(0.4).ignoresSafeArea()
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .onPrimary))
-                        .scaleEffect(1.5)
-                }
-            }
         }
     }
     
@@ -151,6 +145,7 @@ struct ProfileDocumentsView: View {
                 ForEach(rows, id: \.type.rawValue) { row in
                     DocumentRowView(
                         row: row,
+                        isUploading: viewModel.uploadingDocumentType == row.type,
                         onView: { url in
                             documentToView = DocumentItem(url: url)
                         },
@@ -252,6 +247,7 @@ struct DocumentViewerView: View {
 // MARK: - Document Row View
 struct DocumentRowView: View {
     let row: ProfileDocumentsView.DocumentRow
+    var isUploading: Bool = false
     let onView: (String) -> Void
     let onUpload: (Data, DocumentUploadType) -> Void
     let onError: (String) -> Void
@@ -266,19 +262,40 @@ struct DocumentRowView: View {
             
             Spacer()
             
-            HStack(spacing: Spacing.s16) {
-                if let url = row.url {
-                    Button("View") {
-                        onView(url)
-                    }
-                    .foregroundColor(.brandPrimary)
-                    .font(.system(size: 14, weight: .medium))
+            if isUploading {
+                HStack(spacing: 6) {
+                    ProgressView()
+                        .scaleEffect(0.8)
+                    Text("Uploading...")
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundColor(.brandPrimary)
                 }
-                
-                PhotosPicker(selection: $selectedItem, matching: .images) {
-                    Text("Edit")
+                .padding(.vertical, 4)
+            } else {
+                HStack(spacing: Spacing.s16) {
+                    if let url = row.url {
+                        Button("View") {
+                            onView(url)
+                        }
                         .foregroundColor(.brandPrimary)
                         .font(.system(size: 14, weight: .medium))
+                        
+                        PhotosPicker(selection: $selectedItem, matching: .images) {
+                            Text("Edit")
+                                .foregroundColor(.brandPrimary)
+                                .font(.system(size: 14, weight: .medium))
+                        }
+                    } else {
+                        PhotosPicker(selection: $selectedItem, matching: .images) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "plus")
+                                    .font(.system(size: 12, weight: .bold))
+                                Text("Add")
+                                    .font(.system(size: 14, weight: .medium))
+                            }
+                            .foregroundColor(.brandPrimary)
+                        }
+                    }
                 }
             }
         }

@@ -14,6 +14,7 @@ final class ProfileViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var isUploadingImage = false
     @Published var isUploadingDocument = false
+    @Published var uploadingDocumentType: DocumentUploadType?
     @Published var errorMessage: String?
 
     private let getProfileUseCase: GetProfileUseCaseProtocol
@@ -88,12 +89,15 @@ final class ProfileViewModel: ObservableObject {
     }
     
     func updateProfileImage(data: Data) {
-        guard let profile = profile else { return }
+        guard let profileId = profile?.id ?? tokenStore.getNurseId() else { 
+            errorMessage = "Nurse ID not found"
+            return 
+        }
         Task {
             isUploadingImage = true
             errorMessage = nil
             do {
-                let updatedProfile = try await updateProfileImageUseCase.execute(id: profile.id, imageData: data)
+                let updatedProfile = try await updateProfileImageUseCase.execute(id: profileId, imageData: data)
                 self.profile = updatedProfile
                 NotificationCenter.default.post(name: NSNotification.Name("ProfileImageUpdated"), object: updatedProfile.profileImageUrl)
             } catch {
@@ -105,16 +109,18 @@ final class ProfileViewModel: ObservableObject {
     
     func uploadDocument(type: DocumentUploadType, data: Data) {
         print("ProfileViewModel: uploadDocument called for type: \(type.rawValue) with data size: \(data.count)")
-        guard let profile = profile else { 
-            print("ProfileViewModel: profile is nil! Aborting upload.")
+        guard let profileId = profile?.id ?? tokenStore.getNurseId() else { 
+            print("ProfileViewModel: profile is nil and nurseId not found in tokenStore! Aborting upload.")
+            errorMessage = "Profile ID not found"
             return 
         }
         Task {
             print("ProfileViewModel: Starting upload task for \(type.rawValue)")
             isUploadingDocument = true
+            uploadingDocumentType = type
             errorMessage = nil
             do {
-                let updatedProfile = try await updateDocumentUseCase.execute(id: profile.id, type: type, imageData: data)
+                let updatedProfile = try await updateDocumentUseCase.execute(id: profileId, type: type, imageData: data)
                 print("ProfileViewModel: Upload successful!")
                 self.profile = updatedProfile
             } catch {
@@ -122,6 +128,7 @@ final class ProfileViewModel: ObservableObject {
                 errorMessage = error.localizedDescription
             }
             isUploadingDocument = false
+            uploadingDocumentType = nil
             print("ProfileViewModel: Finished upload task")
         }
     }
