@@ -61,13 +61,28 @@ struct OfferChatView: View {
             }
             
             ZStack(alignment: .bottomTrailing) {
-                AsyncImage(url: URL(string: viewModel.patientImageUrl ?? "")) { image in
-                    image.resizable().scaledToFill()
-                } placeholder: {
-                    Circle().fill(Color.surfaceVariant)
+                if let urlString = viewModel.patientImageUrl?.trimmingCharacters(in: .whitespacesAndNewlines), !urlString.isEmpty, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ZStack {
+                                Circle().fill(Color.surfaceVariant)
+                                ProgressView()
+                                    .scaleEffect(0.6)
+                                    .tint(.brandPrimary)
+                            }
+                        case .success(let image):
+                            image.resizable().scaledToFill()
+                        default:
+                            chatAvatarFallback
+                        }
+                    }
+                    .frame(width: Spacing.s40, height: Spacing.s40)
+                    .clipShape(Circle())
+                } else {
+                    chatAvatarFallback
+                        .frame(width: Spacing.s40, height: Spacing.s40)
                 }
-                .frame(width: Spacing.s40, height: Spacing.s40)
-                .clipShape(Circle())
                 
                 Circle()
                     .fill(Color.success)
@@ -92,6 +107,16 @@ struct OfferChatView: View {
         .padding(.vertical, Spacing.s12)
         .background(Color.surface)
         .shadow(color: Color.black.opacity(0.05), radius: 4, y: 2)
+    }
+    
+    private var chatAvatarFallback: some View {
+        Circle()
+            .fill(Color.mintSurface)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .foregroundColor(.brandPrimary)
+                    .font(.system(size: IconSize.s16))
+            )
     }
 
     // MARK: - Messages List

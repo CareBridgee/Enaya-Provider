@@ -37,35 +37,33 @@ struct JobRequestCard: View {
                 
                 let urlString = jobRequest.patientImageUrl.trimmingCharacters(in: .whitespacesAndNewlines)
                 
-                AsyncImage(url: URL(string: urlString)) { phase in
-                    switch phase {
-                    case .empty:
-                        if urlString.isEmpty {
-                            Image(systemName: "person.fill")
+                if !urlString.isEmpty, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ZStack {
+                                Color.surfaceVariant
+                                ProgressView()
+                                    .scaleEffect(0.7)
+                                    .tint(.brandPrimary)
+                            }
+                        case .success(let image):
+                            image
                                 .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.hint)
-                                .padding(12)
-                        } else {
-                            ProgressView()
+                                .scaledToFill()
+                        default:
+                            patientAvatarFallback
                         }
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    case .failure:
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.hint)
-                            .padding(12)
-                    @unknown default:
-                        EmptyView()
                     }
+                    .frame(width: Spacing.s48, height: Spacing.s48)
+                    .background(Color.surfaceVariant)
+                    .clipShape(Circle())
+                } else {
+                    patientAvatarFallback
+                        .frame(width: Spacing.s48, height: Spacing.s48)
+                        .background(Color.surfaceVariant)
+                        .clipShape(Circle())
                 }
-                .frame(width: Spacing.s48, height: Spacing.s48)
-                .background(Color.surfaceVariant)
-                .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: Spacing.s4) {
                     Text(jobRequest.patientLabel)
@@ -156,5 +154,13 @@ struct JobRequestCard: View {
                 .opacity(isActionsDisabled ? 0.5 : 1.0)
         }
         .padding(.top, Spacing.s8)
+    }
+
+    private var patientAvatarFallback: some View {
+        Image(systemName: "person.fill")
+            .resizable()
+            .scaledToFit()
+            .foregroundColor(.hint)
+            .padding(12)
     }
 }

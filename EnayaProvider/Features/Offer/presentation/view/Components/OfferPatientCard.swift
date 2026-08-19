@@ -19,27 +19,35 @@ struct OfferPatientCard: View {
 
     var body: some View {
         HStack(spacing: Spacing.s12) {
-            AsyncImage(url: URL(string: imageUrl?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "")) { phase in
-                switch phase {
-                case .empty:
-                    if (imageUrl ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            if let urlString = imageUrl?.trimmingCharacters(in: .whitespacesAndNewlines), !urlString.isEmpty, let url = URL(string: urlString) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Color.surfaceVariant
+                            ProgressView()
+                                .scaleEffect(0.7)
+                                .tint(.brandPrimary)
+                        }
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    case .failure:
                         fallbackImage
-                    } else {
-                        ProgressView()
+                    @unknown default:
+                        fallbackImage
                     }
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                case .failure:
-                    fallbackImage
-                @unknown default:
-                    fallbackImage
                 }
+                .frame(width: Spacing.s48, height: Spacing.s48)
+                .background(Color.surfaceVariant)
+                .clipShape(Circle())
+            } else {
+                fallbackImage
+                    .frame(width: Spacing.s48, height: Spacing.s48)
+                    .background(Color.surfaceVariant)
+                    .clipShape(Circle())
             }
-            .frame(width: Spacing.s48, height: Spacing.s48)
-            .background(Color.surfaceVariant)
-            .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.s4) {
                 Text(name)
