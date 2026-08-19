@@ -1,10 +1,3 @@
-//
-//  ProfileReviewsView.swift
-//  EnayaProvider
-//
-//  Created by AI.
-//
-
 import SwiftUI
 
 struct ProfileReviewsView: View {
@@ -38,13 +31,13 @@ struct ProfileReviewsView: View {
                                 .foregroundColor(.secondaryFont)
                         }
                         
-                        // Rating Distribution
+                        // Rating Distribution dynamically calculated
                         VStack(spacing: Spacing.s8) {
-                            RatingRow(star: 5, percentage: 92)
-                            RatingRow(star: 4, percentage: 6)
-                            RatingRow(star: 3, percentage: 1)
-                            RatingRow(star: 2, percentage: 1)
-                            RatingRow(star: 1, percentage: 0)
+                            RatingRow(star: 5, percentage: viewModel.ratingPercentages[5] ?? 0)
+                            RatingRow(star: 4, percentage: viewModel.ratingPercentages[4] ?? 0)
+                            RatingRow(star: 3, percentage: viewModel.ratingPercentages[3] ?? 0)
+                            RatingRow(star: 2, percentage: viewModel.ratingPercentages[2] ?? 0)
+                            RatingRow(star: 1, percentage: viewModel.ratingPercentages[1] ?? 0)
                         }
                         .padding(.horizontal, Spacing.s16)
                     }
@@ -60,7 +53,9 @@ struct ProfileReviewsView: View {
                         HStack(spacing: Spacing.s8) {
                             ForEach(viewModel.availableFilters, id: \.self) { filter in
                                 Button(action: {
-                                    viewModel.selectFilter(filter)
+                                    withAnimation {
+                                        viewModel.selectFilter(filter)
+                                    }
                                 }) {
                                     Text(filter)
                                         .carelyText(style: .bodySmall, weight: .medium)
@@ -81,44 +76,52 @@ struct ProfileReviewsView: View {
                     
                     // Reviews List
                     LazyVStack(spacing: Spacing.s16) {
-                        if viewModel.isLoading && viewModel.reviews.isEmpty {
+                        if viewModel.isLoading && viewModel.filteredReviews.isEmpty {
                             ForEach(0..<3, id: \.self) { _ in
                                 ReviewCardSkeleton()
                             }
+                        } else if viewModel.filteredReviews.isEmpty {
+                            // Empty State
+                            VStack(spacing: Spacing.s16) {
+                                Image(systemName: "star.slash")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.secondaryFont.opacity(0.5))
+                                Text("No reviews found.")
+                                    .carelyText(style: .bodyRegular, weight: .medium)
+                                    .foregroundColor(.secondaryFont)
+                            }
+                            .padding(.vertical, 40)
                         } else {
-                            ForEach(viewModel.reviews) { review in
-                                ReviewCard(review: review)
+                            ForEach(viewModel.filteredReviews) { review in
+                                // 👈 Passing the dynamically fetched image URL
+                                ReviewCard(review: review, imageUrl: review.reviewerImageUrl)
                             }
                             
+                            // Bottom Loading Indicator
                             if viewModel.isFetchingMore {
                                 ProgressView()
-                                    .padding()
-                            } else if viewModel.reviews.isEmpty {
-                                Text("No reviews yet.")
-                                    .foregroundColor(.secondaryFont)
-                                    .padding()
+                                    .padding(.vertical, Spacing.s16)
                             }
-                        }
-                        
-                        // Load More Button (if not last page)
-                        if !viewModel.reviews.isEmpty && !viewModel.isLoading {
-                            Button(action: {
-                                viewModel.fetchReviews()
-                            }) {
-                                Text("Load More Reviews")
-                                    .carelyText(style: .bodyRegular, weight: .medium)
-                                    .foregroundColor(.brandPrimary)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, Spacing.s12)
-                                    .background(Color.surface)
-                                    .cornerRadius(Radius.r16)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: Radius.r16)
-                                            .stroke(Color.brandPrimary.opacity(0.3), lineWidth: 1)
-                                    )
+                            
+                            // Load More Button
+                            if !viewModel.isLastPage && !viewModel.isLoading && !viewModel.isFetchingMore {
+                                Button(action: {
+                                    viewModel.fetchReviews()
+                                }) {
+                                    Text("Load More Reviews")
+                                        .carelyText(style: .bodyRegular, weight: .medium)
+                                        .foregroundColor(.brandPrimary)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, Spacing.s12)
+                                        .background(Color.surface)
+                                        .cornerRadius(Radius.r16)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: Radius.r16)
+                                                .stroke(Color.brandPrimary.opacity(0.3), lineWidth: 1)
+                                        )
+                                }
+                                .padding(.top, Spacing.s8)
                             }
-                            .padding(.horizontal, Spacing.s20)
-                            .padding(.top, Spacing.s8)
                         }
                     }
                     .padding(.horizontal, Spacing.s20)
@@ -141,7 +144,7 @@ struct RatingStars: View {
     
     var body: some View {
         HStack(spacing: 2) {
-            ForEach(0..<5) { i in
+            ForEach(0..<5, id: \.self) { i in
                 Image(systemName: getStarName(index: i))
                     .foregroundColor(.amber)
                     .font(.system(size: 14))
@@ -193,33 +196,58 @@ struct RatingRow: View {
 
 struct ReviewCard: View {
     let review: ReviewEntity
+    var imageUrl: String? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.s12) {
-            HStack {
-                // Avatar Initials
-                ZStack {
-                    Circle()
-                        .fill(Color.brandPrimary.opacity(0.2))
-                        .frame(width: 40, height: 40)
-                    Text(getInitials(name: review.reviewerName))
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.brandPrimary)
+            
+            // 1. Align the entire top row to the top
+            HStack(alignment: .top, spacing: Spacing.s12) {
+                
+                // Avatar Image or Initials
+                if let urlString = imageUrl, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 40, height: 40)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                        case .failure:
+                            initialsAvatar
+                        @unknown default:
+                            initialsAvatar
+                        }
+                    }
+                } else {
+                    initialsAvatar
                 }
                 
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(review.reviewerName)
-                        .carelyText(style: .bodyRegular, weight: .medium)
-                        .foregroundColor(.primaryFont)
+                VStack(alignment: .leading, spacing: Spacing.s8) {
+                    
+                    // 2. Group the Name and Date together
+                    HStack(alignment: .top) {
+                        Text(review.reviewerName)
+                            .carelyText(style: .bodyRegular, weight: .medium)
+                            .foregroundColor(.primaryFont)
+                            .lineLimit(2) // 👈 Maximum 2 lines
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        Spacer(minLength: Spacing.s8)
+                        
+                        Text(formatDate(review.createdAt))
+                            .font(.system(size: 12))
+                            .foregroundColor(.secondaryFont)
+                            .padding(.top, 2) // Slight adjustment to visually align with text baseline
+                    }
                     
                     RatingStars(rating: Double(review.rating))
                 }
-                
-                Spacer()
-                
-                Text(formatDate(review.createdAt))
-                    .font(.system(size: 12))
-                    .foregroundColor(.secondaryFont)
             }
             
             if let text = review.reviewText, !text.isEmpty {
@@ -245,6 +273,17 @@ struct ReviewCard: View {
         .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
     }
     
+    private var initialsAvatar: some View {
+        ZStack {
+            Circle()
+                .fill(Color.brandPrimary.opacity(0.2))
+                .frame(width: 40, height: 40)
+            Text(getInitials(name: review.reviewerName))
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(.brandPrimary)
+        }
+    }
+    
     private func getInitials(name: String) -> String {
         let components = name.components(separatedBy: " ")
         if components.count > 1, let first = components.first?.first, let last = components.last?.first {
@@ -261,7 +300,6 @@ struct ReviewCard: View {
         return formatter.string(from: date)
     }
 }
-
 // MARK: - Review Card Skeleton
 
 public struct ReviewCardSkeleton: View {
@@ -290,4 +328,3 @@ public struct ReviewCardSkeleton: View {
         .shadow(color: Color.black.opacity(0.03), radius: 10, y: 5)
     }
 }
-
