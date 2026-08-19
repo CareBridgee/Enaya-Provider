@@ -86,15 +86,7 @@ struct OfferChatView: View {
             
             Spacer(minLength: Spacing.s0)
             
-            Button(action: viewModel.callPatientTapped) {
-                Circle()
-                    .fill(Color.brandPrimary)
-                    .frame(width: Spacing.s40, height: Spacing.s40)
-                    .overlay(
-                        Image(systemName: "phone.fill")
-                            .foregroundColor(.onPrimary)
-                    )
-            }
+            
         }
         .padding(.horizontal, Spacing.s16)
         .padding(.vertical, Spacing.s12)
