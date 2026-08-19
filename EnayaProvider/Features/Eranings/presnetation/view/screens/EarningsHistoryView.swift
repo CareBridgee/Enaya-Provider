@@ -111,31 +111,30 @@ public struct EarningsHistoryView: View {
         HStack(alignment: .top, spacing: Spacing.s12) {
             
             // Patient Image with Person Fallback
-            AsyncImage(url: URL(string: item.patientProfileImageUrl ?? "")) { phase in
-                switch phase {
-                case .empty:
-                    ZStack {
-                        Circle().fill(Color.mintSurface)
-                        ProgressView()
-                            .scaleEffect(0.7)
-                            .tint(.brandPrimary)
+            if let urlString = item.patientProfileImageUrl?.trimmingCharacters(in: .whitespacesAndNewlines), !urlString.isEmpty, let url = URL(string: urlString) {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        ZStack {
+                            Circle().fill(Color.mintSurface)
+                            ProgressView()
+                                .scaleEffect(0.7)
+                                .tint(.brandPrimary)
+                        }
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    default:
+                        patientAvatarFallback
                     }
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFill()
-                default:
-                    Circle()
-                        .fill(Color.mintSurface)
-                        .overlay(
-                            Image(systemName: "person.fill")
-                                .foregroundColor(.brandPrimary)
-                                .font(.system(size: IconSize.s20))
-                        )
                 }
+                .frame(width: Spacing.s48, height: Spacing.s48)
+                .clipShape(Circle())
+            } else {
+                patientAvatarFallback
+                    .frame(width: Spacing.s48, height: Spacing.s48)
             }
-            .frame(width: Spacing.s48, height: Spacing.s48)
-            .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.s4) {
                 Text("\(item.serviceName.capitalized) from \(item.patientFullName)")
@@ -172,6 +171,16 @@ public struct EarningsHistoryView: View {
         .padding(Spacing.s16)
         .background(Color.surface)
         .clipShape(RoundedRectangle.carely(Radius.r16))
+    }
+
+    private var patientAvatarFallback: some View {
+        Circle()
+            .fill(Color.mintSurface)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .foregroundColor(.brandPrimary)
+                    .font(.system(size: IconSize.s20))
+            )
     }
 
     private func badgeColors(for status: NurseServiceRequestStatus) -> (Color, Color) {

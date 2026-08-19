@@ -47,27 +47,28 @@ public struct HistoryView: View {
     private func historyRow(_ item: NurseServiceRequestHistoryItem) -> some View {
         VStack(alignment: .leading, spacing: Spacing.s12) {
             HStack(alignment: .top, spacing: Spacing.s12) {
-                AsyncImage(url: URL(string: item.patientProfileImageUrl ?? "")) { phase in
-                    switch phase {
-                    case .empty:
-                        ZStack {
-                            Circle().fill(Color.mintSurface)
-                            ProgressView()
-                                .scaleEffect(0.7)
-                                .tint(.brandPrimary)
+                if let urlString = item.patientProfileImageUrl?.trimmingCharacters(in: .whitespacesAndNewlines), !urlString.isEmpty, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ZStack {
+                                Circle().fill(Color.mintSurface)
+                                ProgressView()
+                                    .scaleEffect(0.7)
+                                    .tint(.brandPrimary)
+                            }
+                        case .success(let image):
+                            image.resizable().scaledToFill()
+                        default:
+                            patientAvatarFallback
                         }
-                    case .success(let image):
-                        image.resizable().scaledToFill()
-                    default:
-                        Circle().fill(Color.mintSurface).overlay(
-                            Image(systemName: "person.fill")
-                                .foregroundColor(.brandPrimary)
-                                .font(.system(size: IconSize.s20))
-                        )
                     }
+                    .frame(width: Spacing.s48, height: Spacing.s48)
+                    .clipShape(Circle())
+                } else {
+                    patientAvatarFallback
+                        .frame(width: Spacing.s48, height: Spacing.s48)
                 }
-                .frame(width: Spacing.s48, height: Spacing.s48)
-                .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: Spacing.s4) {
                     Text("\(item.serviceName.capitalized) • \(item.patientFullName)")
@@ -130,6 +131,16 @@ public struct HistoryView: View {
         case .unknown:
             return (.hint, .surfaceVariant)
         }
+    }
+
+    private var patientAvatarFallback: some View {
+        Circle()
+            .fill(Color.mintSurface)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .foregroundColor(.brandPrimary)
+                    .font(.system(size: IconSize.s20))
+            )
     }
 
     private var emptyState: some View {
