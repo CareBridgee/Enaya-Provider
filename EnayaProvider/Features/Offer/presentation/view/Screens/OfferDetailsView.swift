@@ -146,7 +146,7 @@ struct OfferDetailsView: View {
                     .carelyText(style: .bodyLarge, weight: .semiBold)
                     .foregroundColor(.primaryFont)
                 Spacer()
-                Text("$\(String(format: "%.2f", viewModel.totalAmount))")
+                Text("EGP\(String(format: "%.2f", viewModel.totalAmount))")
                     .carelyText(style: .heading3, weight: .bold)
                     .foregroundColor(.brandPrimary)
             }

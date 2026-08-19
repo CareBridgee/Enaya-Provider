@@ -53,7 +53,7 @@ struct EditOfferPopupView: View {
             Spacer()
 
             VStack(alignment: .trailing, spacing: Spacing.s2) {
-                Text("$\(String(format: "%.2f", jobRequest.estimatedPrice.doubleValue))")
+                Text("EGP\(String(format: "%.2f", jobRequest.estimatedPrice.doubleValue))")
                     .carelyText(style: .bodyLarge, weight: .bold)
                     .foregroundColor(.brandPrimary)
                 Text("Estimated")
@@ -84,7 +84,7 @@ struct EditOfferPopupView: View {
     private var sliderSection: some View {
         VStack(spacing: Spacing.s16) {
             VStack(spacing: Spacing.s4) {
-                Text("$\(String(format: "%.2f", proposedPriceValue))")
+                Text("EGP\(String(format: "%.2f", proposedPriceValue))")
                     .carelyText(style: .heading2, weight: .bold)
                     .foregroundColor(.primaryFont)
                 Text("ESTIMATED PRICE")
@@ -100,9 +100,9 @@ struct EditOfferPopupView: View {
                 .tint(.brandPrimary)
 
             HStack {
-                Text("$\(String(format: "%.0f", jobRequest.minPrice.doubleValue)) Min")
+                Text("EGP\(String(format: "%.0f", jobRequest.minPrice.doubleValue)) Min")
                 Spacer()
-                Text("$\(String(format: "%.0f", jobRequest.maxPrice.doubleValue)) Max")
+                Text("EGP\(String(format: "%.0f", jobRequest.maxPrice.doubleValue)) Max")
             }
             .carelyText(style: .bodySmall, weight: .semiBold)
             .foregroundColor(.secondaryFont)

@@ -98,7 +98,7 @@ struct VisitCompletedView: View {
                 .carelyText(style: .caption, weight: .bold)
                 .foregroundColor(.secondaryFont)
             Spacer()
-            Text("$\(String(format: "%.2f", viewModel.providerPayoutAmount))")
+            Text("EGP\(String(format: "%.2f", viewModel.providerPayoutAmount))")
                 .carelyText(style: .bodyLarge, weight: .bold)
                 .foregroundColor(.brandPrimary)
         }

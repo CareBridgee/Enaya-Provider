@@ -130,7 +130,7 @@ final class AppState: ObservableObject {
 
     private static func flow(for status: ApplicationStatus) -> AppFlow {
         switch status {
-        case .incomplete: return .profileSetup
+        case .incomplete: return .auth
         case .underReview: return .underReview
         case .approved: return .home
         case .rejected: return .rejected

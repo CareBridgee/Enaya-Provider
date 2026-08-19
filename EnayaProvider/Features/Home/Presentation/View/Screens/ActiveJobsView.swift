@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 13/08/2026.
 //
 
-
 import SwiftUI
 
 struct ActiveJobsView: View {
@@ -13,13 +12,17 @@ struct ActiveJobsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            AppHeader(title: "Pending Requested", showBackButton: false)
+            AppHeader(title: "Requested", showBackButton: false)
                 .padding(.horizontal, Spacing.s16)
                 .background(Color.backGround)
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: Spacing.s16) {
                     if viewModel.isOnline {
+                        
+                        requestsSummaryCard
+                            .padding(.bottom, Spacing.s8)
+                        
                         if viewModel.isLoading && viewModel.jobRequests.isEmpty {
                             VStack(spacing: Spacing.s12) {
                                 ActiveJobCardSkeleton()
@@ -27,16 +30,22 @@ struct ActiveJobsView: View {
                                 ActiveJobCardSkeleton()
                             }
                         } else if viewModel.jobRequests.isEmpty {
+                            // Updated Empty State to match the design
                             VStack(spacing: Spacing.s8) {
-                                Text("No pending requests at the moment.")
-                                    .carelyText(style: .bodySmall, weight: .regular)
+                                Text("No Requests Available")
+                                    .carelyText(style: .heading3, weight: .bold)
+                                    .foregroundColor(.primaryFont)
+                                
+                                Text("Incoming requests from nearby patients\nwill appear here in real-time.")
+                                    .carelyText(style: .bodyRegular, weight: .regular)
                                     .foregroundColor(.secondaryFont)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal, Spacing.s16)
                             }
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, Spacing.s32)
-                        } else {
-                            requestsSummaryCard
+                            .padding(.top, Spacing.s32)
                             
+                        } else {
                             ForEach(viewModel.jobRequests) { request in
                                 JobRequestCard(
                                     jobRequest: request,
@@ -77,7 +86,7 @@ struct ActiveJobsView: View {
     private var requestsSummaryCard: some View {
         HStack {
             VStack(alignment: .leading, spacing: Spacing.s4) {
-                Text("CURRENT REQUESTS")
+                Text("CURRENT REQUEST")
                     .carelyText(style: .caption, weight: .bold)
                     .foregroundColor(.secondaryFont)
                 
@@ -173,4 +182,3 @@ public struct ActiveJobCardSkeleton: View {
         .shadow(color: Color.black.opacity(0.04), radius: Radius.r8, y: Spacing.s2)
     }
 }
-
