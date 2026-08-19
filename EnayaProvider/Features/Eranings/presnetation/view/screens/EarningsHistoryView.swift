@@ -5,7 +5,6 @@
 //  Created by Mahmoud Raafat Mustafa on 02/08/2026.
 //
 
-
 import SwiftUI
 
 public struct EarningsHistoryView: View {
@@ -13,7 +12,7 @@ public struct EarningsHistoryView: View {
 
     public var body: some View {
         VStack(spacing: Spacing.s0) {
-            TabCustomHeader(title: "Serene Care")
+            //TabCustomHeader(title: "Serene Care")
 
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: Spacing.s24) {
@@ -36,7 +35,7 @@ public struct EarningsHistoryView: View {
                     .carelyText(style: .bodySmall, weight: .medium)
                     .foregroundColor(.onPrimary.opacity(0.9))
 
-                Text("$\(NSDecimalNumber(decimal: viewModel.totalEarnings).doubleValue, specifier: "%.2f")")
+                Text(String(format: "EGP %.2f", NSDecimalNumber(decimal: viewModel.totalEarnings).doubleValue))
                     .carelyText(style: .heading1, weight: .bold)
                     .foregroundColor(.onPrimary)
             }
@@ -110,14 +109,25 @@ public struct EarningsHistoryView: View {
 
     private func jobRow(_ item: NurseServiceRequestHistoryItem) -> some View {
         HStack(alignment: .top, spacing: Spacing.s12) {
-            Circle()
-                .fill(Color.mintSurface)
-                .frame(width: Spacing.s48, height: Spacing.s48)
-                .overlay(
-                    Image(systemName: "briefcase.fill")
-                        .foregroundColor(.brandPrimary)
-                        .font(.system(size: IconSize.s20))
-                )
+            
+            // Patient Image with Person Fallback
+            AsyncImage(url: URL(string: item.patientProfileImageUrl ?? "")) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Circle()
+                        .fill(Color.mintSurface)
+                        .overlay(
+                            Image(systemName: "person.fill")
+                                .foregroundColor(.brandPrimary)
+                                .font(.system(size: IconSize.s20))
+                        )
+                }
+            }
+            .frame(width: Spacing.s48, height: Spacing.s48)
+            .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: Spacing.s4) {
                 Text("\(item.serviceName.capitalized) from \(item.patientFullName)")
@@ -137,8 +147,12 @@ public struct EarningsHistoryView: View {
             Spacer(minLength: Spacing.s8)
 
             VStack(alignment: .trailing, spacing: Spacing.s4) {
-                if let price = item.estimatedPrice {
-                    Text("$\(NSDecimalNumber(decimal: price).doubleValue, specifier: "%.2f")")
+                if let priceDecimal = item.estimatedPrice {
+                    let rawPrice = NSDecimalNumber(decimal: priceDecimal).doubleValue
+                    let appFee = min(rawPrice * 0.20, 120.0)
+                    let nurseEarning = rawPrice - appFee
+                    
+                    Text(String(format: "EGP %.2f", nurseEarning))
                         .carelyText(style: .bodyRegular, weight: .bold)
                         .foregroundColor(.brandPrimary)
                 }
@@ -331,4 +345,3 @@ public struct EarningsHistoryRowSkeleton: View {
         .clipShape(RoundedRectangle.carely(Radius.r16))
     }
 }
-

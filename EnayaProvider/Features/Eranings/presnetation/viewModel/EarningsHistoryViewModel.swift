@@ -62,9 +62,15 @@ final class EarningsHistoryViewModel: ObservableObject {
                 let history = try await historyUseCase.execute()
                 allItems = history
                 jobsCount = history.count
+                
+                // Calculate exact nurse payout for total earnings
                 totalEarnings = history
                     .filter { $0.status == .completed }
-                    .reduce(Decimal(0)) { $0 + ($1.estimatedPrice ?? 0) }
+                    .reduce(Decimal(0)) { partialResult, item in
+                        let rawPrice = NSDecimalNumber(decimal: item.estimatedPrice ?? 0).doubleValue
+                        let appFee = min(rawPrice * 0.20, 120.0)
+                        return partialResult + Decimal(rawPrice - appFee)
+                    }
                 applyFilters()
             } catch {
                 errorMessage = error.localizedDescription

@@ -76,7 +76,7 @@ public struct HistoryView: View {
 
                 VStack(alignment: .trailing, spacing: Spacing.s4) {
                     if let price = item.estimatedPrice {
-                        Text("$\(NSDecimalNumber(decimal: price).doubleValue, specifier: "%.2f")")
+                        Text("EGP\(NSDecimalNumber(decimal: price).doubleValue, specifier: "%.2f")")
                             .carelyText(style: .bodyRegular, weight: .bold)
                             .foregroundColor(.brandPrimary)
                     }

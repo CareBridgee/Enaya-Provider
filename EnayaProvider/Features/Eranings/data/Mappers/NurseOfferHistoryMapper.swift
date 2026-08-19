@@ -4,8 +4,7 @@
 //
 //  Created by Mahmoud Raafat Mustafa on 14/08/2026.
 //
-//  (file name kept for project-reference stability)
-//
+
 
 import Foundation
 
@@ -42,7 +41,7 @@ enum NurseServiceRequestHistoryMapper {
         case let (d?, t?): return "\(d) • \(t)"
         case let (d?, nil): return d
         case let (nil, t?): return t
-        default: return "Date TBD"
+        default: return "Flexible Schedule"
         }
     }
 

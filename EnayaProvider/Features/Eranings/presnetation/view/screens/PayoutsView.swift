@@ -57,7 +57,7 @@ public struct PayoutsView: View {
                     .carelyText(style: .bodySmall, weight: .medium)
                     .foregroundColor(.secondaryFont)
                 
-                Text("$\(NSDecimalNumber(decimal: summary.availableForPayout).doubleValue, specifier: "%.2f")")
+                Text("EGP\(NSDecimalNumber(decimal: summary.availableForPayout).doubleValue, specifier: "%.2f")")
                     .carelyText(style: .heading1, weight: .bold)
                     .foregroundColor(.brandPrimary)
             }
@@ -84,7 +84,7 @@ public struct PayoutsView: View {
                 .carelyText(style: .caption, weight: .bold)
                 .foregroundColor(.hint)
             
-            Text("$\(NSDecimalNumber(decimal: amount).doubleValue, specifier: "%.2f")")
+            Text("EGP\(NSDecimalNumber(decimal: amount).doubleValue, specifier: "%.2f")")
                 .carelyText(style: .heading3, weight: .bold)
                 .foregroundColor(color)
         }
@@ -118,7 +118,7 @@ public struct PayoutsView: View {
             Spacer(minLength: .zero)
             
             VStack(alignment: .trailing, spacing: Spacing.s4) {
-                Text("$\(NSDecimalNumber(decimal: tx.amount).doubleValue, specifier: "%.2f")")
+                Text("EGP\(NSDecimalNumber(decimal: tx.amount).doubleValue, specifier: "%.2f")")
                     .carelyText(style: .bodyRegular, weight: .bold)
                     .foregroundColor(.primaryFont)
                 
