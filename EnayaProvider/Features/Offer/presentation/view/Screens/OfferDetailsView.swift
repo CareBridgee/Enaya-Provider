@@ -55,7 +55,7 @@ struct OfferDetailsView: View {
                 Text(error).foregroundColor(.red)
             }
         }
-        .careConnectNavigationBar(title: "Offer Details")
+        .EtmaenNavigationBar(title: "Offer Details")
         .task {
             await viewModel.fetchData()
         }

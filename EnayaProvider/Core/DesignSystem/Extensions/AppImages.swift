@@ -9,7 +9,7 @@ import SwiftUI
 
 public extension Image {
     static let googleIcon = Image("google")
-    static let careConnect = Image("careConnect")
+    static let Etmaen = Image("Etmaen")
     static let logo = Image("logo")
     static let onboarding1 = Image("onboarding1")
     static let onboarding2 = Image("onboarding2")

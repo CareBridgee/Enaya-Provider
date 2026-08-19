@@ -11,7 +11,7 @@ import SwiftUI
 struct ApplicationStatusHeader: View {
     var body: some View {
         HStack {
-            Text("CareConnect")
+            Text("Etmaen")
                 .carelyText(style: .heading3, weight: .bold)
                 .foregroundColor(.brandPrimary)
 

@@ -40,7 +40,7 @@ public struct HistoryView: View {
                 }
             }
         }
-        .careConnectNavigationBar(title: "History")
+        .EtmaenNavigationBar(title: "History")
         .onAppear { viewModel.loadData() }
     }
 

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CareConnectNavigationBarModifier: ViewModifier {
+struct EtmaenNavigationBarModifier: ViewModifier {
     @Environment(\.dismiss) var dismiss
     
     let title: String
@@ -56,14 +56,14 @@ struct CareConnectNavigationBarModifier: ViewModifier {
 }
 
 extension View {
-    func careConnectNavigationBar(
+    func EtmaenNavigationBar(
         title: String = AppConstants.appName,
         showBackButton: Bool = true,
         trailingIcon: String? = nil,
         onBackTapped: (() -> Void)? = nil,
         onTrailingIconTapped: (() -> Void)? = nil
     ) -> some View {
-        self.modifier(CareConnectNavigationBarModifier(
+        self.modifier(EtmaenNavigationBarModifier(
             title: title,
             showBackButton: showBackButton,
             trailingIcon: trailingIcon,

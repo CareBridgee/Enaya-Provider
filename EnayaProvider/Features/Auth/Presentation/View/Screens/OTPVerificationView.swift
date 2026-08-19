@@ -16,7 +16,7 @@ struct OTPVerificationView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            AuthHeaderView(title: "CareConnect") {
+            AuthHeaderView(title: "Etmaen") {
                 viewModel.goBack()
             }
             

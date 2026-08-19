@@ -33,7 +33,7 @@ struct PatientSummaryView: View {
             .padding(.bottom, Spacing.s32)
         }
         .background(Color.backGround.ignoresSafeArea())
-        .careConnectNavigationBar(title: "Enaya")
+        .EtmaenNavigationBar(title: "Enaya")
         .alert("Request Cancelled", isPresented: $viewModel.showPatientCancelledAlert) {
             Button("OK", role: .cancel) {
                 viewModel.handlePatientCancellationAcknowledged()
